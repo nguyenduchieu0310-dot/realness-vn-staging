@@ -50,6 +50,67 @@
 @media(pointer:coarse){#realness-studio-reference button{min-height:42px}#realness-studio-reference .st-handle:after{content:'';position:absolute;inset:-12px}}
 @media(prefers-reduced-motion:reduce){#realness-studio-reference *{transition:none!important;scroll-behavior:auto!important}}
 </style>
+<style>
+#realness-studio-reference .st-palette button[draggable=true],
+#realness-studio-reference .st-palette-grid button[draggable=true] {
+  cursor: grab;
+  border: 1px dashed color-mix(in srgb, var(--s-green), transparent 62%);
+  background: color-mix(in srgb, var(--s-green), transparent 96%);
+}
+#realness-studio-reference .st-palette button[draggable=true]:active,
+#realness-studio-reference .st-palette-grid button[draggable=true]:active,
+#realness-studio-reference .st-dragging [data-drag],
+#realness-studio-reference .st-dragging [data-drag-new] {
+  cursor: grabbing;
+}
+#realness-studio-reference .st-dropzone {
+  width: 100%;
+  min-height: 30px;
+  border: 1px dashed transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--s-blue);
+  margin: 2px 0 10px;
+  padding: 0;
+  opacity: .55;
+  transition: min-height .14s ease, background .14s ease, border-color .14s ease, opacity .14s ease;
+}
+#realness-studio-reference .st-dropzone span {
+  display: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+#realness-studio-reference .st-dropzone:hover,
+#realness-studio-reference .st-dropzone.drop {
+  min-height: 44px;
+  border-color: var(--s-blue);
+  background: color-mix(in srgb, var(--s-blue), transparent 92%);
+  opacity: 1;
+}
+#realness-studio-reference .st-dropzone:hover span,
+#realness-studio-reference .st-dropzone.drop span {
+  display: inline-flex;
+}
+#realness-studio-reference .st-dragging .st-dropzone {
+  border-color: color-mix(in srgb, var(--s-blue), transparent 65%);
+  background: color-mix(in srgb, var(--s-blue), transparent 96%);
+  opacity: .95;
+}
+#realness-studio-reference .st-block.drop > .st-block-content {
+  outline: 2px dashed var(--s-blue);
+  outline-offset: 8px;
+}
+#realness-studio-reference .st-drop-hint {
+  margin: -2px 8px 13px;
+  padding: 9px 10px;
+  border: 1px dashed color-mix(in srgb, var(--s-green), transparent 55%);
+  border-radius: 6px;
+  color: var(--s-muted);
+  background: color-mix(in srgb, var(--s-green), transparent 96%);
+  font-size: 11px;
+  line-height: 1.35;
+}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script>
 (()=>{
@@ -202,6 +263,42 @@
   root.addEventListener('dragover',e=>{const n=e.target.closest('[data-row],[data-block]');if(n&&dragId&&canEdit()){e.preventDefault();$$('.drop').forEach(x=>x.classList.remove('drop'));n.classList.add('drop');}});
   root.addEventListener('drop',e=>{const n=e.target.closest('[data-row],[data-block]');if(!n||!dragId||!canEdit())return;e.preventDefault();const from=doc().blocks.findIndex(b=>b.id===dragId),to=doc().blocks.findIndex(b=>b.id===(n.dataset.row||n.dataset.block));if(from>=0&&to>=0&&from!==to)edit(()=>{const [b]=doc().blocks.splice(from,1);doc().blocks.splice(to,0,b);state.selected=b.id;},'Đã kéo khối đến vị trí mới');dragId=null;$$('.drop').forEach(x=>x.classList.remove('drop'));});
   root.addEventListener('dragend',()=>{dragId=null;$$('.drop').forEach(x=>x.classList.remove('drop'));});
+  const baseRender=render;
+  function clearDropState(){root.classList.remove('st-dragging');$$('.drop').forEach(x=>x.classList.remove('drop'));}
+  function dropHtml(index){return `<button type="button" class="st-dropzone" data-drop-index="${index}" aria-label="Thả khối vào vị trí ${index+1}"><span>${I('plus')}Thả khối vào đây</span></button>`;}
+  function enhanceDragUI(){
+    $$('[data-add]').forEach(el=>{el.setAttribute('draggable',String(canEdit()));el.dataset.dragNew=el.dataset.add;el.title='Kéo thả vào trang hoặc bấm để thêm';});
+    const library=$('#st-library');
+    if(library&&canEdit()&&!library.querySelector('.st-drop-hint'))library.insertAdjacentHTML('afterbegin','<div class="st-drop-hint">Kéo khối từ đây sang trang, hoặc kéo các khối trong trang để đổi thứ tự.</div>');
+    const blocks=$('#st-blocks');
+    if(!blocks||state.preview||state.tab!=='history'&&state.tab!=='seo'&&!canEdit()){}
+    if(blocks&&!state.preview&&state.tab==='design'&&canEdit()){
+      const sections=Array.from(blocks.querySelectorAll('.st-block'));
+      sections.forEach((section,index)=>section.insertAdjacentHTML('beforebegin',dropHtml(index)));
+      blocks.insertAdjacentHTML('beforeend',dropHtml(sections.length));
+    }
+  }
+  render=function(){baseRender();enhanceDragUI();icons();};
+  function placeDragged(index){
+    if(!dragId||!canEdit())return;
+    if(dragId.startsWith('new:')){
+      const type=dragId.slice(4);
+      if(!types[type])return;
+      if(doc().blocks.length>=22){notify('Bản mô phỏng giới hạn 22 khối');return;}
+      edit(()=>{const b=newBlock(type);doc().blocks.splice(index,0,b);state.selected=b.id;expanded.add(b.id);state.tab='design';state.right='block';panel=null;},'Đã thả '+(types[type]?.[0]||type)+' vào trang');
+      return;
+    }
+    const from=doc().blocks.findIndex(b=>b.id===dragId);
+    if(from<0)return;
+    let to=Math.max(0,Math.min(index,doc().blocks.length));
+    if(from<to)to-=1;
+    if(from===to)return;
+    edit(()=>{const [b]=doc().blocks.splice(from,1);doc().blocks.splice(to,0,b);state.selected=b.id;expanded.add(b.id);},'Đã thả khối vào vị trí mới');
+  }
+  root.addEventListener('dragstart',e=>{const n=e.target.closest('[data-drag-new]');if(!n||!canEdit())return;dragId='new:'+n.dataset.dragNew;root.classList.add('st-dragging');e.dataTransfer.setData('text/plain',dragId);e.dataTransfer.effectAllowed='copy';});
+  root.addEventListener('dragover',e=>{const n=e.target.closest('[data-drop-index]');if(n&&dragId&&canEdit()){e.preventDefault();clearDropState();root.classList.add('st-dragging');n.classList.add('drop');e.dataTransfer.dropEffect=dragId.startsWith('new:')?'copy':'move';}});
+  root.addEventListener('drop',e=>{const n=e.target.closest('[data-drop-index]');if(!n||!dragId||!canEdit())return;e.preventDefault();placeDragged(Number(n.dataset.dropIndex));dragId=null;clearDropState();});
+  root.addEventListener('dragend',clearDropState);
   root.addEventListener('pointerdown',e=>{const h=e.target.closest('[data-handle]');if(h&&canEdit()){e.preventDefault();checkpoint();const frame=h.closest('.st-image-frame'),box=frame.getBoundingClientRect();resize={id:block().id,handle:h.dataset.handle,x:e.clientX,y:e.clientY,width:block().width,container:frame.parentElement.clientWidth,ratio:box.width/box.height};h.setPointerCapture(e.pointerId);}const c=e.target.closest('#st-crop-preview');if(c){cropDrag={x:e.clientX,y:e.clientY,startX:crop.x,startY:crop.y,width:c.clientWidth,height:c.clientHeight};c.setPointerCapture(e.pointerId);}});
   root.addEventListener('pointermove',e=>{if(resize){const dx=e.clientX-resize.x,dy=e.clientY-resize.y;let delta=resize.handle==='n'?-dy*resize.ratio:resize.handle==='s'?dy*resize.ratio:resize.handle.includes('w')?-dx:dx;const b=doc().blocks.find(b=>b.id===resize.id);b.width=Math.max(30,Math.min(100,Math.round(resize.width+delta*100/resize.container)));$(`[data-block="${b.id}"] .st-image-frame`).style.width=b.width+'%';$$('[data-prop=width]').forEach(n=>n.value=b.width);}if(cropDrag){crop.x=Math.max(0,Math.min(100,Math.round(cropDrag.startX-(e.clientX-cropDrag.x)*100/cropDrag.width)));crop.y=Math.max(0,Math.min(100,Math.round(cropDrag.startY-(e.clientY-cropDrag.y)*100/cropDrag.height)));$('#st-crop-preview img').style.objectPosition=`${crop.x}% ${crop.y}%`;$('#st-crop-x').value=crop.x;$('#st-crop-y').value=crop.y;}});
   root.addEventListener('pointerup',()=>{if(resize){resize=null;save('Đã thay đổi kích thước ảnh');}cropDrag=null;});
