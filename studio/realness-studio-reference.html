@@ -304,6 +304,13 @@
   root.addEventListener('pointermove',e=>{if(resize){const dx=e.clientX-resize.x,dy=e.clientY-resize.y;let delta=resize.handle==='n'?-dy*resize.ratio:resize.handle==='s'?dy*resize.ratio:resize.handle.includes('w')?-dx:dx;const b=doc().blocks.find(b=>b.id===resize.id);b.width=Math.max(30,Math.min(100,Math.round(resize.width+delta*100/resize.container)));$(`[data-block="${b.id}"] .st-image-frame`).style.width=b.width+'%';$$('[data-prop=width]').forEach(n=>n.value=b.width);}if(cropDrag){crop.x=Math.max(0,Math.min(100,Math.round(cropDrag.startX-(e.clientX-cropDrag.x)*100/cropDrag.width)));crop.y=Math.max(0,Math.min(100,Math.round(cropDrag.startY-(e.clientY-cropDrag.y)*100/cropDrag.height)));$('#st-crop-preview img').style.objectPosition=`${crop.x}% ${crop.y}%`;$('#st-crop-x').value=crop.x;$('#st-crop-y').value=crop.y;}});
   root.addEventListener('pointerup',()=>{if(resize){resize=null;save('Đã thay đổi kích thước ảnh');}cropDrag=null;});
   root.addEventListener('pointercancel',()=>{resize=null;cropDrag=null;});
+  root.addEventListener('wheel',e=>{
+    if(innerWidth<=850||e.ctrlKey||e.target.closest('.st-center,.st-panel'))return;
+    const center=$('.st-center');
+    if(!center||!e.deltaY)return;
+    e.preventDefault();
+    center.scrollTop+=e.deltaY;
+  },{passive:false});
   render();
   if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:()=>{root.style.setProperty('--st-reference-density',design.density);$('#st-workspace').style.columnGap=design.density==='reference'?'0':'5px';}});tweak.addSelect(design,'density',{label:'Nhịp bố cục',options:[{label:'Theo ảnh tham chiếu',value:'reference'},{label:'Tách vùng nhẹ',value:'separated'}]});}
 })();
