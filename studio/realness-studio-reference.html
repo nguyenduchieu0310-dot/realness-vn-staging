@@ -119,9 +119,12 @@
 #realness-studio-reference .st-rich-toolbar .st-color-tool{display:grid;grid-template-columns:22px 22px;align-items:center;gap:3px;padding:0 4px;font-size:11px}
 #realness-studio-reference .st-rich-toolbar .st-color-tool input{width:22px;height:28px;padding:2px}
 #realness-studio-reference #st-blocks{position:relative}
+#realness-studio-reference .st-flow-placeholder{width:100%;pointer-events:none}
 #realness-studio-reference #st-blocks:has(.st-free){min-height:var(--st-free-canvas-height,700px);background-image:linear-gradient(var(--s-line) 1px,transparent 1px),linear-gradient(90deg,var(--s-line) 1px,transparent 1px);background-size:20px 20px;background-position:29px 35px}
 #realness-studio-reference .st-preview #st-blocks:has(.st-free){background-image:none}
 #realness-studio-reference .st-block.st-free{position:absolute;margin:0!important;min-width:0;min-height:0;touch-action:none}
+#realness-studio-reference .st-workspace:not(.st-preview) img[data-photo]{cursor:grab;touch-action:none}
+#realness-studio-reference .st-workspace:not(.st-preview) img[data-photo]:active{cursor:grabbing}
 #realness-studio-reference .st-block.st-free>.st-block-content{height:100%;overflow:auto;background:color-mix(in srgb,var(--s-panel),transparent 3%);box-shadow:0 4px 18px var(--s-shadow)}
 #realness-studio-reference .st-block.st-free.selected>.st-block-content{outline-offset:2px}
 #realness-studio-reference .st-block.st-free .st-floating-toolbar{position:absolute;left:50%;top:-43px;transform:translateX(-50%);margin:0;z-index:12;flex-wrap:nowrap}
@@ -162,6 +165,7 @@
 #realness-studio-reference .ql-align-right{text-align:right}
 #realness-studio-reference .ql-align-justify{text-align:justify}
 #realness-studio-reference .st-page[data-device=mobile] .st-block.st-free,#realness-studio-reference .st-page[data-device=tablet] .st-block.st-free{position:relative;left:auto!important;top:auto!important;width:100%!important;height:auto!important;min-height:96px;margin-bottom:24px!important}
+#realness-studio-reference .st-page[data-device=mobile] .st-flow-placeholder,#realness-studio-reference .st-page[data-device=tablet] .st-flow-placeholder{display:none}
 #realness-studio-reference .st-page[data-device=mobile] #st-blocks:has(.st-free),#realness-studio-reference .st-page[data-device=tablet] #st-blocks:has(.st-free){min-height:0;background:none}
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
@@ -196,7 +200,7 @@
   const statuses={draft:'Bản nháp',review:'Chờ duyệt',approved:'Đã duyệt',published:'Đã xuất bản · mô phỏng'};
   const design={density:'reference',inspector:true};
   const asset=id=>media.find(m=>m.id===id)||media[0];
-  function load(raw){const p=raw?.privateContent;if(p?.version!==2||!p.docs)return;try{if(p.docs.page.blocks.length>60||p.docs.post.blocks.length>60)return;state={...state,...clone(p),preview:false};if(!['page','post'].includes(state.mode))state.mode='page';}catch{}}
+  function load(raw){const p=raw?.privateContent;if(p?.version!==2||!p.docs)return;try{if(p.docs.page.blocks.length>60||p.docs.post.blocks.length>60)return;state={...state,...clone(p),preview:false};if(!['page','post'].includes(state.mode))state.mode='page';const originalIds=new Set([...initialPage.blocks,...initialPost.blocks].map(b=>b.id));for(const d of Object.values(state.docs))for(const b of d.blocks)if(b.free&&!b.flowSlot&&originalIds.has(b.id))b.flowSlot={height:Math.round(b.free.h),marginTop:0};}catch{}}
   try{load({privateContent:JSON.parse(localStorage.getItem('realness-studio-draft-v2')||'null')});}catch{}
   load(window.openai?.widgetState);
   function remember(){const p={...state,preview:false};try{localStorage.setItem('realness-studio-draft-v2',JSON.stringify(p));}catch{}const encoded=JSON.stringify(p);const privateContent=new TextEncoder().encode(encoded).length<13900?p:{version:2,mode:state.mode,device:state.device,selected:state.selected};lastSent=JSON.stringify(privateContent);window.openai?.setWidgetState?.({modelContent:{screen:'Realness Studio · Bản theo ảnh',mode:state.mode,tab:state.tab,selected:block()?.name,role:state.role,status:doc().status,device:state.device,image:block()?.type==='image'?{ratio:block().ratio,fit:block().fit,width:block().width,spacing:block().space,lightbox:block().lightbox}:null},privateContent})?.catch(()=>{});}
@@ -227,7 +231,13 @@
     if(b.type==='floor')return `<div class="st-simple"><h2>Mặt bằng & chọn căn</h2><div class="st-unit-controls"><label>Tháp<select id="st-tower"><option>Tháp 3</option><option>Tháp 4</option></select></label><label>Tầng<input id="st-floor" type="number" min="5" max="19" value="12"></label><label>Loại căn<select id="st-unit"><option>2PN</option><option>2PN góc A</option><option>2PN góc B</option><option>3PN</option></select></label></div><div class="st-floor-placeholder">${I('building-2')}<span id="st-unit-choice">Tháp 3 · Tầng 12 · 2PN</span><button type="button" data-jump="form">Tư vấn BOOKING ${I('arrow-right')}</button></div></div>`;
     if(b.type==='form')return `<div class="st-simple"><h2>Nhận tư vấn Palm River</h2><form id="st-contact"><div class="st-form-fields"><label>Họ và tên<input name="name" required autocomplete="off"></label><label>Số điện thoại<input name="phone" type="tel" required autocomplete="off"></label><label class="st-full">Nhu cầu<textarea name="message"></textarea></label><button type="button" data-act="test-contact" class="st-primary">Gửi yêu cầu mô phỏng ${I('send')}</button></div></form></div>`;return '';}
   function renderCanvas(){const b=block();$('#st-rich-toolbar').hidden=!(b?.type==='text'&&canEdit()&&['content','design'].includes(state.tab));$('#st-rich-toolbar').innerHTML=`<div class="st-tool-group"><select id="st-format-heading" aria-label="Kiểu đoạn"><option value="">Đoạn văn</option><option value="1">Tiêu đề 1</option><option value="2">Tiêu đề 2</option><option value="3">Tiêu đề 3</option><option value="4">Tiêu đề 4</option><option value="5">Tiêu đề 5</option><option value="6">Tiêu đề 6</option></select><select id="st-format-font" class="st-font-select" aria-label="Phông chữ"><option value="">Mặc định</option><option value="arial">Arial</option><option value="georgia">Georgia</option><option value="times">Times New Roman</option><option value="tahoma">Tahoma</option><option value="verdana">Verdana</option><option value="courier">Courier New</option></select><select id="st-format-size" aria-label="Cỡ chữ"><option value="">Cỡ chữ</option>${[8,9,10,11,12,14,16,18,20,24,28,32,36,48,60,72].map(n=>`<option value="${n}px">${n}</option>`).join('')}</select></div><div class="st-tool-group">${[['bold','In đậm','bold'],['italic','In nghiêng','italic'],['underline','Gạch chân','underline'],['strike','Gạch ngang','strikethrough'],['super','Chỉ số trên','superscript'],['sub','Chỉ số dưới','subscript']].map(([f,l,i])=>`<button type="button" data-format="${f}" aria-label="${l}" data-tooltip="${l}">${I(i)}</button>`).join('')}</div><div class="st-tool-group"><label class="st-color-tool">Chữ<input type="color" id="st-text-color" value="#07523e" aria-label="Màu chữ"></label><label class="st-color-tool">Nền<input type="color" id="st-text-background" value="#fff2a8" aria-label="Màu nền chữ"></label></div><div class="st-tool-group">${[['align-left','Căn trái','align-left'],['align-center','Căn giữa','align-center'],['align-right','Căn phải','align-right'],['align-justify','Căn đều','align-justify'],['bullet','Danh sách dấu đầu dòng','list'],['ordered','Danh sách đánh số','list-ordered'],['check','Danh sách kiểm tra','list-checks'],['indent-less','Giảm thụt lề','outdent'],['indent-more','Tăng thụt lề','indent-increase']].map(([f,l,i])=>`<button type="button" data-format="${f}" aria-label="${l}" data-tooltip="${l}">${I(i)}</button>`).join('')}</div><div class="st-tool-group">${[['blockquote','Trích dẫn','quote'],['code-block','Khối mã','square-code']].map(([f,l,i])=>`<button type="button" data-format="${f}" aria-label="${l}" data-tooltip="${l}">${I(i)}</button>`).join('')}${btn('rich-link','Chèn liên kết','link')}${btn('clear-format','Xóa định dạng','remove-formatting')}</div>`;
-    $('#st-blocks').innerHTML=doc().blocks.map((x,i)=>{const collapsed=!x.free&&i>=3&&!expanded.has(x.id)&&x.id!==state.selected&&!state.preview;const free=x.free||null;const freeStyle=free?`left:${free.x}px;top:${free.y}px;width:${free.w}px;height:${free.h}px;z-index:${free.z||20};`:'';const freeHandles=free&&x.id===state.selected&&!state.preview&&canEdit()?['nw','ne','sw','se'].map(h=>`<button type="button" class="st-free-handle" data-free-handle="${h}" aria-label="Đổi kích thước ${h}"></button>`).join(''):'';return `<section class="st-block ${free?'st-free':''} ${x.id===state.selected&&!state.preview?'selected':''}" data-block="${x.id}" style="${freeStyle}margin-bottom:${free?0:(x.space??24)}px;${!free&&x.id===state.selected&&!state.preview&&i>0?'margin-top:44px;':''}">${collapsed?`<button type="button" class="st-collapsed" data-select="${x.id}">${E(labelFor(x))}${I('chevron-down')}</button>`:`${toolbar(x)}<div class="st-block-content">${!state.preview&&x.id===state.selected&&state.tab==='design'?`<div class="st-block-tag">${I(free?'move':'grip-vertical')}${E(labelFor(x))}</div>`:''}${body(x)}</div>${freeHandles}`}${x.id==='overview'&&!state.preview?`<div class="st-insert"><button type="button" data-insert-after="${x.id}" aria-label="Chèn phần sau Tổng quan" data-tooltip="Chèn phần tại đây">${I('plus')}</button></div>`:''}</section>`;}).join('');
+    $('#st-blocks').innerHTML=doc().blocks.map((x,i)=>{
+      const collapsed=!x.free&&i>=3&&!expanded.has(x.id)&&x.id!==state.selected&&!state.preview;
+      const free=x.free||null;
+      const freeStyle=free?`left:${free.x}px;top:${free.y}px;width:${free.w}px;height:${free.h}px;z-index:${free.z||20};`:'';
+      const freeHandles=free&&x.id===state.selected&&!state.preview&&canEdit()?['nw','ne','sw','se'].map(h=>`<button type="button" class="st-free-handle" data-free-handle="${h}" aria-label="Đổi kích thước ${h}"></button>`).join(''):'';
+      return `${flowSlotHtml(x)}<section class="st-block ${free?'st-free':''} ${x.id===state.selected&&!state.preview?'selected':''}" data-block="${x.id}" style="${freeStyle}margin-bottom:${free?0:(x.space??24)}px;${!free&&x.id===state.selected&&!state.preview&&i>0?'margin-top:44px;':''}">${collapsed?`<button type="button" class="st-collapsed" data-select="${x.id}">${E(labelFor(x))}${I('chevron-down')}</button>`:`${toolbar(x)}<div class="st-block-content">${!state.preview&&x.id===state.selected&&state.tab==='design'?`<div class="st-block-tag">${I(free?'move':'grip-vertical')}${E(labelFor(x))}</div>`:''}${body(x)}</div>${freeHandles}`}${x.id==='overview'&&!state.preview?`<div class="st-insert"><button type="button" data-insert-after="${x.id}" aria-label="Chèn phần sau Tổng quan" data-tooltip="Chèn phần tại đây">${I('plus')}</button></div>`:''}</section>`;
+    }).join('');
     if(b?.type==='text'&&canEdit()&&globalThis.Quill){const el=$(`[data-rich="${b.id}"]`);if(el){quill=new Quill(el,{theme:null,modules:{toolbar:false}});quill.setContents({ops:b.ops},'silent');quill.root.setAttribute('aria-label','Văn bản đang chỉnh sửa');quill.on('selection-change',r=>{if(r)lastRange=r;});quill.on('text-change',(_a,_b,source)=>{if(source==='silent')return;checkpoint();b.ops=quill.getContents().ops;save();});}}
     syncFreeCanvas();
   }
@@ -246,6 +256,7 @@
     else if(b.type==='button'){html+=field('Nhãn nút','text',b.text)+field('Đường dẫn','href',b.href);}
     else if(b.locked){html+=`<div class="st-protected">${I('lock-keyhole')}Khối chức năng được bảo vệ</div><label>Dự án<input value="Palm River" readonly></label><div class="st-note" style="margin-top:14px">${b.type==='floor'?'Chọn căn · Tháp 3 / Tháp 4':'Form tư vấn · Cấu trúc cố định'}</div>`;}
     {const min=freeMin(b);html+=`<div class="st-free-settings"><span class="st-free-badge">${I(b.free?'move':'rows-3')}${b.free?'Đang đặt tự do trên nền':'Đang nằm trong luồng trang'}</span><button type="button" class="st-layout-toggle" data-act="toggle-free" aria-pressed="${!!b.free}" ${!canEdit()?'disabled':''}>${I(b.free?'panel-top-close':'move-3d')}${b.free?'Đưa về bố cục thường':'Cho phép kéo tự do trên nền'}</button>${b.free?`<div class="st-free-grid"><label>X<input type="number" data-prop="free:x" min="-2000" max="3000" value="${b.free.x}"></label><label>Y<input type="number" data-prop="free:y" min="-120" max="6000" value="${b.free.y}"></label><label>Rộng<input type="number" data-prop="free:w" min="${min.w}" max="2000" value="${b.free.w}"></label><label>Cao<input type="number" data-prop="free:h" min="${min.h}" max="2000" value="${b.free.h}"></label><label>Lớp<input type="number" data-prop="free:z" min="1" max="100" value="${b.free.z||20}"></label></div>`:''}</div>`;}
+    if(b.flowSlot&&b.free)html+=`<label style="margin-top:20px">Chiều cao vùng giữ chỗ (px)<input type="number" data-prop="flowSlot:height" min="0" max="4000" value="${b.flowSlot.height}" ${!canEdit()?'disabled':''}></label><p class="st-note">Vùng giữ chỗ giúp nội dung phía dưới không dồn lên khi di chuyển phần tử.</p>`;
     if(b.type!=='image')html+=`<label style="margin-top:20px">Khoảng cách (px)<input type="number" data-prop="space" min="0" max="120" value="${b.space??24}" ${!canEdit()?'disabled':''}></label>`;$('#st-inspector').innerHTML=html;}
     if(!canEdit())$$('#st-inspector input,#st-inspector textarea,#st-inspector select,#st-inspector button').forEach(n=>n.disabled=true);
   }
@@ -270,6 +281,8 @@
   }
   function select(id,scroll=false){state.selected=id;state.right='block';state.tab='design';expanded.add(id);panel=null;render();remember();if(scroll)$(`[data-block="${id}"]`)?.scrollIntoView({behavior:'auto',block:'nearest'});}
   function toFreePosition(b){const canvas=$('#st-blocks').getBoundingClientRect(),section=$(`[data-block="${b.id}"]`),content=section?.querySelector('.st-block-content'),source=b.type==='image'?content?.querySelector('.st-image-frame'):content,rect=source?.getBoundingClientRect()||section?.getBoundingClientRect()||canvas;const w=b.type==='image'?rect.width:b.type==='icon'?110:b.type==='text'?Math.min(480,rect.width):Math.min(760,rect.width);const h=b.type==='image'?rect.height:b.type==='icon'?110:b.type==='text'?Math.max(110,Math.min(260,rect.height)):Math.max(120,Math.min(520,rect.height));return{x:Math.round(rect.left-canvas.left),y:Math.round(rect.top-canvas.top),w:Math.round(w),h:Math.round(h),z:30};}
+  function flowSlotFromSection(section){const style=getComputedStyle(section);return{height:Math.ceil(section.getBoundingClientRect().height),marginTop:parseFloat(style.marginTop)||0};}
+  function flowSlotHtml(b){if(!b.free||!b.flowSlot)return '';return `<div class="st-flow-placeholder" data-flow-slot="${b.id}" style="height:${b.flowSlot.height}px;margin-top:${b.flowSlot.marginTop}px;margin-bottom:${b.space??24}px" aria-hidden="true"></div>`;}
   function syncFreeCanvas(){const blocks=$('#st-blocks');if(!blocks)return;const bottom=Math.max(700,...doc().blocks.filter(b=>b.free).map(b=>Number(b.free.y)+Number(b.free.h)+80));blocks.style.setProperty('--st-free-canvas-height',`${Math.ceil(bottom)}px`);}
   function newBlock(type){const id='b'+Date.now()+Math.floor(Math.random()*1000);if(type==='freeimage'){const b=photo(id,'Ảnh tự do','living');b.free={x:80,y:180,w:420,h:280,z:30};b.width=100;b.fit='cover';b.ratio='original';return b;}if(type==='textbox')return{id,name:'Textbox tự do',type:'text',ops:[{insert:'Nhập nội dung và định dạng như trong Word.\n'}],space:0,free:{x:100,y:260,w:420,h:180,z:40}};if(type==='icon')return{id,name:'Icon bất động sản',type,icon:'building-2',label:'Dự án',showLabel:false,iconLayout:'column',color:'#07523e',space:0,free:{x:100,y:260,w:110,h:110,z:40}};if(type==='image')return photo(id,'Ảnh mới','living');if(type==='text')return{id,name:'Văn bản mới',type,ops:[{insert:'Nội dung mới của bạn.\n'}],space:24};if(type==='gallery')return{id,name:'Bộ ảnh',type,title:'Không gian căn hộ',images:['living','bedroom'],space:24};if(type==='video')return{id,name:'Video',type,title:'Video Palm River',caption:'Tư liệu dự án',space:24};if(type==='table')return{id,name:'Bảng',type,title:'Thông tin căn hộ',rows:[['Loại căn','Thông tin'],['2PN','Liên hệ tư vấn'],['3PN','Liên hệ tư vấn']],space:24};if(type==='faq')return{id,name:'FAQ',type,question:'Làm sao nhận thông tin căn hộ?',answer:'Đăng ký tư vấn để được hỗ trợ theo nhu cầu.',space:24};if(type==='button')return{id,name:'Nút liên hệ',type,text:'Nhận tư vấn',href:'#form',space:24};}
   function add(type){if(!canEdit())return;if(type==='image'){showPanel('media');return;}if(doc().blocks.length>=60){notify('Giới hạn 60 khối trong bản thiết kế');return;}edit(()=>{const b=newBlock(type);const pos=doc().blocks.findIndex(x=>x.id===(insertion||state.selected));doc().blocks.splice(pos+1,0,b);state.selected=b.id;expanded.add(b.id);insertion=null;state.tab='design';state.right='block';panel=null;},'Đã thêm '+(types[type]?.[0]||type));if(type==='icon')showPanel('icon-library');}
@@ -284,16 +297,19 @@
     const b=block();let value=el.type==='checkbox'?el.checked:el.value;
     if(key==='width')value=clamp(Number(value)||30,30,100);
     if(key==='space')value=clamp(Number(value)||0,0,120);
+    if(key==='flowSlot:height')value=clamp(Number(value)||0,0,4000);
     if(key==='page:maxWidth')value=clamp(Number(value)||1200,640,1440);
     if(key.startsWith('free:')){const p=key.slice(5),min=freeMin(b),limits={x:[-2000,3000],y:[-120,6000],w:[min.w,2000],h:[min.h,2000],z:[1,100]};value=clamp(Number(value)||0,...limits[p]);}
     checkpoint();
     if(key.startsWith('page:'))doc()[key.slice(5)]=value;
     else if(key.startsWith('fact:'))b.facts[Number(key.split(':')[1])][1]=value;
     else if(key.startsWith('free:'))b.free[key.slice(5)]=value;
+    else if(key==='flowSlot:height')b.flowSlot.height=value;
     else b[key]=value;
     if(key.startsWith('page:')){$('#st-document').textContent=doc().title;$('#st-page').style.maxWidth=state.device==='desktop'?doc().maxWidth+'px':'';$('.st-site-nav strong').textContent=doc().brand;$('.st-site-nav').hidden=!doc().nav;if($('#st-search-title'))$('#st-search-title').textContent=doc().title;if($('#st-search-description'))$('#st-search-description').textContent=doc().description;$('#st-route').textContent=`staging.realness.vn/${state.mode==='page'?'du-an':'phan-tich'}/${doc().slug}/`;}
     else if(key.startsWith('free:')){const section=$(`[data-block="${b.id}"]`);Object.assign(section.style,{left:b.free.x+'px',top:b.free.y+'px',width:b.free.w+'px',height:b.free.h+'px',zIndex:b.free.z});syncFreeCanvas();}
-    else{if(key==='caption')b.showCaption=true;const content=$(`[data-block="${b.id}"] .st-block-content`);if(content&&b.type!=='text')content.innerHTML=`${!state.preview&&b.id===state.selected&&state.tab==='design'?`<div class="st-block-tag">${I(b.free?'move':'grip-vertical')}${E(labelFor(b))}</div>`:''}${body(b)}`;const section=$(`[data-block="${b.id}"]`);if(section)section.style.marginBottom=b.space+'px';if(key==='width')$$('[data-prop=width]').forEach(i=>{if(i!==el)i.value=value;});const treelabel=$(`[data-select="${b.id}"] span`);if(treelabel)treelabel.textContent=labelFor(b);icons();}
+    else if(key==='flowSlot:height'){$(`[data-flow-slot="${b.id}"]`).style.height=value+'px';}
+    else{if(key==='caption')b.showCaption=true;const content=$(`[data-block="${b.id}"] .st-block-content`);if(content&&b.type!=='text')content.innerHTML=`${!state.preview&&b.id===state.selected&&state.tab==='design'?`<div class="st-block-tag">${I(b.free?'move':'grip-vertical')}${E(labelFor(b))}</div>`:''}${body(b)}`;const section=$(`[data-block="${b.id}"]`);if(section)section.style.marginBottom=b.space+'px';if(key==='space'&&b.flowSlot)$(`[data-flow-slot="${b.id}"]`).style.marginBottom=b.space+'px';if(key==='width')$$('[data-prop=width]').forEach(i=>{if(i!==el)i.value=value;});const treelabel=$(`[data-select="${b.id}"] span`);if(treelabel)treelabel.textContent=labelFor(b);icons();}
     save();
   }
   root.addEventListener('mousedown',e=>{if(e.target.closest('[data-format],[data-act=rich-link],[data-act=clear-format]'))e.preventDefault();});
@@ -322,7 +338,7 @@
       if(a==='address-settings'){state.right='page';panel=null;render();return;}
       if(a==='preview'){state.preview=!state.preview;panel=null;render();remember();return;}
       if(a==='up'){move(-1);return;}if(a==='down'){move(1);return;}
-      if(a==='toggle-free'){const wasFree=!!block().free;edit(()=>{const b=block();if(b.free)delete b.free;else b.free=toFreePosition(b);expanded.add(b.id);},wasFree?'Đã đưa về bố cục thường':'Đã bật kéo tự do trên nền');return;}
+      if(a==='toggle-free'){const wasFree=!!block().free;edit(()=>{const b=block();if(b.free){delete b.free;delete b.flowSlot;}else{b.flowSlot=flowSlotFromSection($(`[data-block="${b.id}"]`));b.free=toFreePosition(b);}expanded.add(b.id);},wasFree?'Đã đưa về bố cục thường':'Đã bật kéo tự do trên nền');return;}
       if(a==='layer-up'&&block().free){edit(()=>block().free.z=Math.min(100,(block().free.z||20)+1),'Đã đưa lên một lớp');return;}
       if(a==='layer-down'&&block().free){edit(()=>block().free.z=Math.max(1,(block().free.z||20)-1),'Đã đưa xuống một lớp');return;}
       if(a==='duplicate'){if(!block().locked)edit(()=>{const b=clone(block());b.id='copy'+Date.now();b.name+=' (bản sao)';doc().blocks.splice(doc().blocks.indexOf(block())+1,0,b);state.selected=b.id;expanded.add(b.id);},'Đã nhân bản khối');return;}
@@ -398,18 +414,25 @@
   root.addEventListener('pointerdown',e=>{
     const mover=e.target.closest('[data-free-move]'),handle=e.target.closest('[data-free-handle]');
     const photo=e.target.closest('[data-photo]'),section=e.target.closest('[data-block]');
-    if((!mover&&!handle&&!photo)||!section||!canEdit()||state.device!=='desktop')return;
+    if((!mover&&!handle&&!photo)||!section||!canEdit()||state.device!=='desktop'||e.button!==0)return;
     const b=doc().blocks.find(x=>x.id===section.dataset.block);
-    if(!b||photo&&(!b.free||b.id!==state.selected))return;
+    if(!b)return;
     e.preventDefault();
-    freeGesture={id:b.id,mode:handle?'resize':'move',handle:handle?.dataset.freeHandle,x:e.clientX,y:e.clientY,start:b.free?clone(b.free):toFreePosition(b),wasFree:!!b.free,section,canvas:$('#st-blocks').getBoundingClientRect(),active:false};
+    freeGesture={id:b.id,mode:handle?'resize':'move',handle:handle?.dataset.freeHandle,x:e.clientX,y:e.clientY,start:b.free?clone(b.free):toFreePosition(b),wasFree:!!b.free,directPhoto:!!photo,section,canvas:$('#st-blocks').getBoundingClientRect(),active:false};
     e.target.setPointerCapture(e.pointerId);
   });
   root.addEventListener('pointerdown',e=>{const h=e.target.closest('[data-handle]');if(h&&canEdit()){e.preventDefault();checkpoint();const frame=h.closest('.st-image-frame'),box=frame.getBoundingClientRect();resize={id:block().id,handle:h.dataset.handle,x:e.clientX,y:e.clientY,width:block().width,container:frame.parentElement.clientWidth,ratio:box.width/box.height};h.setPointerCapture(e.pointerId);}const c=e.target.closest('#st-crop-preview');if(c){cropDrag={x:e.clientX,y:e.clientY,startX:crop.x,startY:crop.y,width:c.clientWidth,height:c.clientHeight};c.setPointerCapture(e.pointerId);}});
   root.addEventListener('pointermove',e=>{
     if(freeGesture){
       const g=freeGesture,dx=e.clientX-g.x,dy=e.clientY-g.y;
-      if(!g.active&&Math.hypot(dx,dy)>3){checkpoint();g.active=true;const b=doc().blocks.find(x=>x.id===g.id);b.free=clone(g.start);g.section.classList.add('st-free');}
+      if(!g.active&&Math.hypot(dx,dy)>3){
+        checkpoint();g.active=true;
+        const b=doc().blocks.find(x=>x.id===g.id);
+        if(!b.free)b.flowSlot=flowSlotFromSection(g.section);
+        b.free=clone(g.start);
+        if(b.flowSlot&&!g.wasFree)g.section.insertAdjacentHTML('beforebegin',flowSlotHtml(b));
+        g.section.classList.add('st-free');
+      }
       if(g.active){
         const b=doc().blocks.find(x=>x.id===g.id),f=clone(g.start),minimum=freeMin(b);
         if(g.mode==='move'){f.x=clamp(f.x+dx,-f.w+40,g.canvas.width-40);f.y=clamp(f.y+dy,-120,6000);}
@@ -423,8 +446,13 @@
     if(resize){const dx=e.clientX-resize.x,dy=e.clientY-resize.y;let delta=resize.handle==='n'?-dy*resize.ratio:resize.handle==='s'?dy*resize.ratio:resize.handle.includes('w')?-dx:dx;const b=doc().blocks.find(b=>b.id===resize.id);b.width=Math.max(30,Math.min(100,Math.round(resize.width+delta*100/resize.container)));$(`[data-block="${b.id}"] .st-image-frame`).style.width=b.width+'%';$$('[data-prop=width]').forEach(n=>n.value=b.width);}
     if(cropDrag){crop.x=Math.max(0,Math.min(100,Math.round(cropDrag.startX-(e.clientX-cropDrag.x)*100/cropDrag.width)));crop.y=Math.max(0,Math.min(100,Math.round(cropDrag.startY-(e.clientY-cropDrag.y)*100/cropDrag.height)));$('#st-crop-preview img').style.objectPosition=`${crop.x}% ${crop.y}%`;$('#st-crop-x').value=crop.x;$('#st-crop-y').value=crop.y;}
   });
-  root.addEventListener('pointerup',()=>{if(freeGesture?.active){render();save('Đã cập nhật vị trí và kích thước');}freeGesture=null;if(resize){resize=null;save('Đã thay đổi kích thước ảnh');}cropDrag=null;});
-  root.addEventListener('pointercancel',()=>{resize=null;freeGesture=null;cropDrag=null;});
+  function finishFreeGesture(){
+    if(freeGesture?.active){state.selected=freeGesture.id;state.right='block';state.tab='design';expanded.add(freeGesture.id);render();save('Đã cập nhật vị trí và kích thước');}
+    else if(freeGesture?.directPhoto&&freeGesture.id!==state.selected)select(freeGesture.id);
+    freeGesture=null;
+  }
+  root.addEventListener('pointerup',()=>{finishFreeGesture();if(resize){resize=null;save('Đã thay đổi kích thước ảnh');}cropDrag=null;});
+  root.addEventListener('pointercancel',()=>{finishFreeGesture();resize=null;cropDrag=null;});
   root.addEventListener('wheel',e=>{
     if(innerWidth<=850||e.ctrlKey||e.target.closest('.st-center,.st-panel'))return;
     const center=$('.st-center');
