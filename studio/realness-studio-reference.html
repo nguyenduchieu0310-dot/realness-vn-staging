@@ -7,6 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.core.css">
 <script src="https://unpkg.com/lucide@latest"></script>
+<script src="/studio/studio-config.js"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -15,6 +16,8 @@
     <div class="st-brand"><strong>REALNESS</strong> <span>Studio</span></div>
     <div class="st-breadcrumb"><button type="button" data-act="documents" id="st-collection">Dự án</button><span>/</span><button type="button" data-act="documents" id="st-document">Palm River</button></div>
     <span class="st-env">STAGING</span>
+    <button type="button" class="st-icon" data-act="new-page" aria-label="Tạo trang dự án mới" data-tooltip="Tạo trang dự án mới"><i data-lucide="file-plus-2" aria-hidden="true"></i></button>
+    <button type="button" class="st-icon" data-act="media" aria-label="Kho media Palm River" data-tooltip="Kho media Palm River"><i data-lucide="images" aria-hidden="true"></i></button>
     <div class="st-header-tools">
       <button class="st-icon" type="button" data-act="undo" aria-label="Hoàn tác" data-tooltip="Hoàn tác"><i data-lucide="undo-2" aria-hidden="true"></i></button>
       <button class="st-icon" type="button" data-act="redo" aria-label="Làm lại" data-tooltip="Làm lại"><i data-lucide="redo-2" aria-hidden="true"></i></button>
@@ -30,6 +33,7 @@
     <div class="st-tabs" role="group" aria-label="Chế độ biên tập"><button type="button" data-tab="design" aria-pressed="true">Thiết kế</button><button type="button" data-tab="content" aria-pressed="false">Nội dung</button><button type="button" data-tab="seo" aria-pressed="false">SEO</button><button type="button" data-tab="history" aria-pressed="false">Lịch sử</button></div>
   </div>
   <section id="st-panel" class="st-panel" hidden aria-label="Công cụ bổ sung"></section>
+  <div class="st-auth" id="st-auth" hidden><form id="st-login"><strong>REALNESS Studio</strong><h1>Đăng nhập biên tập</h1><label>Email<input name="email" type="email" autocomplete="username" required></label><label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label><p id="st-login-error" role="alert"></p><button type="submit" class="st-primary">Đăng nhập</button></form></div>
   <div class="st-workspace" id="st-workspace">
     <aside class="st-left" aria-label="Cấu trúc và thư viện khối">
       <div class="st-tabs st-left-tabs" role="group" aria-label="Bảng bên trái"><button type="button" data-left="structure" aria-pressed="true">Cấu trúc</button><button type="button" data-left="add" aria-pressed="false">Thêm khối</button></div>
@@ -41,6 +45,27 @@
   <footer class="st-footer"><span id="st-status" role="status" aria-live="polite">Bản thiết kế tương tác · Không thay đổi website thật</span><span>REALNESS STUDIO · 02</span></footer>
 </div>
 <style>
+#realness-studio-reference .st-auth{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#f3f6f4;padding:20px}
+#realness-studio-reference .st-auth form{width:min(100%,410px);display:grid;gap:14px;padding:30px;background:#fff;border:1px solid #dce5de;box-shadow:0 20px 70px #18362a20}
+#realness-studio-reference .st-auth strong{font-size:19px;color:#174a38}
+#realness-studio-reference .st-auth h1{font-size:23px;margin:0}
+#realness-studio-reference .st-auth label{font-size:13px;display:grid;gap:5px}
+#realness-studio-reference .st-auth input{width:100%}
+#realness-studio-reference .st-auth p{color:#ae3434;margin:0}
+#realness-studio-reference .st-blank{min-height:550px;display:grid;align-content:center;justify-items:center;gap:12px;text-align:center;color:#64736b;border:1px dashed #cad8cf;background:#fff}
+#realness-studio-reference .st-blank strong{font-size:20px;color:#174a38}
+#realness-studio-reference .st-blank p{max-width:420px;margin:0}
+#realness-studio-reference .st-blank svg{width:30px;height:30px}
+#realness-studio-reference .st-media-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 14px}
+#realness-studio-reference .st-media-top input{max-width:220px}
+#realness-studio-reference .st-document-list{display:grid;gap:8px;margin:12px 0}
+#realness-studio-reference .st-document-list .st-document-row{width:100%;justify-content:flex-start}
+#realness-studio-reference .st-document-list .st-document-row span{margin-left:auto}
+#realness-studio-reference .st-document-item{display:flex;align-items:center;gap:5px}
+#realness-studio-reference .st-document-item .st-document-row{flex:1}
+#realness-studio-reference .st-upload-review{display:grid;gap:12px;max-width:440px}
+#realness-studio-reference .st-upload-review img{max-width:220px;max-height:160px;object-fit:contain}
+#realness-studio-reference .st-panel-error{color:#ae3434}
 #realness-studio-reference{--s-panel:light-dark(#fff,#20282b);--s-bg:light-dark(#f3f5f7,#151c1f);--s-text:light-dark(#25323c,#e7eff0);--s-ink:light-dark(#0d3028,#d5f1e3);--s-muted:light-dark(#747e8b,#a7b4bb);--s-line:light-dark(#e0e5eb,#3a454b);--s-green:light-dark(#07523e,#a1d8c0);--s-on:light-dark(#fff,#15392b);--s-blue:light-dark(#1984ff,#80b7ff);--s-blue-soft:light-dark(#e4efff,#263e5b);--s-soft:light-dark(#edf5f0,#2e4338);--s-amber:light-dark(#ffdc98,#624720);--s-amber-text:light-dark(#673606,#ffe1a8);--s-danger:light-dark(#b8423b,#ffa59d);--s-shadow:light-dark(#17273812,#00000035);background:var(--s-panel);color:var(--s-text);font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.5;letter-spacing:0;box-sizing:border-box;width:100%;text-align:left;position:relative;color-scheme:light dark}
 #realness-studio-reference *{box-sizing:border-box}#realness-studio-reference [hidden]{display:none!important}#realness-studio-reference button,#realness-studio-reference input,#realness-studio-reference textarea,#realness-studio-reference select{font:inherit;letter-spacing:0}#realness-studio-reference button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;border:1px solid var(--s-line);border-radius:4px;background:var(--s-panel);color:var(--s-text);padding:7px 12px;font-weight:500;white-space:normal}#realness-studio-reference button:hover:not(:disabled){background:var(--s-soft)}#realness-studio-reference button:disabled{opacity:.38;cursor:not-allowed}#realness-studio-reference .st-primary{background:var(--s-green);color:var(--s-on);border-color:var(--s-green)}#realness-studio-reference .st-primary:hover:not(:disabled){background:var(--s-ink);color:var(--s-on)}#realness-studio-reference button.st-icon{border:0;background:transparent;padding:6px;width:34px;min-width:34px;flex-shrink:0}#realness-studio-reference svg{width:17px;height:17px;flex-shrink:0}#realness-studio-reference h1,#realness-studio-reference h2,#realness-studio-reference h3,#realness-studio-reference strong{font-weight:500;color:inherit}#realness-studio-reference input,#realness-studio-reference textarea,#realness-studio-reference select{background:var(--s-panel);color:var(--s-text);border:1px solid var(--s-line);border-radius:4px;padding:8px 10px;max-width:100%;min-width:0}#realness-studio-reference textarea{resize:vertical}#realness-studio-reference input[type=range]{accent-color:var(--s-green);padding:0;width:100%;height:18px;border:0}#realness-studio-reference input[type=checkbox]{accent-color:var(--s-green)}#realness-studio-reference label{display:flex;flex-direction:column;gap:8px;font-size:12px;min-width:0}#realness-studio-reference label input,#realness-studio-reference label textarea,#realness-studio-reference label select{width:100%}#realness-studio-reference .st-header{display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid var(--s-line);flex-wrap:wrap;min-height:58px}#realness-studio-reference .st-brand{font-size:23px;color:var(--s-ink);white-space:nowrap}#realness-studio-reference .st-brand strong{font-weight:700}#realness-studio-reference .st-brand span{color:var(--s-muted);font-weight:400}#realness-studio-reference .st-breadcrumb{display:flex;align-items:center;gap:7px;border-left:1px solid var(--s-line);padding-left:15px}#realness-studio-reference .st-breadcrumb button{border:0;padding:0;background:transparent;min-height:30px}#realness-studio-reference #st-collection,#realness-studio-reference .st-breadcrumb>span{color:var(--s-muted)}#realness-studio-reference .st-env{background:var(--s-amber);color:var(--s-amber-text);padding:2px 7px;font-size:12px;border-radius:3px;font-weight:500}#realness-studio-reference .st-header-tools{display:flex;gap:3px;align-items:center;margin-left:auto}#realness-studio-reference .st-devices{display:flex;border-left:1px solid var(--s-line);padding-left:14px;margin-left:9px;gap:4px}#realness-studio-reference .st-devices button[aria-pressed=true]{background:var(--s-soft);color:var(--s-ink);border-bottom:2px solid var(--s-green);border-radius:4px 4px 0 0}#realness-studio-reference .st-save{display:flex;align-items:center;gap:7px;font-size:12px;white-space:nowrap;margin-left:auto}#realness-studio-reference .st-save svg{color:var(--s-green)}#realness-studio-reference .st-avatar{border:0;border-left:1px solid var(--s-line);border-radius:0;background:transparent;padding:0 0 0 14px}#realness-studio-reference .st-avatar span{display:grid;place-items:center;background:var(--s-bg);width:38px;height:38px;border-radius:50%}#realness-studio-reference .st-subnav{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--s-line);gap:12px;padding:0 18px;flex-wrap:wrap}#realness-studio-reference .st-route{border:0;background:transparent;font-weight:400;padding:10px 0;min-width:0;justify-content:start;overflow-wrap:anywhere;text-align:left}#realness-studio-reference .st-route span{min-width:0}#realness-studio-reference .st-route svg{color:var(--s-muted)}#realness-studio-reference .st-tabs{display:flex;gap:6px;align-items:center}#realness-studio-reference .st-tabs button{background:transparent;border:0;border-bottom:3px solid transparent;border-radius:0;color:var(--s-muted);min-height:45px;padding:11px 18px;white-space:nowrap}#realness-studio-reference .st-tabs button[aria-pressed=true]{border-color:var(--s-green);color:var(--s-ink)}#realness-studio-reference .st-workspace{display:grid;grid-template-columns:17% minmax(0,1fr) 19%;align-items:start;background:var(--s-bg)}#realness-studio-reference .st-left,#realness-studio-reference .st-right{background:var(--s-panel);align-self:stretch;min-width:0}#realness-studio-reference .st-left{border-right:1px solid var(--s-line)}#realness-studio-reference .st-right{border-left:1px solid var(--s-line)}#realness-studio-reference .st-left-tabs,#realness-studio-reference .st-right-tabs{justify-content:space-around;border-bottom:1px solid var(--s-line);padding:0 10px}#realness-studio-reference .st-left-tabs button,#realness-studio-reference .st-right-tabs button{padding:11px 10px;flex:1}#realness-studio-reference .st-left-body{padding:20px 13px}#realness-studio-reference .st-eyebrow{font-size:11px;color:var(--s-muted);font-weight:500;margin:0 8px 14px}#realness-studio-reference .st-tree-row{display:flex;align-items:center;gap:5px;margin-bottom:5px;border-radius:4px;padding:4px 6px;min-width:0}#realness-studio-reference .st-tree-row.selected{background:var(--s-blue-soft);color:var(--s-blue)}#realness-studio-reference .st-tree-row.drop{box-shadow:0 -3px var(--s-blue)}#realness-studio-reference .st-tree-row .st-grip{cursor:grab;padding:2px;min-width:16px;width:16px;border:0;background:transparent;color:inherit}#realness-studio-reference .st-tree-row .st-tree-select{flex:1;min-width:0;padding:5px 0;border:0;background:transparent;justify-content:start;text-align:left;color:inherit;font-weight:400}#realness-studio-reference .st-tree-select span{overflow-wrap:anywhere}#realness-studio-reference .st-tree-row .st-lock{width:14px;color:var(--s-muted)}#realness-studio-reference .st-palette{border-top:1px solid var(--s-line);padding-top:20px;margin-top:28px}#realness-studio-reference .st-palette button{border:0;background:transparent;width:100%;justify-content:start;text-align:left;font-weight:400;padding:7px 10px;min-height:44px}#realness-studio-reference .st-palette button svg{padding:3px;border:1px solid var(--s-line);border-radius:4px;width:28px;height:28px}#realness-studio-reference .st-add-section{width:100%;margin-top:30px;border-color:var(--s-green);color:var(--s-green)}#realness-studio-reference .st-center{min-width:0;padding:12px 20px 30px}#realness-studio-reference .st-page{background:var(--s-panel);box-shadow:0 1px 10px var(--s-shadow);border:1px solid var(--s-line);border-radius:4px;max-width:1280px;margin:auto;min-width:0}#realness-studio-reference .st-page[data-device=tablet]{max-width:620px}#realness-studio-reference .st-page[data-device=mobile]{max-width:375px}#realness-studio-reference .st-site-nav{display:flex;align-items:center;gap:16px;padding:14px 28px;border-bottom:1px solid var(--s-line);flex-wrap:wrap}#realness-studio-reference .st-site-nav strong{font-size:20px;color:var(--s-ink);font-weight:700}#realness-studio-reference .st-site-nav>div{display:flex;gap:14px;align-items:center;margin:auto;flex-wrap:wrap}#realness-studio-reference .st-site-nav>div button{border:0;background:transparent;font-size:11px;padding:0;min-height:25px;font-weight:400}#realness-studio-reference .st-site-nav>.st-primary{font-size:11px;margin-left:auto;padding:8px 15px}#realness-studio-reference #st-blocks{padding:36px 30px 24px}#realness-studio-reference .st-block{min-width:0;position:relative;margin:0 0 24px;overflow-wrap:break-word;scroll-margin-top:20px}#realness-studio-reference .st-block.selected>.st-block-content{outline:2px solid var(--s-blue);outline-offset:0}#realness-studio-reference .st-block-content{position:relative;min-width:0}#realness-studio-reference .st-block.selected{padding-top:0}#realness-studio-reference .st-floating-toolbar{display:flex;align-items:center;justify-content:center;gap:0;padding:4px;position:relative;max-width:100%;width:max-content;margin:-45px auto 8px;z-index:4;flex-wrap:wrap;background:var(--s-panel);border:1px solid var(--s-line);border-radius:6px;box-shadow:0 2px 4px var(--s-shadow)}#realness-studio-reference .st-floating-toolbar button{min-height:29px;padding:4px 8px;border:0;border-radius:3px;background:transparent;white-space:nowrap;font-size:12px}#realness-studio-reference .st-floating-toolbar .st-icon{width:31px;min-width:31px;padding:5px}#realness-studio-reference .st-drag{cursor:grab!important}#realness-studio-reference .st-block-tag{position:absolute;left:0;top:0;padding:3px 7px;display:flex;gap:5px;align-items:center;background:var(--s-blue);color:light-dark(#fff,#102b4f);font-size:11px;z-index:3;max-width:80%;overflow-wrap:anywhere}#realness-studio-reference .st-block-tag svg{width:12px;height:12px}#realness-studio-reference .st-image-frame{margin:auto;position:relative;max-width:100%;background:var(--s-bg)}#realness-studio-reference .st-image-frame img{display:block;width:100%;height:100%;max-width:100%;object-fit:contain}#realness-studio-reference .st-image-frame.is-natural img{height:auto}#realness-studio-reference .st-handle{position:absolute;width:9px!important;min-width:9px!important;min-height:9px!important;height:9px!important;padding:0!important;border:2px solid var(--s-blue)!important;background:var(--s-panel)!important;border-radius:0!important;z-index:5;touch-action:none;cursor:nwse-resize!important}#realness-studio-reference .st-handle[data-handle=nw]{left:-5px;top:-5px}#realness-studio-reference .st-handle[data-handle=n]{left:calc(50% - 4px);top:-5px;cursor:ns-resize!important}#realness-studio-reference .st-handle[data-handle=ne]{right:-5px;top:-5px;cursor:nesw-resize!important}#realness-studio-reference .st-handle[data-handle=w]{left:-5px;top:calc(50% - 4px);cursor:ew-resize!important}#realness-studio-reference .st-handle[data-handle=e]{right:-5px;top:calc(50% - 4px);cursor:ew-resize!important}#realness-studio-reference .st-handle[data-handle=sw]{left:-5px;bottom:-5px;cursor:nesw-resize!important}#realness-studio-reference .st-handle[data-handle=s]{left:calc(50% - 4px);bottom:-5px;cursor:ns-resize!important}#realness-studio-reference .st-handle[data-handle=se]{right:-5px;bottom:-5px}#realness-studio-reference .st-caption{font-size:11px;color:var(--s-muted);text-align:center;margin:8px 0 0}#realness-studio-reference .st-overview{text-align:center;padding:5px 0 20px}#realness-studio-reference .st-overview h1{font-size:29px;line-height:1.25;margin:0 0 8px;color:var(--s-ink);font-weight:700}#realness-studio-reference .st-overview>p{font-size:18px;color:var(--s-muted);margin:0 0 30px}#realness-studio-reference .st-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;text-align:left}#realness-studio-reference .st-fact{display:flex;gap:11px;align-items:start;padding:0 14px;border-right:1px solid var(--s-line)}#realness-studio-reference .st-fact:last-child{border:0}#realness-studio-reference .st-fact svg{width:25px;height:25px}#realness-studio-reference .st-fact span{display:block;font-size:12px;color:var(--s-muted)}#realness-studio-reference .st-fact strong{font-size:15px;color:var(--s-text);font-weight:500}#realness-studio-reference .st-insert{position:relative;height:22px;display:flex;align-items:center;justify-content:center;margin:18px -12px 25px}#realness-studio-reference .st-insert:before{content:'';height:1px;background:var(--s-blue);position:absolute;left:0;right:0;top:50%}#realness-studio-reference .st-insert button{position:relative;z-index:1;width:24px;min-width:24px;min-height:24px;height:24px;padding:3px;border:0;border-radius:50%;background:var(--s-blue);color:light-dark(#fff,#153453)}#realness-studio-reference .st-location{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:30px}#realness-studio-reference .st-location h2{font-size:24px;line-height:1.35;margin:0 0 10px;color:var(--s-ink);font-weight:600}#realness-studio-reference .st-location p{margin:0;color:var(--s-muted)}#realness-studio-reference .st-location img{width:100%;height:150px;object-fit:cover;border-radius:4px}#realness-studio-reference .st-collapsed{display:flex;justify-content:space-between;align-items:center;width:100%;border:0;border-top:1px solid var(--s-line);padding:12px 0;background:transparent;border-radius:0}#realness-studio-reference .st-right #st-inspector{padding:22px 22px 24px}#realness-studio-reference #st-inspector h3{margin:0 0 16px;font-size:15px;color:var(--s-ink);font-weight:600}#realness-studio-reference .st-image-picker{display:flex;gap:16px;align-items:center;margin-bottom:22px}#realness-studio-reference .st-image-picker img{width:44%;height:108px;object-fit:cover;border-radius:4px}#realness-studio-reference .st-image-picker button{flex:1;padding:8px;min-width:0;font-size:12px}#realness-studio-reference #st-inspector>label{margin-bottom:20px}#realness-studio-reference #st-inspector textarea{min-height:64px}#realness-studio-reference .st-control-label{font-size:12px;margin:0 0 8px}#realness-studio-reference .st-segments{display:flex;gap:5px;margin-bottom:20px}#realness-studio-reference .st-segments button{flex:1;min-width:0;padding:7px 5px;font-size:11px}#realness-studio-reference .st-segments button[aria-pressed=true]{border-color:var(--s-green);color:var(--s-ink);background:var(--s-soft)}#realness-studio-reference .st-inline{display:grid;grid-template-columns:82px minmax(0,1fr);align-items:center;gap:9px;margin-bottom:18px;font-size:12px}#realness-studio-reference .st-inline input{width:100%}#realness-studio-reference .st-width{display:grid;grid-template-columns:minmax(25px,1fr) 64px;align-items:center;gap:8px}#realness-studio-reference .st-unit-input{display:flex;align-items:center;border:1px solid var(--s-line);border-radius:4px;min-width:0}#realness-studio-reference .st-unit-input input{border:0;width:100%;padding:7px;min-width:0}#realness-studio-reference .st-unit-input span{padding:7px 8px;background:var(--s-bg);color:var(--s-muted)}#realness-studio-reference .st-switch{appearance:none!important;width:43px!important;height:24px!important;border-radius:16px!important;padding:0!important;background:var(--s-line)!important;position:relative;border:0!important;flex:none}#realness-studio-reference .st-switch:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:var(--s-panel);border-radius:50%;transition:transform .12s}#realness-studio-reference .st-switch:checked{background:var(--s-green)!important}#realness-studio-reference .st-switch:checked:before{transform:translateX(19px)}#realness-studio-reference .st-source{margin-top:22px}#realness-studio-reference .st-note{font-size:11px;color:var(--s-muted)}#realness-studio-reference .st-protected{padding:12px;border:1px solid var(--s-line);font-size:12px;display:flex;gap:8px;margin-bottom:14px}#realness-studio-reference .st-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:9px 15px;background:var(--s-panel);border-top:1px solid var(--s-line);font-size:11px;color:var(--s-muted)}#realness-studio-reference .st-panel{padding:20px 25px;background:var(--s-panel);border-bottom:1px solid var(--s-line)}#realness-studio-reference .st-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}#realness-studio-reference .st-panel-heading h2{margin:0;font-size:19px;color:var(--s-ink)}#realness-studio-reference .st-media-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}#realness-studio-reference .st-media-grid>button{display:flex;flex-direction:column;align-items:stretch;text-align:left;justify-content:start;padding:6px;min-width:0;font-size:12px}#realness-studio-reference .st-media-grid>button.selected{border:2px solid var(--s-blue)}#realness-studio-reference .st-media-grid img{width:100%;height:110px;object-fit:cover}#realness-studio-reference .st-upload{padding:15px;border:1px dashed var(--s-line);display:flex;justify-content:center;min-width:0}#realness-studio-reference input[type=file]{padding:5px;font-size:11px}#realness-studio-reference .st-panel-actions{display:flex;gap:8px;justify-content:end;margin-top:16px;flex-wrap:wrap}#realness-studio-reference .st-two{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}#realness-studio-reference .st-fields{display:grid;gap:14px;min-width:0}#realness-studio-reference .st-fields label{min-width:0}#realness-studio-reference .st-full{grid-column:1/-1}#realness-studio-reference .st-crop-preview{width:100%;position:relative;background:var(--s-bg);max-height:350px;overflow:hidden;touch-action:none;cursor:move}#realness-studio-reference .st-crop-preview img{width:100%;height:100%;object-fit:cover;display:block}#realness-studio-reference .st-crop-preview:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 33%,#ffffff70 33%,#ffffff70 33.3%,transparent 33.3%,transparent 66.6%,#ffffff70 66.6%,#ffffff70 67%,transparent 67%),linear-gradient(to bottom,transparent 33%,#ffffff70 33%,#ffffff70 33.3%,transparent 33.3%,transparent 66.6%,#ffffff70 66.6%,#ffffff70 67%,transparent 67%)}#realness-studio-reference .st-palette-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}#realness-studio-reference .st-palette-grid button{display:flex;flex-direction:column;align-items:start;padding:16px;font-size:12px}#realness-studio-reference .st-alt-view{background:var(--s-panel);border:1px solid var(--s-line);padding:24px;border-radius:4px}#realness-studio-reference #st-alt-view h2{font-size:22px;margin:0 0 20px;color:var(--s-ink)}#realness-studio-reference .st-seo-card{border:1px solid var(--s-line);padding:18px;min-width:0;overflow-wrap:anywhere;font-size:12px}#realness-studio-reference .st-seo-card h3{font-size:20px;color:var(--s-blue);margin:8px 0}#realness-studio-reference .st-history-row{padding:13px 0;border-bottom:1px solid var(--s-line);display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px}#realness-studio-reference .st-history-row>div{display:flex;flex-direction:column;gap:4px}#realness-studio-reference .st-history-row small{color:var(--s-muted);font-size:11px}#realness-studio-reference .st-document-row{display:flex;align-items:center;gap:12px;width:100%;justify-content:start;padding:15px;text-align:left;margin-bottom:10px}#realness-studio-reference .st-document-row span{margin-left:auto;color:var(--s-muted);font-size:12px}#realness-studio-reference .st-review-steps{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;font-size:12px;align-items:center;color:var(--s-muted)}#realness-studio-reference .st-review-steps .current{color:var(--s-green);border-bottom:2px solid var(--s-green)}#realness-studio-reference .st-checklist{list-style:none;margin:0;padding:0}#realness-studio-reference .st-checklist li{display:flex;gap:8px;align-items:center;padding:6px 0;font-size:13px}#realness-studio-reference .st-checklist .good{color:var(--s-green)}#realness-studio-reference .st-checklist .bad{color:var(--s-danger)}#realness-studio-reference .st-check{flex-direction:row;align-items:center;gap:8px}#realness-studio-reference .st-check input{width:17px;height:17px}#realness-studio-reference .st-preview #st-page{max-width:1160px}#realness-studio-reference .st-preview .st-left,#realness-studio-reference .st-preview .st-right{display:none}#realness-studio-reference .st-workspace.st-preview{grid-template-columns:1fr}#realness-studio-reference .st-preview .st-block-content{outline:0!important}#realness-studio-reference .st-preview .st-floating-toolbar,#realness-studio-reference .st-preview .st-block-tag,#realness-studio-reference .st-preview .st-handle,#realness-studio-reference .st-preview .st-insert{display:none!important}#realness-studio-reference .st-preview .st-page[data-device=mobile]{max-width:375px}#realness-studio-reference .st-preview .st-page[data-device=tablet]{max-width:768px}#realness-studio-reference .st-rich-toolbar{display:flex;align-items:center;gap:2px;flex-wrap:wrap;padding:8px;background:var(--s-panel);border:1px solid var(--s-line);border-bottom:0}#realness-studio-reference .st-rich-toolbar button{width:30px;min-width:30px;min-height:30px;padding:5px;border:0}#realness-studio-reference .st-rich-toolbar select{font-size:12px;padding:5px;max-width:120px}#realness-studio-reference .st-rich-toolbar input[type=color]{width:28px;height:29px;padding:3px;border:0}#realness-studio-reference .st-rich,#realness-studio-reference .ql-container{font:inherit;height:auto;border:0}#realness-studio-reference .ql-editor{font:inherit;line-height:1.75;overflow:visible;padding:12px 0;min-height:110px;color:var(--s-text)}#realness-studio-reference .st-rich p{margin:0 0 12px}#realness-studio-reference .st-rich strong{font-weight:700}#realness-studio-reference .st-rich h2{font-size:23px;margin:8px 0}#realness-studio-reference .st-rich h3{font-size:19px;margin:8px 0}#realness-studio-reference .st-rich a{color:var(--s-blue);text-decoration:underline}#realness-studio-reference .st-rich blockquote{border-left:3px solid var(--s-green);padding-left:14px;margin-left:0;color:var(--s-muted)}#realness-studio-reference .st-simple h2{font-size:23px;color:var(--s-ink);margin:0 0 15px}#realness-studio-reference .st-simple p{margin:0 0 12px}#realness-studio-reference .st-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#realness-studio-reference .st-gallery img{display:block;width:100%;aspect-ratio:1.4;object-fit:cover}#realness-studio-reference .st-video{background:var(--s-bg);width:100%;aspect-ratio:16/9;position:relative;display:grid;place-items:center;overflow:hidden}#realness-studio-reference .st-video>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4}#realness-studio-reference .st-video button{position:relative}#realness-studio-reference video{display:block;width:100%;max-height:420px;background:var(--s-bg)}#realness-studio-reference .st-table{width:100%;border-collapse:collapse;table-layout:fixed}#realness-studio-reference .st-table th,#realness-studio-reference .st-table td{border:1px solid var(--s-line);padding:8px;font-size:12px;overflow-wrap:anywhere;text-align:left;font-weight:400}#realness-studio-reference .st-table th{background:var(--s-soft);font-weight:500}#realness-studio-reference .st-table textarea{width:100%;padding:4px;border:0;background:transparent;resize:vertical;min-height:48px;font:inherit}#realness-studio-reference .st-faq{border-top:1px solid var(--s-line);padding:15px 0}#realness-studio-reference .st-faq summary{font-weight:500}#realness-studio-reference .st-faq p{margin-top:12px}#realness-studio-reference .st-form-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}#realness-studio-reference .st-form-fields label input{min-width:0}#realness-studio-reference .st-unit-controls{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}#realness-studio-reference .st-floor-placeholder{border:1px solid var(--s-line);padding:15px;background:var(--s-soft);display:flex;gap:12px;align-items:center;flex-wrap:wrap}#realness-studio-reference .st-inline-buttons{display:flex;gap:5px;flex-wrap:wrap}#realness-studio-reference .st-lightbox{display:block;width:100%;max-height:570px;object-fit:contain;background:var(--s-bg)}#realness-studio-reference .st-content-heading{display:block;width:100%;font-size:24px!important;font-weight:600;margin-bottom:20px;border:0!important;padding:0!important}#realness-studio-reference .st-page[data-device=mobile] .st-site-nav>div{display:none}#realness-studio-reference .st-page[data-device=mobile] .st-location{grid-template-columns:1fr}#realness-studio-reference .st-page[data-device=mobile] .st-facts{grid-template-columns:1fr 1fr;gap:16px}#realness-studio-reference .st-page[data-device=mobile] .st-overview h1{font-size:23px}#realness-studio-reference .st-page[data-device=mobile] #st-blocks{padding:38px 18px 20px}#realness-studio-reference .st-page[data-device=mobile] .st-form-fields{grid-template-columns:1fr}
 @media(min-width:1300px){#realness-studio-reference .st-site-nav{flex-wrap:nowrap}}
@@ -195,12 +220,93 @@
   const initialPage={title:'Palm River',slug:'palm-river',description:'Khám phá vị trí, mặt bằng, thiết kế căn hộ và chính sách Palm River.',status:'draft',maxWidth:1200,brand:'REALNESS',nav:true,blocks:[photo('hero','Ảnh mở đầu','aerial'),{id:'overview',name:'Tổng quan',type:'overview',title:'TỔNG QUAN DỰ ÁN PALM RIVER',intro:'Không gian sống ven sông tại khu đô thị Palm City.',facts:[['Vị trí','Nam Rạch Chiếc','map-pin'],['Loại hình','Căn hộ','building-2'],['Tháp','T3 · T4','building'],['Tài liệu','54 hình ảnh','files']],space:24},{id:'location',name:'Vị trí',type:'location',title:'Vị trí & kết nối',body:'Tâm điểm kết nối khu Đông, dễ dàng di chuyển đến Thủ Thiêm, Quận 1 và các khu vực trọng điểm.',media:'map',space:24},{id:'amenities',name:'Tiện ích',type:'gallery',title:'Tiện ích & không gian sống',images:['living','bedroom'],space:24},{id:'floor',name:'Mặt bằng & chọn căn',type:'floor',locked:true,space:24},{id:'policy',name:'Chính sách',type:'text',ops:[{insert:'Chính sách & phương thức thanh toán\n',attributes:{header:2}},{insert:'Nhận tài liệu cập nhật và trao đổi nhu cầu với đội ngũ tư vấn Palm River.\n'}],space:24},{id:'form',name:'Form tư vấn',type:'form',locked:true,space:24}]};
   const initialPost={title:'Không gian sống tại Palm River',slug:'khong-gian-song-palm-river',description:'Thiết kế căn hộ và trải nghiệm không gian sống tại Palm River.',status:'draft',maxWidth:900,brand:'REALNESS',nav:false,blocks:[{id:'posttext',name:'Nội dung bài viết',type:'text',space:24,ops:[{insert:'Không gian sống tại Palm River\n',attributes:{header:2}},{insert:'Ánh sáng, vật liệu và cách bố trí nội thất cùng tạo nên một không gian sống thoải mái.\n'},{insert:'Khoảng chung cho cả gia đình\n',attributes:{bold:true}},{insert:'Phòng khách kết nối với bàn ăn, tạo nên sự liền mạch trong sinh hoạt hằng ngày.\n'}]},photo('postimage','Ảnh căn hộ','living')]};
   let state={version:2,mode:'page',tab:'design',left:'structure',right:'block',device:'desktop',selected:'hero',role:'editor',preview:false,docs:{page:clone(initialPage),post:clone(initialPost)}};
-  let panel=null,quill=null,lastRange=null,expanded=new Set(),insertion=null,picked=[],undo={page:[],post:[]},redo={page:[],post:[]},versions=[],lastSent='',timer=null,noticeTimer=null,dragId=null,resize=null,freeGesture=null,crop=null,cropDrag=null,videoFiles=new Map(),iconQuery='',iconGroup='Tất cả';
-  const doc=()=>state.docs[state.mode],block=()=>doc().blocks.find(b=>b.id===state.selected),canEdit=()=>state.role!=='reviewer'&&doc().status==='draft'&&!state.preview;
+  let panel=null,displayedPanel=null,quill=null,lastRange=null,expanded=new Set(),insertion=null,picked=[],undo={page:[],post:[]},redo={page:[],post:[]},versions=[],lastSent='',timer=null,noticeTimer=null,dragId=null,resize=null,freeGesture=null,crop=null,cropDrag=null,videoFiles=new Map(),iconQuery='',iconGroup='Tất cả';
+  const apiBase=window.REALNESS_STUDIO_API;
+  let token=sessionStorage.getItem('realness-studio-token')||'',user=null,cloudDrafts=[],remoteRevisions={},pendingImage=null,uploading=false,remoteSave=Promise.resolve(),cloudSaveTimer=null,remoteChangeVersion={},remoteSaveError=null;
+  const isRemote=()=>state.mode.startsWith('remote:');
+  const isProject=()=>state.mode!=='post';
+  const routeKind=()=>isProject()?'du-an':'phan-tich';
+  async function api(path,options={}){
+    const headers={...(options.headers||{})};
+    if(token)headers.authorization='Bearer '+token;
+    const res=await fetch(apiBase+path,{...options,headers,cache:'no-store'});
+    if(options.raw){if(!res.ok)throw new Error('Không tải được ảnh');return res;}
+    const data=await res.json().catch(()=>({error:'Không đọc được phản hồi máy chủ'}));
+    if(!res.ok)throw new Error(data.error||'Yêu cầu thất bại');
+    return data;
+  }
+  function jsonOptions(method,data){return{method,headers:{'content-type':'application/json'},body:JSON.stringify(data)};}
+  async function refreshCloudDrafts(){cloudDrafts=(await api('/api/drafts')).drafts;}
+  async function refreshCloudMedia(){
+    const rows=(await api('/api/media')).media;
+    const old=new Map(media.filter(m=>m.cloud).map(m=>[m.id,m]));
+    for(const row of rows){
+      if(old.has(row.id))continue;
+      const image=await api('/api/media/'+row.id,{raw:true});
+      const src=URL.createObjectURL(await image.blob());
+      media.push({id:row.id,name:row.name,alt:row.alt,src,cloud:true});
+    }
+  }
+  async function initializeCloud(){
+    if(!apiBase){$('#st-auth').hidden=false;$('#st-login-error').textContent='Chưa cấu hình dịch vụ Studio';return;}
+    if(!token){$('#st-auth').hidden=false;return;}
+    try{
+      user=(await api('/api/me')).user;
+      state.role='editor';
+      await Promise.all([refreshCloudDrafts(),refreshCloudMedia()]);
+      if(isRemote()){
+        const mode=state.mode;
+        const {draft}=await api('/api/drafts/'+mode.slice(7));
+        state.docs[mode]=draft.content;
+        remoteRevisions[mode]=draft.revision;
+        undo[mode]=[];redo[mode]=[];
+      }
+      $('#st-auth').hidden=true;
+      render();
+    }catch(e){token='';user=null;sessionStorage.removeItem('realness-studio-token');$('#st-auth').hidden=false;$('#st-login-error').textContent=e.message;}
+  }
+  function persistRemoteDraft(mode,content){
+    if(!mode.startsWith('remote:')||!token)return;
+    const changeVersion=remoteChangeVersion[mode];
+    remoteSave=remoteSave.then(async()=>{
+      const id=mode.slice(7),revision=remoteRevisions[mode];
+      if(!revision)return;
+      const result=await api('/api/drafts/'+id,jsonOptions('PUT',{revision,content}));
+      remoteRevisions[mode]=result.revision;
+      if(remoteChangeVersion[mode]===changeVersion)delete remoteChangeVersion[mode];
+      remoteSaveError=null;
+      $('#st-save').textContent='Đã lưu bản nháp';
+      await refreshCloudDrafts();
+    }).catch(e=>{remoteSaveError=e;$('#st-save').textContent='Chưa lưu lên kho chung';notify(e.message);});
+  }
+  function queueCloudSave(){
+    if(!isRemote())return;
+    clearTimeout(cloudSaveTimer);
+    const mode=state.mode;
+    cloudSaveTimer=setTimeout(()=>persistRemoteDraft(mode,clone(state.docs[mode])),800);
+  }
+  async function openCloudDraft(id){
+    try{
+      if(isRemote())await flushCloudSave();
+      const {draft}=await api('/api/drafts/'+id);
+      const mode='remote:'+id;
+      state.docs[mode]=draft.content;
+      remoteRevisions[mode]=draft.revision;
+      undo[mode]=[];redo[mode]=[];
+      state.mode=mode;state.selected=doc().blocks[0]?.id;state.preview=false;state.tab='design';state.right=doc().blocks.length?'block':'page';panel=null;render();remember();
+    }catch(e){notify(e.message);}
+  }
+  async function flushCloudSave(){
+    clearTimeout(timer);clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+    if(isRemote()&&remoteChangeVersion[state.mode])persistRemoteDraft(state.mode,clone(doc()));
+    await remoteSave;
+    if(remoteSaveError)throw remoteSaveError;
+  }
+  const doc=()=>state.docs[state.mode],block=()=>doc().blocks.find(b=>b.id===state.selected),canEdit=()=>!!user&&state.role!=='reviewer'&&doc().status==='draft'&&!state.preview;
   const statuses={draft:'Bản nháp',review:'Chờ duyệt',approved:'Đã duyệt',published:'Đã xuất bản · mô phỏng'};
   const design={density:'reference',inspector:true};
   const asset=id=>media.find(m=>m.id===id)||media[0];
-  function load(raw){const p=raw?.privateContent;if(p?.version!==2||!p.docs)return;try{if(p.docs.page.blocks.length>60||p.docs.post.blocks.length>60)return;state={...state,...clone(p),preview:false};if(!['page','post'].includes(state.mode))state.mode='page';const originalIds=new Set([...initialPage.blocks,...initialPost.blocks].map(b=>b.id));for(const d of Object.values(state.docs))for(const b of d.blocks)if(b.free&&!b.flowSlot&&originalIds.has(b.id))b.flowSlot={height:Math.round(b.free.h),marginTop:0};}catch{}}
+  function load(raw){const p=raw?.privateContent;if(p?.version!==2||!p.docs)return;try{if(p.docs.page.blocks.length>60||p.docs.post.blocks.length>60)return;state={...state,...clone(p),preview:false};if(!state.docs[state.mode])state.mode='page';for(const key of Object.keys(state.docs)){undo[key]??=[];redo[key]??=[];}const originalIds=new Set([...initialPage.blocks,...initialPost.blocks].map(b=>b.id));for(const d of Object.values(state.docs))for(const b of d.blocks)if(b.free&&!b.flowSlot&&originalIds.has(b.id))b.flowSlot={height:Math.round(b.free.h),marginTop:0};}catch{}}
   try{load({privateContent:JSON.parse(localStorage.getItem('realness-studio-draft-v2')||'null')});}catch{}
   load(window.openai?.widgetState);
   function remember(){const p={...state,preview:false};try{localStorage.setItem('realness-studio-draft-v2',JSON.stringify(p));}catch{}const encoded=JSON.stringify(p);const privateContent=new TextEncoder().encode(encoded).length<13900?p:{version:2,mode:state.mode,device:state.device,selected:state.selected};lastSent=JSON.stringify(privateContent);window.openai?.setWidgetState?.({modelContent:{screen:'Realness Studio · Bản theo ảnh',mode:state.mode,tab:state.tab,selected:block()?.name,role:state.role,status:doc().status,device:state.device,image:block()?.type==='image'?{ratio:block().ratio,fit:block().fit,width:block().width,spacing:block().space,lightbox:block().lightbox}:null},privateContent})?.catch(()=>{});}
@@ -208,7 +314,39 @@
   function icons(){globalThis.lucide?.createIcons({attrs:{width:17,height:17}});$$('button').forEach(b=>b.classList.add('cursor-interaction'));}
   function notify(t){$('#st-status').textContent=t;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('#st-status').textContent='Bản thiết kế tương tác · Không thay đổi website thật',7000);}
   function checkpoint(){undo[state.mode].push(clone(doc()));if(undo[state.mode].length>35)undo[state.mode].shift();redo[state.mode]=[];}
-  function save(label){$('#st-save').textContent='Đang lưu…';clearTimeout(timer);timer=setTimeout(()=>{$('#st-save').textContent=doc().status==='draft'?'Đã lưu bản nháp':statuses[doc().status];remember();},350);if(label)notify(label);commands();}
+  function save(label){$('#st-save').textContent='Đang lưu…';if(isRemote())remoteChangeVersion[state.mode]=(remoteChangeVersion[state.mode]||0)+1;clearTimeout(timer);timer=setTimeout(()=>{$('#st-save').textContent=isRemote()?'Đang đồng bộ…':doc().status==='draft'?'Đã lưu bản nháp':statuses[doc().status];remember();queueCloudSave();},350);if(label)notify(label);commands();}
+  function prepareImage(file){
+    if(!file||!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)||file.size>10*1024*1024){notify('Chọn ảnh JPG, PNG, WebP hoặc AVIF dưới 10 MB');return;}
+    if(pendingImage?.preview)URL.revokeObjectURL(pendingImage.preview);
+    pendingImage={file,preview:URL.createObjectURL(file),alt:''};
+    panel='upload-review';renderPanel();icons();
+  }
+  async function saveImage(){
+    if(!pendingImage||uploading)return;
+    const name=$('#st-media-name')?.value.trim(),alt=$('#st-media-alt')?.value.trim();
+    if(!name||!alt){notify('Nhập tên ảnh và văn bản thay thế');return;}
+    uploading=true;renderPanel();icons();
+    try{
+      const file=pendingImage.file;
+      const result=await api('/api/media',{method:'POST',headers:{'content-type':file.type,'x-file-name':encodeURIComponent(name),'x-image-alt':encodeURIComponent(alt)},body:file});
+      const entry={id:result.media.id,name,alt,src:pendingImage.preview,cloud:true};
+      media.push(entry);pendingImage=null;picked=[entry.id];panel='media';renderPanel();icons();notify('Đã lưu ảnh vào kho Palm River · Có thể dùng lại');
+    }catch(e){notify(e.message);}
+    finally{uploading=false;if(panel==='upload-review'){renderPanel();icons();}}
+  }
+  async function createPage(){
+    const title=$('#st-new-title')?.value.trim(),slug=$('#st-new-slug')?.value.trim().toLowerCase(),template=$('[name=st-template]:checked')?.value;
+    if(!title||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)){notify('Nhập tên trang và đường dẫn không dấu, nối bằng dấu gạch ngang');return;}
+    const content=template==='sample'?clone(initialPage):{title,slug,description:'',status:'draft',maxWidth:1200,brand:'REALNESS',nav:false,blocks:[]};
+    content.title=title;content.slug=slug;content.status='draft';
+    try{
+      await flushCloudSave();
+      const {id}=await api('/api/drafts',jsonOptions('POST',{kind:'page',title,slug,content}));
+      await refreshCloudDrafts();
+      await openCloudDraft(id);
+      notify('Đã tạo bản nháp '+(template==='sample'?'từ mẫu':'trang trắng'));
+    }catch(e){notify(e.message);}
+  }
   function edit(fn,label,refresh=true){if(!canEdit())return;checkpoint();fn();if(refresh)render();save(label);}
   function commands(){$('[data-act=undo]').disabled=!undo[state.mode].length||!canEdit();$('[data-act=redo]').disabled=!redo[state.mode].length||!canEdit();$('#st-send').textContent=state.role==='reviewer'?'Duyệt bài':doc().status==='draft'?'Gửi duyệt':'Đã gửi duyệt';}
   const iconFor=b=>b.type==='overview'?'type':b.type==='location'?'map-pin':b.type==='gallery'?'blocks':types[b.type]?.[1]||'file-text';
@@ -265,13 +403,17 @@
   function renderIconChoices(){const target=$('#st-icon-choices');if(!target)return;const matches=iconEntries.filter(item=>(iconGroup==='Tất cả'||item.group===iconGroup)&&`${item.label} ${item.key} ${item.group}`.toLocaleLowerCase('vi-VN').includes(iconQuery.toLocaleLowerCase('vi-VN')));target.innerHTML=`<p class="st-icon-results">${matches.length} biểu tượng</p><div class="st-icon-picker">${matches.map(item=>`<button type="button" data-icon-choice="${item.key}" aria-pressed="${block()?.icon===item.key}" title="${E(item.group)}">${I(item.key)}<span>${E(item.label)}</span></button>`).join('')}</div>`;icons();}
   function showPanel(name){panel=panel===name?null:name;if(name==='crop'&&panel){crop={ratio:block().ratio==='original'?'16:9':block().ratio,x:block().focalX||50,y:block().focalY||50};}if(['media','replace','gallery-media'].includes(name))picked=[];renderPanel();icons();}
   function checks(){return[{label:'Tiêu đề và đường dẫn',ok:!!doc().title.trim()&&!!doc().slug.trim()},{label:'Nội dung trang',ok:doc().blocks.length>1},{label:'Mô tả các ảnh',ok:doc().blocks.filter(b=>b.type==='image').every(b=>!!b.alt.trim())},{label:'Mô tả SEO',ok:!!doc().description.trim()}];}
-  function renderPanel(){const p=$('#st-panel');p.hidden=!panel;if(!panel){p.innerHTML='';return;}
-    if(['media','replace','gallery-media'].includes(panel)){p.innerHTML=panelHead(panel==='replace'?'Thay ảnh':panel==='gallery-media'?'Bộ ảnh':'Ảnh / Bộ ảnh')+`<div class="st-media-grid">${media.map(m=>`<button type="button" data-media="${m.id}" class="${picked.includes(m.id)?'selected':''}"><img src="${m.src}" alt="${E(m.name)}"><span>${E(m.name)}</span></button>`).join('')}<label class="st-upload">${I('upload')}Ảnh từ máy tính<input type="file" id="st-image-upload" accept="image/png,image/jpeg,image/webp"><span class="st-note">Chỉ dùng trong phiên mô phỏng</span></label></div>${panel!=='replace'?`<div class="st-panel-actions"><span class="st-note">${picked.length} ảnh đã chọn</span><button type="button" class="st-primary" data-act="insert-media" ${!picked.length?'disabled':''}>${panel==='gallery-media'?'Cập nhật bộ ảnh':'Chèn ảnh đã chọn'}</button></div>`:''}`;}
+  function renderPanel(){const p=$('#st-panel');p.hidden=!panel;if(!panel){p.innerHTML='';displayedPanel=null;return;}if(panel!==displayedPanel){p.scrollTop=0;displayedPanel=panel;}
+    if(['media','replace','gallery-media'].includes(panel)){p.innerHTML=panelHead(panel==='replace'?'Thay ảnh':panel==='gallery-media'?'Bộ ảnh':'Kho media · Palm River')+`<div class="st-media-top"><button type="button" data-act="paste-image">${I('clipboard-paste')}Dán ảnh · Ctrl+V</button><button type="button" data-act="choose-image">${I('upload')}Tải ảnh lên</button><input type="file" id="st-image-upload" accept="image/png,image/jpeg,image/webp,image/avif" hidden><input type="search" id="st-media-search" placeholder="Tìm ảnh trong kho" aria-label="Tìm ảnh trong kho"></div><div class="st-media-grid" id="st-media-choices">${media.map(m=>`<button type="button" data-media="${m.id}" class="${picked.includes(m.id)?'selected':''}" data-name="${E(m.name.toLowerCase())}"><img src="${m.src}" alt="${E(m.alt||m.name)}"><span>${E(m.name)}</span></button>`).join('')}</div>${panel!=='replace'?`<div class="st-panel-actions"><span class="st-note">${picked.length} ảnh đã chọn</span><button type="button" class="st-primary" data-act="insert-media" ${!picked.length?'disabled':''}>${panel==='gallery-media'?'Cập nhật bộ ảnh':'Chèn ảnh đã chọn'}</button></div>`:''}`;}
+    else if(panel==='upload-review'){p.innerHTML=panelHead('Lưu ảnh vào kho Palm River')+`<div class="st-upload-review"><img src="${pendingImage?.preview||''}" alt="Ảnh chuẩn bị lưu"><label>Tên media<input id="st-media-name" maxlength="180" value="${E(pendingImage?.file.name||'Ảnh mới')}"></label><label>Văn bản thay thế<input id="st-media-alt" maxlength="240" value="${E(pendingImage?.alt||'')}"></label><p class="st-note">Ảnh được lưu dùng chung cho dự án Palm River và có thể dùng lại ở các trang khác.</p><button type="button" class="st-primary" data-act="save-media" ${uploading?'disabled':''}>${I('save')}${uploading?'Đang lưu…':'Lưu vào kho dự án'}</button></div>`;}
+    else if(panel==='new-page'){p.innerHTML=panelHead('Tạo bản nháp trang')+`<div class="st-fields"><label>Tên trang<input id="st-new-title" value="Trang dự án mới" maxlength="180"></label><label>Đường dẫn<input id="st-new-slug" value="trang-du-an-moi" maxlength="180"></label><div class="st-inline-buttons"><label><input type="radio" name="st-template" value="blank" checked>Trang trắng · Không có khối nội dung</label><label><input type="radio" name="st-template" value="sample">Từ mẫu Palm River</label></div><p class="st-note">Trang Palm River hiện tại và bản nháp đang mở sẽ không bị thay đổi.</p><button type="button" class="st-primary" data-act="create-page">${I('file-plus-2')}Tạo bản nháp</button></div>`;}
     else if(panel==='add'){p.innerHTML=panelHead('Thêm phần nội dung')+`<div class="st-palette-grid">${Object.entries(types).map(([t,[label,ic]])=>`<button type="button" data-add="${t}">${I(ic)}${label}</button>`).join('')}</div>`;}
     else if(panel==='icon-library'){p.innerHTML=panelHead('Biểu tượng bất động sản')+`<div class="st-fields"><label>Tìm theo tên hoặc chủ đề<input id="st-icon-search" type="search" value="${E(iconQuery)}" placeholder="Ví dụ: mặt bằng, booking, tiện ích"></label><div class="st-inline-buttons">${['Tất cả',...Object.keys(iconGroups)].map(group=>`<button type="button" data-icon-group="${E(group)}" aria-pressed="${iconGroup===group}">${E(group)}</button>`).join('')}</div><div id="st-icon-choices"></div></div>`;renderIconChoices();}
     else if(panel==='crop'){p.innerHTML=panelHead('Cắt ảnh')+`<div class="st-two"><div class="st-crop-preview" id="st-crop-preview" style="aspect-ratio:${crop.ratio==='4:3'?'4/3':'16/9'}"><img src="${asset(block().media).src}" alt="Khung cắt ảnh" draggable="false" style="object-position:${crop.x}% ${crop.y}%"></div><div class="st-fields"><label>Tỷ lệ<select id="st-crop-ratio"><option ${crop.ratio==='16:9'?'selected':''}>16:9</option><option ${crop.ratio==='4:3'?'selected':''}>4:3</option></select></label><label>Vị trí ngang<input type="range" id="st-crop-x" min="0" max="100" value="${crop.x}"></label><label>Vị trí dọc<input type="range" id="st-crop-y" min="0" max="100" value="${crop.y}"></label><div class="st-panel-actions"><button type="button" data-act="close-panel">Hủy</button><button type="button" class="st-primary" data-act="apply-crop">Áp dụng khung cắt</button></div></div></div>`;}
-    else if(panel==='account'){p.innerHTML=panelHead('Tài khoản')+`<div class="st-two"><div><h3>${state.role==='reviewer'?'Đức Hiếu':'Minh Anh'}</h3><p class="st-note">Phiên đăng nhập mô phỏng</p></div><label>Vai trò<select id="st-role"><option value="editor" ${state.role==='editor'?'selected':''}>Biên tập viên</option><option value="reviewer" ${state.role==='reviewer'?'selected':''}>Người duyệt</option></select></label></div>`;}
-    else if(panel==='documents'){p.innerHTML=panelHead('Nội dung của bạn')+`<button type="button" class="st-document-row" data-document="page">${I('panels-top-left')}Palm River<span>Trang dự án</span></button><button type="button" class="st-document-row" data-document="post">${I('file-pen-line')}Không gian sống tại Palm River<span>Bài viết</span></button>`;}
+    else if(panel==='account'){p.innerHTML=panelHead('Tài khoản')+`<div class="st-two"><div><h3>${E(user?.name||'')}</h3><p class="st-note">${E(user?.email||'')} · ${user?.role==='admin'?'Quản trị viên':'Biên tập viên'}</p></div>${user?.role==='admin'?`<label>Chế độ làm việc<select id="st-role"><option value="editor" ${state.role==='editor'?'selected':''}>Biên tập</option><option value="reviewer" ${state.role==='reviewer'?'selected':''}>Duyệt</option></select></label>`:''}</div><div class="st-inline-buttons"><button type="button" data-act="change-password">${I('key-round')}Đổi mật khẩu</button>${user?.role==='admin'?`<button type="button" data-act="users">${I('users')}Nhân viên</button>`:''}<button type="button" data-act="logout">${I('log-out')}Đăng xuất</button></div>`;}
+    else if(panel==='change-password'){p.innerHTML=panelHead('Đổi mật khẩu')+`<form id="st-password-form" class="st-fields"><label>Mật khẩu hiện tại<input name="oldPassword" type="password" required></label><label>Mật khẩu mới (ít nhất 14 ký tự)<input name="newPassword" type="password" minlength="14" required></label><button type="submit" class="st-primary">Lưu mật khẩu mới</button></form>`;}
+    else if(panel==='users'){p.innerHTML=panelHead('Tài khoản nhân viên')+`<form id="st-user-form" class="st-fields"><label>Họ tên<input name="name" required></label><label>Email<input name="email" type="email" required></label><label>Vai trò<select name="role"><option value="editor">Biên tập viên</option><option value="admin">Quản trị viên</option></select></label><label>Mật khẩu tạm thời (ít nhất 14 ký tự)<input name="password" type="password" minlength="14" required></label><button type="submit" class="st-primary">Tạo tài khoản</button></form><div id="st-users-list"></div>`;api('/api/users').then(({users})=>{const list=$('#st-users-list');if(list)list.innerHTML=users.map(u=>`<p>${E(u.name)} · ${E(u.email)} · ${E(u.role)}</p>`).join('');}).catch(e=>notify(e.message));}
+    else if(panel==='documents'){p.innerHTML=panelHead('Nội dung của bạn')+`<button type="button" class="st-primary" data-act="new-page">${I('file-plus-2')}Trang mới</button><div class="st-document-list"><button type="button" class="st-document-row" data-document="page">${I('panels-top-left')}Palm River<span>Bản mẫu hiện tại</span></button><button type="button" class="st-document-row" data-document="post">${I('file-pen-line')}Không gian sống tại Palm River<span>Bài viết mẫu</span></button>${cloudDrafts.map(d=>`<div class="st-document-item"><button type="button" class="st-document-row" data-cloud-document="${d.id}">${I(d.kind==='page'?'panels-top-left':'file-pen-line')}${E(d.title)}<span>${d.kind==='page'?'Trang dự án':'Bài viết'} · Bản nháp</span></button><button type="button" class="st-icon" data-delete-draft="${d.id}" aria-label="Xóa bản nháp ${E(d.title)}" title="Xóa bản nháp">${I('trash-2')}</button></div>`).join('')}</div>`;}
     else if(panel==='video-upload'){p.innerHTML=panelHead('Video của khối')+`<label class="st-upload">MP4 / WebM<input type="file" id="st-video-upload" accept="video/mp4,video/webm"><span class="st-note">Tệp chỉ phát trong phiên xem thử, không tải lên website.</span></label>`;}
     else if(panel==='large-image'){p.innerHTML=panelHead(block()?.caption||'Ảnh lớn')+`<img class="st-lightbox" src="${asset(block()?.media).src}" alt="${E(block()?.alt)}">`;}
     else if(panel==='page-address'){p.innerHTML=panelHead('Địa chỉ trang')+`<div class="st-fields"><label>STAGING<input readonly value="https://staging.realness.vn/${state.mode==='page'?'du-an':'phan-tich'}/${E(doc().slug)}/"></label><div><button type="button" data-act="address-settings">${I('settings-2')}Chỉnh đường dẫn</button></div></div>`;}
@@ -313,7 +455,7 @@
     save();
   }
   root.addEventListener('mousedown',e=>{if(e.target.closest('[data-format],[data-act=rich-link],[data-act=clear-format]'))e.preventDefault();});
-  root.addEventListener('click',e=>{
+  root.addEventListener('click',async e=>{
     const button=e.target.closest('button');if(button?.disabled)return;
     if(button?.dataset.device){state.device=button.dataset.device;render();remember();return;}
     if(button?.dataset.tab){state.tab=button.dataset.tab;state.preview=false;panel=null;if(state.tab==='content'){const text=doc().blocks.find(b=>b.type==='text');if(text){state.selected=text.id;expanded.add(text.id);}}render();remember();return;}
@@ -325,14 +467,33 @@
     if(button?.dataset.iconChoice){const choice=button.dataset.iconChoice;if(block()?.type==='icon'&&iconNames.has(choice))edit(()=>{block().icon=choice;},'Đã chọn biểu tượng');return;}
     if(button?.dataset.iconGroup){iconGroup=button.dataset.iconGroup;renderPanel();return;}
     if(button?.dataset.insertAfter){insertion=button.dataset.insertAfter;showPanel('add');return;}
-    if(button?.dataset.document){state.mode=button.dataset.document;state.selected=doc().blocks[0].id;state.preview=false;state.tab=state.mode==='post'?'content':'design';panel=null;render();remember();return;}
+    if(button?.dataset.cloudDocument){await openCloudDraft(button.dataset.cloudDocument);return;}
+    if(button?.dataset.deleteDraft){
+      const id=button.dataset.deleteDraft;
+      if(!confirm('Xóa bản nháp này khỏi kho chung? Không thể hoàn tác.'))return;
+      await flushCloudSave();
+      try{
+        await api('/api/drafts/'+id,{method:'DELETE'});
+        const mode='remote:'+id;
+        delete state.docs[mode];delete remoteRevisions[mode];delete undo[mode];delete redo[mode];
+        if(state.mode===mode){state.mode='page';state.selected=doc().blocks[0]?.id;}
+        await refreshCloudDrafts();panel='documents';render();remember();notify('Đã xóa bản nháp');
+      }catch(error){notify(error.message);}
+      return;
+    }
+    if(button?.dataset.document){try{await flushCloudSave();}catch{return;}state.mode=button.dataset.document;state.selected=doc().blocks[0]?.id;state.preview=false;state.tab=state.mode==='post'?'content':'design';panel=null;render();remember();return;}
     if(button?.dataset.setting){edit(()=>{block()[button.dataset.setting]=button.dataset.value;},'Đã cập nhật ảnh');return;}
     if(button?.dataset.media){if(!canEdit())return;const id=button.dataset.media;if(panel==='replace')edit(()=>{block().media=id;if(block().type==='image'){block().alt=asset(id).name;block().source='Kho Palm River';}panel=null;},'Đã thay ảnh');else{picked=picked.includes(id)?picked.filter(x=>x!==id):[...picked,id];renderPanel();icons();}return;}
     if(button?.dataset.restore){const v=versions.find(v=>v.id===button.dataset.restore);if(v)edit(()=>{state.docs[state.mode]=clone(v.data);doc().status='draft';},'Đã khôi phục phiên bản');return;}
     if(button?.dataset.format){const f=button.dataset.format;if(['bullet','ordered','check'].includes(f))format('list',f);else if(f.startsWith('align-'))format('align',f==='align-left'?false:f.slice(6));else if(f==='indent-less')format('indent','-1');else if(f==='indent-more')format('indent','+1');else if(f==='super'||f==='sub')format('script',f);else format(f);return;}
     if(button?.dataset.cta){const b=doc().blocks.find(b=>b.id===button.dataset.cta);if(b.href.startsWith('#')&&doc().blocks.some(x=>x.id===b.href.slice(1)))select(b.href.slice(1),true);else if(safeLink(b.href)){state.selected=b.id;showPanel('image-link');}else notify('Đường dẫn chưa hợp lệ');return;}
     const a=button?.dataset.act;
-    if(a){if(['replace','media','gallery-media','crop','account','documents','review','video-upload','page-address','icon-library'].includes(a)){showPanel(a);return;}
+    if(a){if(['replace','media','gallery-media','crop','account','documents','review','video-upload','page-address','icon-library','new-page','users','change-password'].includes(a)){showPanel(a);return;}
+      if(a==='create-page'){await createPage();return;}
+      if(a==='choose-image'){$('#st-image-upload')?.click();return;}
+      if(a==='save-media'){await saveImage();return;}
+      if(a==='paste-image'){try{const items=await navigator.clipboard.read();for(const item of items){const type=item.types.find(t=>t.startsWith('image/'));if(type){prepareImage(new File([await item.getType(type)],'Ảnh từ clipboard.'+type.split('/')[1],{type}));return;}}notify('Clipboard chưa có ảnh');}catch{notify('Bấm Ctrl+V để dán ảnh vào Studio');}return;}
+      if(a==='logout'){await flushCloudSave();await api('/api/logout',{method:'POST'}).catch(()=>{});token='';user=null;sessionStorage.removeItem('realness-studio-token');panel=null;$('#st-auth').hidden=false;render();return;}
       if(a==='close-panel'){panel=null;renderPanel();return;}
       if(a==='add-section'){insertion=doc().blocks.at(-1)?.id;showPanel('add');return;}
       if(a==='address-settings'){state.right='page';panel=null;render();return;}
@@ -390,7 +551,18 @@
       blocks.insertAdjacentHTML('beforeend',dropHtml(sections.length));
     }
   }
-  render=function(){baseRender();enhanceDragUI();icons();};
+  render=function(){
+    baseRender();
+    $('.st-site-nav').hidden=!doc().nav;
+    $('#st-collection').textContent=isProject()?'Dự án':'Bài viết';
+    $('#st-kind').textContent=isProject()?'TRANG DỰ ÁN':'BÀI VIẾT';
+    $('#st-route').textContent=`staging.realness.vn/${routeKind()}/${doc().slug}/`;
+    $('#st-initials').textContent=user?.name?.split(/\s+/).map(part=>part[0]).slice(-2).join('').toUpperCase()||'--';
+    if(doc().blocks.length===0&&!state.preview){
+      $('#st-blocks').innerHTML=`<div class="st-blank">${I('mouse-pointer-2')}<strong>Trang trắng</strong><p>Kéo phần tử từ thư viện vào đây, hoặc dán ảnh bằng Ctrl+V.</p><button type="button" data-act="media">${I('images')}Mở kho media Palm River</button></div>`;
+    }
+    enhanceDragUI();icons();
+  };
   function placeDragged(index){
     if(!dragId||!canEdit())return;
     if(dragId.startsWith('new:')){
@@ -460,7 +632,47 @@
     e.preventDefault();
     center.scrollTop+=e.deltaY;
   },{passive:false});
+  root.addEventListener('change',e=>{
+    if(e.target.id!=='st-image-upload')return;
+    e.stopPropagation();
+    prepareImage(e.target.files?.[0]);
+  },true);
+  root.addEventListener('input',e=>{
+    if(e.target.id==='st-media-search'){
+      const query=e.target.value.trim().toLocaleLowerCase('vi-VN');
+      $$('#st-media-choices [data-media]').forEach(item=>item.hidden=!item.dataset.name.includes(query));
+    }
+  });
+  root.addEventListener('submit',async e=>{
+    const form=e.target;
+    if(!['st-login','st-user-form','st-password-form'].includes(form.id))return;
+    e.preventDefault();e.stopPropagation();
+    const data=Object.fromEntries(new FormData(form));
+    try{
+      if(form.id==='st-login'){
+        const result=await api('/api/login',jsonOptions('POST',data));
+        token=result.token;sessionStorage.setItem('realness-studio-token',token);
+        $('#st-login-error').textContent='';
+        await initializeCloud();
+      }else if(form.id==='st-user-form'){
+        await api('/api/users',jsonOptions('POST',data));
+        notify('Đã tạo tài khoản nhân viên');panel='users';renderPanel();icons();
+      }else{
+        await api('/api/password',jsonOptions('POST',data));
+        notify('Đã đổi mật khẩu');panel='account';renderPanel();icons();
+      }
+    }catch(error){if(form.id==='st-login')$('#st-login-error').textContent=error.message;else notify(error.message);}
+  },true);
+  document.addEventListener('paste',e=>{
+    if(!user||!canEdit())return;
+    const item=Array.from(e.clipboardData?.items||[]).find(item=>item.kind==='file'&&item.type.startsWith('image/'));
+    if(!item)return;
+    e.preventDefault();
+    const file=item.getAsFile();
+    if(file)prepareImage(new File([file],`Ảnh dán ${new Date().toLocaleDateString('vi-VN').replaceAll('/','-')}.${file.type.split('/')[1]}`,{type:file.type}));
+  });
   render();
+  initializeCloud();
   if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:()=>{root.style.setProperty('--st-reference-density',design.density);$('#st-workspace').style.columnGap=design.density==='reference'?'0':'5px';}});tweak.addSelect(design,'density',{label:'Nhịp bố cục',options:[{label:'Theo ảnh tham chiếu',value:'reference'},{label:'Tách vùng nhẹ',value:'separated'}]});}
 })();
 </script>
