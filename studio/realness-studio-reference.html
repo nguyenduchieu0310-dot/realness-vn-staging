@@ -248,6 +248,12 @@
     }
   }
   async function initializeCloud(){
+    if(location.protocol!=='https:'&&!['localhost','127.0.0.1'].includes(location.hostname)){
+      $('#st-auth').hidden=false;
+      $('#st-login-error').textContent='Staging chưa có HTTPS. Tạm khóa đăng nhập để bảo vệ tài khoản; vui lòng thử lại sau khi chứng chỉ được cấp.';
+      $$('#st-login input,#st-login button').forEach(element=>element.disabled=true);
+      return;
+    }
     if(!apiBase){$('#st-auth').hidden=false;$('#st-login-error').textContent='Chưa cấu hình dịch vụ Studio';return;}
     if(!token){$('#st-auth').hidden=false;return;}
     try{
