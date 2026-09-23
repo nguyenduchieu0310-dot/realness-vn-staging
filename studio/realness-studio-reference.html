@@ -201,6 +201,8 @@
 #realness-studio-reference .st-block.st-free[data-block-type=button]>.st-block-content{display:flex;height:auto;min-height:inherit;overflow:visible;background:transparent;box-shadow:none}
 #realness-studio-reference .st-block.st-free[data-block-type=button] button[data-cta]{flex:1;width:100%;min-height:0}
 #realness-studio-reference .st-block[data-block-type=button] button[data-cta]{background:var(--st-button-background,var(--s-green));color:var(--st-button-color,var(--s-on));border-color:var(--st-button-border,var(--s-green))}
+#realness-studio-reference .st-workspace:not(.st-preview) button[data-cta]{cursor:grab;touch-action:none}
+#realness-studio-reference .st-workspace:not(.st-preview) button[data-cta]:active{cursor:grabbing}
 #realness-studio-reference .st-background-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 #realness-studio-reference .st-background-options button{min-height:54px;flex-direction:column;gap:3px;padding:6px 3px;text-align:center;font-size:11px;line-height:1.15;white-space:normal}
 #realness-studio-reference .st-background-options button[aria-pressed=true]{border-color:var(--s-green);background:var(--s-soft);color:var(--s-green)}
@@ -538,7 +540,7 @@
     if(button?.dataset.media){if(!canEdit())return;const id=button.dataset.media;if(panel==='replace')edit(()=>{block().media=id;if(block().type==='image'){block().alt=asset(id).name;block().source='Kho Palm River';}panel=null;},'Đã thay ảnh');else{picked=picked.includes(id)?picked.filter(x=>x!==id):[...picked,id];renderPanel();icons();}return;}
     if(button?.dataset.restore){const v=versions.find(v=>v.id===button.dataset.restore);if(v)edit(()=>{state.docs[state.mode]=clone(v.data);doc().status='draft';},'Đã khôi phục phiên bản');return;}
     if(button?.dataset.format){const f=button.dataset.format;if(['bullet','ordered','check'].includes(f))format('list',f);else if(f.startsWith('align-'))format('align',f==='align-left'?false:f.slice(6));else if(f==='indent-less')format('indent','-1');else if(f==='indent-more')format('indent','+1');else if(f==='super'||f==='sub')format('script',f);else format(f);return;}
-    if(button?.dataset.cta){const b=doc().blocks.find(b=>b.id===button.dataset.cta);if(b.href.startsWith('#')&&doc().blocks.some(x=>x.id===b.href.slice(1)))select(b.href.slice(1),true);else if(safeLink(b.href)){state.selected=b.id;showPanel('image-link');}else notify('Đường dẫn chưa hợp lệ');return;}
+    if(button?.dataset.cta){const b=doc().blocks.find(b=>b.id===button.dataset.cta);if(canEdit()){if(b.id!==state.selected)select(b.id);return;}if(b.href.startsWith('#')&&doc().blocks.some(x=>x.id===b.href.slice(1)))select(b.href.slice(1),true);else if(safeLink(b.href)){state.selected=b.id;showPanel('image-link');}else notify('Đường dẫn chưa hợp lệ');return;}
     const a=button?.dataset.act;
     if(a){if(['replace','media','gallery-media','crop','account','documents','review','video-upload','page-address','icon-library','new-blank-page','new-sample-page','users','change-password'].includes(a)){showPanel(a);return;}
       if(a==='create-page'){await createPage(button.dataset.template);return;}
@@ -639,14 +641,14 @@
   root.addEventListener('dragend',clearDropState);
   root.addEventListener('pointerdown',e=>{
     const mover=e.target.closest('[data-free-move]'),handle=e.target.closest('[data-free-handle]');
-    const photo=e.target.closest('[data-photo]'),section=e.target.closest('[data-block]');
-    if((!mover&&!handle&&!photo)||!section||!canEdit()||state.device!=='desktop'||e.button!==0)return;
+    const photo=e.target.closest('[data-photo]'),cta=e.target.closest('[data-cta]'),section=e.target.closest('[data-block]');
+    if((!mover&&!handle&&!photo&&!cta)||!section||!canEdit()||state.device!=='desktop'||e.button!==0)return;
     const b=doc().blocks.find(x=>x.id===section.dataset.block);
     if(!b)return;
     e.preventDefault();
      const start=b.free?clone(b.free):toFreePosition(b);
      if(handle&&['text','button'].includes(b.type))start.h=Math.max(start.h,Math.ceil(section.getBoundingClientRect().height));
-     freeGesture={id:b.id,mode:handle?'resize':'move',handle:handle?.dataset.freeHandle,x:e.clientX,y:e.clientY,start,wasFree:!!b.free,directPhoto:!!photo,section,canvas:$('#st-blocks').getBoundingClientRect(),active:false};
+     freeGesture={id:b.id,mode:handle?'resize':'move',handle:handle?.dataset.freeHandle,x:e.clientX,y:e.clientY,start,wasFree:!!b.free,directSelect:!!(photo||cta),section,canvas:$('#st-blocks').getBoundingClientRect(),active:false};
     e.target.setPointerCapture(e.pointerId);
   });
   root.addEventListener('pointerdown',e=>{const h=e.target.closest('[data-handle]');if(h&&canEdit()){e.preventDefault();checkpoint();const frame=h.closest('.st-image-frame'),box=frame.getBoundingClientRect();resize={id:block().id,handle:h.dataset.handle,x:e.clientX,y:e.clientY,width:block().width,container:frame.parentElement.clientWidth,ratio:box.width/box.height};h.setPointerCapture(e.pointerId);}const c=e.target.closest('#st-crop-preview');if(c){cropDrag={x:e.clientX,y:e.clientY,startX:crop.x,startY:crop.y,width:c.clientWidth,height:c.clientHeight};c.setPointerCapture(e.pointerId);}});
@@ -678,7 +680,7 @@
   });
   function finishFreeGesture(){
     if(freeGesture?.active){state.selected=freeGesture.id;state.right='block';state.tab='design';expanded.add(freeGesture.id);render();save('Đã cập nhật vị trí và kích thước');}
-    else if(freeGesture?.directPhoto&&freeGesture.id!==state.selected)select(freeGesture.id);
+    else if(freeGesture?.directSelect&&freeGesture.id!==state.selected)select(freeGesture.id);
     freeGesture=null;
   }
   root.addEventListener('pointerup',()=>{finishFreeGesture();if(resize){resize=null;save('Đã thay đổi kích thước ảnh');}cropDrag=null;});
