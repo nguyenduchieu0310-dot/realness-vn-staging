@@ -281,12 +281,13 @@
   const iconNames=new Set(iconEntries.map(item=>item.key));
   const freeMin=b=>b.type==='icon'?{w:48,h:48}:b.type==='text'?{w:48,h:22}:b.type==='button'?{w:64,h:32}:{w:110,h:56};
   const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
+  const freeY=value=>Number.isFinite(value)?Math.max(-120,Math.round(value)):0;
   const freePosition=b=>({x:Math.round((b.free?.x??80)),y:Math.round((b.free?.y??150)),w:Math.round((b.free?.w??420)),h:Math.round((b.free?.h??180)),z:Math.round((b.free?.z??30))});
   const photo=(id,name,key)=>({id,name,type:'image',media:key,alt:'Phối cảnh Palm River bên sông',caption:'Phối cảnh minh họa',showCaption:false,ratio:'original',fit:'contain',width:100,space:24,link:'',lightbox:true,source:'Kho Palm River',focalX:50,focalY:50});
   const initialPage={title:'Palm River',slug:'palm-river',description:'Khám phá vị trí, mặt bằng, thiết kế căn hộ và chính sách Palm River.',status:'draft',maxWidth:1200,brand:'REALNESS',nav:true,blocks:[photo('hero','Ảnh mở đầu','aerial'),{id:'overview',name:'Tổng quan',type:'overview',title:'TỔNG QUAN DỰ ÁN PALM RIVER',intro:'Không gian sống ven sông tại khu đô thị Palm City.',facts:[['Vị trí','Nam Rạch Chiếc','map-pin'],['Loại hình','Căn hộ','building-2'],['Tháp','T3 · T4','building'],['Tài liệu','54 hình ảnh','files']],space:24},{id:'location',name:'Vị trí',type:'location',title:'Vị trí & kết nối',body:'Tâm điểm kết nối khu Đông, dễ dàng di chuyển đến Thủ Thiêm, Quận 1 và các khu vực trọng điểm.',media:'map',space:24},{id:'amenities',name:'Tiện ích',type:'gallery',title:'Tiện ích & không gian sống',images:['living','bedroom'],space:24},{id:'floor',name:'Mặt bằng & chọn căn',type:'floor',locked:true,space:24},{id:'policy',name:'Chính sách',type:'text',ops:[{insert:'Chính sách & phương thức thanh toán\n',attributes:{header:2}},{insert:'Nhận tài liệu cập nhật và trao đổi nhu cầu với đội ngũ tư vấn Palm River.\n'}],space:24},{id:'form',name:'Form tư vấn',type:'form',locked:true,space:24}]};
   const initialPost={title:'Không gian sống tại Palm River',slug:'khong-gian-song-palm-river',description:'Thiết kế căn hộ và trải nghiệm không gian sống tại Palm River.',status:'draft',maxWidth:900,brand:'REALNESS',nav:false,blocks:[{id:'posttext',name:'Nội dung bài viết',type:'text',space:24,ops:[{insert:'Không gian sống tại Palm River\n',attributes:{header:2}},{insert:'Ánh sáng, vật liệu và cách bố trí nội thất cùng tạo nên một không gian sống thoải mái.\n'},{insert:'Khoảng chung cho cả gia đình\n',attributes:{bold:true}},{insert:'Phòng khách kết nối với bàn ăn, tạo nên sự liền mạch trong sinh hoạt hằng ngày.\n'}]},photo('postimage','Ảnh căn hộ','living')]};
   let state={version:2,mode:'page',tab:'design',left:'structure',right:'block',device:'desktop',selected:'hero',role:'editor',preview:false,docs:{page:clone(initialPage),post:clone(initialPost)}};
-  let panel=null,displayedPanel=null,quill=null,lastRange=null,expanded=new Set(),insertion=null,picked=[],undo={page:[],post:[]},redo={page:[],post:[]},versions=[],lastSent='',timer=null,noticeTimer=null,dragId=null,resize=null,freeGesture=null,crop=null,cropDrag=null,videoFiles=new Map(),loadingVideos=new Set(),iconQuery='',iconGroup='Tất cả';
+  let panel=null,displayedPanel=null,quill=null,lastRange=null,expanded=new Set(),insertion=null,picked=[],undo={page:[],post:[]},redo={page:[],post:[]},versions=[],lastSent='',timer=null,noticeTimer=null,dragId=null,resize=null,freeGesture=null,freeScrollFrame=null,crop=null,cropDrag=null,videoFiles=new Map(),loadingVideos=new Set(),iconQuery='',iconGroup='Tất cả';
   const apiBase=window.REALNESS_STUDIO_API;
   const siteHost=window.REALNESS_STUDIO_SITE||location.hostname;
   let token=sessionStorage.getItem('realness-studio-token')||'',user=null,cloudDrafts=[],remoteRevisions={},pendingImage=null,uploading=false,remoteSave=Promise.resolve(),cloudSaveTimer=null,remoteChangeVersion={},remoteSaveError=null;
@@ -500,7 +501,7 @@
     else if(b.type==='faq'){html+=field('Câu hỏi','question',b.question)+field('Câu trả lời','answer',b.answer,true);}
     else if(b.type==='button'){const mode=buttonBackgroundMode(b);html+=field('Nhãn nút','text',b.text)+field('Đường dẫn','href',b.href)+`<div class="st-control-label" style="margin-top:18px">Nền nút</div><div class="st-background-options" role="group" aria-label="Nền nút">${[['transparent','scan','Trong suốt'],['white','square','Trắng'],['custom','palette','Tùy chọn']].map(([value,icon,label])=>`<button type="button" data-button-background="${value}" aria-pressed="${mode===value}" ${!canEdit()?'disabled':''}>${I(icon)}${label}</button>`).join('')}</div>${mode==='custom'?`<label class="st-background-color">Màu nền<input type="color" data-prop="backgroundColor" value="${/^#[0-9a-f]{6}$/i.test(b.backgroundColor||'')?b.backgroundColor:'#07523e'}" aria-label="Chọn màu nền nút liên hệ"></label>`:''}`;}
     else if(b.locked){html+=`<div class="st-protected">${I('lock-keyhole')}Khối chức năng được bảo vệ</div><label>Dự án<input value="Palm River" readonly></label><div class="st-note" style="margin-top:14px">${b.type==='floor'?'Chọn căn · Tháp 3 / Tháp 4':'Form tư vấn · Cấu trúc cố định'}</div>`;}
-    {const min=freeMin(b);html+=`<div class="st-free-settings"><span class="st-free-badge">${I(b.free?'move':'rows-3')}${b.free?'Đang đặt tự do trên nền':'Đang nằm trong luồng trang'}</span><button type="button" class="st-layout-toggle" data-act="toggle-free" aria-pressed="${!!b.free}" ${!canEdit()?'disabled':''}>${I(b.free?'panel-top-close':'move-3d')}${b.free?'Đưa về bố cục thường':'Cho phép kéo tự do trên nền'}</button>${b.free?`<div class="st-free-grid"><label>X<input type="number" data-prop="free:x" min="-2000" max="3000" value="${b.free.x}"></label><label>Y<input type="number" data-prop="free:y" min="-120" max="6000" value="${b.free.y}"></label><label>Rộng<input type="number" data-prop="free:w" min="${min.w}" max="2000" value="${b.free.w}"></label><label>Cao<input type="number" data-prop="free:h" min="${min.h}" max="2000" value="${b.free.h}"></label><label>Lớp<input type="number" data-prop="free:z" min="1" max="100" value="${b.free.z||20}"></label></div>${b.type==='text'?`<button type="button" class="st-layout-toggle" data-act="fit-text" ${!canEdit()?'disabled':''}>${I('scan-text')}Vừa khít chữ</button>`:b.type==='button'?`<button type="button" class="st-layout-toggle" data-act="fit-button" ${!canEdit()?'disabled':''}>${I('scan')}Vừa khít nút</button>`:''}`:''}</div>`;}
+    {const min=freeMin(b);html+=`<div class="st-free-settings"><span class="st-free-badge">${I(b.free?'move':'rows-3')}${b.free?'Đang đặt tự do trên nền':'Đang nằm trong luồng trang'}</span><button type="button" class="st-layout-toggle" data-act="toggle-free" aria-pressed="${!!b.free}" ${!canEdit()?'disabled':''}>${I(b.free?'panel-top-close':'move-3d')}${b.free?'Đưa về bố cục thường':'Cho phép kéo tự do trên nền'}</button>${b.free?`<div class="st-free-grid"><label>X<input type="number" data-prop="free:x" min="-2000" max="3000" value="${b.free.x}"></label><label>Y<input type="number" data-prop="free:y" min="-120" value="${b.free.y}"></label><label>Rộng<input type="number" data-prop="free:w" min="${min.w}" max="2000" value="${b.free.w}"></label><label>Cao<input type="number" data-prop="free:h" min="${min.h}" max="2000" value="${b.free.h}"></label><label>Lớp<input type="number" data-prop="free:z" min="1" max="100" value="${b.free.z||20}"></label></div>${b.type==='text'?`<button type="button" class="st-layout-toggle" data-act="fit-text" ${!canEdit()?'disabled':''}>${I('scan-text')}Vừa khít chữ</button>`:b.type==='button'?`<button type="button" class="st-layout-toggle" data-act="fit-button" ${!canEdit()?'disabled':''}>${I('scan')}Vừa khít nút</button>`:''}`:''}</div>`;}
     if(b.flowSlot&&b.free)html+=`<label style="margin-top:20px">Chiều cao vùng giữ chỗ (px)<input type="number" data-prop="flowSlot:height" min="0" max="4000" value="${b.flowSlot.height}" ${!canEdit()?'disabled':''}></label><p class="st-note">Vùng giữ chỗ giúp nội dung phía dưới không dồn lên khi di chuyển phần tử.</p>`;
     if(b.type!=='image')html+=`<label style="margin-top:20px">Khoảng cách (px)<input type="number" data-prop="space" min="0" max="120" value="${b.space??24}" ${!canEdit()?'disabled':''}></label>`;$('#st-inspector').innerHTML=html;}
     if(!canEdit())$$('#st-inspector input,#st-inspector textarea,#st-inspector select,#st-inspector button').forEach(n=>n.disabled=true);
@@ -534,7 +535,7 @@
   function toFreePosition(b){const canvas=$('#st-blocks').getBoundingClientRect(),section=$(`[data-block="${b.id}"]`),content=section?.querySelector('.st-block-content'),source=b.type==='image'?content?.querySelector('.st-image-frame'):b.type==='button'?content?.querySelector('[data-cta]'):content,rect=b.type==='button'&&source?intrinsicButtonSize(source):source?.getBoundingClientRect()||section?.getBoundingClientRect()||canvas;const w=b.type==='image'||b.type==='button'?rect.width:b.type==='icon'?110:b.type==='text'?Math.min(480,rect.width):Math.min(760,rect.width);const h=b.type==='image'||b.type==='button'?rect.height:b.type==='icon'?110:b.type==='text'?Math.max(110,Math.min(260,rect.height)):Math.max(120,Math.min(520,rect.height));return{x:Math.round(rect.left-canvas.left),y:Math.round(rect.top-canvas.top),w:Math.round(w),h:Math.round(h),z:30};}
   function flowSlotFromSection(section){const style=getComputedStyle(section),toolbar=section.querySelector(':scope > .st-floating-toolbar'),toolbarMargin=toolbar?parseFloat(getComputedStyle(toolbar).marginTop)||0:0;return{height:Math.max(0,Math.ceil(section.getBoundingClientRect().height+toolbarMargin)),marginTop:parseFloat(style.marginTop)||0};}
   function flowSlotHtml(b){if(!b.free||!b.flowSlot)return '';return `<div class="st-flow-placeholder" data-flow-slot="${b.id}" style="height:${b.flowSlot.height}px;margin-top:${b.flowSlot.marginTop}px;margin-bottom:${b.space??24}px" aria-hidden="true"></div>`;}
-  function syncFreeCanvas(){const blocks=$('#st-blocks');if(!blocks)return;const bottom=Math.max(700,...doc().blocks.filter(b=>b.free).map(b=>Number(b.free.y)+Math.max(Number(b.free.h),$(`[data-block="${b.id}"]`)?.getBoundingClientRect().height||0)+80));blocks.style.setProperty('--st-free-canvas-height',`${Math.ceil(bottom)}px`);}
+  function syncFreeCanvas(){const blocks=$('#st-blocks');if(!blocks)return;const viewport=$('.st-center')?.clientHeight||0;const bottom=Math.max(700,...doc().blocks.filter(b=>b.free).map(b=>Number(b.free.y)+Math.max(Number(b.free.h),$(`[data-block="${b.id}"]`)?.getBoundingClientRect().height||0)+Math.max(80,freeGesture?.active&&freeGesture.id===b.id?viewport:0)));blocks.style.setProperty('--st-free-canvas-height',`${Math.ceil(bottom)}px`);}
   function trimFreeTextEdges(b,targetHeight){const rich=$(`[data-block="${b.id}"] .st-rich`);if(!quill||block()?.id!==b.id||!rich)return;for(let i=0;i<30;i++){if(targetHeight&&rich.getBoundingClientRect().height<=targetHeight)break;const value=quill.getText();if(value.length<=1)break;if(value.startsWith('\n'))quill.deleteText(0,1,'silent');else if(value.endsWith('\n\n'))quill.deleteText(value.length-2,1,'silent');else break;}b.ops=quill.getContents().ops;}
   function fitFreeText(){const b=block(),section=b&&$(`[data-block="${b.id}"]`),rich=section?.querySelector('.st-rich');if(!b?.free||b.type!=='text'||!rich)return;edit(()=>{trimFreeTextEdges(b,0);const lines=new Map(),walker=document.createTreeWalker(rich,NodeFilter.SHOW_TEXT),range=document.createRange();let node;while(node=walker.nextNode()){if(!node.textContent?.trim())continue;range.selectNodeContents(node);for(const rect of range.getClientRects()){const line=Math.round(rect.top);const bounds=lines.get(line)||{left:rect.left,right:rect.right};bounds.left=Math.min(bounds.left,rect.left);bounds.right=Math.max(bounds.right,rect.right);lines.set(line,bounds);}}const width=clamp(Math.ceil(Math.max(0,...[...lines.values()].map(line=>line.right-line.left))+14),freeMin(b).w,2000),previousWidth=section.style.width;section.style.width=width+'px';const height=clamp(Math.ceil(rich.getBoundingClientRect().height),freeMin(b).h,2000);section.style.width=previousWidth;b.free.w=width;b.free.h=height;},'Đã thu khung vừa khít chữ');}
   function fitFreeButton(){const b=block(),button=b&&$(`[data-block="${b.id}"] button[data-cta]`);if(!b?.free||b.type!=='button'||!button)return;const rect=intrinsicButtonSize(button);edit(()=>{b.free.w=clamp(Math.ceil(rect.width),freeMin(b).w,2000);b.free.h=clamp(Math.ceil(rect.height),freeMin(b).h,2000);},'Đã thu khung vừa khít nút');}
@@ -570,7 +571,7 @@
     if(key==='flowSlot:height')value=clamp(Number(value)||0,0,4000);
     if(key==='page:maxWidth')value=clamp(Number(value)||1200,640,1440);
     if(key==='backgroundColor'&&!/^#[0-9a-f]{6}$/i.test(value))return;
-    if(key.startsWith('free:')){const p=key.slice(5),min=freeMin(b),limits={x:[-2000,3000],y:[-120,6000],w:[min.w,2000],h:[min.h,2000],z:[1,100]};value=clamp(Number(value)||0,...limits[p]);}
+    if(key.startsWith('free:')){const p=key.slice(5),min=freeMin(b),limits={x:[-2000,3000],w:[min.w,2000],h:[min.h,2000],z:[1,100]};value=p==='y'?freeY(Number(value)):clamp(Number(value)||0,...limits[p]);}
     checkpoint();
     if(key.startsWith('page:'))doc()[key.slice(5)]=value;
     else if(key.startsWith('fact:'))b.facts[Number(key.split(':')[1])][1]=value;
@@ -730,13 +731,13 @@
     e.preventDefault();
      const start=b.free?clone(b.free):toFreePosition(b);
      if(handle&&['text','button'].includes(b.type))start.h=Math.max(start.h,Math.ceil(section.getBoundingClientRect().height));
-     freeGesture={id:b.id,mode:handle?'resize':'move',handle:handle?.dataset.freeHandle,x:e.clientX,y:e.clientY,start,wasFree:!!b.free,directSelect:!!(photo||cta),section,canvas:$('#st-blocks').getBoundingClientRect(),active:false};
+     freeGesture={id:b.id,mode:handle?'resize':'move',handle:handle?.dataset.freeHandle,x:e.clientX,y:e.clientY,clientX:e.clientX,clientY:e.clientY,start,wasFree:!!b.free,directSelect:!!(photo||cta),section,canvas:$('#st-blocks').getBoundingClientRect(),active:false};
     e.target.setPointerCapture(e.pointerId);
   });
   root.addEventListener('pointerdown',e=>{const h=e.target.closest('[data-handle]');if(h&&canEdit()){e.preventDefault();checkpoint();const frame=h.closest('.st-image-frame'),box=frame.getBoundingClientRect();resize={id:block().id,handle:h.dataset.handle,x:e.clientX,y:e.clientY,width:block().width,height:box.height,container:frame.parentElement.clientWidth};h.setPointerCapture(e.pointerId);}const c=e.target.closest('#st-crop-preview');if(c){cropDrag={x:e.clientX,y:e.clientY,startX:crop.x,startY:crop.y,width:c.clientWidth,height:c.clientHeight};c.setPointerCapture(e.pointerId);}});
-  root.addEventListener('pointermove',e=>{
+  function moveFreeGesture(clientX,clientY){
     if(freeGesture){
-      const g=freeGesture,dx=e.clientX-g.x,dy=e.clientY-g.y;
+      const g=freeGesture,canvas=$('#st-blocks').getBoundingClientRect(),dx=clientX-g.x+g.canvas.left-canvas.left,dy=clientY-g.y+g.canvas.top-canvas.top;
       if(!g.active&&Math.hypot(dx,dy)>3){
         checkpoint();g.active=true;
         const b=doc().blocks.find(x=>x.id===g.id);
@@ -747,7 +748,7 @@
       }
        if(g.active){
         const b=doc().blocks.find(x=>x.id===g.id),f=clone(g.start),minimum=freeMin(b);
-        if(g.mode==='move'){f.x=clamp(f.x+dx,-f.w+40,g.canvas.width-40);f.y=clamp(f.y+dy,-120,6000);}
+        if(g.mode==='move'){f.x=clamp(f.x+dx,-f.w+40,g.canvas.width-40);f.y=freeY(f.y+dy);}
         else{const h=g.handle;if(h.includes('e'))f.w=clamp(f.w+dx,minimum.w,2000);if(h.includes('s'))f.h=clamp(f.h+dy,minimum.h,2000);if(h.includes('w')){const next=clamp(f.w-dx,minimum.w,2000);f.x+=f.w-next;f.w=next;}if(h.includes('n')){const next=clamp(f.h-dy,minimum.h,2000);f.y+=f.h-next;f.h=next;}}
         Object.assign(b.free,{x:Math.round(f.x),y:Math.round(f.y),w:Math.round(f.w),h:Math.round(f.h)});
         if(g.mode==='resize'&&b.type==='image'){b.fit='fill';const image=g.section.querySelector('img[data-photo]');if(image)image.style.objectFit='fill';}
@@ -758,13 +759,35 @@
         syncFreeCanvas();
       }
     }
+  }
+  function scrollFreeGesture(){
+    freeScrollFrame=null;
+    const g=freeGesture,center=$('.st-center');
+    if(!g?.active||!center)return;
+    const rect=center.getBoundingClientRect(),edge=72;
+    if(g.clientX<rect.left||g.clientX>rect.right)return;
+    const down=g.clientY>rect.bottom-edge,up=g.clientY<rect.top+edge;
+    if(!down&&!up)return;
+    const distance=down?g.clientY-(rect.bottom-edge):(rect.top+edge)-g.clientY;
+    const step=Math.ceil(2+Math.min(1,distance/edge)*26)*(down?1:-1),previous=center.scrollTop;
+    center.scrollTop+=step;
+    if(center.scrollTop!==previous){moveFreeGesture(g.clientX,g.clientY);freeScrollFrame=requestAnimationFrame(scrollFreeGesture);}
+  }
+  root.addEventListener('pointermove',e=>{
+    if(freeGesture){
+      freeGesture.clientX=e.clientX;freeGesture.clientY=e.clientY;
+      moveFreeGesture(e.clientX,e.clientY);
+      if(freeGesture.active&&freeScrollFrame===null)freeScrollFrame=requestAnimationFrame(scrollFreeGesture);
+    }
     if(resize){const dx=e.clientX-resize.x,dy=e.clientY-resize.y,h=resize.handle,b=doc().blocks.find(b=>b.id===resize.id),frame=$(`[data-block="${b.id}"] .st-image-frame`);if(h.includes('e')||h.includes('w')){b.width=clamp(Math.round(resize.width+(h.includes('w')?-dx:dx)*100/resize.container),30,100);frame.style.width=b.width+'%';$$('[data-prop=width]').forEach(input=>input.value=b.width);}if(h.includes('n')||h.includes('s')){b.heightPx=clamp(Math.round(resize.height+(h.includes('n')?-dy:dy)),40,2000);b.ratio='custom';b.fit='fill';frame.classList.remove('is-natural');frame.style.aspectRatio='auto';frame.style.height=b.heightPx+'px';frame.querySelector('img').style.objectFit='fill';const input=$('[data-prop=heightPx]');if(input)input.value=b.heightPx;}}
     if(cropDrag){crop.x=Math.max(0,Math.min(100,Math.round(cropDrag.startX-(e.clientX-cropDrag.x)*100/cropDrag.width)));crop.y=Math.max(0,Math.min(100,Math.round(cropDrag.startY-(e.clientY-cropDrag.y)*100/cropDrag.height)));$('#st-crop-preview img').style.objectPosition=`${crop.x}% ${crop.y}%`;$('#st-crop-x').value=crop.x;$('#st-crop-y').value=crop.y;}
   });
   function finishFreeGesture(){
-    if(freeGesture?.active){state.selected=freeGesture.id;state.right='block';state.tab='design';expanded.add(freeGesture.id);render();save('Đã cập nhật vị trí và kích thước');}
-    else if(freeGesture?.directSelect&&freeGesture.id!==state.selected)select(freeGesture.id);
+    if(freeScrollFrame!==null){cancelAnimationFrame(freeScrollFrame);freeScrollFrame=null;}
+    const gesture=freeGesture;
     freeGesture=null;
+    if(gesture?.active){state.selected=gesture.id;state.right='block';state.tab='design';expanded.add(gesture.id);render();save('Đã cập nhật vị trí và kích thước');}
+    else if(gesture?.directSelect&&gesture.id!==state.selected)select(gesture.id);
   }
   root.addEventListener('pointerup',()=>{finishFreeGesture();if(resize){resize=null;renderInspector();icons();save('Đã thay đổi kích thước ảnh');}cropDrag=null;});
   root.addEventListener('pointercancel',()=>{finishFreeGesture();resize=null;cropDrag=null;});
