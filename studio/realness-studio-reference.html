@@ -16,6 +16,7 @@
     <div class="st-brand"><strong>REALNESS</strong> <span>Studio</span></div>
     <div class="st-breadcrumb"><button type="button" data-act="documents" id="st-collection">Dự án</button><span>/</span><button type="button" data-act="documents" id="st-document">Palm River</button></div>
     <span class="st-env">STAGING</span>
+    <a href="/studio/" style="color:#184b3a;font-size:12px;font-weight:700;white-space:nowrap">Quản lý nội dung</a>
     <div class="st-create-actions" role="group" aria-label="Tạo trang dự án">
       <button type="button" data-act="new-blank-page"><i data-lucide="file-plus-2" aria-hidden="true"></i>Tạo trang trắng</button>
       <button type="button" data-act="new-sample-page"><i data-lucide="copy" aria-hidden="true"></i>Tạo từ mẫu</button>
@@ -284,7 +285,8 @@
   let token=sessionStorage.getItem('realness-studio-token')||'',user=null,cloudDrafts=[],remoteRevisions={},pendingImage=null,uploading=false,remoteSave=Promise.resolve(),cloudSaveTimer=null,remoteChangeVersion={},remoteSaveError=null;
   const isRemote=()=>state.mode.startsWith('remote:');
   const isProject=()=>doc()?.kind?doc().kind==='page':state.mode!=='post';
-  const routeKind=()=>isProject()?'du-an':'phan-tich';
+  const routeKind=()=>isProject()?'du-an':'bai-viet';
+  const publicRoute=()=>`https://${siteHost}/${routeKind()}/?slug=${encodeURIComponent(doc().slug)}`;
   async function api(path,options={}){
     const headers={...(options.headers||{})};
     if(token)headers.authorization='Bearer '+token;
@@ -321,7 +323,10 @@
       if(user.mustChangePassword){$('#st-auth').hidden=false;$('#st-login').hidden=true;$('#st-first-password').hidden=false;return;}
       state.role='editor';
       await Promise.all([refreshCloudDrafts(),refreshCloudMedia()]);
-      if(isRemote()){
+      const requestedDraft=new URLSearchParams(location.search).get('draft');
+      if(requestedDraft&&/^[0-9a-f-]{36}$/.test(requestedDraft)){
+        await openCloudDraft(requestedDraft);
+      }else if(isRemote()){
         const mode=state.mode;
         const {draft}=await api('/api/drafts/'+mode.slice(7));
         state.docs[mode]={...draft.content,kind:draft.kind||draft.content.kind||'page',status:draft.status||draft.content.status||'draft',reviewNote:draft.review_note};
@@ -330,6 +335,8 @@
       }
       $('#st-auth').hidden=true;$('#st-login').hidden=false;$('#st-first-password').hidden=true;
       render();
+      const create=new URLSearchParams(location.search).get('create');
+      if(create&&!requestedDraft){const action={blank:'new-blank-page',sample:'new-sample-page',post:'new-post'}[create];if(action)root.querySelector(`[data-act="${action}"]`)?.click();}
     }catch(e){token='';user=null;sessionStorage.removeItem('realness-studio-token');localStorage.removeItem('realness-studio-draft-v2');$('#st-auth').hidden=false;$('#st-login').hidden=false;$('#st-first-password').hidden=true;$('#st-login-error').textContent=e.message;}
   }
   function persistRemoteDraft(mode,content){
@@ -370,7 +377,7 @@
     if(remoteSaveError)throw remoteSaveError;
   }
   const doc=()=>state.docs[state.mode],block=()=>doc().blocks.find(b=>b.id===state.selected),canEdit=()=>!!user&&!user.mustChangePassword&&state.role!=='reviewer'&&doc().status==='draft'&&!state.preview;
-  const statuses={draft:'Bản nháp',review:'Chờ duyệt',approved:'Đã duyệt',published:'Đã xuất bản · mô phỏng'};
+  const statuses={draft:'Bản nháp',review:'Chờ duyệt',approved:'Đã duyệt',published:'Đã xuất bản'};
   const design={density:'reference',inspector:true};
   const asset=id=>media.find(m=>m.id===id)||media[0];
   function load(raw){const p=raw?.privateContent;if(p?.version!==2||!p.docs)return;try{if(p.docs.page.blocks.length>60||p.docs.post.blocks.length>60)return;state={...state,...clone(p),preview:false};if(!state.docs[state.mode])state.mode='page';for(const key of Object.keys(state.docs)){undo[key]??=[];redo[key]??=[];}const originalIds=new Set([...initialPage.blocks,...initialPost.blocks].map(b=>b.id));for(const d of Object.values(state.docs))for(const b of d.blocks)if(b.free&&!b.flowSlot&&originalIds.has(b.id))b.flowSlot={height:Math.round(b.free.h),marginTop:0};}catch{}}
@@ -507,10 +514,11 @@
     else if(panel==='documents'){p.innerHTML=panelHead('Nội dung của bạn')+`<div class="st-inline-buttons"><button type="button" data-act="new-blank-page">${I('file-plus-2')}Tạo trang trắng</button><button type="button" data-act="new-sample-page">${I('copy')}Tạo từ mẫu</button><button type="button" data-act="new-post">${I('file-pen-line')}Viết bài mới</button></div><div class="st-document-list"><button type="button" class="st-document-row" data-document="page">${I('panels-top-left')}Palm River<span>Bản mẫu hiện tại</span></button><button type="button" class="st-document-row" data-document="post">${I('file-pen-line')}Không gian sống tại Palm River<span>Bài viết mẫu</span></button>${cloudDrafts.map(d=>`<div class="st-document-item"><button type="button" class="st-document-row" data-cloud-document="${d.id}">${I(d.kind==='page'?'panels-top-left':'file-pen-line')}${E(d.title)}<span>${d.kind==='page'?'Trang dự án':'Bài viết'} · ${E(statuses[d.status]||'Bản nháp')}</span></button>${d.status==='draft'?`<button type="button" class="st-icon" data-delete-draft="${d.id}" aria-label="Xóa bản nháp ${E(d.title)}" title="Xóa bản nháp">${I('trash-2')}</button>`:''}</div>`).join('')}</div>`;}
     else if(panel==='video-upload'){p.innerHTML=panelHead('Tải video lên')+`<label class="st-upload">Chọn MP4 hoặc WebM<input type="file" id="st-video-upload" accept="video/mp4,video/webm" ${uploading?'disabled':''}><span class="st-note">Tối đa 50 MB · Lưu trong kho dự án trên Staging.</span></label>`;}
     else if(panel==='large-image'){p.innerHTML=panelHead(block()?.caption||'Ảnh lớn')+`<img class="st-lightbox" src="${asset(block()?.media).src}" alt="${E(block()?.alt)}">`;}
-    else if(panel==='page-address'){p.innerHTML=panelHead('Đường dẫn dự kiến')+`<div class="st-fields"><label>Đường dẫn<input readonly value="https://${siteHost}/${routeKind()}/${E(doc().slug)}/"></label><p class="st-note">Bản nháp và bài đã duyệt chỉ lưu nội bộ, chưa hiển thị tại đường dẫn này.</p><div><button type="button" data-act="address-settings">${I('settings-2')}Chỉnh đường dẫn</button></div></div>`;}
+    else if(panel==='page-address'){p.innerHTML=panelHead('Đường dẫn')+`<div class="st-fields"><label>Đường dẫn<input readonly value="${E(publicRoute())}"></label><p class="st-note">${doc().status==='published'?'Bài đã công khai. Sửa link trong trang Quản lý nội dung.':'Bản nháp và bài đã duyệt chỉ lưu nội bộ, chưa hiển thị tại đường dẫn này.'}</p><div><a href="/studio/">Quản lý nội dung và sửa link</a></div></div>`;}
     else if(panel==='image-link'){p.innerHTML=panelHead('Đích liên kết')+`<label>Đường dẫn<input readonly value="${E(block()?.link||block()?.href)}"></label><p class="st-note">Đích được kiểm tra trong bản mô phỏng; không mở website ngoài.</p>`;}
     else if(panel==='rich-link'){p.innerHTML=panelHead('Chèn liên kết')+`<div class="st-two"><label>Nhãn<input id="st-link-text" value="${E(quill&&lastRange?quill.getText(lastRange.index,lastRange.length):'Palm River')}"></label><label>Đường dẫn<input id="st-link-url" value="https://realness.vn/du-an/palm-river/"></label></div><div class="st-panel-actions"><button type="button" class="st-primary" data-act="apply-link">Chèn liên kết</button></div>`;}
-    else if(panel==='review'){const d=doc(),ok=checks().every(c=>c.ok),remote=isRemote();let actions='';if(state.role==='editor'){if(d.status==='draft')actions=`<button type="button" class="st-primary" data-act="submit-review" ${!ok?'disabled':''}>${I('send')}Gửi bản nháp</button>`;else if(d.status==='review')actions='<button type="button" data-act="withdraw">Rút về chỉnh sửa</button>';else actions=remote?'<p class="st-note">Bài đã được duyệt. Chưa xuất bản lên website công khai.</p>':'<button type="button" data-act="new-draft">Tạo bản chỉnh sửa</button>';}else if(d.status==='review')actions=`<label>Góp ý<textarea id="st-review-note"></textarea></label><div class="st-inline-buttons"><button type="button" data-act="reject">Yêu cầu sửa</button><button type="button" class="st-primary" data-act="approve" ${!ok?'disabled':''}>Duyệt bản nháp</button></div>`;else if(d.status==='approved')actions=remote?'<p class="st-note">Đã duyệt và khóa bản này. Chưa xuất bản lên website công khai.</p>':`<label class="st-check"><input type="checkbox" id="st-publish-confirm">Xác nhận bản được duyệt</label><button type="button" data-act="publish" class="st-primary" disabled>Xuất bản mô phỏng</button>`;else actions='<p class="st-note">Chưa có bản gửi duyệt.</p>';p.innerHTML=panelHead('Duyệt bài')+`${d.reviewNote?`<p class="st-note">Góp ý gần nhất: ${E(d.reviewNote)}</p>`:''}<div class="st-review-steps">${Object.entries(statuses).filter(([key])=>!remote||key!=='published').map(([k,v])=>`<span class="${d.status===k?'current':''}">${v}</span>`).join(I('chevron-right'))}</div><div class="st-two"><ul class="st-checklist">${checks().map(c=>`<li><span class="${c.ok?'good':'bad'}">${I(c.ok?'circle-check':'circle-alert')}</span>${c.label}</li>`).join('')}</ul><div class="st-fields">${actions}</div></div>`;}
+    else if(panel==='review'){const d=doc(),ok=checks().every(c=>c.ok),remote=isRemote();let actions='';if(state.role==='editor'){if(d.status==='draft')actions=`<button type="button" class="st-primary" data-act="submit-review" ${!ok?'disabled':''}>${I('send')}Gửi bản nháp</button>`;else if(d.status==='review')actions='<button type="button" data-act="withdraw">Rút về chỉnh sửa</button>';else actions=remote?'<p class="st-note">Bài đã được duyệt. Xuất bản trong trang Quản lý nội dung.</p><a href="/studio/">Mở quản lý nội dung</a>':'<button type="button" data-act="new-draft">Tạo bản chỉnh sửa</button>';}else if(d.status==='review')actions=`<label>Góp ý<textarea id="st-review-note"></textarea></label><div class="st-inline-buttons"><button type="button" data-act="reject">Yêu cầu sửa</button><button type="button" class="st-primary" data-act="approve" ${!ok?'disabled':''}>Duyệt bản nháp</button></div>`;else if(d.status==='approved')actions=remote?'<p class="st-note">Đã duyệt và khóa bản này. Xuất bản trong trang Quản lý nội dung.</p><a href="/studio/">Mở quản lý nội dung</a>':`<label class="st-check"><input type="checkbox" id="st-publish-confirm">Xác nhận bản được duyệt</label><button type="button" data-act="publish" class="st-primary" disabled>Xuất bản mô phỏng</button>`;else actions='<p class="st-note">Chưa có bản gửi duyệt.</p>';p.innerHTML=panelHead('Duyệt bài')+`${d.reviewNote?`<p class="st-note">Góp ý gần nhất: ${E(d.reviewNote)}</p>`:''}<div class="st-review-steps">${Object.entries(statuses).map(([k,v])=>`<span class="${d.status===k?'current':''}">${v}</span>`).join(I('chevron-right'))}</div><div class="st-two"><ul class="st-checklist">${checks().map(c=>`<li><span class="${c.ok?'good':'bad'}">${I(c.ok?'circle-check':'circle-alert')}</span>${c.label}</li>`).join('')}</ul><div class="st-fields">${actions}</div></div>`;}
+    if(panel==='review'&&doc().status==='published')p.innerHTML=panelHead('Đã xuất bản')+`<p class="st-note">Bài đã công khai tại <a href="${E(publicRoute())}" target="_blank" rel="noopener">${E(publicRoute())}</a>.</p><a href="/studio/">Quản lý nội dung và sửa link</a>`;
   }
   function select(id,scroll=false){state.selected=id;state.right='block';state.tab='design';expanded.add(id);panel=null;render();remember();if(scroll)$(`[data-block="${id}"]`)?.scrollIntoView({behavior:'auto',block:'nearest'});}
   function intrinsicButtonSize(button){const {flex,width,alignSelf,whiteSpace}=button.style;button.style.flex='none';button.style.width='max-content';button.style.alignSelf='flex-start';button.style.whiteSpace='nowrap';const rect=button.getBoundingClientRect();Object.assign(button.style,{flex,width,alignSelf,whiteSpace});return rect;}
@@ -675,7 +683,7 @@
     $('.st-site-nav').hidden=!doc().nav;
     $('#st-collection').textContent=isProject()?'Dự án':'Bài viết';
     $('#st-kind').textContent=isProject()?'TRANG DỰ ÁN':'BÀI VIẾT';
-    $('#st-route').textContent=`${siteHost}/${routeKind()}/${doc().slug}/ · Bản nháp nội bộ`;
+    $('#st-route').textContent=`${siteHost}/${routeKind()}/?slug=${doc().slug}${doc().status==='published'?' · Đã xuất bản':' · Bản nháp nội bộ'}`;
     $('#st-initials').textContent=user?.name?.split(/\s+/).map(part=>part[0]).slice(-2).join('').toUpperCase()||'--';
     if(doc().blocks.length===0&&!state.preview){
       $('#st-blocks').innerHTML=`<div class="st-blank">${I('mouse-pointer-2')}<strong>Trang trắng</strong><p>Kéo phần tử từ thư viện vào đây, hoặc dán ảnh bằng Ctrl+V.</p><button type="button" data-act="media">${I('images')}Mở kho media Palm River</button></div>`;
