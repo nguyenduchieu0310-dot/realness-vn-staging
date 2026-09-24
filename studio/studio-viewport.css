@@ -1,4 +1,5 @@
 #realness-studio-reference .st-center{overflow:auto;overflow-anchor:none;position:relative}
+@media(min-width:851px){#realness-studio-reference>.st-header{grid-row:1;grid-column:1}#realness-studio-reference>.st-subnav{grid-row:2;grid-column:1}#realness-studio-reference>.st-panel{grid-row:3;grid-column:1}#realness-studio-reference>.st-workspace{grid-row:4;grid-column:1}#realness-studio-reference>.st-footer{grid-row:5;grid-column:1}}
 #realness-studio-reference #st-canvas-space{position:relative;min-height:100px}
 #realness-studio-reference #st-canvas-space>.st-page{position:absolute;transform-origin:0 0}
 #realness-studio-reference .st-view-tools{position:sticky;top:0;left:0;z-index:60;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px;margin-bottom:12px;max-width:100%;background:var(--s-panel);border:1px solid var(--s-line);border-radius:4px}
@@ -11,6 +12,8 @@
 #realness-studio-reference .st-view-zoom{margin-left:auto}
 #realness-studio-reference .st-rich-toolbar{top:calc(var(--st-viewtools-height,50px) + 12px);left:0;max-width:100%;z-index:55}
 #realness-studio-reference .st-handle,#realness-studio-reference .st-free-handle{transform:scale(var(--st-inverse-zoom,1));transform-origin:center}
+#realness-studio-reference .st-floating-toolbar{transform:translateX(-50%) scale(var(--st-inverse-zoom,1));transform-origin:center bottom}
+#realness-studio-reference #st-inspector .st-segments[aria-label="Tỷ lệ ảnh"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 #realness-studio-reference[data-view-tool=pan] #st-canvas-space,#realness-studio-reference[data-view-tool=pan] #st-canvas-space *{cursor:grab!important;user-select:none!important}
 #realness-studio-reference.st-panning #st-canvas-space,#realness-studio-reference.st-panning #st-canvas-space *{cursor:grabbing!important}
 #realness-studio-reference[data-view-tool=pan] .st-floating-toolbar,#realness-studio-reference[data-view-tool=pan] .st-free-handle,#realness-studio-reference[data-view-tool=pan] .st-handle{visibility:hidden}
