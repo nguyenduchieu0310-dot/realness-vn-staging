@@ -337,6 +337,8 @@
       render();
       const create=new URLSearchParams(location.search).get('create');
       if(create&&!requestedDraft){const action={blank:'new-blank-page',sample:'new-sample-page',post:'new-post'}[create];if(action)root.querySelector(`[data-act="${action}"]`)?.click();}
+      const requestedPanel=new URLSearchParams(location.search).get('panel');
+      if(['media','users'].includes(requestedPanel))root.querySelector(`[data-act="${requestedPanel}"]`)?.click();
     }catch(e){token='';user=null;sessionStorage.removeItem('realness-studio-token');localStorage.removeItem('realness-studio-draft-v2');$('#st-auth').hidden=false;$('#st-login').hidden=false;$('#st-first-password').hidden=true;$('#st-login-error').textContent=e.message;}
   }
   function persistRemoteDraft(mode,content){
