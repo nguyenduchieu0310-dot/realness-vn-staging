@@ -11,7 +11,9 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   toolbar.innerHTML = `<div class="st-view-modes"><button type="button" data-view-tool="select" aria-pressed="true"><i data-lucide="mouse-pointer-2"></i>Chọn</button><button type="button" data-view-tool="pan" aria-pressed="false" title="Bàn tay · Giữ Space để dùng tạm"><i data-lucide="hand"></i>Bàn tay</button></div><div class="st-view-zoom"><button type="button" data-view-action="out" aria-label="Thu nhỏ"><i data-lucide="minus"></i></button><label><input id="st-view-zoom" type="number" min="1" max="400" value="100" aria-label="Tỷ lệ thu phóng"><span>%</span></label><button type="button" data-view-action="in" aria-label="Phóng to"><i data-lucide="plus"></i></button></div><div class="st-view-fit"><button type="button" data-view-action="width"><i data-lucide="fold-horizontal"></i>Vừa ngang</button><button type="button" data-view-action="all"><i data-lucide="scan"></i>Toàn cảnh</button><button type="button" data-view-action="focus" aria-label="Về vùng đang soạn" title="Về vùng đang soạn"><i data-lucide="focus"></i></button></div>`;
   center.prepend(toolbar);
   let zoom = 1, tool = 'select', spaceDown = false, pan = null, key = '', padX = 0, padY = 0, initialized = false;
-  let lastWidth = 0, lastHeight = 0, previewWas = false, resume = null, saveTimer;
+  let lastWidth = 0, lastHeight = 0, previewWas = false, resume = null, saveTimer, dock = 'top';
+  let widthKey = '', documentWidth = 0;
+  const topToolsHeight = () => dock === 'top' && !toolbar.hidden ? toolbar.offsetHeight + 12 : 0;
   const editable = target => target?.closest('input,textarea,select,[contenteditable=true],.ql-editor');
   const cameraKey = () => 'realness-studio-view:' + getKey();
   const save = () => {
@@ -24,20 +26,30 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   function sync() {
     if (!center.clientWidth || page.closest('[hidden]')) return;
     const available = Math.max(220, center.clientWidth - 40);
-    const width = Math.min(available, page.dataset.device === 'mobile' ? 375 : page.dataset.device === 'tablet' ? 620 : Number(getDocument().maxWidth) || 1200);
+    const maxWidth = page.dataset.device === 'mobile' ? 375 : page.dataset.device === 'tablet' ? 620 : Number(getDocument().maxWidth) || 1200;
+    const nextWidthKey = `${getKey()}:${root.clientWidth}:${maxWidth}`;
+    // Side panels are camera chrome. Hiding them must not reflow the document.
+    if (widthKey !== nextWidthKey) {
+      widthKey = nextWidthKey;
+      const gutter = center.offsetWidth - center.clientWidth;
+      const normalRoom = (root.clientWidth > 850 ? root.clientWidth * .64 : root.clientWidth) - 40 - gutter;
+      documentWidth = Math.min(Math.max(220, normalRoom), maxWidth);
+    }
+    const width = isPreview() ? Math.min(available, maxWidth) : documentWidth;
     page.style.width = width + 'px';
     page.style.maxWidth = 'none';
     page.style.margin = '0';
     const height = page.offsetHeight;
     const left = padX + Math.max(0, (available - width * zoom) / 2);
     space.style.width = Math.max(available, width * zoom) + padX * 2 + 'px';
-    space.style.height = Math.ceil(height * zoom + padY + 60) + 'px';
+    space.style.height = Math.ceil(Math.max(height * zoom, center.clientHeight) + padY * 2 + 60) + 'px';
     page.style.left = left + 'px';
     page.style.top = padY + 'px';
     page.style.transform = `scale(${zoom})`;
     root.style.setProperty('--st-inverse-zoom', String(1 / zoom));
-    root.style.setProperty('--st-viewtools-height', toolbar.offsetHeight + 'px');
+    root.style.setProperty('--st-viewtools-height', topToolsHeight() + 'px');
     root.dataset.viewTool = tool === 'pan' || spaceDown ? 'pan' : 'select';
+    root.dataset.viewOverview = String(zoom < .15);
     toolbar.querySelector('#st-view-zoom').value = String(Math.round(zoom * 100));
     toolbar.querySelectorAll('[data-view-tool]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.viewTool === root.dataset.viewTool)));
     toolbar.style.width = Math.max(220, center.clientWidth - 40) + 'px';
@@ -45,7 +57,7 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   }
   function anchor() {
     const rect = center.getBoundingClientRect();
-    return { x: rect.left + center.clientWidth / 2, y: rect.top + toolbar.offsetHeight + (center.clientHeight - toolbar.offsetHeight) / 2 };
+    return { x: rect.left + center.clientWidth / 2, y: rect.top + topToolsHeight() + (center.clientHeight - topToolsHeight()) / 2 };
   }
   function setZoom(value, point = anchor()) {
     const rect = page.getBoundingClientRect();
@@ -70,7 +82,7 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
     if (!selected) return;
     const rect = selected.getBoundingClientRect(), host = center.getBoundingClientRect();
     center.scrollLeft += rect.left + rect.width / 2 - host.left - center.clientWidth / 2;
-    center.scrollTop += rect.top - host.top - toolbar.offsetHeight - 65;
+    center.scrollTop += rect.top - host.top - topToolsHeight() - 65;
     save();
   }
   toolbar.addEventListener('click', event => {
@@ -137,5 +149,25 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
     toolbar.hidden = isPreview() || !!page.closest('[hidden]');
     sync();
   }
-  return { scale: () => zoom, sync, update, focus, point(clientX, clientY, element = page) { const rect = element.getBoundingClientRect(); return { x: (clientX - rect.left) / zoom, y: (clientY - rect.top) / zoom }; }, anchor, isPanning: () => tool === 'pan' || spaceDown };
+  // Move the same toolbar, keeping its state and handlers intact.
+  function setDock(value) {
+    dock = value;
+    if (dock === 'bottom') root.append(toolbar); else center.prepend(toolbar);
+    toolbar.querySelectorAll('[data-view-tool],[data-view-action]').forEach(button => {
+      if (!button.querySelector('span') && button.lastChild?.nodeType === Node.TEXT_NODE) {
+        const label = document.createElement('span'); label.textContent = button.lastChild.textContent;
+        button.lastChild.replaceWith(label); button.title ||= label.textContent;
+      }
+    });
+  }
+  function relayout(change) {
+    const before = page.getBoundingClientRect(), point = anchor();
+    const world = { x: (point.x - before.left) / zoom, y: (point.y - before.top) / zoom };
+    change(); sync();
+    const after = page.getBoundingClientRect(), target = anchor();
+    center.scrollLeft += after.left + world.x * zoom - target.x;
+    center.scrollTop += after.top + world.y * zoom - target.y;
+    save();
+  }
+  return { scale: () => zoom, sync, update, focus, setDock, relayout, point(clientX, clientY, element = page) { const rect = element.getBoundingClientRect(); return { x: (clientX - rect.left) / zoom, y: (clientY - rect.top) / zoom }; }, anchor, isPanning: () => tool === 'pan' || spaceDown };
 }

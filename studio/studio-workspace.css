@@ -1,0 +1,128 @@
+/* Editor chrome only: none of these preferences alter document styles or data. */
+html,body{height:100%;overflow:hidden}
+#realness-studio-reference{height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto minmax(0,1fr) auto;overflow:hidden}
+#realness-studio-reference>.st-header{grid-row:1;grid-column:1;z-index:80;min-width:0}
+#realness-studio-reference>.st-subnav{grid-row:2;grid-column:1}
+#realness-studio-reference>.st-panel{grid-row:3;grid-column:1;max-height:min(42dvh,420px);overflow:auto;overscroll-behavior:contain}
+#realness-studio-reference>.st-workspace{grid-row:4;grid-column:1;position:relative;min-height:0;height:100%;align-items:stretch;overflow:hidden}
+#realness-studio-reference>.st-footer{grid-row:5;grid-column:1;min-width:0;font-size:10px;padding:5px 14px;gap:12px;z-index:65}
+#realness-studio-reference .st-footer>span{min-width:0;overflow-wrap:anywhere}
+#realness-studio-reference .st-center{height:100%;min-height:0;overscroll-behavior:contain;scrollbar-gutter:stable;padding-bottom:84px}
+#realness-studio-reference .st-left,#realness-studio-reference .st-right{min-height:0;overflow:hidden;display:flex;flex-direction:column}
+#realness-studio-reference .st-left-tabs,#realness-studio-reference .st-right-tabs{flex:none}
+#realness-studio-reference .st-left-body,#realness-studio-reference .st-right #st-inspector{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+#realness-studio-reference .st-workspace-modes{display:flex;gap:2px;flex:none;padding:2px;border:1px solid var(--s-line);border-radius:5px;background:var(--s-bg)}
+#realness-studio-reference .st-workspace-modes button{font-size:12px;padding:5px 9px;min-height:32px;border-color:transparent;background:transparent;white-space:nowrap}
+#realness-studio-reference .st-workspace-modes button[aria-pressed=true]{background:var(--s-panel);border-color:var(--s-line);color:var(--s-green);box-shadow:0 1px 3px var(--s-shadow)}
+#realness-studio-reference #st-document{gap:6px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;padding-right:18px;position:relative;text-align:left;font-weight:600}
+#realness-studio-reference #st-document:after{content:'';position:absolute;right:4px;top:12px;width:5px;height:5px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg)}
+#realness-studio-reference .st-menu-media>span{display:none}
+#realness-studio-reference[data-workspace-condensed=true] .st-header{flex-wrap:nowrap;min-height:56px;padding:8px 16px;gap:12px}
+#realness-studio-reference[data-workspace-condensed=true] .st-brand{font-size:19px;flex:none}
+#realness-studio-reference[data-workspace-condensed=true] .st-breadcrumb{min-width:65px;flex:0 1 220px;gap:0;padding-left:12px}
+#realness-studio-reference[data-workspace-condensed=true] #st-collection,
+#realness-studio-reference[data-workspace-condensed=true] .st-breadcrumb>span,
+#realness-studio-reference[data-workspace-condensed=true] .st-env,
+#realness-studio-reference[data-workspace-condensed=true] .st-subnav{display:none}
+#realness-studio-reference[data-workspace-condensed=true] .st-header-tools{margin-left:auto;flex:none}
+#realness-studio-reference[data-workspace-condensed=true] .st-publish-actions{margin-left:auto;gap:8px;flex:none;width:auto;order:initial;flex-wrap:nowrap}
+#realness-studio-reference[data-workspace-condensed=true] .st-publish-actions .st-save{min-width:0;flex-basis:auto;order:initial}
+#realness-studio-reference[data-workspace-condensed=true] .st-publish-actions>button{font-size:12px;white-space:nowrap}
+#realness-studio-reference[data-workspace-condensed=true] .st-avatar{padding-left:8px}
+#realness-studio-reference[data-workspace-condensed=true] .st-avatar span{width:30px;height:30px}
+#realness-studio-reference .st-document-menu{position:fixed;z-index:150;width:min(340px,calc(100% - 16px));max-height:calc(100dvh - 130px);overflow:auto;padding:8px;background:var(--s-panel);border:1px solid var(--s-line);border-radius:6px;box-shadow:0 12px 36px var(--s-shadow)}
+#realness-studio-reference .st-menu-title{display:flex;align-items:center;justify-content:space-between;padding:3px 6px 8px;font-size:12px;color:var(--s-muted)}
+#realness-studio-reference .st-menu-title button{padding:4px;min-height:28px;border:0}
+#realness-studio-reference .st-document-menu [data-menu-slot=create],#realness-studio-reference .st-document-menu .st-create-actions{display:grid;gap:2px;width:100%;margin:0;order:initial}
+#realness-studio-reference .st-document-menu .st-create-actions button,#realness-studio-reference .st-document-menu .st-manage-link,#realness-studio-reference .st-document-menu>.st-icon,#realness-studio-reference .st-document-menu>[data-act],#realness-studio-reference .st-document-menu .st-menu-media{width:100%;border:0;justify-content:flex-start;padding:9px 10px;min-height:38px;font-weight:500;font-size:13px;color:var(--s-text);background:transparent}
+#realness-studio-reference .st-document-menu .st-menu-media>span{display:inline}
+#realness-studio-reference .st-document-menu .st-tabs{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:8px 0;margin-top:6px;border-top:1px solid var(--s-line)}
+#realness-studio-reference .st-document-menu .st-tabs button{min-height:34px;padding:6px;font-size:12px;border:0;border-radius:4px}
+#realness-studio-reference .st-document-menu .st-tabs button[aria-pressed=true]{background:var(--s-soft)}
+#realness-studio-reference .st-document-menu .st-devices{margin:0;padding:8px 0;border:0;border-top:1px solid var(--s-line)}
+#realness-studio-reference .st-document-menu .st-devices button{flex:1;width:auto}
+#realness-studio-reference .st-document-menu .st-route{font-size:11px;width:100%;padding:8px;line-height:1.4}
+#realness-studio-reference .st-workspace-edges{display:none;position:absolute;top:10px;left:12px;right:28px;z-index:61;pointer-events:none;justify-content:space-between}
+#realness-studio-reference .st-workspace-edges button{pointer-events:auto;min-height:32px;font-size:12px;padding:5px 8px;box-shadow:0 2px 6px var(--s-shadow)}
+#realness-studio-reference .st-drawer-close{display:none}
+#realness-studio-reference[data-workspace-mode=focus] .st-workspace,#realness-studio-reference[data-workspace-narrow=true] .st-workspace{grid-template-columns:minmax(0,1fr)}
+#realness-studio-reference[data-workspace-mode=focus] .st-workspace-edges,#realness-studio-reference[data-workspace-narrow=true] .st-workspace-edges{display:flex}
+#realness-studio-reference[data-workspace-mode=focus] .st-left,#realness-studio-reference[data-workspace-mode=focus] .st-right,
+#realness-studio-reference[data-workspace-narrow=true] .st-left,#realness-studio-reference[data-workspace-narrow=true] .st-right{display:none;position:absolute;top:0;bottom:0;width:min(310px,calc(100% - 32px));z-index:75;box-shadow:0 8px 30px var(--s-shadow)}
+#realness-studio-reference .st-left{left:0}
+#realness-studio-reference .st-right{right:0}
+#realness-studio-reference[data-workspace-drawer=left] .st-left,#realness-studio-reference[data-workspace-drawer=right] .st-right{display:flex}
+#realness-studio-reference[data-workspace-mode=focus] .st-drawer-close,#realness-studio-reference[data-workspace-narrow=true] .st-drawer-close{display:inline-flex;flex:0 0 32px;min-height:32px;padding:4px}
+#realness-studio-reference .st-drawer-shade{position:absolute;inset:0;z-index:70;width:100%;height:100%;background:#0003;border:0;border-radius:0}
+#realness-studio-reference .st-drawer-shade:hover{background:#0003}
+#realness-studio-reference[data-workspace-condensed=true] .st-view-tools{position:fixed;top:auto;bottom:calc(100dvh - var(--st-canvas-bottom) + 14px);left:calc(var(--st-canvas-left) + var(--st-canvas-width)/2);transform:translateX(-50%);width:max-content!important;max-width:calc(var(--st-canvas-width) - 24px);margin:0;padding:5px;gap:4px;flex-wrap:nowrap;border-radius:6px;box-shadow:0 4px 16px var(--s-shadow);z-index:62}
+#realness-studio-reference[data-workspace-condensed=true] .st-view-tools>div{flex-wrap:nowrap}
+#realness-studio-reference[data-workspace-condensed=true] .st-view-zoom{margin-left:0}
+#realness-studio-reference .st-view-tools button{white-space:nowrap}
+#realness-studio-reference .st-format-scroll{display:flex;align-items:center;gap:3px;min-width:0;flex:1;flex-wrap:wrap}
+#realness-studio-reference .st-format-controls{display:flex;align-items:center;gap:3px;flex:none;margin-left:auto}
+#realness-studio-reference .st-format-controls button{padding:4px;min-height:30px;width:30px}
+#realness-studio-reference .st-rich-toolbar{display:flex;flex-wrap:nowrap;gap:2px}
+#realness-studio-reference[data-workspace-condensed=true] .st-rich-toolbar{position:fixed;left:calc(var(--st-canvas-left) + 16px);top:calc(var(--st-canvas-top) + 12px);width:calc(var(--st-canvas-width) - 32px);max-width:none;margin:0;padding:6px;border:1px solid var(--s-line);border-radius:4px;z-index:60}
+#realness-studio-reference[data-workspace-condensed=true] .st-rich-toolbar .st-format-scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}
+#realness-studio-reference[data-workspace-condensed=true] .st-rich-toolbar .st-tool-group{flex:none;padding:0 4px}
+#realness-studio-reference[data-workspace-condensed=true] .st-rich-toolbar select{font-size:12px;min-width:68px;padding:6px;max-width:112px;height:30px}
+#realness-studio-reference[data-workspace-condensed=true] .st-rich-toolbar .st-font-select{min-width:92px}
+#realness-studio-reference[data-workspace-condensed=true] .st-rich-toolbar button{min-height:30px;padding:4px 6px}
+#realness-studio-reference[data-workspace-condensed=true][data-format-expanded=false] .st-format-scroll>.st-tool-group:nth-child(n+4),
+#realness-studio-reference[data-workspace-condensed=true][data-format-expanded=false] .st-format-scroll [data-format=strike],
+#realness-studio-reference[data-workspace-condensed=true][data-format-expanded=false] .st-format-scroll [data-format=super],
+#realness-studio-reference[data-workspace-condensed=true][data-format-expanded=false] .st-format-scroll [data-format=sub]{display:none}
+#realness-studio-reference[data-workspace-condensed=true][data-format-expanded=true] .st-rich-toolbar .st-format-scroll{flex-wrap:wrap;max-height:180px;overflow:auto}
+#realness-studio-reference[data-format-collapsed=true] .st-rich-toolbar{display:none}
+#realness-studio-reference .st-format-reopen{position:fixed;left:calc(var(--st-canvas-left) + 18px);top:calc(var(--st-canvas-top) + 12px);z-index:60;font-size:12px;box-shadow:0 2px 8px var(--s-shadow)}
+#realness-studio-reference[data-workspace-mode=full] .st-format-reopen{top:calc(var(--st-canvas-top) + var(--st-viewtools-height) + 20px)}
+#realness-studio-reference[data-workspace-mode=focus] .st-rich-toolbar,#realness-studio-reference[data-workspace-narrow=true] .st-rich-toolbar,
+#realness-studio-reference[data-workspace-mode=focus] .st-format-reopen,#realness-studio-reference[data-workspace-narrow=true] .st-format-reopen{top:calc(var(--st-canvas-top) + 52px)}
+#realness-studio-reference[data-workspace-mode=focus] .st-center{padding-top:52px}
+#realness-studio-reference[data-workspace-condensed=true][data-format-collapsed=false] .st-center:has(#st-rich-toolbar:not([hidden])){padding-top:70px}
+#realness-studio-reference:is([data-workspace-mode=focus],[data-workspace-narrow=true])[data-format-collapsed=false] .st-center:has(#st-rich-toolbar:not([hidden])){padding-top:112px}
+#realness-studio-reference[data-workspace-preview=true] .st-workspace-edges,#realness-studio-reference[data-workspace-preview=true] .st-drawer-shade,#realness-studio-reference[data-workspace-preview=true] .st-format-reopen{display:none}
+#realness-studio-reference[data-workspace-preview=true] .st-left,#realness-studio-reference[data-workspace-preview=true] .st-right{display:none}
+#realness-studio-reference[data-view-overview=true] .st-floating-toolbar,#realness-studio-reference[data-view-overview=true] .st-block-tag,#realness-studio-reference[data-view-overview=true] .st-free-handle,#realness-studio-reference[data-view-overview=true] .st-handle{visibility:hidden}
+@media(max-width:1200px){
+  #realness-studio-reference[data-workspace-condensed=true] .st-brand span,#realness-studio-reference[data-workspace-condensed=true] .st-save span{display:none}
+  #realness-studio-reference[data-workspace-condensed=true] .st-header{gap:8px;padding:8px 12px}
+  #realness-studio-reference[data-workspace-condensed=true] .st-workspace-modes button{padding:5px 7px}
+  #realness-studio-reference[data-workspace-condensed=true] .st-view-modes button span,#realness-studio-reference[data-workspace-condensed=true] .st-view-fit button span{display:none}
+  #realness-studio-reference .st-view-tools button{padding:5px}
+}
+@media(max-width:850px){
+  #realness-studio-reference[data-workspace-condensed=true] .st-header{flex-wrap:wrap;gap:6px}
+  #realness-studio-reference .st-workspace-modes{order:4;flex:1 0 100%;justify-content:center;border:0;padding:0;background:transparent}
+  #realness-studio-reference .st-workspace-modes button{flex:1;max-width:140px}
+  #realness-studio-reference[data-workspace-condensed=true] .st-brand{font-size:16px}
+  #realness-studio-reference[data-workspace-condensed=true] .st-breadcrumb{max-width:150px;flex:1;padding-left:6px;border:0;font-size:12px}
+  #realness-studio-reference[data-workspace-condensed=true] .st-header-tools{margin-left:0}
+  #realness-studio-reference[data-workspace-condensed=true] .st-publish-actions{gap:5px}
+  #realness-studio-reference .st-center{padding:52px 12px 86px}
+  #realness-studio-reference .st-center #st-blocks{padding:76px 29px 30px}
+  #realness-studio-reference #st-tree{display:block}
+  #realness-studio-reference #st-library{display:block}
+  #realness-studio-reference .st-right #st-inspector{padding:18px}
+  #realness-studio-reference .st-left-tabs button,#realness-studio-reference .st-right-tabs button{min-height:40px;padding:8px}
+  #realness-studio-reference .st-view-tools .st-view-fit button span,#realness-studio-reference .st-view-tools .st-view-modes button span{display:none}
+  #realness-studio-reference .st-format-controls{flex-direction:column}
+  #realness-studio-reference .st-format-controls button{min-height:24px;height:24px}
+  #realness-studio-reference .st-footer #st-status{display:none}
+  #realness-studio-reference .st-footer{justify-content:flex-end}
+}
+@media(max-width:560px){
+  #realness-studio-reference[data-workspace-condensed=true] .st-brand{font-size:14px}
+  #realness-studio-reference[data-workspace-condensed=true] .st-breadcrumb{max-width:calc(100% - 178px)}
+  #realness-studio-reference[data-workspace-condensed=true] .st-header-tools{margin-left:auto}
+  #realness-studio-reference[data-workspace-condensed=true] .st-header-tools button{width:27px;min-width:27px;padding:4px}
+  #realness-studio-reference[data-workspace-condensed=true] .st-publish-actions{width:100%;order:2;justify-content:flex-end}
+  #realness-studio-reference[data-workspace-condensed=true] .st-publish-actions .st-save{margin-right:auto;flex-basis:auto}
+  #realness-studio-reference[data-workspace-condensed=true] .st-publish-actions .st-save span{display:none}
+  #realness-studio-reference[data-workspace-condensed=true] .st-publish-actions>button{padding:5px 8px;min-height:30px}
+  #realness-studio-reference .st-view-tools{gap:2px;padding:4px}
+  #realness-studio-reference .st-view-tools button{min-height:30px;padding:4px}
+  #realness-studio-reference .st-view-tools input{width:39px}
+  #realness-studio-reference .st-view-tools>div{gap:1px}
+}
