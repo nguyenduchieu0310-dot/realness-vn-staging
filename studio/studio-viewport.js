@@ -12,7 +12,7 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   center.prepend(toolbar);
   let zoom = 1, tool = 'select', spaceDown = false, pan = null, key = '', padX = 0, padY = 0, initialized = false;
   let lastWidth = 0, lastHeight = 0, previewWas = false, resume = null, saveTimer, dock = 'top';
-  let widthKey = '', documentWidth = 0;
+  let widthKey = '', documentWidth = 0, renderScale = 1;
   const topToolsHeight = () => dock === 'top' && !toolbar.hidden ? toolbar.offsetHeight + 12 : 0;
   const editable = target => target?.closest('input,textarea,select,[contenteditable=true],.ql-editor');
   const cameraKey = () => 'realness-studio-view:' + getKey();
@@ -34,7 +34,8 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   function sync() {
     if (!center.clientWidth || page.closest('[hidden]')) return;
     const available = Math.max(220, center.clientWidth - 40);
-    const maxWidth = page.dataset.device === 'mobile' ? 375 : page.dataset.device === 'tablet' ? 620 : Number(getDocument().maxWidth) || 1200;
+    const scaledMobile = page.dataset.previewDevice === 'mobile' && getDocument().mobileLayout === 'desktop';
+    const maxWidth = page.dataset.device === 'mobile' ? 375 : page.dataset.device === 'tablet' ? 620 : Math.max(640, Math.min(1440, Number(getDocument().maxWidth) || 1200));
     const nextWidthKey = `${getKey()}:${root.clientWidth}:${maxWidth}`;
     // Side panels are camera chrome. Hiding them must not reflow the document.
     if (widthKey !== nextWidthKey) {
@@ -43,18 +44,19 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
       const normalRoom = (root.clientWidth > 850 ? root.clientWidth * .64 : root.clientWidth) - 40 - gutter;
       documentWidth = Math.min(Math.max(220, normalRoom), maxWidth);
     }
-    const width = isPreview() ? Math.min(available, maxWidth) : documentWidth;
+    const width = scaledMobile ? maxWidth : isPreview() ? Math.min(available, maxWidth) : documentWidth;
+    renderScale = scaledMobile ? Math.min(375, available) / width * zoom : zoom;
     page.style.width = width + 'px';
     page.style.maxWidth = 'none';
     page.style.margin = '0';
     const height = page.offsetHeight;
-    const left = padX + Math.max(0, (available - width * zoom) / 2);
-    space.style.width = Math.max(available, width * zoom) + padX * 2 + 'px';
-    space.style.height = Math.ceil(Math.max(height * zoom, center.clientHeight) + padY * 2 + 60) + 'px';
+    const left = padX + Math.max(0, (available - width * renderScale) / 2);
+    space.style.width = Math.max(available, width * renderScale) + padX * 2 + 'px';
+    space.style.height = Math.ceil(Math.max(height * renderScale, center.clientHeight) + padY * 2 + 60) + 'px';
     page.style.left = left + 'px';
     page.style.top = padY + 'px';
-    page.style.transform = `scale(${zoom})`;
-    root.style.setProperty('--st-inverse-zoom', String(1 / zoom));
+    page.style.transform = `scale(${renderScale})`;
+    root.style.setProperty('--st-inverse-zoom', String(1 / renderScale));
     root.style.setProperty('--st-viewtools-height', topToolsHeight() + 'px');
     root.dataset.viewTool = tool === 'pan' || spaceDown ? 'pan' : 'select';
     root.dataset.viewOverview = String(zoom < .15);
@@ -69,19 +71,19 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   }
   function setZoom(value, point = anchor()) {
     const rect = page.getBoundingClientRect();
-    const local = { x: (point.x - rect.left) / zoom, y: (point.y - rect.top) / zoom };
+    const local = { x: (point.x - rect.left) / renderScale, y: (point.y - rect.top) / renderScale };
     zoom = Math.max(.01, Math.min(4, Number(value) || 1));
     sync();
     const next = page.getBoundingClientRect();
-    center.scrollLeft += next.left + local.x * zoom - point.x;
-    center.scrollTop += next.top + local.y * zoom - point.y;
+    center.scrollLeft += next.left + local.x * renderScale - point.x;
+    center.scrollTop += next.top + local.y * renderScale - point.y;
     save();
   }
   function fit(all = false) {
     const available = center.clientWidth - 40;
     const room = Math.max(100, center.clientHeight - toolbar.offsetHeight - 40);
     const value = all ? Math.min(available / lastWidth, room / Math.max(lastHeight, 1)) : available / lastWidth;
-    setZoom(value);
+    setZoom(value * zoom / renderScale);
     if (all) { center.scrollTop = 0; center.scrollLeft = 0; padX = 0; padY = 0; sync(); }
     save();
   }
@@ -106,6 +108,7 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   });
   toolbar.querySelector('input').addEventListener('change', event => setZoom(Number(event.target.value) / 100));
   center.addEventListener('wheel', event => {
+    if (isPreview()) return;
     if (!event.ctrlKey && !event.metaKey) return;
     if (event.target.closest('.st-view-tools,.st-rich-toolbar')) return;
     event.preventDefault(); event.stopImmediatePropagation();
@@ -184,12 +187,12 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   }
   function relayout(change) {
     const before = page.getBoundingClientRect(), point = anchor();
-    const world = { x: (point.x - before.left) / zoom, y: (point.y - before.top) / zoom };
+    const world = { x: (point.x - before.left) / renderScale, y: (point.y - before.top) / renderScale };
     change(); sync();
     const after = page.getBoundingClientRect(), target = anchor();
-    center.scrollLeft += after.left + world.x * zoom - target.x;
-    center.scrollTop += after.top + world.y * zoom - target.y;
+    center.scrollLeft += after.left + world.x * renderScale - target.x;
+    center.scrollTop += after.top + world.y * renderScale - target.y;
     save();
   }
-  return { scale: () => zoom, sync, update, focus, setDock, relayout, point(clientX, clientY, element = page) { const rect = element.getBoundingClientRect(); return { x: (clientX - rect.left) / zoom, y: (clientY - rect.top) / zoom }; }, anchor, isPanning: () => tool === 'pan' || spaceDown };
+  return { scale: () => renderScale, sync, update, focus, setDock, relayout, point(clientX, clientY, element = page) { const rect = element.getBoundingClientRect(); return { x: (clientX - rect.left) / renderScale, y: (clientY - rect.top) / renderScale }; }, anchor, isPanning: () => tool === 'pan' || spaceDown };
 }

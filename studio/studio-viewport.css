@@ -1,4 +1,28 @@
 #realness-studio-reference .st-center{overflow:auto;overflow-anchor:none;position:relative}
+#realness-studio-reference #st-mobile-options{position:sticky;top:0;z-index:65;background:var(--s-bg);padding:4px 0 12px}
+#realness-studio-reference .st-mobile-layout-options{display:flex;flex-wrap:wrap;justify-content:center;gap:4px}
+#realness-studio-reference .st-mobile-layout-options button{font-size:12px;padding:7px 9px;min-height:34px}
+#realness-studio-reference .st-mobile-layout-options button[aria-pressed=true]{background:var(--s-soft);border-color:var(--s-green);color:var(--s-green)}
+#realness-studio-reference #st-inspector .st-mobile-layout-options{justify-content:flex-start;margin-top:8px}
+/* A preserved canvas uses desktop metrics even when the browser itself is narrow. */
+#realness-studio-reference .st-page[data-preserve-desktop=true]{font-size:14px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] #st-blocks{padding:36px 30px 24px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-site-nav{padding:14px 28px;gap:16px;flex-wrap:nowrap}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-site-nav strong{font-size:20px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-site-nav>div{gap:14px;order:0;flex-basis:auto;justify-content:normal}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-overview h1{font-size:29px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-overview>p{font-size:18px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-facts{grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-fact{gap:11px;padding:0 14px;border-right:1px solid var(--s-line)}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-fact:last-child{border:0}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-fact svg{width:25px;height:25px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-fact strong{font-size:15px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-fact span{font-size:12px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-location{grid-template-columns:1fr 1fr;gap:30px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-location h2{font-size:24px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-two{grid-template-columns:1fr 1fr;gap:22px}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .st-form-fields{grid-template-columns:1fr 1fr}
+#realness-studio-reference .st-page[data-preserve-desktop=true] .ql-editor{font-size:inherit}
 @media(min-width:851px){#realness-studio-reference>.st-header{grid-row:1;grid-column:1}#realness-studio-reference>.st-subnav{grid-row:2;grid-column:1}#realness-studio-reference>.st-panel{grid-row:3;grid-column:1}#realness-studio-reference>.st-workspace{grid-row:4;grid-column:1}#realness-studio-reference>.st-footer{grid-row:5;grid-column:1}}
 #realness-studio-reference #st-canvas-space{position:relative;min-height:100px}
 #realness-studio-reference #st-canvas-space>.st-page{position:absolute;transform-origin:0 0}
