@@ -26,4 +26,9 @@ export const studioSession = {
     localStorage.removeItem(rememberedKey);
   },
   identifier() { return localStorage.getItem(identifierKey) || ''; },
+  async rememberPassword(identifier, password) {
+    // Let the browser's password manager own secrets, never web storage.
+    if (!globalThis.PasswordCredential || !navigator.credentials?.store || !identifier || !password) return;
+    try { await navigator.credentials.store(new PasswordCredential({ id: identifier, password })); } catch {}
+  },
 };

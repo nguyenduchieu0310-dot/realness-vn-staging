@@ -1,7 +1,15 @@
+export const carouselColumns = value => Number(value) === 2 ? 2 : 1;
+export function carouselFrames(images, value) {
+  const size = carouselColumns(value), frames = [];
+  for (let i = 0; i < images.length; i += size) frames.push(images.slice(i, i + size));
+  return frames;
+}
+
 export function mountCarousel(element, { autoplay = true, seconds = 4, interactive = true } = {}) {
   const track = element.querySelector('[data-carousel-track]');
   if (!track) return () => {};
   const count = track.children.length;
+  const total = track.querySelectorAll('img').length;
   let index = 0, timer, hovered = false, focused = false, visible = true, paused = !autoplay, swipe = null;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   function schedule() {
@@ -14,7 +22,10 @@ export function mountCarousel(element, { autoplay = true, seconds = 4, interacti
     track.style.transform = `translateX(-${index * 100}%)`;
     element.querySelectorAll('[data-carousel-index]').forEach(dot => dot.setAttribute('aria-pressed', String(Number(dot.dataset.carouselIndex) === index)));
     const counter = element.querySelector('[data-carousel-count]');
-    if (counter) counter.textContent = `${count ? index + 1 : 0} / ${count}`;
+    const slides = [...track.children], start = slides.slice(0, index).reduce((n, slide) => n + (slide.matches('img') ? 1 : slide.querySelectorAll('img').length), 1);
+    const length = slides[index]?.matches('img') ? 1 : slides[index]?.querySelectorAll('img').length || 0;
+    if (counter) counter.textContent = `${!total ? 0 : length > 1 ? `${start}–${start + length - 1}` : start} / ${total}`;
+    element.querySelectorAll('[data-carousel-step],[data-carousel-pause]').forEach(button => { button.disabled = count < 2; });
   }
   const click = event => {
     if (!interactive) return;
@@ -26,10 +37,12 @@ export function mountCarousel(element, { autoplay = true, seconds = 4, interacti
     schedule();
   };
   const down = event => { if (interactive && event.button === 0 && !event.target.closest('button')) swipe = { x: event.clientX, y: event.clientY }; };
+  const cancel = () => { swipe = null; };
   const up = event => { if (swipe) { const dx = event.clientX - swipe.x, dy = event.clientY - swipe.y; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { go(index + (dx < 0 ? 1 : -1)); schedule(); } swipe = null; } };
   const enter = () => { hovered = true; schedule(); }, leave = () => { hovered = false; schedule(); };
   const focus = () => { focused = true; schedule(); }, blur = event => { focused = element.contains(event.relatedTarget); schedule(); };
   element.addEventListener('click', click); element.addEventListener('pointerdown', down); element.addEventListener('pointerup', up);
+  element.addEventListener('pointercancel', cancel);
   element.addEventListener('mouseenter', enter); element.addEventListener('mouseleave', leave);
   element.addEventListener('focusin', focus); element.addEventListener('focusout', blur);
   document.addEventListener('visibilitychange', schedule); reduced.addEventListener('change', schedule);
@@ -38,6 +51,7 @@ export function mountCarousel(element, { autoplay = true, seconds = 4, interacti
   return () => {
     clearInterval(timer); observer.disconnect(); document.removeEventListener('visibilitychange', schedule); reduced.removeEventListener('change', schedule);
     element.removeEventListener('click', click); element.removeEventListener('pointerdown', down); element.removeEventListener('pointerup', up);
+    element.removeEventListener('pointercancel', cancel);
     element.removeEventListener('mouseenter', enter); element.removeEventListener('mouseleave', leave); element.removeEventListener('focusin', focus); element.removeEventListener('focusout', blur);
   };
 }

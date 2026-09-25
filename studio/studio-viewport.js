@@ -16,11 +16,19 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   const topToolsHeight = () => dock === 'top' && !toolbar.hidden ? toolbar.offsetHeight + 12 : 0;
   const editable = target => target?.closest('input,textarea,select,[contenteditable=true],.ql-editor');
   const cameraKey = () => 'realness-studio-view:' + getKey();
+  function trimPadding() {
+    const x = Math.min(padX, center.scrollLeft), y = Math.min(padY, center.scrollTop);
+    const left = center.scrollLeft - x, top = center.scrollTop - y;
+    padX -= x; padY -= y; sync();
+    center.scrollLeft = left; center.scrollTop = top;
+  }
   const save = () => {
     if (isPreview()) return;
     clearTimeout(saveTimer);
+    const targetKey = cameraKey();
     saveTimer = setTimeout(() => {
-      try { sessionStorage.setItem(cameraKey(), JSON.stringify({ zoom, left: center.scrollLeft, top: center.scrollTop, padX, padY })); } catch {}
+      if (isPreview() || cameraKey() !== targetKey) return;
+      try { sessionStorage.setItem(targetKey, JSON.stringify({ zoom, left: center.scrollLeft, top: center.scrollTop, padX, padY })); } catch {}
     }, 150);
   };
   function sync() {
@@ -106,8 +114,10 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   root.addEventListener('pointerdown', event => {
     if (event.button !== 0 || isPreview() || !(tool === 'pan' || spaceDown) || !event.target.closest('#st-canvas-space')) return;
     event.preventDefault(); event.stopImmediatePropagation();
-    // Add camera-only breathing room before panning, preserving the exact screen position.
-    padX += 400; padY += 400; sync(); center.scrollLeft += 400; center.scrollTop += 400;
+    // A bounded gutter allows panning beyond the edge without growing on every gesture.
+    const dx = 400 - padX, dy = 400 - padY;
+    const left = center.scrollLeft + dx, top = center.scrollTop + dy;
+    padX = 400; padY = 400; sync(); center.scrollLeft = left; center.scrollTop = top;
     pan = { x: event.clientX, y: event.clientY, left: center.scrollLeft, top: center.scrollTop };
     center.setPointerCapture(event.pointerId); root.classList.add('st-panning');
   }, true);
@@ -117,7 +127,7 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
     center.scrollLeft = pan.left + pan.x - event.clientX;
     center.scrollTop = pan.top + pan.y - event.clientY;
   }, true);
-  const finish = () => { pan = null; root.classList.remove('st-panning'); save(); };
+  const finish = () => { if (pan) { pan = null; trimPadding(); } root.classList.remove('st-panning'); save(); };
   root.addEventListener('pointerup', finish, true);
   root.addEventListener('pointercancel', finish, true);
   root.addEventListener('click', event => {
@@ -137,13 +147,25 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   new ResizeObserver(sync).observe(center);
   function update() {
     const nextKey = getKey();
+    const entering = !previewWas && isPreview(), leaving = previewWas && !isPreview();
+    if (entering) resume = { key, zoom, padX, padY, top: center.scrollTop, left: center.scrollLeft };
     if (key !== nextKey || !initialized) {
       key = nextKey; initialized = true; padX = 0; padY = 0; zoom = 1; center.scrollTop = 0; center.scrollLeft = 0;
-      try { const old = JSON.parse(sessionStorage.getItem(cameraKey()) || 'null'); if (old) { zoom = Math.max(.01, Math.min(4, old.zoom || 1)); padX = old.padX || 0; padY = old.padY || 0; sync(); center.scrollTop = old.top || 0; center.scrollLeft = old.left || 0; } } catch {}
+      try {
+        const old = JSON.parse(sessionStorage.getItem(cameraKey()) || 'null');
+        if (old && !isPreview()) {
+          zoom = Math.max(.01, Math.min(4, Number(old.zoom) || 1));
+          const oldX = Math.max(0, Number(old.padX) || 0), oldY = Math.max(0, Number(old.padY) || 0);
+          padX = Math.min(400, oldX); padY = Math.min(400, oldY); sync();
+          center.scrollTop = Math.max(0, (Number(old.top) || 0) - oldY + padY);
+          center.scrollLeft = Math.max(0, (Number(old.left) || 0) - oldX + padX);
+          trimPadding();
+        }
+      } catch {}
     }
-    if (previewWas !== isPreview()) {
-      if (isPreview()) { resume = { zoom, padX, padY, top: center.scrollTop, left: center.scrollLeft }; zoom = 1; padX = 0; padY = 0; }
-      else if (resume) { ({ zoom, padX, padY } = resume); sync(); center.scrollTop = resume.top; center.scrollLeft = resume.left; }
+    if (entering || leaving) {
+      if (entering) { zoom = 1; padX = 0; padY = 0; center.scrollTop = 0; center.scrollLeft = 0; }
+      else if (resume?.key === nextKey) { ({ zoom, padX, padY } = resume); sync(); center.scrollTop = resume.top; center.scrollLeft = resume.left; }
       previewWas = isPreview();
     }
     toolbar.hidden = isPreview() || !!page.closest('[hidden]');
