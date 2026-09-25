@@ -1,4 +1,9 @@
 export const carouselColumns = value => Number(value) === 2 ? 2 : 1;
+export function carouselImageStyle(block, id) {
+  const point = block.imagePositions?.[id];
+  const percent = value => Number.isFinite(Number(value)) ? Math.max(0, Math.min(100, Number(value))) : 50;
+  return { objectFit: block.carouselFit === 'cover' ? 'cover' : 'contain', objectPosition: `${percent(point?.x)}% ${percent(point?.y)}%` };
+}
 export function carouselFrames(images, value) {
   const size = carouselColumns(value), frames = [];
   for (let i = 0; i < images.length; i += size) frames.push(images.slice(i, i + size));

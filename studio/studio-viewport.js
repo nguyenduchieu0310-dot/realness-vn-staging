@@ -1,3 +1,5 @@
+import { canvasWidth } from './studio-layout.js';
+
 // The camera belongs to the editor, never to the saved document.
 export function createStudioViewport({ root, page, center, getDocument, getSelection, getKey, isPreview }) {
   const space = document.createElement('div');
@@ -12,7 +14,7 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
   center.prepend(toolbar);
   let zoom = 1, tool = 'select', spaceDown = false, pan = null, key = '', padX = 0, padY = 0, initialized = false;
   let lastWidth = 0, lastHeight = 0, previewWas = false, resume = null, saveTimer, dock = 'top';
-  let widthKey = '', documentWidth = 0, renderScale = 1;
+  let renderScale = 1;
   const topToolsHeight = () => dock === 'top' && !toolbar.hidden ? toolbar.offsetHeight + 12 : 0;
   const editable = target => target?.closest('input,textarea,select,[contenteditable=true],.ql-editor');
   const cameraKey = () => 'realness-studio-view:' + getKey();
@@ -35,17 +37,8 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
     if (!center.clientWidth || page.closest('[hidden]')) return;
     const available = Math.max(220, center.clientWidth - 40);
     const scaledMobile = page.dataset.previewDevice === 'mobile' && getDocument().mobileLayout === 'desktop';
-    const maxWidth = page.dataset.device === 'mobile' ? 375 : page.dataset.device === 'tablet' ? 620 : Math.max(640, Math.min(1440, Number(getDocument().maxWidth) || 1200));
-    const nextWidthKey = `${getKey()}:${root.clientWidth}:${maxWidth}`;
-    // Side panels are camera chrome. Hiding them must not reflow the document.
-    if (widthKey !== nextWidthKey) {
-      widthKey = nextWidthKey;
-      const gutter = center.offsetWidth - center.clientWidth;
-      const normalRoom = (root.clientWidth > 850 ? root.clientWidth * .64 : root.clientWidth) - 40 - gutter;
-      documentWidth = Math.min(Math.max(220, normalRoom), maxWidth);
-    }
-    const width = scaledMobile ? maxWidth : isPreview() ? Math.min(available, maxWidth) : documentWidth;
-    renderScale = scaledMobile ? Math.min(375, available) / width * zoom : zoom;
+    const width = page.dataset.device === 'mobile' ? 375 : page.dataset.device === 'tablet' ? 620 : canvasWidth(getDocument());
+    renderScale = scaledMobile ? Math.min(375, available) / width * zoom : isPreview() ? Math.min(1, available / width) : zoom;
     page.style.width = width + 'px';
     page.style.maxWidth = 'none';
     page.style.margin = '0';
@@ -153,7 +146,9 @@ export function createStudioViewport({ root, page, center, getDocument, getSelec
     const entering = !previewWas && isPreview(), leaving = previewWas && !isPreview();
     if (entering) resume = { key, zoom, padX, padY, top: center.scrollTop, left: center.scrollLeft };
     if (key !== nextKey || !initialized) {
-      key = nextKey; initialized = true; padX = 0; padY = 0; zoom = 1; center.scrollTop = 0; center.scrollLeft = 0;
+      key = nextKey; initialized = true; padX = 0; padY = 0;
+      zoom = page.dataset.device === 'desktop' && page.dataset.previewDevice !== 'mobile' ? Math.min(1, Math.max(220, center.clientWidth - 40) / canvasWidth(getDocument())) : 1;
+      center.scrollTop = 0; center.scrollLeft = 0;
       try {
         const old = JSON.parse(sessionStorage.getItem(cameraKey()) || 'null');
         if (old && !isPreview()) {
