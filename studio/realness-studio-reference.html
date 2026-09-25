@@ -7,7 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="/studio/vendor/quill.core.css">
 <script src="/studio/vendor/lucide.min.js"></script>
-<script src="/studio/studio-config.js?v=4ece208-20260925080006"></script>
+<script src="/studio/studio-config.js?v=70a1461-20260925100617"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -79,6 +79,15 @@
 #realness-studio-reference .st-blank svg{width:30px;height:30px}
 #realness-studio-reference .st-media-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 14px}
 #realness-studio-reference .st-media-top input{max-width:220px}
+#realness-studio-reference .st-media-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+#realness-studio-reference .st-media-tabs [aria-pressed=true]{border-color:var(--s-green);background:var(--s-soft);color:var(--s-green)}
+#realness-studio-reference .st-media-card{min-width:0;border:1px solid var(--s-line);border-radius:4px;overflow:hidden;background:var(--s-panel);display:flex;flex-direction:column}
+#realness-studio-reference .st-media-card>button[data-media]{border:0;border-radius:0;display:flex;flex-direction:column;align-items:stretch;text-align:left;padding:6px;min-width:0;font-size:12px;flex:1}
+#realness-studio-reference .st-media-card>button[data-media].selected{box-shadow:inset 0 0 0 2px var(--s-blue)}
+#realness-studio-reference .st-media-card>button[data-media]:disabled{opacity:1;cursor:default}
+#realness-studio-reference .st-media-card>button[data-media] span{overflow-wrap:anywhere}
+#realness-studio-reference .st-media-card .st-media-visibility{align-self:flex-end;border:0;border-radius:0;min-height:32px;font-size:12px;padding:5px 8px}
+#realness-studio-reference .st-media-empty{padding:24px 0;color:var(--s-muted);text-align:center}
 #realness-studio-reference .st-document-list{display:grid;gap:8px;margin:12px 0}
 #realness-studio-reference .st-document-list .st-document-row{width:100%;justify-content:flex-start}
 #realness-studio-reference .st-document-list .st-document-row span{margin-left:auto}
@@ -264,17 +273,17 @@
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
 <script src="/studio/vendor/quill.js"></script>
-<link rel="stylesheet" href="/studio/studio-viewport.css?v=4ece208-20260925080006">
-<link rel="stylesheet" href="/studio/studio-workspace.css?v=4ece208-20260925080006">
+<link rel="stylesheet" href="/studio/studio-viewport.css?v=70a1461-20260925100617">
+<link rel="stylesheet" href="/studio/studio-workspace.css?v=70a1461-20260925100617">
 <script type="module">
-import { studioSession } from '/studio/studio-session.js?v=4ece208-20260925080006';
-import { createStudioViewport } from '/studio/studio-viewport.js?v=4ece208-20260925080006';
-import { createStudioWorkspace } from '/studio/studio-workspace.js?v=4ece208-20260925080006';
-import { mountCarousel, carouselColumns, carouselFrames } from '/studio/studio-carousel.js?v=4ece208-20260925080006';
-import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=4ece208-20260925080006';
+import { studioSession } from '/studio/studio-session.js?v=70a1461-20260925100617';
+import { createStudioViewport } from '/studio/studio-viewport.js?v=70a1461-20260925100617';
+import { createStudioWorkspace } from '/studio/studio-workspace.js?v=70a1461-20260925100617';
+import { mountCarousel, carouselColumns, carouselFrames } from '/studio/studio-carousel.js?v=70a1461-20260925100617';
+import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=70a1461-20260925100617';
 (()=>{
   const root=document.getElementById('realness-studio-reference');
-  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.4.0',environment:'LOCAL',build:'dev'};
+  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.4.1',environment:'LOCAL',build:'dev'};
   root.querySelector('#st-release').textContent=`Studio v${release.version} · ${release.environment} · ${release.build}`;
   root.querySelector('#st-release').title=release.builtAt||'Development';
   const $=s=>root.querySelector(s),$$=s=>Array.from(root.querySelectorAll(s));
@@ -309,6 +318,9 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   const pageRect=element=>{const r=element.getBoundingClientRect(),s=viewScale();return{left:r.left/s,top:r.top/s,width:r.width/s,height:r.height/s};};
   let token=studioSession.token(),user=null,cloudDrafts=[],remoteRevisions={},pendingImage=null,uploading=false,remoteSave=Promise.resolve(),cloudSaveTimer=null,remoteChangeVersion={},remoteSaveError=null;
   let cloudInitialization=null,cloudMediaLoad=null,cloudMediaFailed=false,authSubmitting=false,mobileReturnDevice=null;
+  let mediaView='visible',mediaSearch='',mediaError='',mediaVisibilityEpoch=0;
+  const mediaVisibilityBusy=new Set(),mediaVisibilityChanges=new Map();
+  const canManageMedia=()=>!!user&&!user.mustChangePassword&&['admin','editor'].includes(user.role)&&state.role!=='reviewer';
   $('#st-login [name=identifier]').value||=studioSession.identifier();
   const isRemote=()=>state.mode.startsWith('remote:');
   const isProject=()=>doc()?.kind?doc().kind==='page':state.mode!=='post';
@@ -343,9 +355,20 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     return cloudMediaLoad;
   }
   async function loadCloudMedia(){
-    const rows=[...new Map((await api('/api/media')).media.filter(row=>!row.mime?.startsWith('video/')).map(row=>[row.id,row])).values()];
+    const epoch=mediaVisibilityEpoch,listed=[],cursors=new Set();let cursor=null;
+    do{
+      const result=await api('/api/media'+(cursor?'?cursor='+encodeURIComponent(cursor):''));
+      listed.push(...result.media);cursor=result.nextCursor||null;
+      if(cursor&&cursors.has(cursor))throw new Error('Mốc tải kho ảnh bị lặp');
+      if(cursor)cursors.add(cursor);
+    }while(cursor);
+    const rows=[...new Map(listed.filter(row=>!row.mime?.startsWith('video/')).map(row=>[row.id,row])).values()];
     cloudMediaFailed=false;
-    for(const row of rows)if(!media.some(item=>item.id===row.id))media.push({id:row.id,name:row.name,alt:row.alt,src:pendingMediaSrc(row.id),pending:true,cloud:true});
+    for(const row of rows){
+      let entry=media.find(item=>item.id===row.id);
+      if(!entry){entry={id:row.id,name:row.name,alt:row.alt,src:pendingMediaSrc(row.id),pending:true,cloud:true};media.push(entry);}
+      if(!mediaVisibilityBusy.has(row.id)&&(mediaVisibilityChanges.get(row.id)||0)<=epoch)entry.hiddenAt=row.hidden_at||null;
+    }
     if(['media','replace','gallery-media'].includes(panel)){renderPanel();icons();}
     const pending=rows.filter(row=>media.find(item=>item.id===row.id)?.pending);
     let failed=0;
@@ -360,6 +383,26 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     }
     await Promise.all([download(),download(),download()]);
     if(failed)notify(`${failed} ảnh chưa tải được. Mở lại kho media để thử lại.`);
+  }
+  async function setMediaHidden(id){
+    const entry=media.find(m=>m.id===id);
+    if(!canManageMedia()||!entry?.cloud||mediaVisibilityBusy.has(id))return;
+    const hidden=!entry.hiddenAt;
+    mediaVisibilityBusy.add(id);mediaVisibilityChanges.set(id,++mediaVisibilityEpoch);mediaError='';renderPanel();icons();
+    try{
+      const result=await api('/api/media/'+id+'/visibility',jsonOptions('PUT',{hidden}));
+      entry.hiddenAt=result.media.hidden_at||null;
+      mediaVisibilityChanges.set(id,++mediaVisibilityEpoch);
+      // A library action must not remove existing images from an edited gallery.
+      if(entry.hiddenAt&&(panel!=='gallery-media'||!block()?.images?.includes(id)))picked=picked.filter(value=>value!==id);
+      notify(entry.hiddenAt?'Đã ẩn ảnh khỏi kho · Ảnh trong bài vẫn giữ nguyên':'Đã đưa ảnh trở lại kho');
+    }catch(error){mediaError=`${entry.name}: ${error.message}`;notify('Chưa thay đổi trạng thái ảnh. Vui lòng thử lại.');}
+    finally{mediaVisibilityBusy.delete(id);if(['media','replace','gallery-media'].includes(panel)){renderPanel();icons();}}
+  }
+  function filterMediaCards(){
+    const query=mediaSearch.trim().toLocaleLowerCase('vi-VN');let count=0;
+    $$('#st-media-choices .st-media-card').forEach(card=>{card.hidden=!card.dataset.name.includes(query);if(!card.hidden)count++;});
+    const empty=$('#st-media-empty');if(empty){empty.hidden=count>0;empty.textContent=query?'Không tìm thấy ảnh':mediaView==='hidden'?'Chưa có ảnh đã ẩn':'Chưa có ảnh trong kho';}
   }
   function updateAuthBusy(){
     const busy=authSubmitting||!!cloudInitialization;
@@ -495,7 +538,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
       const file=pendingImage.file;
       const result=await api('/api/media',{method:'POST',headers:{'content-type':file.type,'x-file-name':encodeURIComponent(name),'x-image-alt':encodeURIComponent(alt)},body:file});
       const entry={id:result.media.id,name,alt,src:pendingImage.preview,cloud:true};
-      cacheCloudMedia(entry);pendingImage=null;picked=[entry.id];panel='media';renderPanel();icons();notify('Đã lưu ảnh vào kho Palm River · Có thể dùng lại');
+      cacheCloudMedia(entry);pendingImage=null;picked=[entry.id];panel='media';mediaView='visible';mediaSearch='';mediaError='';renderPanel();icons();notify('Đã lưu ảnh vào kho Palm River · Có thể dùng lại');
     }catch(e){notify(e.message);}
     finally{uploading=false;if(panel==='upload-review'){renderPanel();icons();}}
   }
@@ -593,10 +636,14 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   function renderAlt(){const alt=$('#st-alt-view');const show=['seo','history'].includes(state.tab)&&!state.preview;alt.hidden=!show;$('#st-page-wrap').hidden=show;if(!show){alt.innerHTML='';return;}alt.className='st-alt-view';if(state.tab==='seo'){alt.innerHTML=`<h2>Hiển thị tìm kiếm</h2><div class="st-fields">${field('Tiêu đề tìm kiếm','page:title',doc().title)}${field('Đường dẫn','page:slug',doc().slug)}${field('Mô tả','page:description',doc().description,true)}<div class="st-seo-card"><span>REALNESS · ${E(siteHost)}</span><h3 id="st-search-title">${E(doc().title)}</h3><p id="st-search-description">${E(doc().description)}</p></div><p class="st-note">Bản nháp nội bộ · Không lập chỉ mục</p></div>`;}else{alt.innerHTML=`<h2>Lịch sử phiên bản</h2><button type="button" data-act="snapshot" ${!canEdit()?'disabled':''}>${I('save')}Lưu mốc phiên bản</button><div class="st-history-row"><div><strong>Bản thiết kế gốc</strong><small>Mẫu tham chiếu ban đầu</small></div><button type="button" data-act="restore-original" ${!canEdit()?'disabled':''}>Khôi phục</button></div>`+versions.filter(v=>v.mode===state.mode).slice().reverse().map(v=>`<div class="st-history-row"><div><strong>${E(v.label)}</strong><small>${E(v.time)}</small></div><button type="button" data-restore="${v.id}" ${!canEdit()?'disabled':''}>Khôi phục</button></div>`).join('');}if(!canEdit())$$('#st-alt-view input,#st-alt-view textarea').forEach(n=>n.disabled=true);}
   const panelHead=title=>`<div class="st-panel-heading"><h2>${title}</h2>${btn('close-panel','Đóng bảng','x')}</div>`;
   function renderIconChoices(){const target=$('#st-icon-choices');if(!target)return;const matches=iconEntries.filter(item=>(iconGroup==='Tất cả'||item.group===iconGroup)&&`${item.label} ${item.key} ${item.group}`.toLocaleLowerCase('vi-VN').includes(iconQuery.toLocaleLowerCase('vi-VN')));target.innerHTML=`<p class="st-icon-results">${matches.length} biểu tượng</p><div class="st-icon-picker">${matches.map(item=>`<button type="button" data-icon-choice="${item.key}" aria-pressed="${block()?.icon===item.key}" title="${E(item.group)}">${I(item.key)}<span>${E(item.label)}</span></button>`).join('')}</div>`;icons();}
-  function showPanel(name){if(name==='crop'&&asset(block()?.media).pending){notify('Ảnh đang tải. Vui lòng chờ ảnh hiển thị trước khi cắt xén.');return;}if(['media','add'].includes(name)&&!panel)pendingInsertion??=captureInsertion();panel=panel===name?null:name;if(name==='crop'&&panel)crop=normalizedCrop(block().imageCrop)||{x:0,y:0,w:1,h:1};if(['media','replace','gallery-media'].includes(name))picked=name==='gallery-media'?[...block().images]:[];renderPanel();icons();if(panel&&['media','replace','gallery-media'].includes(name)&&(cloudMediaFailed||media.some(m=>m.pending)))refreshCloudMedia().catch(()=>notify('Chưa tải được kho media. Vui lòng thử lại.'));}
+  function showPanel(name){if(name==='crop'&&asset(block()?.media).pending){notify('Ảnh đang tải. Vui lòng chờ ảnh hiển thị trước khi cắt xén.');return;}if(['media','add'].includes(name)&&!panel)pendingInsertion??=captureInsertion();panel=panel===name?null:name;if(name==='crop'&&panel)crop=normalizedCrop(block().imageCrop)||{x:0,y:0,w:1,h:1};if(['media','replace','gallery-media'].includes(name)){picked=name==='gallery-media'?[...block().images]:[];mediaView='visible';mediaSearch='';mediaError='';}renderPanel();icons();if(panel&&['media','replace','gallery-media'].includes(name)&&(cloudMediaFailed||media.some(m=>m.pending)))refreshCloudMedia().catch(()=>notify('Chưa tải được kho media. Vui lòng thử lại.'));}
   function checks(){return[{label:'Tiêu đề và đường dẫn',ok:!!doc().title.trim()&&!!doc().slug.trim()},{label:isProject()?'Nội dung trang':'Nội dung bài viết',ok:doc().blocks.length>=(isProject()?2:1)},{label:'Mô tả các ảnh',ok:doc().blocks.filter(b=>b.type==='image').every(b=>!!b.alt.trim())},{label:'Mô tả SEO',ok:!!doc().description.trim()}];}
   function renderPanel(){const p=$('#st-panel');p.hidden=!panel;$$('.st-create-actions button').forEach(button=>button.setAttribute('aria-expanded',String(button.dataset.act===panel)));if(!panel){p.innerHTML='';displayedPanel=null;return;}if(panel!==displayedPanel){p.scrollTop=0;displayedPanel=panel;}
-    if(['media','replace','gallery-media'].includes(panel)){p.innerHTML=panelHead(panel==='replace'?'Thay ảnh':panel==='gallery-media'?'Bộ ảnh':'Kho media · Palm River')+`<div class="st-media-top"><button type="button" data-act="paste-image">${I('clipboard-paste')}Dán ảnh · Ctrl+V</button><button type="button" data-act="choose-image">${I('upload')}Tải ảnh lên</button><input type="file" id="st-image-upload" accept="image/png,image/jpeg,image/webp,image/avif" hidden><input type="search" id="st-media-search" placeholder="Tìm ảnh trong kho" aria-label="Tìm ảnh trong kho"></div><div class="st-media-grid" id="st-media-choices">${media.map(m=>`<button type="button" data-media="${m.id}" class="${picked.includes(m.id)?'selected':''}" data-name="${E(m.name.toLowerCase())}"><img src="${m.src}" alt="${E(m.alt||m.name)}"><span>${E(m.name)}</span></button>`).join('')}</div>${panel!=='replace'?`<div class="st-panel-actions"><span class="st-note">${picked.length} ảnh đã chọn</span><button type="button" class="st-primary" data-act="insert-media" ${!picked.length?'disabled':''}>${panel==='gallery-media'?'Cập nhật bộ ảnh':'Chèn ảnh đã chọn'}</button></div>`:''}`;}
+    if(['media','replace','gallery-media'].includes(panel)){
+      const hiddenCount=media.filter(m=>m.hiddenAt).length;
+      p.innerHTML=panelHead(panel==='replace'?'Thay ảnh':panel==='gallery-media'?'Bộ ảnh':'Kho media · Palm River')+`<div class="st-media-top"><button type="button" data-act="paste-image">${I('clipboard-paste')}Dán ảnh · Ctrl+V</button><button type="button" data-act="choose-image">${I('upload')}Tải ảnh lên</button><input type="file" id="st-image-upload" accept="image/png,image/jpeg,image/webp,image/avif" hidden><input type="search" id="st-media-search" value="${E(mediaSearch)}" placeholder="Tìm ảnh trong kho" aria-label="Tìm ảnh trong kho"></div><div class="st-media-tabs" role="group" aria-label="Hiển thị kho ảnh"><button type="button" data-media-view="visible" aria-pressed="${mediaView==='visible'}">${I('images')}Ảnh trong kho (${media.length-hiddenCount})</button><button type="button" data-media-view="hidden" aria-pressed="${mediaView==='hidden'}">${I('eye-off')}Ảnh đã ẩn (${hiddenCount})</button></div>${mediaError?`<p class="st-panel-error" role="alert">${E(mediaError)}</p>`:''}<div class="st-media-grid" id="st-media-choices">${media.filter(m=>!!m.hiddenAt===(mediaView==='hidden')).map(m=>`<div class="st-media-card" data-name="${E(m.name.toLocaleLowerCase('vi-VN'))}"><button type="button" data-media="${m.id}" class="${picked.includes(m.id)?'selected':''}" ${m.hiddenAt?'disabled':''}><img src="${m.src}" alt="${E(m.alt||m.name)}"><span>${E(m.name)}</span></button>${m.cloud?`<button type="button" class="st-media-visibility" data-media-visibility="${m.id}" aria-label="${m.hiddenAt?'Hiện lại':'Ẩn ảnh'} ${E(m.name)}" title="${m.hiddenAt?'Đưa ảnh trở lại kho':'Ẩn khỏi kho, giữ nguyên ảnh trong bài'}" ${!canManageMedia()||mediaVisibilityBusy.has(m.id)?'disabled':''}>${I(m.hiddenAt?'eye':'eye-off')}${mediaVisibilityBusy.has(m.id)?'Đang lưu':m.hiddenAt?'Hiện lại':'Ẩn ảnh'}</button>`:''}</div>`).join('')}</div><div id="st-media-empty" class="st-media-empty" role="status" hidden></div>${panel!=='replace'?`<div class="st-panel-actions"><span class="st-note">${picked.length} ảnh đã chọn${picked.some(id=>asset(id).hiddenAt)?` · ${picked.filter(id=>asset(id).hiddenAt).length} ảnh đang ẩn`:''}</span><button type="button" class="st-primary" data-act="insert-media" ${!picked.length?'disabled':''}>${panel==='gallery-media'?'Cập nhật bộ ảnh':'Chèn ảnh đã chọn'}</button></div>`:''}`;
+      filterMediaCards();
+    }
     else if(panel==='upload-review'){p.innerHTML=panelHead('Lưu ảnh vào kho Palm River')+`<div class="st-upload-review"><img src="${pendingImage?.preview||''}" alt="Ảnh chuẩn bị lưu"><label>Tên media<input id="st-media-name" maxlength="180" value="${E(pendingImage?.file.name||'Ảnh mới')}"></label><label>Văn bản thay thế<input id="st-media-alt" maxlength="240" value="${E(pendingImage?.alt||'')}"></label><p class="st-note">Ảnh được lưu dùng chung cho dự án Palm River và có thể dùng lại ở các trang khác.</p><button type="button" class="st-primary" data-act="save-media" ${uploading?'disabled':''}>${I('save')}${uploading?'Đang lưu…':'Lưu vào kho dự án'}</button></div>`;}
     else if(panel==='new-blank-page'||panel==='new-sample-page'||panel==='new-post'){const sample=panel==='new-sample-page',post=panel==='new-post';p.innerHTML=panelHead(post?'Viết bài mới':sample?'Tạo trang từ mẫu Palm River':'Tạo trang trắng')+`<div class="st-fields st-create-form"><p class="st-note">${post?'Tạo một bài viết riêng, lưu bản nháp và gửi duyệt khi hoàn tất.':sample?'Sao chép bố cục và nội dung mẫu Palm River để chỉnh sửa trên bản nháp riêng.':'Bắt đầu với trang chưa có nội dung. Bạn có thể kéo thả chữ và ảnh vào trang.'}</p><label>${post?'Tiêu đề bài viết':'Tên trang'}<input id="st-new-title" value="${post?'Bài viết mới':sample?'Dự án từ mẫu Palm River':'Trang dự án mới'}" maxlength="180"></label><label>Đường dẫn<input id="st-new-slug" value="${post?'bai-viet-moi':sample?'du-an-tu-mau-palm-river':'trang-du-an-moi'}" maxlength="180"></label><p class="st-note">Bản nháp không tự xuất hiện trên website công khai.</p><button type="button" class="st-primary" data-act="${post?'create-post':'create-page'}" data-template="${sample?'sample':'blank'}">${I(post?'file-pen-line':sample?'copy':'file-plus-2')}${post?'Tạo bài viết':sample?'Tạo trang từ mẫu':'Tạo trang trắng'}</button></div>`;}
     else if(panel==='add'){p.innerHTML=panelHead('Thêm phần nội dung')+`<div class="st-palette-grid">${Object.entries(types).map(([t,[label,ic]])=>`<button type="button" data-add="${t}">${I(ic)}${label}</button>`).join('')}</div>`;}
@@ -724,7 +771,9 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     if(button?.dataset.videoSource){const source=button.dataset.videoSource;if(!canEdit()||block()?.type!=='video'||!['youtube','upload'].includes(source))return;edit(()=>block().videoMode=source,'Đã đổi nguồn video');return;}
     if(button?.dataset.youtubePlay){if(!state.preview)return;const id=button.dataset.youtubePlay;if(!youtubeId('https://youtu.be/'+id))return;const container=button.closest('[data-video-preview]');if(container)container.outerHTML=`<div class="st-video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1" title="Video YouTube" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`;return;}
      if(button?.dataset.setting){edit(()=>{const b=block(),key=button.dataset.setting,value=button.dataset.value;b[key]=value;if(key==='ratio'){if(value==='custom'){b.heightPx=b.heightPx||Math.round($(`[data-block="${b.id}"] .st-image-frame`).getBoundingClientRect().height/viewScale());}else delete b.heightPx;}},'Đã cập nhật ảnh');return;}
-    if(button?.dataset.media){if(!canEdit())return;const id=button.dataset.media;if(panel==='replace')edit(()=>{block().media=id;if(block().type==='image'){block().alt=asset(id).name;block().source='Kho Palm River';}panel=null;},'Đã thay ảnh');else{picked=picked.includes(id)?picked.filter(x=>x!==id):[...picked,id];renderPanel();icons();}return;}
+    if(button?.dataset.mediaView){if(!['visible','hidden'].includes(button.dataset.mediaView))return;mediaView=button.dataset.mediaView;renderPanel();icons();return;}
+    if(button?.dataset.mediaVisibility){void setMediaHidden(button.dataset.mediaVisibility);return;}
+    if(button?.dataset.media){if(!canEdit())return;const id=button.dataset.media;if(asset(id).hiddenAt)return;if(panel==='replace')edit(()=>{block().media=id;if(block().type==='image'){block().alt=asset(id).name;block().source='Kho Palm River';}panel=null;},'Đã thay ảnh');else{picked=picked.includes(id)?picked.filter(x=>x!==id):[...picked,id];renderPanel();icons();}return;}
     if(button?.dataset.restore){const v=versions.find(v=>v.id===button.dataset.restore);if(v)edit(()=>{state.docs[state.mode]=clone(v.data);doc().status='draft';},'Đã khôi phục phiên bản');return;}
     if(button?.dataset.format){const f=button.dataset.format;if(['bullet','ordered','check'].includes(f))format('list',f);else if(f.startsWith('align-'))format('align',f==='align-left'?false:f.slice(6));else if(f==='indent-less')format('indent','-1');else if(f==='indent-more')format('indent','+1');else if(f==='super'||f==='sub')format('script',f);else format(f);return;}
     if(button?.dataset.cta){const b=doc().blocks.find(b=>b.id===button.dataset.cta);if(canEdit()){if(b.id!==state.selected)select(b.id);return;}if(b.href.startsWith('#')&&doc().blocks.some(x=>x.id===b.href.slice(1)))select(b.href.slice(1),true);else if(safeLink(b.href)){state.selected=b.id;showPanel('image-link');}else notify('Đường dẫn chưa hợp lệ');return;}
@@ -932,8 +981,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   },true);
   root.addEventListener('input',e=>{
     if(e.target.id==='st-media-search'){
-      const query=e.target.value.trim().toLocaleLowerCase('vi-VN');
-      $$('#st-media-choices [data-media]').forEach(item=>item.hidden=!item.dataset.name.includes(query));
+      mediaSearch=e.target.value;filterMediaCards();
     }
   });
   root.addEventListener('submit',async e=>{
