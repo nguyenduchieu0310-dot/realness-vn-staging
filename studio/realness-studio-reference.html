@@ -7,7 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.core.css">
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="/studio/studio-config.js?v=181d827-20260924184354"></script>
+<script src="/studio/studio-config.js?v=aba11c0-20260925011216"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -263,17 +263,17 @@
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-<link rel="stylesheet" href="/studio/studio-viewport.css?v=181d827-20260924184354">
-<link rel="stylesheet" href="/studio/studio-workspace.css?v=181d827-20260924184354">
+<link rel="stylesheet" href="/studio/studio-viewport.css?v=aba11c0-20260925011216">
+<link rel="stylesheet" href="/studio/studio-workspace.css?v=aba11c0-20260925011216">
 <script type="module">
-import { studioSession } from '/studio/studio-session.js?v=181d827-20260924184354';
-import { createStudioViewport } from '/studio/studio-viewport.js?v=181d827-20260924184354';
-import { createStudioWorkspace } from '/studio/studio-workspace.js?v=181d827-20260924184354';
-import { mountCarousel } from '/studio/studio-carousel.js?v=181d827-20260924184354';
-import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=181d827-20260924184354';
+import { studioSession } from '/studio/studio-session.js?v=aba11c0-20260925011216';
+import { createStudioViewport } from '/studio/studio-viewport.js?v=aba11c0-20260925011216';
+import { createStudioWorkspace } from '/studio/studio-workspace.js?v=aba11c0-20260925011216';
+import { mountCarousel } from '/studio/studio-carousel.js?v=aba11c0-20260925011216';
+import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=aba11c0-20260925011216';
 (()=>{
   const root=document.getElementById('realness-studio-reference');
-  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.2.0',environment:'LOCAL',build:'dev'};
+  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.2.1',environment:'LOCAL',build:'dev'};
   root.querySelector('#st-release').textContent=`Studio v${release.version} · ${release.environment} · ${release.build}`;
   root.querySelector('#st-release').title=release.builtAt||'Development';
   const $=s=>root.querySelector(s),$$=s=>Array.from(root.querySelectorAll(s));
@@ -307,6 +307,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   const viewScale=()=>viewport?.scale()||1;
   const pageRect=element=>{const r=element.getBoundingClientRect(),s=viewScale();return{left:r.left/s,top:r.top/s,width:r.width/s,height:r.height/s};};
   let token=studioSession.token(),user=null,cloudDrafts=[],remoteRevisions={},pendingImage=null,uploading=false,remoteSave=Promise.resolve(),cloudSaveTimer=null,remoteChangeVersion={},remoteSaveError=null;
+  let cloudInitialization=null,cloudMediaLoad=null,authSubmitting=false;
   $('#st-login [name=identifier]').value=studioSession.identifier();
   const isRemote=()=>state.mode.startsWith('remote:');
   const isProject=()=>doc()?.kind?doc().kind==='page':state.mode!=='post';
@@ -323,18 +324,47 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   }
   function jsonOptions(method,data){return{method,headers:{'content-type':'application/json'},body:JSON.stringify(data)};}
   async function refreshCloudDrafts(){cloudDrafts=(await api('/api/drafts')).drafts.filter(d=>d.status!=='archived');}
-  async function refreshCloudMedia(){
+  function cacheCloudMedia(entry){
+    const existing=media.find(item=>item.id===entry.id);
+    if(!existing){media.push(entry);return entry;}
+    // Keep the URL already used by the canvas; discard only the redundant download.
+    if(entry.src!==existing.src&&entry.src?.startsWith('blob:'))URL.revokeObjectURL(entry.src);
+    Object.assign(existing,{name:entry.name,alt:entry.alt,cloud:true});
+    return existing;
+  }
+  function refreshCloudMedia(){
+    if(!cloudMediaLoad)cloudMediaLoad=loadCloudMedia().finally(()=>{cloudMediaLoad=null;});
+    return cloudMediaLoad;
+  }
+  async function loadCloudMedia(){
     const rows=(await api('/api/media')).media;
-    const old=new Map(media.filter(m=>m.cloud).map(m=>[m.id,m]));
     for(const row of rows){
       if(row.mime?.startsWith('video/'))continue;
-      if(old.has(row.id))continue;
+      if(media.some(item=>item.id===row.id))continue;
       const image=await api('/api/media/'+row.id,{raw:true});
       const src=URL.createObjectURL(await image.blob());
-      media.push({id:row.id,name:row.name,alt:row.alt,src,cloud:true});
+      cacheCloudMedia({id:row.id,name:row.name,alt:row.alt,src,cloud:true});
     }
   }
-  async function initializeCloud(){
+  function updateAuthBusy(){
+    const busy=authSubmitting||!!cloudInitialization;
+    const unavailable=!apiBase||(location.protocol!=='https:'&&!['localhost','127.0.0.1'].includes(location.hostname));
+    for(const [id,label,pending] of [['st-login','Đăng nhập','Đang đăng nhập…'],['st-first-password','Đổi mật khẩu và tiếp tục','Đang cập nhật…']]){
+      const form=$('#'+id),button=form.querySelector('button[type=submit]');
+      form.setAttribute('aria-busy',String(busy));
+      button.disabled=busy||unavailable;
+      button.textContent=busy?pending:label;
+    }
+    $('[data-act=retry-login]').disabled=busy||unavailable;
+  }
+  function initializeCloud(){
+    if(!cloudInitialization){
+      cloudInitialization=loadCloud().finally(()=>{cloudInitialization=null;updateAuthBusy();});
+      updateAuthBusy();
+    }
+    return cloudInitialization;
+  }
+  async function loadCloud(){
     if(location.protocol!=='https:'&&!['localhost','127.0.0.1'].includes(location.hostname)){
       $('#st-auth').hidden=false;
       $('#st-login-error').textContent='Trang chưa có HTTPS. Tạm khóa đăng nhập để bảo vệ tài khoản.';
@@ -432,12 +462,12 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
       const file=pendingImage.file;
       const result=await api('/api/media',{method:'POST',headers:{'content-type':file.type,'x-file-name':encodeURIComponent(name),'x-image-alt':encodeURIComponent(alt)},body:file});
       const entry={id:result.media.id,name,alt,src:pendingImage.preview,cloud:true};
-      media.push(entry);pendingImage=null;picked=[entry.id];panel='media';renderPanel();icons();notify('Đã lưu ảnh vào kho Palm River · Có thể dùng lại');
+      cacheCloudMedia(entry);pendingImage=null;picked=[entry.id];panel='media';renderPanel();icons();notify('Đã lưu ảnh vào kho Palm River · Có thể dùng lại');
     }catch(e){notify(e.message);}
     finally{uploading=false;if(panel==='upload-review'){renderPanel();icons();}}
   }
   function captureVideoPoster(file){return new Promise(resolve=>{const src=URL.createObjectURL(file),video=document.createElement('video');let done=false;const finish=poster=>{if(done)return;done=true;clearTimeout(timeout);video.removeAttribute('src');video.load();URL.revokeObjectURL(src);resolve(poster);};const timeout=setTimeout(()=>finish(null),8000);video.muted=true;video.playsInline=true;video.preload='auto';video.onloadeddata=()=>{if(!video.videoWidth||!video.videoHeight){finish(null);return;}const canvas=document.createElement('canvas');canvas.width=640;canvas.height=Math.round(640*video.videoHeight/video.videoWidth);try{canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);canvas.toBlob(blob=>finish(blob),'image/jpeg',.84);}catch{finish(null);}};video.onerror=()=>finish(null);video.src=src;});}
-  async function uploadVideo(file){if(!canEdit()||!file)return;if(!['video/mp4','video/webm'].includes(file.type)||file.size<1||file.size>50*1024*1024){notify('Chọn MP4 hoặc WebM tối đa 50 MB');return;}const mode=state.mode,id=block()?.id;if(!id||block().type!=='video')return;uploading=true;renderPanel();notify('Đang tải video lên kho dự án…');try{const result=await api('/api/media',{method:'POST',headers:{'content-type':file.type,'x-file-name':encodeURIComponent(file.name),'x-image-alt':encodeURIComponent(file.name)},body:file});let posterMedia=null;const poster=await captureVideoPoster(file);if(poster){try{const posterName=file.name+' · thumbnail',saved=await api('/api/media',{method:'POST',headers:{'content-type':'image/jpeg','x-file-name':encodeURIComponent(posterName),'x-image-alt':encodeURIComponent('Ảnh đại diện '+file.name)},body:poster});posterMedia=saved.media.id;media.push({id:posterMedia,name:posterName,alt:'Ảnh đại diện '+file.name,src:URL.createObjectURL(poster),cloud:true});}catch{notify('Video đã lưu; chưa tạo được ảnh đại diện tự động');}}
+  async function uploadVideo(file){if(!canEdit()||!file)return;if(!['video/mp4','video/webm'].includes(file.type)||file.size<1||file.size>50*1024*1024){notify('Chọn MP4 hoặc WebM tối đa 50 MB');return;}const mode=state.mode,id=block()?.id;if(!id||block().type!=='video')return;uploading=true;renderPanel();notify('Đang tải video lên kho dự án…');try{const result=await api('/api/media',{method:'POST',headers:{'content-type':file.type,'x-file-name':encodeURIComponent(file.name),'x-image-alt':encodeURIComponent(file.name)},body:file});let posterMedia=null;const poster=await captureVideoPoster(file);if(poster){try{const posterName=file.name+' · thumbnail',saved=await api('/api/media',{method:'POST',headers:{'content-type':'image/jpeg','x-file-name':encodeURIComponent(posterName),'x-image-alt':encodeURIComponent('Ảnh đại diện '+file.name)},body:poster});posterMedia=saved.media.id;cacheCloudMedia({id:posterMedia,name:posterName,alt:'Ảnh đại diện '+file.name,src:URL.createObjectURL(poster),cloud:true});}catch{notify('Video đã lưu; chưa tạo được ảnh đại diện tự động');}}
       if(state.mode!==mode||!doc().blocks.some(item=>item.id===id)){notify('Video đã lưu vào kho; mở lại trang để gắn vào khối');return;}const previous=videoFiles.get(id);if(previous)URL.revokeObjectURL(previous);videoFiles.set(id,URL.createObjectURL(file));panel=null;edit(()=>{const b=doc().blocks.find(item=>item.id===id);b.videoMode='upload';b.videoMedia=result.media.id;b.videoName=file.name;b.posterMedia=posterMedia;},'Đã lưu video vào kho dự án');
     }catch(e){notify(e.message);}finally{uploading=false;if(panel==='video-upload'){renderPanel();icons();}}}
   async function createPage(template){
@@ -866,7 +896,10 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     if(form.id==='st-youtube-form'){e.preventDefault();e.stopPropagation();if(!canEdit()||block()?.type!=='video')return;const value=$('#st-youtube-url').value.trim();if(!youtubeId(value)){$('#st-youtube-error').textContent='Dán link YouTube hợp lệ dạng video, Shorts hoặc youtu.be';return;}edit(()=>{block().videoMode='youtube';block().youtubeUrl=value;},'Đã cập nhật link YouTube');return;}
     if(!['st-login','st-user-form','st-password-form','st-first-password'].includes(form.id))return;
     e.preventDefault();e.stopPropagation();
+    const authentication=['st-login','st-first-password'].includes(form.id);
+    if(authentication&&(authSubmitting||cloudInitialization))return;
     const data=Object.fromEntries(new FormData(form));
+    if(authentication){authSubmitting=true;updateAuthBusy();}
     try{
       if(form.id==='st-login'){
         data.remember=form.elements.remember.checked;
@@ -887,6 +920,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
         notify('Đã đổi mật khẩu');panel='account';renderPanel();icons();
       }
     }catch(error){if(form.id==='st-login')$('#st-login-error').textContent=error.message;else if(form.id==='st-first-password')$('#st-first-password-error').textContent=error.message;else notify(error.message);}
+    finally{if(authentication){authSubmitting=false;updateAuthBusy();}}
   },true);
   document.addEventListener('paste',e=>{
     if(!user||!canEdit())return;
