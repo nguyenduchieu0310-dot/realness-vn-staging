@@ -7,7 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="/studio/vendor/quill.core.css">
 <script src="/studio/vendor/lucide.min.js"></script>
-<script src="/studio/studio-config.js?v=f9643bc-20260925140406"></script>
+<script src="/studio/studio-config.js?v=f23b9a4-20260925163458"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -273,18 +273,20 @@
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
 <script src="/studio/vendor/quill.js"></script>
-<link rel="stylesheet" href="/studio/studio-viewport.css?v=f9643bc-20260925140406">
-<link rel="stylesheet" href="/studio/studio-workspace.css?v=f9643bc-20260925140406">
+<link rel="stylesheet" href="/studio/studio-viewport.css?v=f23b9a4-20260925163458">
+<link rel="stylesheet" href="/studio/studio-workspace.css?v=f23b9a4-20260925163458">
+<link rel="stylesheet" href="/studio/studio-seo.css?v=f23b9a4-20260925163458">
 <script type="module">
-import { studioSession } from '/studio/studio-session.js?v=f9643bc-20260925140406';
-import { createStudioViewport } from '/studio/studio-viewport.js?v=f9643bc-20260925140406';
-import { canvasWidth } from '/studio/studio-layout.js?v=f9643bc-20260925140406';
-import { createStudioWorkspace } from '/studio/studio-workspace.js?v=f9643bc-20260925140406';
-import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=f9643bc-20260925140406';
-import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=f9643bc-20260925140406';
+import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=f23b9a4-20260925163458';
+import { studioSession } from '/studio/studio-session.js?v=f23b9a4-20260925163458';
+import { createStudioViewport } from '/studio/studio-viewport.js?v=f23b9a4-20260925163458';
+import { canvasWidth } from '/studio/studio-layout.js?v=f23b9a4-20260925163458';
+import { createStudioWorkspace } from '/studio/studio-workspace.js?v=f23b9a4-20260925163458';
+import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=f23b9a4-20260925163458';
+import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=f23b9a4-20260925163458';
 (()=>{
   const root=document.getElementById('realness-studio-reference');
-  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.5.0',environment:'LOCAL',build:'dev'};
+  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.0',environment:'LOCAL',build:'dev'};
   root.querySelector('#st-release').textContent=`Studio v${release.version} · ${release.environment} · ${release.build}`;
   root.querySelector('#st-release').title=release.builtAt||'Development';
   const $=s=>root.querySelector(s),$$=s=>Array.from(root.querySelectorAll(s));
@@ -499,6 +501,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   }
   async function flushCloudSave(){
     clearTimeout(timer);clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
+    if(doc().seo?.auto&&remoteChangeVersion[state.mode])refreshSeo(doc());
     remember();
     if(isRemote()&&remoteChangeVersion[state.mode])persistRemoteDraft(state.mode,clone(doc()));
     await remoteSave;
@@ -523,7 +526,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   function icons(){globalThis.lucide?.createIcons({attrs:{width:17,height:17}});$$('button').forEach(b=>b.classList.add('cursor-interaction'));}
   function notify(t){$('#st-status').textContent=t;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('#st-status').textContent='Bản nháp nội bộ',7000);}
   function checkpoint(){undo[state.mode].push(clone(doc()));if(undo[state.mode].length>35)undo[state.mode].shift();redo[state.mode]=[];}
-  function save(label){$('#st-save').textContent='Đang lưu…';if(isRemote())remoteChangeVersion[state.mode]=(remoteChangeVersion[state.mode]||0)+1;clearTimeout(timer);timer=setTimeout(()=>{$('#st-save').textContent=isRemote()?'Đang đồng bộ…':doc().status==='draft'?'Đã lưu bản nháp':statuses[doc().status];remember();queueCloudSave();},350);if(label)notify(label);commands();}
+  function save(label){$('#st-save').textContent='Đang lưu…';if(isRemote())remoteChangeVersion[state.mode]=(remoteChangeVersion[state.mode]||0)+1;clearTimeout(timer);timer=setTimeout(()=>{if(doc().seo?.auto)refreshSeo(doc());syncSeoPreview();$('#st-save').textContent=isRemote()?'Đang đồng bộ…':doc().status==='draft'?'Đã lưu bản nháp':statuses[doc().status];remember();queueCloudSave();},350);if(label)notify(label);commands();}
   function prepareImage(file){
     pendingInsertion??=captureInsertion();
     if(!file||!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)||file.size>10*1024*1024){notify('Chọn ảnh JPG, PNG, WebP hoặc AVIF dưới 10 MB');return;}
@@ -553,6 +556,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     if(!title||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)){notify('Nhập tên trang và đường dẫn không dấu, nối bằng dấu gạch ngang');return;}
     const content=template==='sample'?clone(initialPage):{title,slug,description:'',status:'draft',maxWidth:1200,canvasWidth:1200,brand:'REALNESS',nav:false,blocks:[]};
     content.title=title;content.slug=slug;content.kind='page';content.status='draft';
+    initializeSeo(content,true);content.seo.manual={};refreshSeo(content);
     try{
       await flushCloudSave();
       const {id}=await api('/api/drafts',jsonOptions('POST',{kind:'page',title,slug,content}));
@@ -565,6 +569,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     const title=$('#st-new-title')?.value.trim(),slug=$('#st-new-slug')?.value.trim().toLowerCase();
     if(!title||!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)){notify('Nhập tiêu đề và đường dẫn không dấu, nối bằng dấu gạch ngang');return;}
     const content={title,slug,kind:'post',description:'',status:'draft',maxWidth:900,canvasWidth:900,brand:'REALNESS',nav:false,blocks:[{id:'intro-'+Date.now(),name:'Nội dung bài viết',type:'text',ops:[{insert:'Bắt đầu viết bài tại đây.\n'}],backgroundMode:'transparent',space:24}]};
+    initializeSeo(content,true);content.seo.manual={};refreshSeo(content);
     try{await flushCloudSave();const {id}=await api('/api/drafts',jsonOptions('POST',{kind:'post',title,slug,content}));await refreshCloudDrafts();await openCloudDraft(id);notify('Đã tạo bản nháp bài viết');}
     catch(e){notify(e.message);}
   }
@@ -635,11 +640,29 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     if(state.right==='page')$('#st-inspector').insertAdjacentHTML('beforeend',`<div class="st-control-label">Bố cục Mobile</div>${mobileLayoutControls()}`);
     if(!canEdit())$$('#st-inspector input,#st-inspector textarea,#st-inspector select,#st-inspector button').forEach(n=>n.disabled=true);
   }
-  function renderAlt(){const alt=$('#st-alt-view');const show=['seo','history'].includes(state.tab)&&!state.preview;alt.hidden=!show;$('#st-page-wrap').hidden=show;if(!show){alt.innerHTML='';return;}alt.className='st-alt-view';if(state.tab==='seo'){alt.innerHTML=`<h2>Hiển thị tìm kiếm</h2><div class="st-fields">${field('Tiêu đề tìm kiếm','page:title',doc().title)}${field('Đường dẫn','page:slug',doc().slug)}${field('Mô tả','page:description',doc().description,true)}<div class="st-seo-card"><span>REALNESS · ${E(siteHost)}</span><h3 id="st-search-title">${E(doc().title)}</h3><p id="st-search-description">${E(doc().description)}</p></div><p class="st-note">Bản nháp nội bộ · Không lập chỉ mục</p></div>`;}else{alt.innerHTML=`<h2>Lịch sử phiên bản</h2><button type="button" data-act="snapshot" ${!canEdit()?'disabled':''}>${I('save')}Lưu mốc phiên bản</button><div class="st-history-row"><div><strong>Bản thiết kế gốc</strong><small>Mẫu tham chiếu ban đầu</small></div><button type="button" data-act="restore-original" ${!canEdit()?'disabled':''}>Khôi phục</button></div>`+versions.filter(v=>v.mode===state.mode).slice().reverse().map(v=>`<div class="st-history-row"><div><strong>${E(v.label)}</strong><small>${E(v.time)}</small></div><button type="button" data-restore="${v.id}" ${!canEdit()?'disabled':''}>Khôi phục</button></div>`).join('');}if(!canEdit())$$('#st-alt-view input,#st-alt-view textarea').forEach(n=>n.disabled=true);}
+  function renderAlt(){const alt=$('#st-alt-view');const show=['seo','history'].includes(state.tab)&&!state.preview;alt.hidden=!show;$('#st-page-wrap').hidden=show;if(!show){alt.innerHTML='';return;}alt.className='st-alt-view';if(state.tab==='seo'){alt.innerHTML=seoPanel();}else{alt.innerHTML=`<h2>Lịch sử phiên bản</h2><button type="button" data-act="snapshot" ${!canEdit()?'disabled':''}>${I('save')}Lưu mốc phiên bản</button><div class="st-history-row"><div><strong>Bản thiết kế gốc</strong><small>Mẫu tham chiếu ban đầu</small></div><button type="button" data-act="restore-original" ${!canEdit()?'disabled':''}>Khôi phục</button></div>`+versions.filter(v=>v.mode===state.mode).slice().reverse().map(v=>`<div class="st-history-row"><div><strong>${E(v.label)}</strong><small>${E(v.time)}</small></div><button type="button" data-restore="${v.id}" ${!canEdit()?'disabled':''}>Khôi phục</button></div>`).join('');}if(!canEdit())$$('#st-alt-view input,#st-alt-view textarea').forEach(n=>n.disabled=true);syncSeoPreview();}
+  function seoPanel(){
+    const d=doc(),seo=resolvedSeo(d),disabled=canEdit()?'':'disabled',images=seoImages(d);
+    const seoField=(key,label,area=false)=>`<div class="st-seo-field"><div class="st-seo-field-head"><label for="st-seo-${key}">${label}</label><small data-seo-state="${key}"></small><button type="button" data-seo-action="${key}" aria-label="Tạo lại ${label.toLowerCase()} từ nội dung" title="Tạo lại từ nội dung" ${disabled}>${I('rotate-ccw')}</button></div>${area?`<textarea id="st-seo-${key}" data-prop="seo:${key}" maxlength="800" rows="3" ${disabled}>${E(seo[key])}</textarea>`:`<input id="st-seo-${key}" data-prop="seo:${key}" maxlength="180" value="${E(seo[key])}" ${disabled}>`}</div>`;
+    return `<div class="st-seo-heading"><h2>Hiển thị tìm kiếm</h2><button type="button" class="st-primary" data-seo-action="generate" ${disabled}>${I('sparkles')}Tạo SEO từ nội dung</button></div><div class="st-fields"><label class="st-seo-auto"><input type="checkbox" data-prop="seo:auto" ${d.seo?.auto?'checked':''} ${disabled}>Tự cập nhật SEO khi lưu bài</label>${seoField('title','Tiêu đề tìm kiếm')}${seoField('description','Mô tả tìm kiếm',true)}<label>Đường dẫn<input data-prop="page:slug" value="${E(d.slug)}" maxlength="180" ${disabled}></label><div class="st-seo-share"><img id="st-seo-image" ${seo.imageMedia?`src="${E(asset(seo.imageMedia).src)}"`:''} alt="Ảnh chia sẻ" ${seo.imageMedia?'':'hidden'}><label>Ảnh chia sẻ<select data-prop="seo:imageMedia" ${disabled}><option value="">Tự động · Ảnh đầu tiên trong bài</option>${images.map(id=>`<option value="${id}" ${d.seo?.imageMedia===id?'selected':''}>${E(asset(id).name)}</option>`).join('')}</select></label></div><div class="st-seo-card"><span>REALNESS · ${E(siteHost)}</span><h3 id="st-search-title">${E(seo.title)}</h3><p id="st-search-description">${E(seo.description)}</p><small id="st-seo-canonical">${E(publicRoute())}</small></div><ul class="st-seo-warnings" id="st-seo-warnings"></ul><p class="st-note">${d.status==='published'?'Bản đã xuất bản': 'Bản nháp nội bộ · Không lập chỉ mục'}</p></div>`;
+  }
+  function syncSeoPreview(){
+    if(!$('#st-search-title'))return;
+    const seo=resolvedSeo(doc());
+    for(const key of ['title','description']){
+      $('#st-search-'+key).textContent=seo[key];
+      const input=$('#st-seo-'+key);if(input&&document.activeElement!==input)input.value=seo[key];
+      const stateLabel=$(`[data-seo-state="${key}"]`);
+      if(stateLabel)stateLabel.textContent=`${Array.from(seo[key]).length} ký tự · ${doc().seo?.manual?.[key]||(!doc().seo&&key==='description'&&seo[key])?'Đã chỉnh tay':'Tự động'}`;
+    }
+    const image=$('#st-seo-image');if(image){image.hidden=!seo.imageMedia;if(seo.imageMedia)image.src=asset(seo.imageMedia).src;}
+    if($('#st-seo-canonical'))$('#st-seo-canonical').textContent=publicRoute();
+    if($('#st-seo-warnings'))$('#st-seo-warnings').innerHTML=seoWarnings(doc()).map(message=>`<li>${E(message)}</li>`).join('');
+  }
   const panelHead=title=>`<div class="st-panel-heading"><h2>${title}</h2>${btn('close-panel','Đóng bảng','x')}</div>`;
   function renderIconChoices(){const target=$('#st-icon-choices');if(!target)return;const matches=iconEntries.filter(item=>(iconGroup==='Tất cả'||item.group===iconGroup)&&`${item.label} ${item.key} ${item.group}`.toLocaleLowerCase('vi-VN').includes(iconQuery.toLocaleLowerCase('vi-VN')));target.innerHTML=`<p class="st-icon-results">${matches.length} biểu tượng</p><div class="st-icon-picker">${matches.map(item=>`<button type="button" data-icon-choice="${item.key}" aria-pressed="${block()?.icon===item.key}" title="${E(item.group)}">${I(item.key)}<span>${E(item.label)}</span></button>`).join('')}</div>`;icons();}
   function showPanel(name){if(name==='crop'&&asset(block()?.media).pending){notify('Ảnh đang tải. Vui lòng chờ ảnh hiển thị trước khi cắt xén.');return;}if(['media','add'].includes(name)&&!panel)pendingInsertion??=captureInsertion();panel=panel===name?null:name;if(name==='crop'&&panel)crop=normalizedCrop(block().imageCrop)||{x:0,y:0,w:1,h:1};if(['media','replace','gallery-media'].includes(name)){picked=name==='gallery-media'?[...block().images]:[];mediaView='visible';mediaSearch='';mediaError='';}renderPanel();icons();if(panel&&['media','replace','gallery-media'].includes(name)&&(cloudMediaFailed||media.some(m=>m.pending)))refreshCloudMedia().catch(()=>notify('Chưa tải được kho media. Vui lòng thử lại.'));}
-  function checks(){return[{label:'Tiêu đề và đường dẫn',ok:!!doc().title.trim()&&!!doc().slug.trim()},{label:isProject()?'Nội dung trang':'Nội dung bài viết',ok:doc().blocks.length>=(isProject()?2:1)},{label:'Mô tả các ảnh',ok:doc().blocks.filter(b=>b.type==='image').every(b=>!!b.alt.trim())},{label:'Mô tả SEO',ok:!!doc().description.trim()}];}
+  function checks(){return[{label:'Tiêu đề và đường dẫn',ok:!!doc().title.trim()&&!!doc().slug.trim()},{label:isProject()?'Nội dung trang':'Nội dung bài viết',ok:doc().blocks.length>=(isProject()?2:1)},{label:'Mô tả các ảnh',ok:doc().blocks.filter(b=>b.type==='image').every(b=>!!b.alt?.trim())},{label:'Mô tả SEO',ok:!!resolvedSeo(doc()).description}];}
   function renderPanel(){const p=$('#st-panel');p.hidden=!panel;$$('.st-create-actions button').forEach(button=>button.setAttribute('aria-expanded',String(button.dataset.act===panel)));if(!panel){p.innerHTML='';displayedPanel=null;return;}if(panel!==displayedPanel){p.scrollTop=0;displayedPanel=panel;}
     if(['media','replace','gallery-media'].includes(panel)){
       const hiddenCount=media.filter(m=>m.hiddenAt).length;
@@ -716,6 +739,13 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   function propChange(el){
     if(!canEdit())return;
     const key=el.dataset.prop;if(!key)return;
+    if(key.startsWith('seo:')){
+      checkpoint();const seo=initializeSeo(doc()),field=key.slice(4);
+      if(field==='auto'){seo.auto=el.checked;if(seo.auto)refreshSeo(doc());}
+      else if(['title','description'].includes(field)){seo[field]=el.value;seo.manual={...seo.manual,[field]:true};}
+      else if(field==='imageMedia')seo.imageMedia=el.value;
+      syncSeoPreview();save();return;
+    }
     const b=block();let value=el.type==='checkbox'?el.checked:el.value;
      if(key==='width')value=clamp(Number(value)||30,30,100);
      if(key==='heightPx')value=el.value===''?null:clamp(Number(value)||40,40,2000);
@@ -743,6 +773,11 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   root.addEventListener('mousedown',e=>{if(e.target.closest('[data-format],[data-act=rich-link],[data-act=clear-format]'))e.preventDefault();});
   root.addEventListener('click',async e=>{
     const button=e.target.closest('button');if(button?.disabled)return;
+    if(button?.dataset.seoAction&&canEdit()){
+      checkpoint();const seo=initializeSeo(doc()),action=button.dataset.seoAction;
+      if(['title','description'].includes(action))seo.manual={...seo.manual,[action]:false};
+      refreshSeo(doc());renderAlt();icons();save('Đã cập nhật SEO từ nội dung; giữ nguyên các ô đã chỉnh tay');return;
+    }
     if(button?.dataset.galleryFocus&&canEdit()){const b=block(),id=button.dataset.galleryFocus;if(b?.type!=='gallery'||!b.images.includes(id))return;const [x,y]=carouselImageStyle(b,id).objectPosition.split(' ').map(parseFloat);galleryFocus={id,blockId:b.id,x,y};panel='gallery-focus';renderPanel();icons();return;}
     if(button?.dataset.galleryFocusAction&&galleryFocus&&canEdit()){if(button.dataset.galleryFocusAction==='center'){galleryFocus.x=50;galleryFocus.y=50;renderPanel();icons();}else if(block()?.id===galleryFocus.blockId){edit(()=>{block().imagePositions={...block().imagePositions,[galleryFocus.id]:{x:galleryFocus.x,y:galleryFocus.y}};panel=null;},'Đã cập nhật vùng hiển thị');}return;}
     if(button?.dataset.device){state.device=button.dataset.device;render();remember();return;}

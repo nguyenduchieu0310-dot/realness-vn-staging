@@ -1,0 +1,14 @@
+export type SeoSettings = { auto: boolean; title: string; description: string; imageMedia?: string; manual?: { title?: boolean; description?: boolean } };
+export type SeoDocument = { title?: string; description?: string; seo?: SeoSettings; blocks?: Record<string, unknown>[] };
+export function shortenSeo(value: unknown, limit: number): string;
+export function seoImages(doc: SeoDocument): string[];
+export function seoContent(doc: SeoDocument): { headings: string[]; paragraphs: string[] };
+export function generateSeo(doc: SeoDocument): { title: string; description: string };
+export function initializeSeo(doc: SeoDocument, auto?: boolean): SeoSettings;
+export function refreshSeo(doc: SeoDocument): SeoSettings;
+export function resolvedSeo(doc: SeoDocument): { title: string; description: string; imageMedia: string };
+export function seoWarnings(doc: SeoDocument): string[];
+export function validSeo(seo: unknown): boolean;
+export type SeoMetadata = { title: string; canonical: string; meta: Record<string, string>; structuredData: Record<string, unknown> };
+export function publicationSeo(publication: { kind: 'page' | 'post'; slug: string; title: string; content: SeoDocument; publishedAt?: string; updatedAt?: string }, options: { siteOrigin: string; mediaOrigin: string; indexable?: boolean }): SeoMetadata;
+export function applySeoHead(headDocument: Document, metadata: SeoMetadata): () => void;
