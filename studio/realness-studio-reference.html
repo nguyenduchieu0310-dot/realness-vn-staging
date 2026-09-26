@@ -7,7 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="/studio/vendor/quill.core.css">
 <script src="/studio/vendor/lucide.min.js"></script>
-<script src="/studio/studio-config.js?v=9e72b3b-20260925170747"></script>
+<script src="/studio/studio-config.js?v=2acdb34-20260926103432"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -273,20 +273,20 @@
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
 <script src="/studio/vendor/quill.js"></script>
-<link rel="stylesheet" href="/studio/studio-viewport.css?v=9e72b3b-20260925170747">
-<link rel="stylesheet" href="/studio/studio-workspace.css?v=9e72b3b-20260925170747">
-<link rel="stylesheet" href="/studio/studio-seo.css?v=9e72b3b-20260925170747">
+<link rel="stylesheet" href="/studio/studio-viewport.css?v=2acdb34-20260926103432">
+<link rel="stylesheet" href="/studio/studio-workspace.css?v=2acdb34-20260926103432">
+<link rel="stylesheet" href="/studio/studio-seo.css?v=2acdb34-20260926103432">
 <script type="module">
-import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=9e72b3b-20260925170747';
-import { studioSession } from '/studio/studio-session.js?v=9e72b3b-20260925170747';
-import { createStudioViewport } from '/studio/studio-viewport.js?v=9e72b3b-20260925170747';
-import { canvasWidth } from '/studio/studio-layout.js?v=9e72b3b-20260925170747';
-import { createStudioWorkspace } from '/studio/studio-workspace.js?v=9e72b3b-20260925170747';
-import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=9e72b3b-20260925170747';
-import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=9e72b3b-20260925170747';
+import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=2acdb34-20260926103432';
+import { studioSession } from '/studio/studio-session.js?v=2acdb34-20260926103432';
+import { createStudioViewport } from '/studio/studio-viewport.js?v=2acdb34-20260926103432';
+import { canvasWidth } from '/studio/studio-layout.js?v=2acdb34-20260926103432';
+import { createStudioWorkspace } from '/studio/studio-workspace.js?v=2acdb34-20260926103432';
+import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=2acdb34-20260926103432';
+import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=2acdb34-20260926103432';
 (()=>{
   const root=document.getElementById('realness-studio-reference');
-  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.1',environment:'LOCAL',build:'dev'};
+  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.2',environment:'LOCAL',build:'dev'};
   root.querySelector('#st-release').textContent=`Studio v${release.version} · ${release.environment} · ${release.build}`;
   root.querySelector('#st-release').title=release.builtAt||'Development';
   const $=s=>root.querySelector(s),$$=s=>Array.from(root.querySelectorAll(s));
