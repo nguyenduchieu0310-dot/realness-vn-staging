@@ -7,7 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="/studio/vendor/quill.core.css">
 <script src="/studio/vendor/lucide.min.js"></script>
-<script src="/studio/studio-config.js?v=4964de8-20261001062514"></script>
+<script src="/studio/studio-config.js?v=86ba180-20261001074826"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -41,9 +41,9 @@
     <div class="st-tabs" role="group" aria-label="Chế độ biên tập"><button type="button" data-tab="design" aria-pressed="true">Thiết kế</button><button type="button" data-tab="content" aria-pressed="false">Nội dung</button><button type="button" data-tab="seo" aria-pressed="false">SEO</button><button type="button" data-tab="history" aria-pressed="false">Lịch sử</button></div>
   </div>
   <section id="st-panel" class="st-panel" hidden aria-label="Công cụ bổ sung"></section>
-  <dialog id="st-reopen-dialog" class="st-reopen-dialog" aria-labelledby="st-reopen-title">
+  <dialog id="st-reopen-dialog" class="st-reopen-dialog" aria-labelledby="st-reopen-title" aria-describedby="st-reopen-description">
     <h2 id="st-reopen-title">Chỉnh sửa bài đã đăng</h2>
-    <p>Bản đang công khai vẫn giữ nguyên. Bản sửa chỉ thay thế sau khi được duyệt và xuất bản lại.</p>
+    <p id="st-reopen-description">Bản đang công khai vẫn giữ nguyên. Bản sửa chỉ thay thế sau khi được duyệt và xuất bản lại.</p>
     <p id="st-reopen-error" role="alert" hidden></p>
     <div class="st-reopen-actions">
       <button type="button" data-act="cancel-reopen">Hủy</button>
@@ -288,20 +288,20 @@
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
 <script src="/studio/vendor/quill.js"></script>
-<link rel="stylesheet" href="/studio/studio-viewport.css?v=4964de8-20261001062514">
-<link rel="stylesheet" href="/studio/studio-workspace.css?v=4964de8-20261001062514">
-<link rel="stylesheet" href="/studio/studio-seo.css?v=4964de8-20261001062514">
+<link rel="stylesheet" href="/studio/studio-viewport.css?v=86ba180-20261001074826">
+<link rel="stylesheet" href="/studio/studio-workspace.css?v=86ba180-20261001074826">
+<link rel="stylesheet" href="/studio/studio-seo.css?v=86ba180-20261001074826">
 <script type="module">
-import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=4964de8-20261001062514';
-import { studioSession } from '/studio/studio-session.js?v=4964de8-20261001062514';
-import { createStudioViewport } from '/studio/studio-viewport.js?v=4964de8-20261001062514';
-import { canvasWidth } from '/studio/studio-layout.js?v=4964de8-20261001062514';
-import { createStudioWorkspace } from '/studio/studio-workspace.js?v=4964de8-20261001062514';
-import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=4964de8-20261001062514';
-import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=4964de8-20261001062514';
+import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=86ba180-20261001074826';
+import { studioSession } from '/studio/studio-session.js?v=86ba180-20261001074826';
+import { createStudioViewport } from '/studio/studio-viewport.js?v=86ba180-20261001074826';
+import { canvasWidth } from '/studio/studio-layout.js?v=86ba180-20261001074826';
+import { createStudioWorkspace } from '/studio/studio-workspace.js?v=86ba180-20261001074826';
+import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=86ba180-20261001074826';
+import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=86ba180-20261001074826';
 (()=>{
   const root=document.getElementById('realness-studio-reference');
-  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.5',environment:'LOCAL',build:'dev'};
+  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.6',environment:'LOCAL',build:'dev'};
   root.querySelector('#st-release').textContent=`Studio v${release.version} · ${release.environment} · ${release.build}`;
   root.querySelector('#st-release').title=release.builtAt||'Development';
   const $=s=>root.querySelector(s),$$=s=>Array.from(root.querySelectorAll(s));
@@ -515,24 +515,40 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     }catch(e){notify(e.message);}
   }
   let reopeningCloudDraft=false;
-  async function reopenCloudDraft(){
+  function requestCloudEdit(){
     if(reopeningCloudDraft)return;
+    const published=doc().status==='published'||!!doc().publishedAt;
+    $('#st-reopen-title').textContent=published?'Chỉnh sửa bài đã đăng':'Chỉnh sửa bài đã duyệt';
+    $('#st-reopen-description').textContent=published?'Bản đang công khai vẫn giữ nguyên. Bản sửa chỉ thay thế sau khi được duyệt và xuất bản lại.':'Bài sẽ trở về bản nháp để chỉnh sửa và cần được gửi duyệt lại.';
+    $('#st-reopen-error').hidden=true;
+    $('#st-reopen-error').textContent='';
+    if(!$('#st-reopen-dialog').open)$('#st-reopen-dialog').showModal();
+  }
+  $('#st-reopen-dialog').addEventListener('cancel',event=>{if(reopeningCloudDraft)event.preventDefault();});
+  async function reopenCloudDraft(){
+    if(reopeningCloudDraft||!isRemote()||state.role!=='editor'||!['approved','published'].includes(doc().status))return;
     reopeningCloudDraft=true;
     const mode=state.mode,id=mode.slice(7);
-    const dialog=$('#st-reopen-dialog'),confirm=dialog.querySelector('[data-act=confirm-reopen]');
-    confirm.disabled=true;
+    const dialog=$('#st-reopen-dialog'),confirm=dialog.querySelector('[data-act=confirm-reopen]'),cancel=dialog.querySelector('[data-act=cancel-reopen]');
+    dialog.setAttribute('aria-busy','true');
+    confirm.disabled=cancel.disabled=true;
+    confirm.textContent='Đang mở bản sửa...';
+    $('#st-reopen-error').hidden=true;
     try{
       await flushCloudSave();
       const result=await api('/api/drafts/'+id+'/reopen',jsonOptions('POST',{revision:remoteRevisions[mode]}));
       remoteRevisions[mode]=result.revision;
       state.docs[mode].status='draft';
+      state.docs[mode].reviewNote=null;
       if(mobileReturnDevice){state.device=mobileReturnDevice;mobileReturnDevice=null;}
       state.preview=false;
+      state.tab='design';
+      panel=null;render();remember();
       dialog.close();
-      await refreshCloudDrafts().catch(()=>{});
-      panel=null;render();remember();notify('Đã mở bản chỉnh sửa. Bản công khai vẫn giữ nguyên.');
-    }catch(e){if(dialog.open){const error=$('#st-reopen-error');error.textContent=e.status===409?'Bài đã thay đổi ở phiên khác. Tải lại trang rồi thử lại.':e.message;error.hidden=false;}else notify(e.message);}
-    finally{confirm.disabled=false;reopeningCloudDraft=false;}
+      notify('Đã mở bản chỉnh sửa. Bản công khai vẫn giữ nguyên.');
+      void refreshCloudDrafts().catch(()=>{});
+    }catch(e){const error=$('#st-reopen-error');error.textContent=e.message;error.hidden=false;}
+    finally{dialog.setAttribute('aria-busy','false');confirm.disabled=cancel.disabled=false;confirm.textContent='Tạo bản sửa';reopeningCloudDraft=false;}
   }
   async function flushCloudSave(){
     clearTimeout(timer);clearTimeout(cloudSaveTimer);cloudSaveTimer=null;
@@ -855,12 +871,12 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     if(button?.dataset.cta){const b=doc().blocks.find(b=>b.id===button.dataset.cta);if(canEdit()){if(b.id!==state.selected)select(b.id);return;}if(b.href.startsWith('#')&&doc().blocks.some(x=>x.id===b.href.slice(1)))select(b.href.slice(1),true);else if(safeLink(b.href)){state.selected=b.id;showPanel('image-link');}else notify('Đường dẫn chưa hợp lệ');return;}
     const a=button?.dataset.act;
     if(a){
-      if(a==='review'&&isRemote()&&state.role==='editor'&&['approved','published'].includes(doc().status)){
-        if(doc().status==='published'){$('#st-reopen-error').hidden=true;$('#st-reopen-error').textContent='';if(!$('#st-reopen-dialog').open)$('#st-reopen-dialog').showModal();}
-        else await reopenCloudDraft();
+      const leavingPreview=state.preview&&(a==='preview'||a==='mobile-preview'&&state.device==='mobile');
+      if((a==='review'||a==='reopen'||leavingPreview)&&isRemote()&&state.role==='editor'&&['approved','published'].includes(doc().status)){
+        requestCloudEdit();
         return;
       }
-      if(a==='cancel-reopen'){$('#st-reopen-dialog').close();return;}
+      if(a==='cancel-reopen'){if(!reopeningCloudDraft)$('#st-reopen-dialog').close();return;}
       if(a==='confirm-reopen'){await reopenCloudDraft();return;}
       if(['replace','media','gallery-media','crop','account','documents','review','video-upload','page-address','icon-library','new-blank-page','new-sample-page','new-post','users','change-password'].includes(a)){showPanel(a);return;}
       if(a==='create-page'){await createPage(button.dataset.template);return;}
@@ -898,7 +914,6 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
       if(a==='rich-link'){if(quill)showPanel('rich-link');return;}
       if(a==='clear-format'){if(quill&&lastRange)quill.removeFormat(lastRange.index,lastRange.length,'user');return;}
       if(a==='apply-link'){const href=$('#st-link-url').value;if(!safeLink(href)){notify('Đường dẫn không hợp lệ');return;}if(quill){const r=lastRange||{index:quill.getLength()-1,length:0};if(r.length)quill.formatText(r.index,r.length,'link',href,'user');else quill.insertText(r.index,$('#st-link-text').value||href,{link:href},'user');panel=null;renderPanel();}return;}
-      if(a==='reopen'&&isRemote()&&state.role==='editor'&&['approved','published'].includes(doc().status)){reopenCloudDraft();return;}
       if(a==='submit-review'&&state.role==='editor'&&checks().every(c=>c.ok)){status('review','Đã gửi duyệt');return;}
       if(a==='withdraw'&&state.role==='editor'){status('draft','Đã rút về chỉnh sửa');return;}
       if(a==='approve'&&state.role==='reviewer'&&doc().status==='review'){status('approved','Đã phê duyệt');return;}
