@@ -7,7 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="/studio/vendor/quill.core.css">
 <script src="/studio/vendor/lucide.min.js"></script>
-<script src="/studio/studio-config.js?v=aadfd83-20261001083211"></script>
+<script src="/studio/studio-config.js?v=f7a511d-20261001084803"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -288,18 +288,18 @@
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
 <script src="/studio/vendor/quill.js"></script>
-<link rel="stylesheet" href="/studio/studio-viewport.css?v=aadfd83-20261001083211">
-<link rel="stylesheet" href="/studio/studio-workspace.css?v=aadfd83-20261001083211">
-<link rel="stylesheet" href="/studio/studio-seo.css?v=aadfd83-20261001083211">
+<link rel="stylesheet" href="/studio/studio-viewport.css?v=f7a511d-20261001084803">
+<link rel="stylesheet" href="/studio/studio-workspace.css?v=f7a511d-20261001084803">
+<link rel="stylesheet" href="/studio/studio-seo.css?v=f7a511d-20261001084803">
 <script type="module">
-import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=aadfd83-20261001083211';
-import { studioSession } from '/studio/studio-session.js?v=aadfd83-20261001083211';
-import { createStudioViewport } from '/studio/studio-viewport.js?v=aadfd83-20261001083211';
-import { canvasWidth } from '/studio/studio-layout.js?v=aadfd83-20261001083211';
-import { createStudioWorkspace } from '/studio/studio-workspace.js?v=aadfd83-20261001083211';
-import { bindCanvasDeselection } from '/studio/studio-selection.js?v=aadfd83-20261001083211';
-import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=aadfd83-20261001083211';
-import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=aadfd83-20261001083211';
+import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=f7a511d-20261001084803';
+import { studioSession } from '/studio/studio-session.js?v=f7a511d-20261001084803';
+import { createStudioViewport } from '/studio/studio-viewport.js?v=f7a511d-20261001084803';
+import { canvasWidth } from '/studio/studio-layout.js?v=f7a511d-20261001084803';
+import { createStudioWorkspace } from '/studio/studio-workspace.js?v=f7a511d-20261001084803';
+import { bindCanvasDeselection } from '/studio/studio-selection.js?v=f7a511d-20261001084803';
+import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=f7a511d-20261001084803';
+import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=f7a511d-20261001084803';
 (()=>{
   const root=document.getElementById('realness-studio-reference');
   const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.7',environment:'LOCAL',build:'dev'};
@@ -578,7 +578,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   function icons(){globalThis.lucide?.createIcons({attrs:{width:17,height:17}});$$('button').forEach(b=>b.classList.add('cursor-interaction'));}
   function notify(t){$('#st-status').textContent=t;clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>$('#st-status').textContent='Bản nháp nội bộ',7000);}
   function checkpoint(){undo[state.mode].push(clone(doc()));if(undo[state.mode].length>35)undo[state.mode].shift();redo[state.mode]=[];}
-  function save(label){$('#st-save').textContent='Đang lưu…';if(isRemote())remoteChangeVersion[state.mode]=(remoteChangeVersion[state.mode]||0)+1;clearTimeout(timer);timer=setTimeout(()=>{if(doc().seo?.auto)refreshSeo(doc());syncSeoPreview();$('#st-save').textContent=isRemote()?'Đang đồng bộ…':doc().status==='draft'?'Đã lưu bản nháp':statuses[doc().status];remember();queueCloudSave();},350);if(label)notify(label);commands();}
+  function save(label){$('#st-save').textContent='Đang lưu…';if(isRemote())remoteChangeVersion[state.mode]=(remoteChangeVersion[state.mode]||0)+1;clearTimeout(timer);timer=setTimeout(()=>{if(doc().seo?.auto)refreshSeo(doc());syncSeoPreview();if(isRemote())updateSaveStatus();else $('#st-save').textContent=doc().status==='draft'?'Đã lưu bản nháp':statuses[doc().status];remember();queueCloudSave();},350);if(label)notify(label);commands();}
   function prepareImage(file){
     pendingInsertion??=captureInsertion();
     if(!file||!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)||file.size>10*1024*1024){notify('Chọn ảnh JPG, PNG, WebP hoặc AVIF dưới 10 MB');return;}
