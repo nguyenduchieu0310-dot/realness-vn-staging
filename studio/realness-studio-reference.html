@@ -7,7 +7,7 @@
 <title>REALNESS Studio · Palm River</title>
 <link rel="stylesheet" href="/studio/vendor/quill.core.css">
 <script src="/studio/vendor/lucide.min.js"></script>
-<script src="/studio/studio-config.js?v=86ba180-20261001074826"></script>
+<script src="/studio/studio-config.js?v=aadfd83-20261001083211"></script>
 <style>html,body{margin:0;min-width:320px;min-height:100%;background:#f8faf9}</style>
 </head>
 <body>
@@ -288,20 +288,21 @@
 @media(max-width:850px){#realness-studio-reference .st-rich-toolbar{position:relative}}
 </style>
 <script src="/studio/vendor/quill.js"></script>
-<link rel="stylesheet" href="/studio/studio-viewport.css?v=86ba180-20261001074826">
-<link rel="stylesheet" href="/studio/studio-workspace.css?v=86ba180-20261001074826">
-<link rel="stylesheet" href="/studio/studio-seo.css?v=86ba180-20261001074826">
+<link rel="stylesheet" href="/studio/studio-viewport.css?v=aadfd83-20261001083211">
+<link rel="stylesheet" href="/studio/studio-workspace.css?v=aadfd83-20261001083211">
+<link rel="stylesheet" href="/studio/studio-seo.css?v=aadfd83-20261001083211">
 <script type="module">
-import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=86ba180-20261001074826';
-import { studioSession } from '/studio/studio-session.js?v=86ba180-20261001074826';
-import { createStudioViewport } from '/studio/studio-viewport.js?v=86ba180-20261001074826';
-import { canvasWidth } from '/studio/studio-layout.js?v=86ba180-20261001074826';
-import { createStudioWorkspace } from '/studio/studio-workspace.js?v=86ba180-20261001074826';
-import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=86ba180-20261001074826';
-import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=86ba180-20261001074826';
+import { initializeSeo, refreshSeo, resolvedSeo, seoImages, seoWarnings } from '/studio/studio-seo.js?v=aadfd83-20261001083211';
+import { studioSession } from '/studio/studio-session.js?v=aadfd83-20261001083211';
+import { createStudioViewport } from '/studio/studio-viewport.js?v=aadfd83-20261001083211';
+import { canvasWidth } from '/studio/studio-layout.js?v=aadfd83-20261001083211';
+import { createStudioWorkspace } from '/studio/studio-workspace.js?v=aadfd83-20261001083211';
+import { bindCanvasDeselection } from '/studio/studio-selection.js?v=aadfd83-20261001083211';
+import { mountCarousel, carouselColumns, carouselFrames, carouselImageStyle } from '/studio/studio-carousel.js?v=aadfd83-20261001083211';
+import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/studio-image.js?v=aadfd83-20261001083211';
 (()=>{
   const root=document.getElementById('realness-studio-reference');
-  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.6',environment:'LOCAL',build:'dev'};
+  const release=window.REALNESS_STUDIO_RELEASE||{version:'2.6.7',environment:'LOCAL',build:'dev'};
   root.querySelector('#st-release').textContent=`Studio v${release.version} · ${release.environment} · ${release.build}`;
   root.querySelector('#st-release').title=release.builtAt||'Development';
   const $=s=>root.querySelector(s),$$=s=>Array.from(root.querySelectorAll(s));
@@ -631,7 +632,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   function currentProps(){const b=block();return {space:b?.space??24,width:b?.width??100};}
   const canSetMobileLayout=()=>!!user&&!user.mustChangePassword&&state.role!=='reviewer'&&doc().status==='draft';
   function mobileLayoutControls(){return `<div class="st-mobile-layout-options" role="group" aria-label="Bố cục Mobile">${[['responsive','smartphone','Tự sắp xếp'],['desktop','monitor','Giữ nguyên Desktop']].map(([value,icon,label])=>`<button type="button" data-mobile-layout="${value}" aria-pressed="${(doc().mobileLayout||'responsive')===value}" ${canSetMobileLayout()?'':'disabled'}>${I(icon)}${label}</button>`).join('')}</div>`;}
-  function render(){quill=null;lastRange=null;const d=doc();d.canvasWidth=canvasWidth(d);if(!block())state.selected=d.blocks[0]?.id;$('.st-env').textContent=siteHost==='realness.vn'?'PRODUCTION':'STAGING';$('#st-document').textContent=d.title;$('#st-collection').textContent=isProject()?'Dự án':'Bài viết';$('#st-kind').textContent=isProject()?'TRANG DỰ ÁN':'BÀI VIẾT';$('#st-route').textContent=`${siteHost}/${routeKind()}/${d.slug}/ · Bản nháp nội bộ`;$('#st-save').textContent=d.status==='draft'?'Đã lưu bản nháp':statuses[d.status];$('#st-initials').textContent=(user?.name||user?.username||'BT').trim().split(/\s+/).map(part=>part[0]).slice(-2).join('').toUpperCase();$('#st-preview').textContent=state.preview?'Về biên tập':'Xem trước';$$('[data-device]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.device===state.device)));$$('[data-tab]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.tab===state.tab)));$$('[data-left]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.left===state.left)));$$('[data-right]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.right===state.right)));$('#st-workspace').classList.toggle('st-preview',state.preview);$('#st-structure').hidden=state.left==='add';$('#st-tree').innerHTML=d.blocks.map(b=>`<div class="st-tree-row ${b.id===state.selected?'selected':''}" data-row="${b.id}"><button type="button" class="st-grip" draggable="${canEdit()}" data-drag="${b.id}" aria-label="Di chuyển ${E(labelFor(b))}" ${!canEdit()?'disabled':''}>${I('grip-vertical')}</button><button type="button" class="st-tree-select" data-select="${b.id}" aria-current="${b.id===state.selected?'true':'false'}">${I(iconFor(b))}<span>${E(labelFor(b))}</span></button>${b.locked?'<span class="st-lock">'+I('lock-keyhole')+'</span>':''}</div>`).join('');$('#st-library').innerHTML=Object.entries(types).map(([type,[label,icon]])=>`<button type="button" data-add="${type}" ${!canEdit()?'disabled':''}>${I(icon)}${label}</button>`).join('');$('[data-act=add-section]').disabled=!canEdit();$('#st-page').dataset.device=state.device;$('#st-page').style.maxWidth=state.device==='desktop'?`${d.maxWidth}px`:'';$('.st-site-nav').hidden=!d.nav;$('.st-site-nav strong').textContent=d.brand||'REALNESS';renderCanvas();renderInspector();renderAlt();renderPanel();commands();icons();}
+  function render(){quill=null;lastRange=null;const d=doc();d.canvasWidth=canvasWidth(d);if(state.selected!==null&&!block())state.selected=d.blocks[0]?.id;$('.st-env').textContent=siteHost==='realness.vn'?'PRODUCTION':'STAGING';$('#st-document').textContent=d.title;$('#st-collection').textContent=isProject()?'Dự án':'Bài viết';$('#st-kind').textContent=isProject()?'TRANG DỰ ÁN':'BÀI VIẾT';$('#st-route').textContent=`${siteHost}/${routeKind()}/${d.slug}/ · Bản nháp nội bộ`;$('#st-save').textContent=d.status==='draft'?'Đã lưu bản nháp':statuses[d.status];$('#st-initials').textContent=(user?.name||user?.username||'BT').trim().split(/\s+/).map(part=>part[0]).slice(-2).join('').toUpperCase();$('#st-preview').textContent=state.preview?'Về biên tập':'Xem trước';$$('[data-device]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.device===state.device)));$$('[data-tab]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.tab===state.tab)));$$('[data-left]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.left===state.left)));$$('[data-right]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.right===state.right)));$('#st-workspace').classList.toggle('st-preview',state.preview);$('#st-structure').hidden=state.left==='add';$('#st-tree').innerHTML=d.blocks.map(b=>`<div class="st-tree-row ${b.id===state.selected?'selected':''}" data-row="${b.id}"><button type="button" class="st-grip" draggable="${canEdit()}" data-drag="${b.id}" aria-label="Di chuyển ${E(labelFor(b))}" ${!canEdit()?'disabled':''}>${I('grip-vertical')}</button><button type="button" class="st-tree-select" data-select="${b.id}" aria-current="${b.id===state.selected?'true':'false'}">${I(iconFor(b))}<span>${E(labelFor(b))}</span></button>${b.locked?'<span class="st-lock">'+I('lock-keyhole')+'</span>':''}</div>`).join('');$('#st-library').innerHTML=Object.entries(types).map(([type,[label,icon]])=>`<button type="button" data-add="${type}" ${!canEdit()?'disabled':''}>${I(icon)}${label}</button>`).join('');$('[data-act=add-section]').disabled=!canEdit();$('#st-page').dataset.device=state.device;$('#st-page').style.maxWidth=state.device==='desktop'?`${d.maxWidth}px`:'';$('.st-site-nav').hidden=!d.nav;$('.st-site-nav strong').textContent=d.brand||'REALNESS';renderCanvas();renderInspector();renderAlt();renderPanel();commands();icons();}
   const textBackgroundMode=b=>['transparent','white','custom'].includes(b.backgroundMode)?b.backgroundMode:'transparent';
   const textBackground=b=>textBackgroundMode(b)==='white'?'#ffffff':textBackgroundMode(b)==='custom'&&/^#[0-9a-f]{6}$/i.test(b.backgroundColor||'')?b.backgroundColor:'transparent';
   function applyTextBackground(b){const section=$(`[data-block="${b.id}"]`);section?.style.setProperty('--st-text-background',textBackground(b));}
@@ -663,7 +664,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
       const free=x.free||null;
       const freeStyle=free?`left:${free.x}px;top:${free.y}px;width:${free.w}px;${['text','button'].includes(x.type)?'min-height':'height'}:${free.h}px;z-index:${free.z||20};`:'';
       const freeHandles=free&&x.id===state.selected&&!state.preview&&canEdit()?(x.type==='image'?['nw','n','ne','w','e','sw','s','se']:['nw','ne','sw','se']).map(h=>`<button type="button" class="st-free-handle" data-free-handle="${h}" aria-label="Đổi kích thước ${h}"></button>`).join(''):'';
-      return `${flowSlotHtml(x)}<section class="st-block ${free?'st-free':''} ${x.id===state.selected&&!state.preview?'selected':''}" data-block="${x.id}" data-block-type="${x.type}" style="${freeStyle}margin-bottom:${free?0:(x.space??24)}px;${!free&&x.id===state.selected&&!state.preview&&i>0?'margin-top:44px;':''}${x.type==='text'?'--st-text-background:'+textBackground(x)+';':''}">${collapsed?`<button type="button" class="st-collapsed" data-select="${x.id}">${E(labelFor(x))}${I('chevron-down')}</button>`:`${toolbar(x)}<div class="st-block-content">${!['text','button'].includes(x.type)&&!state.preview&&x.id===state.selected&&state.tab==='design'?`<div class="st-block-tag">${I(free?'move':'grip-vertical')}${E(labelFor(x))}</div>`:''}${body(x)}</div>${freeHandles}`}${x.id==='overview'&&!state.preview?`<div class="st-insert"><button type="button" data-insert-after="${x.id}" aria-label="Chèn phần sau Tổng quan" data-tooltip="Chèn phần tại đây">${I('plus')}</button></div>`:''}</section>`;
+      return `${flowSlotHtml(x)}<section class="st-block ${free?'st-free':''} ${x.id===state.selected&&!state.preview?'selected':''}" data-block="${x.id}" data-block-type="${x.type}" style="${freeStyle}margin-bottom:${free?0:(x.space??24)}px;${x.type==='text'?'--st-text-background:'+textBackground(x)+';':''}">${collapsed?`<button type="button" class="st-collapsed" data-select="${x.id}">${E(labelFor(x))}${I('chevron-down')}</button>`:`${toolbar(x)}<div class="st-block-content">${!['text','button'].includes(x.type)&&!state.preview&&x.id===state.selected&&state.tab==='design'?`<div class="st-block-tag">${I(free?'move':'grip-vertical')}${E(labelFor(x))}</div>`:''}${body(x)}</div>${freeHandles}`}${x.id==='overview'&&!state.preview?`<div class="st-insert"><button type="button" data-insert-after="${x.id}" aria-label="Chèn phần sau Tổng quan" data-tooltip="Chèn phần tại đây">${I('plus')}</button></div>`:''}</section>`;
     }).join('');
     if(b?.type==='text'&&canEdit()&&globalThis.Quill){const el=$(`[data-rich="${b.id}"]`);if(el){quill=new Quill(el,{theme:null,modules:{toolbar:false}});quill.setContents({ops:b.ops},'silent');quill.root.setAttribute('aria-label','Văn bản đang chỉnh sửa');quill.on('selection-change',r=>{if(r)lastRange=r;});quill.on('text-change',(_a,_b,source)=>{if(source==='silent')return;checkpoint();b.ops=quill.getContents().ops;syncFreeCanvas();save();});}}
     doc().blocks.filter(x=>x.type==='button').forEach(applyButtonAppearance);
@@ -739,9 +740,19 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
     if(panel==='review'&&doc().status==='published')p.innerHTML=panelHead('Đã xuất bản')+`<p class="st-note">Bài đã công khai tại <a href="${E(publicRoute())}" target="_blank" rel="noopener">${E(publicRoute())}</a>.</p><button type="button" class="st-primary" data-act="reopen" ${user?.role==='admin'||doc().createdBy===user?.id?'':'disabled'}>Chỉnh sửa bài</button><a href="/studio/">Quản lý nội dung và sửa link</a>`;
   }
   function select(id,scroll=false){state.selected=id;state.right='block';state.tab='design';expanded.add(id);panel=null;render();remember();if(scroll)$(`[data-block="${id}"]`)?.scrollIntoView({behavior:'auto',block:'nearest'});}
+  function clearSelection(){
+    if(!block())return;
+    // Flush pending text mutations before replacing the active editor, not its save timer.
+    quill?.update('user');quill?.blur();
+    const selected=$(`[data-block="${state.selected}"]`),range=window.getSelection();
+    if(selected?.contains(range?.anchorNode))range.removeAllRanges();
+    if(selected?.contains(document.activeElement))document.activeElement.blur();
+    state.selected=null;state.right='page';lastRange=null;
+    viewport.relayout(()=>render());remember();
+  }
   function intrinsicButtonSize(button){const {flex,width,alignSelf,whiteSpace}=button.style;button.style.flex='none';button.style.width='max-content';button.style.alignSelf='flex-start';button.style.whiteSpace='nowrap';const rect=button.getBoundingClientRect();Object.assign(button.style,{flex,width,alignSelf,whiteSpace});return rect;}
   function toFreePosition(b){const canvas=pageRect($('#st-blocks')),section=$(`[data-block="${b.id}"]`),content=section?.querySelector('.st-block-content'),source=b.type==='image'?content?.querySelector('.st-image-frame'):b.type==='button'?content?.querySelector('[data-cta]'):content,raw=b.type==='button'&&source?intrinsicButtonSize(source):null,rect=raw?{left:raw.left/viewScale(),top:raw.top/viewScale(),width:raw.width/viewScale(),height:raw.height/viewScale()}:pageRect(source||section||$('#st-blocks'));const w=b.type==='image'||b.type==='button'?rect.width:b.type==='icon'?110:b.type==='text'?Math.min(480,rect.width):Math.min(760,rect.width);const h=b.type==='image'||b.type==='button'?rect.height:b.type==='icon'?110:b.type==='text'?Math.max(110,Math.min(260,rect.height)):Math.max(120,Math.min(520,rect.height));return{x:Math.round(rect.left-canvas.left),y:Math.round(rect.top-canvas.top),w:Math.round(w),h:Math.round(h),z:30};}
-  function flowSlotFromSection(section){const style=getComputedStyle(section),toolbar=section.querySelector(':scope > .st-floating-toolbar'),toolbarMargin=toolbar?parseFloat(getComputedStyle(toolbar).marginTop)||0:0;return{height:Math.max(0,Math.ceil(section.getBoundingClientRect().height/viewScale()+toolbarMargin)),marginTop:parseFloat(style.marginTop)||0};}
+  function flowSlotFromSection(section){const style=getComputedStyle(section);return{height:Math.max(0,section.getBoundingClientRect().height/viewScale()),marginTop:parseFloat(style.marginTop)||0};}
   function flowSlotHtml(b){if(!b.free||!b.flowSlot)return '';return `<div class="st-flow-placeholder" data-flow-slot="${b.id}" style="height:${b.flowSlot.height}px;margin-top:${b.flowSlot.marginTop}px;margin-bottom:${b.space??24}px" aria-hidden="true"></div>`;}
   function syncFreeCanvas(){const blocks=$('#st-blocks');if(!blocks)return;const room=($('.st-center')?.clientHeight||0)/viewScale(),sections=new Map($$('#st-blocks [data-block]').map(el=>[el.dataset.block,el]));const bottom=doc().blocks.reduce((height,b)=>b.free?Math.max(height,Number(b.free.y)+Math.max(Number(b.free.h),sections.get(b.id)?.offsetHeight||0)+Math.max(80,freeGesture?.active&&freeGesture.id===b.id?room:0)):height,700);blocks.style.setProperty('--st-free-canvas-height',`${Math.ceil(bottom)}px`);viewport?.sync();}
   function trimFreeTextEdges(b,targetHeight){const rich=$(`[data-block="${b.id}"] .st-rich`);if(!quill||block()?.id!==b.id||!rich)return;for(let i=0;i<30;i++){if(targetHeight&&rich.getBoundingClientRect().height/viewScale()<=targetHeight)break;const value=quill.getText();if(value.length<=1)break;if(value.startsWith('\n'))quill.deleteText(0,1,'silent');else if(value.endsWith('\n\n'))quill.deleteText(value.length-2,1,'silent');else break;}b.ops=quill.getContents().ops;}
@@ -797,7 +808,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
       else if(field==='imageMedia')seo.imageMedia=el.value;
       syncSeoPreview();save();return;
     }
-    const b=block();let value=el.type==='checkbox'?el.checked:el.value;
+    const b=block();if(!b&&!key.startsWith('page:'))return;let value=el.type==='checkbox'?el.checked:el.value;
      if(key==='width')value=clamp(Number(value)||30,30,100);
      if(key==='heightPx')value=el.value===''?null:clamp(Number(value)||40,40,2000);
     if(key==='space')value=clamp(Number(value)||0,0,120);
@@ -935,7 +946,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   root.addEventListener('dragend',()=>{dragId=null;$$('.drop').forEach(x=>x.classList.remove('drop'));});
   const baseRender=render;
   function clearDropState(){root.classList.remove('st-dragging');$$('.drop').forEach(x=>x.classList.remove('drop'));}
-  function dropHtml(index){return `<button type="button" class="st-dropzone" data-drop-index="${index}" aria-label="Thả khối vào vị trí ${index+1}"><span>${I('plus')}Thả khối vào đây</span></button>`;}
+  function dropHtml(index){return `<button type="button" class="st-dropzone" tabindex="-1" data-drop-index="${index}" aria-label="Thả khối vào vị trí ${index+1}"><span>${I('plus')}Thả khối vào đây</span></button>`;}
   function enhanceDragUI(){
     $$('[data-add]').forEach(el=>{el.setAttribute('draggable',String(canEdit()));el.dataset.dragNew=el.dataset.add;el.title='Kéo thả vào trang hoặc bấm để thêm';});
     const library=$('#st-library');
@@ -1126,6 +1137,7 @@ import { normalizedCrop, imagePresentation, mountCropEditor } from '/studio/stud
   });
   viewport=createStudioViewport({root,page:$('#st-page'),center:$('.st-center'),getDocument:doc,getSelection:()=>block()&&$(`[data-block="${block().id}"]`),getKey:()=>state.mode+':'+state.device,isPreview:()=>state.preview});
   workspace=createStudioWorkspace({root,viewport,getContext:()=>({preview:state.preview,tab:state.tab,selected:state.mode+':'+state.selected,text:block()?.type==='text'&&canEdit()})});
+  bindCanvasDeselection({root,center:$('.st-center'),isEnabled:()=>!state.preview&&state.tab==='design'&&!panel&&!viewport.isPanning(),onClear:clearSelection});
   root.addEventListener('pointerdown',event=>{if(event.button!==0||viewport.isPanning()||state.preview||!event.target.closest('#st-blocks')||event.target.closest('[data-block],button,input,textarea,select'))return;insertionPoint=viewport.point(event.clientX,event.clientY,$('#st-blocks'));pendingInsertion=null;});
   $('.st-center').addEventListener('wheel',()=>{if(!panel){insertionPoint=null;pendingInsertion=null;}},{passive:true});
   render();
