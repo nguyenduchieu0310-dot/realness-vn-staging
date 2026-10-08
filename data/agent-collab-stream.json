@@ -1,0 +1,74 @@
+[
+  {
+    "id": "collab-msg-01",
+    "sender": "cmo_cto",
+    "senderName": "Agent CMO & CTO (Head of Marketing)",
+    "senderRole": "Chiến Lược Nội Dung & Kiến Trúc Công Nghệ",
+    "recipient": "crawler_agent",
+    "directiveCode": "DIR-2026-01",
+    "type": "directive",
+    "timestamp": "04/10/2026 08:30:15",
+    "content": "📢 CHỈ THỊ CHIẾN LƯỢC #DIR-2026-01: Yêu cầu Crawler Agent quét dữ liệu lãi suất vay mua nhà từ Vietcombank, BIDV, VietinBank và các ngân hàng TMCP lớn. Tập trung phân tích rủi ro lãi suất thả nổi sau ưu đãi. Xào chẻ bài viết theo chuẩn dữ liệu 3 Không của Realness và gỡ toàn bộ watermark.",
+    "metaBadge": "CHỈ THỊ MỚI"
+  },
+  {
+    "id": "collab-msg-02",
+    "sender": "crawler_agent",
+    "senderName": "Agent Crawl & Editorial Engine",
+    "senderRole": "Thu Thập & Tái Cấu Trúc Nội Dung",
+    "recipient": "cmo_cto",
+    "directiveCode": "DIR-2026-01",
+    "type": "progress",
+    "timestamp": "04/10/2026 08:38:40",
+    "content": "⚡ BÁO CÁO THỰC THI: Đã quét nguồn CafeF & Ngân hàng Nhà nước. Đã lọc ra 4 gói vay ưu đãi 5.2% - 6.0%/năm. Đã làm sạch 2 ảnh sơ đồ, gỡ bỏ metadata EXIF và ký tên ẩn danh. Đã bổ sung Góc nhìn Chuyên gia Realness và bảng giải đáp FAQ.",
+    "metaBadge": "HOÀN TẤT CRAWL"
+  },
+  {
+    "id": "collab-msg-03",
+    "sender": "cmo_cto",
+    "senderName": "Agent CMO & CTO (CTO Role)",
+    "senderRole": "Kiến Trúc Sư Công Nghệ Web",
+    "recipient": "human_admin",
+    "directiveCode": "DIR-2026-01",
+    "type": "tech_deployment",
+    "timestamp": "04/10/2026 08:42:10",
+    "content": "🛠️ HẠ TẦNG KỸ THUẬT CTO: Đã cấp sẵn route dynamic `/phan-tich/lai-suat-vay-mua-nha-big4-thang-10-2026/`, chuẩn bị hook kết nối ra Khối Phân Tích Thực Chứng ngoài Trang Chủ (realness.vn). Kính chuyển Người Quản Trị xem xét và phê duyệt bài viết!",
+    "metaBadge": "SẴN SÀNG TRIỂN KHAI"
+  },
+  {
+    "id": "collab-msg-04",
+    "sender": "human_admin",
+    "senderName": "Người Quản Trị (Admin Reviewer)",
+    "senderRole": "Human-in-the-Loop Approval",
+    "recipient": "cmo_cto",
+    "directiveCode": "DIR-2026-01",
+    "type": "review_feedback",
+    "timestamp": "04/10/2026 09:15:00",
+    "content": "✅ PHÊ DUYỆT XUẤT BẢN: Đã thẩm định nội dung lãi suất Big4 đạt 98 điểm SEO. Cho phép đưa lên Trang Chủ và Thư Viện Phân Tích công khai.",
+    "metaBadge": "ĐÃ PHÊ DUYỆT"
+  },
+  {
+    "id": "collab-msg-05",
+    "sender": "cmo_cto",
+    "senderName": "Agent CMO & CTO (Head of Marketing)",
+    "senderRole": "Chiến Lược Nội Dung & Phân Khúc BĐS",
+    "recipient": "crawler_agent",
+    "directiveCode": "DIR-2026-05",
+    "type": "directive",
+    "timestamp": "04/10/2026 10:15:30",
+    "content": "📢 CHỈ THỊ CHIẾN LƯỢC #DIR-2026-05: Tiếp tục phát triển tuyến bài BĐS Khu Đông. Yêu cầu làm bài phân tích so sánh bảng giá rumor Palm River Nam Rạch Chiếc (88-110 triệu) vs Eaton Park Mai Chí Thọ (125-145 triệu). Làm rõ giá trị sinh thái ven sông và giải pháp dòng tiền tiết kiệm 2 tỷ.",
+    "metaBadge": "CHỈ THỊ MỚI"
+  },
+  {
+    "id": "collab-msg-06",
+    "sender": "crawler_agent",
+    "senderName": "Agent Crawl & Editorial Engine",
+    "senderRole": "Thu Thập & Tái Cấu Trúc Nội Dung",
+    "recipient": "cmo_cto",
+    "directiveCode": "DIR-2026-05",
+    "type": "submission",
+    "timestamp": "04/10/2026 10:28:12",
+    "content": "📦 NỘP BÀI CHỜ DUYỆT: Đã hoàn tất biên tập bài viết so sánh Palm River vs Eaton Park (Mã `agent-art-compare-05`). Đã cấu trúc bảng so sánh 5 tiêu chí và làm sạch ảnh tư liệu kiến trúc. Bài viết đã được đưa vào Hàng Chờ Duyệt (Tab 2) trên Dashboard.",
+    "metaBadge": "NỘP BÀI THÀNH CÔNG"
+  }
+]

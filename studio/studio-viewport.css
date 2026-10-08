@@ -36,12 +36,7 @@
 #realness-studio-reference .st-view-zoom{margin-left:auto}
 #realness-studio-reference .st-rich-toolbar{top:calc(var(--st-viewtools-height,50px) + 12px);left:0;max-width:100%;z-index:55}
 #realness-studio-reference .st-handle,#realness-studio-reference .st-free-handle{transform:scale(var(--st-inverse-zoom,1));transform-origin:center}
-/* Selection chrome must not add or remove space in the document flow. */
-#realness-studio-reference .st-block:not(.st-free)>.st-floating-toolbar{position:absolute;left:50%;top:auto;bottom:100%;margin:0 0 8px}
 #realness-studio-reference .st-floating-toolbar{transform:translateX(-50%) scale(var(--st-inverse-zoom,1));transform-origin:center bottom}
-/* Invisible drop targets must not steal a tap when selecting content. */
-#realness-studio-reference .st-dropzone{pointer-events:none}
-#realness-studio-reference:has([draggable=true]:active) .st-dropzone,#realness-studio-reference.st-dragging .st-dropzone{pointer-events:auto}
 #realness-studio-reference #st-inspector .st-segments[aria-label="Tỷ lệ ảnh"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 #realness-studio-reference[data-view-tool=pan] #st-canvas-space,#realness-studio-reference[data-view-tool=pan] #st-canvas-space *{cursor:grab!important;user-select:none!important}
 #realness-studio-reference.st-panning #st-canvas-space,#realness-studio-reference.st-panning #st-canvas-space *{cursor:grabbing!important}

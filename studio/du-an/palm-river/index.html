@@ -5,26 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Realness giúp đọc dữ liệu dự án, so sánh từng căn và nhìn rõ đánh đổi trước khi quyết định. Bản mẫu dùng dữ liệu minh họa."
+      content="Realness giúp đọc dữ liệu dự án, so sánh từng căn và nhìn rõ đánh đổi trước khi quyết định."
     />
     <meta name="robots" content="noindex,nofollow" />
     <title>Realness - Hiểu dự án. Chọn đúng căn.</title>
-    <script type="module" crossorigin src="/assets/index-BHU62QjP.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DOdsRKnt.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <style>body{color:#222;-webkit-font-smoothing:antialiased;background-color:#faf8f5;margin:0;font-family:Roboto,Inter,Arial,Helvetica,sans-serif}#site-loader-bar{z-index:99999;background:linear-gradient(90deg,#c5a880,#f3e7cb,#c5a880) 0 0/200% 100%;width:100%;height:2.5px;animation:1.5s linear infinite siteLoaderShimmer;position:fixed;top:0;left:0}@keyframes siteLoaderShimmer{0%{background-position:200% 0}to{background-position:-200% 0}}</style>
+    <script>
+      window.$RefreshReg$ = window.$RefreshReg$ || function() {};
+      window.$RefreshSig$ = window.$RefreshSig$ || function() { return function(type) { return type; }; };
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+          for (var reg of regs) { reg.unregister(); }
+        }).catch(function() {});
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index-D7nvu986.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CEZZKn5A.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="site-loader-bar"></div>
+    <div id="root">
+      <header class="site-header" style="position: sticky; top: 0; z-index: 50; background: rgba(250, 248, 245, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 0, 0, 0.06); font-family: Roboto, Inter, sans-serif;">
+        <div class="container site-header__inner" style="max-width: 1240px; margin: 0 auto; padding: 0 20px; height: 72px; display: flex; align-items: center; justify-content: space-between;">
+          <a class="wordmark" href="/" aria-label="Trang chủ Realness" style="font-size: 22px; font-weight: 900; letter-spacing: 1.5px; color: #171412; text-decoration: none;">
+            REALNESS
+          </a>
+          <nav class="desktop-nav" aria-label="Điều hướng chính" style="display: flex; gap: 32px;">
+            <a href="/du-an/" style="color: #4b5563; font-weight: 500; font-size: 14.5px; text-decoration: none;">Dự án</a>
+            <a href="/phan-tich/" style="color: #4b5563; font-weight: 500; font-size: 14.5px; text-decoration: none;">Phân tích</a>
+            <a href="/cong-cu/kha-nang-chi-tra/" style="color: #4b5563; font-weight: 500; font-size: 14.5px; text-decoration: none;">Công cụ</a>
+            <a href="/phuong-phap/" style="color: #4b5563; font-weight: 500; font-size: 14.5px; text-decoration: none;">Phương pháp</a>
+          </nav>
+          <div class="site-header__actions" style="display: flex; align-items: center; gap: 12px;">
+            <a href="/?advisor=open" class="button button--secondary" style="padding: 10px 20px; border-radius: 999px; background: #171412; color: #fff; font-size: 13.5px; font-weight: 600; text-decoration: none;">Nhận tư vấn</a>
+          </div>
+        </div>
+      </header>
+    </div>
     <noscript>
-      <main>
+      <main style="padding: 40px 20px; text-align: center; font-family: Roboto, Inter, sans-serif;">
         <h1>Realness</h1>
-        <p>Bản preview cần JavaScript để chạy trải nghiệm tương tác. Nội dung DEMO không phải thông tin chào bán.</p>
-        <nav>
+        <p>Vui lòng bật JavaScript để trải nghiệm đầy đủ các tính năng dữ liệu và phân tích dự án.</p>
+        <nav style="display: flex; gap: 16px; justify-content: center; margin-top: 20px;">
           <a href="/">Trang chủ</a>
           <a href="/du-an/">Dự án</a>
+          <a href="/phan-tich/">Phân tích</a>
           <a href="/phuong-phap/">Phương pháp</a>
-          <a href="/du-an/demo-residence-a/can-ho/DEMO-A-1201/">Hồ sơ căn DEMO-A-1201</a>
         </nav>
       </main>
-    </noscript>
+    </noscript>
   </body>
 </html>
