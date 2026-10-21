@@ -480,26 +480,9 @@ img, figure, .wp-caption {
 
 /* Mobile Viewports (<= 549px): Fix table contrast, form edges, typography, and sticky CTA placement */
 @media (max-width: 549px) {
-  /* Critical contrast fix: Flatsome mobile CSS sets table { background-color: #fff; margin-left: -15px; width: calc(100% + 30px) }
-     which turns #text-1840770822 (white text inside dark green .fix-bg3 card) white-on-white! */
-  #text-1840770822 table {
-    background-color: transparent !important;
-    margin-left: 0 !important;
-    width: 100% !important;
-    box-shadow: none !important;
-  }
-  #text-1840770822 table td {
-    color: #ffffff !important;
-    padding: 8px 6px !important;
-    vertical-align: top;
-    font-size: 0.95rem;
-    line-height: 1.45;
-  }
-  #text-1840770822 table td:first-child {
-    width: 36% !important;
-  }
-  #text-1840770822 table td:last-child {
-    width: 64% !important;
+  /* Connection list (#text-1840770822) inside dark green .fix-bg3 card */
+  #row-22269238 > #col-299997760 > .col-inner {
+    padding: 16px 10px !important;
   }
 
   /* Keep Pricing table (#row-1420307742 table) 100% aligned inside its column without -15px bleed */
@@ -1186,45 +1169,22 @@ img, figure, .wp-caption {
 </div>
 <div class="row row-collapse align-center fix-bg3" style="max-width:1300px" id="row-22269238">
 
-	<div id="col-299997760" class="col medium-4 small-12 large-4"  >
+	<div id="col-299997760" class="col medium-5 small-12 large-5"  >
 				<div class="col-inner text-center"  >
 			
 			
 	<div id="text-1840770822" class="text">
 		
-<h3>KẾT NỐI NHANH CHÓNG TỚI</h3>
-<table style="height: 224px;" width="809">
-<tbody>
-<tr>
-<th style="text-align: left;">AEON Mall, Vincom Plaza, LotteMart</th>
-<td style="text-align: left;">3p</td>
-</tr>
-<tr>
-<th style="text-align: left;">Hoàn Hảo, bệnh viện QT Becamex</th>
-<td>5p</td>
-</tr>
-<tr>
-<th style="text-align: left;">Trung tâm thành phố Thuận An</th>
-<td>5p</td>
-</tr>
-<tr>
-<th style="text-align: left;">KCN công nghệ cao Bình Dương</th>
-<td>10p</td>
-</tr>
-<tr>
-<th style="text-align: left;">Hệ thống trường học các cấp</th>
-<td>15p</td>
-</tr>
-<tr>
-<th style="text-align: left;">Làng Đại học, bến xe Miền Đông mới</th>
-<td>20p</td>
-</tr>
-<tr>
-<th style="text-align: left;">Sân bay quốc tế Tân Sơn Nhất</th>
-<td>10p</td>
-</tr>
-</tbody>
-</table>
+<h3 class="ket-noi-heading">KẾT NỐI NHANH CHÓNG TỚI :</h3>
+<ul class="ket-noi-single-line-list">
+  <li><span class="ket-noi-place">° AEON Mall, Vincom Plaza, LotteMart</span><span class="ket-noi-time">3p</span></li>
+  <li><span class="ket-noi-place">° Bệnh viện Hoàn Mỹ Thủ Đức, Bệnh viện Quốc tế Becamex</span><span class="ket-noi-time">5p</span></li>
+  <li><span class="ket-noi-place">° Trung tâm thành phố Thuận An</span><span class="ket-noi-time">5p</span></li>
+  <li><span class="ket-noi-place">° KCN công nghệ cao Bình Dương</span><span class="ket-noi-time">10p</span></li>
+  <li><span class="ket-noi-place">° Hệ thống trường học các cấp</span><span class="ket-noi-time">15p</span></li>
+  <li><span class="ket-noi-place">° Làng Đại học, bến xe Miền Đông mới</span><span class="ket-noi-time">20p</span></li>
+  <li><span class="ket-noi-place">° Sân bay quốc tế Tân Sơn Nhất</span><span class="ket-noi-time">10p</span></li>
+</ul>
 		
 <style>
 #text-1840770822 {
@@ -1232,6 +1192,56 @@ img, figure, .wp-caption {
 }
 #text-1840770822 > * {
   color: rgb(255,255,255);
+}
+.ket-noi-heading {
+  font-size: 1.2rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin-bottom: 12px !important;
+  text-align: center;
+  letter-spacing: 0.4px;
+}
+.ket-noi-single-line-list {
+  list-style: none !important;
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+  width: 100%;
+}
+.ket-noi-single-line-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 4px;
+  margin: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff !important;
+  white-space: nowrap;
+}
+.ket-noi-single-line-list li .ket-noi-place {
+  text-align: left;
+  font-weight: 600;
+  font-size: clamp(11.5px, 1.02vw, 15px);
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ket-noi-single-line-list li .ket-noi-time {
+  font-weight: 700;
+  font-size: clamp(12.5px, 1.08vw, 15.5px);
+  color: #ffffff;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding-left: 6px;
+}
+@media (max-width: 849px) {
+  .ket-noi-single-line-list li .ket-noi-place {
+    font-size: clamp(11.5px, 3.15vw, 15px);
+  }
+  .ket-noi-single-line-list li .ket-noi-time {
+    font-size: clamp(12.5px, 3.3vw, 15.5px);
+  }
 }
 </style>
 	</div>
@@ -1244,14 +1254,14 @@ img, figure, .wp-caption {
 				
 <style>
 #col-299997760 > .col-inner {
-  padding: 10px 6px 10px 6px;
+  padding: 14px 12px 14px 12px;
 }
 </style>
 	</div>
 
 	
 
-	<div id="col-2109269910" class="col medium-8 small-12 large-8"  >
+	<div id="col-2109269910" class="col medium-7 small-12 large-7"  >
 				<div class="col-inner"  >
 			
 			
