@@ -1796,10 +1796,11 @@ img, figure, .wp-caption {
   font-size: 1.55rem;
   font-weight: 800;
   color: #ffffff;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.5px;
   line-height: 1.3;
   margin-bottom: 10px;
   text-transform: uppercase;
+  white-space: nowrap;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 .maico-company-list {
@@ -1816,13 +1817,13 @@ img, figure, .wp-caption {
 }
 @media (max-width: 767px) {
   .maico-grand-footer {
-    padding: 24px 14px 30px !important;
+    padding: 24px 12px 30px !important;
   }
   .maico-footer-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 18px;
-    padding-right: 52px;
+    width: 100%;
   }
   .maico-footer-logo-box {
     padding: 12px 20px;
@@ -1832,9 +1833,17 @@ img, figure, .wp-caption {
   .maico-footer-logo {
     width: 185px;
   }
+  .maico-footer-details {
+    width: 100%;
+  }
   .maico-company-title {
-    font-size: 1.3rem;
-    margin-bottom: 8px;
+    font-size: clamp(1.06rem, 4.8vw, 1.38rem);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    margin-bottom: 10px;
+  }
+  .maico-company-list {
+    padding-right: 48px !important;
   }
   .maico-company-list li {
     font-size: 1.04rem;
