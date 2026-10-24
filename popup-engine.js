@@ -1445,5 +1445,22 @@
     buildFormInnerHtml: buildFormInnerHtml,
   };
 
+  if (typeof global.addEventListener === "function") {
+    global.addEventListener("message", function (ev) {
+      if (!ev || !ev.data || ev.data.type !== "RF_LEAD_FORM_RESIZE") return;
+      var targetH = Math.ceil(Number(ev.data.height));
+      if (!(targetH >= 220 && targetH <= 1200)) return;
+      var frames = document.querySelectorAll('iframe[src*="/embed/lead-form"], iframe[src*="/embed/form"]');
+      for (var i = 0; i < frames.length; i++) {
+        var f = frames[i];
+        if (!ev.source || f.contentWindow === ev.source) {
+          if (Math.abs(f.offsetHeight - targetH) > 2) {
+            f.style.height = targetH + "px";
+          }
+        }
+      }
+    });
+  }
+
   autoInitFromScriptTag();
 })(typeof window !== "undefined" ? window : this);

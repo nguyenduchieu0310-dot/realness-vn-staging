@@ -23,8 +23,16 @@
           for (var reg of regs) { reg.unregister(); }
         }).catch(function() {});
       }
+
+      if (typeof window !== 'undefined' && window.location && window.location.pathname.indexOf('/embed/') === 0) {
+        document.documentElement.style.background = 'transparent';
+        var isFramed = window.parent && window.parent !== window;
+        var embedStyle = document.createElement('style');
+        embedStyle.textContent = 'html, body, #root { background: transparent !important; background-color: transparent !important; margin: 0 !important; padding: 0 !important; ' + (isFramed ? 'overflow: hidden !important;' : 'overflow-x: hidden !important; overflow-y: auto !important;') + ' } #site-loader-bar, .site-header { display: none !important; }';
+        document.head.appendChild(embedStyle);
+      }
     </script>
-    <script type="module" crossorigin src="/assets/index-CaHoSidt.js"></script>
+    <script type="module" crossorigin src="/assets/index-DBJK6zaX.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-czbnVBS3.css">
   
     <title>PALM RIVER - KHU ĐÔ THỊ NGHỈ DƯỠNG CHUẨN RESORT VEN SÔNG - NGAY GA METRO THỦ THIÊM</title>

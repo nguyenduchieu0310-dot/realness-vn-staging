@@ -2706,8 +2706,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		</video>
 	</div>
 
-	<div class="embed-lead-form-wrap" id="embed_form_green_skyline_bottom" style="width: 100%; margin: 14px auto 4px auto;">
-		<iframe id="rf_inline_embed_form" src="https://realness.vn/embed/lead-form?project=green-skyline&theme=light&style=popup&url=https%3A%2F%2Frealness.vn%2Fdu-an%2Fgreen-skyline" width="100%" height="640" frameborder="0" style="border:none;border-radius:16px;max-width:480px;width:100%;margin:0 auto;display:block;" title="Đăng ký nhận báo giá TBS LAND"></iframe>
+	<div class="embed-lead-form-wrap" id="embed_form_green_skyline_bottom" style="width: 100%; margin: 6px auto 0px auto;">
+		<iframe id="rf_inline_embed_form" src="/embed/lead-form/?project=green-skyline&theme=light&style=popup&url=https%3A%2F%2Frealness.vn%2Fdu-an%2Fgreen-skyline" width="100%" height="560" scrolling="no" frameborder="0" style="border:none;border-radius:16px;max-width:480px;width:100%;margin:0 auto;display:block;overflow:hidden;background:transparent;" title="Đăng ký nhận báo giá TBS LAND"></iframe>
 	</div>
 		</div>
 
@@ -2715,7 +2715,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <style>
 #section_525987463 {
   padding-top: 8px;
-  padding-bottom: 10px;
+  padding-bottom: 6px;
 }
 </style>
 	</section>
@@ -3000,14 +3000,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 (function() {
     function mountGreenSkylinePopup() {
         var inlineIframe = document.getElementById("rf_inline_embed_form");
-        if (inlineIframe && window.location && window.location.hostname && window.location.hostname !== "realness.vn") {
-            inlineIframe.src = "/embed/lead-form/?project=green-skyline&theme=light&style=popup&url=https%3A%2F%2Frealness.vn%2Fdu-an%2Fgreen-skyline";
+        if (inlineIframe && window.location && window.location.protocol === "file:") {
+            inlineIframe.src = "https://realness.vn/embed/lead-form/?project=green-skyline&theme=light&style=popup&url=https%3A%2F%2Frealness.vn%2Fdu-an%2Fgreen-skyline";
         }
         window.addEventListener("message", function(ev) {
-            if (!ev || !ev.data) return;
-            if (ev.data.type === "RF_LEAD_FORM_RESIZE" && inlineIframe && ev.data.height > 300 && ev.data.height < 900) {
+            if (!ev || !ev.data || !inlineIframe) return;
+            if (ev.source && inlineIframe.contentWindow && ev.source !== inlineIframe.contentWindow) return;
+            if (ev.data.type === "RF_LEAD_FORM_RESIZE" && ev.data.height >= 220 && ev.data.height <= 1200) {
                 var targetH = Math.ceil(Number(ev.data.height));
-                if (Math.abs(inlineIframe.offsetHeight - targetH) > 4) {
+                if (Math.abs(inlineIframe.offsetHeight - targetH) > 2) {
                     inlineIframe.style.height = targetH + "px";
                 }
             }
@@ -3015,6 +3016,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 try {
                     window.localStorage.setItem("rf_pe_converted_green-skyline", "1");
                     window.sessionStorage.setItem("rf_pe_converted_green-skyline", "1");
+                    if (ev.data.lead && ev.data.lead.id) {
+                        var rawLeads = window.localStorage.getItem("rf_crm_leads_v2");
+                        var leadList = rawLeads ? JSON.parse(rawLeads) : [];
+                        if (!Array.isArray(leadList)) leadList = [];
+                        var exists = leadList.some(function(item) { return item && item.id === ev.data.lead.id; });
+                        if (!exists) {
+                            leadList.unshift(ev.data.lead);
+                            window.localStorage.setItem("rf_crm_leads_v2", JSON.stringify(leadList));
+                        }
+                    }
                 } catch (err) {}
             }
         });
