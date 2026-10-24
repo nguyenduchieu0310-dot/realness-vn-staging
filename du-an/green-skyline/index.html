@@ -3005,8 +3005,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
         window.addEventListener("message", function(ev) {
             if (!ev || !ev.data) return;
-            if (ev.data.type === "RF_LEAD_FORM_RESIZE" && inlineIframe && ev.data.height > 300) {
-                inlineIframe.style.height = (Number(ev.data.height) + 12) + "px";
+            if (ev.data.type === "RF_LEAD_FORM_RESIZE" && inlineIframe && ev.data.height > 300 && ev.data.height < 900) {
+                var targetH = Math.ceil(Number(ev.data.height));
+                if (Math.abs(inlineIframe.offsetHeight - targetH) > 4) {
+                    inlineIframe.style.height = targetH + "px";
+                }
             }
             if (ev.data.type === "RF_LEAD_SUBMITTED" || ev.data.type === "RF_POPUP_LEAD_SUBMITTED") {
                 try {
@@ -3038,8 +3041,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             delaySeconds: 12,
             repeatDelaySeconds: 60,
             maxAutoTriggers: 2,
-            showFloatingLauncher: true,
-            floatingLauncherText: "Tải Bảng Giá"
+            showFloatingLauncher: false
         });
     }
     if (document.readyState === "loading") {

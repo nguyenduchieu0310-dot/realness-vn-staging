@@ -144,7 +144,7 @@
     delaySeconds: 12,
     repeatDelaySeconds: 60,
     maxAutoTriggers: 2,
-    showFloatingLauncher: true,
+    showFloatingLauncher: false,
     floatingLauncherText: "Tải Bảng Giá",
     agentName: "Hồng Phúc",
     agentPhone: "0938 819 400",
