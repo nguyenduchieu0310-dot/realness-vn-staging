@@ -115,21 +115,22 @@
   };
 
   var DEFAULT_UNITS = [
-    { id: "u-1", label: "Căn 1PN", quantity: "", checked: true },
-    { id: "u-2", label: "Căn 2PN", quantity: "", checked: false },
-    { id: "u-3", label: "Căn 3PN", quantity: "", checked: false },
-    { id: "u-4", label: "Nhà phố/Biệt thự", quantity: "", checked: true },
-    { id: "u-5", label: "Shophouse", quantity: "", checked: false },
+    { id: "u-1", label: "Căn Studio", quantity: "", checked: false },
+    { id: "u-2", label: "Căn 1PN+", quantity: "", checked: true },
+    { id: "u-3", label: "Căn 2PN", quantity: "", checked: true },
+    { id: "u-4", label: "Căn 3PN", quantity: "", checked: false },
+    { id: "u-5", label: "Duplex và Penthouse", quantity: "", checked: false },
+    { id: "u-6", label: "Shophouse", quantity: "", checked: false },
   ];
 
   var DEFAULT_CONFIG = {
-    projectId: "tbs-land",
-    projectName: "TBS LAND",
+    projectId: "green-skyline",
+    projectName: "GREEN SKYLINE",
     headerBadgeText: "TẢI BẢNG GIÁ",
     formTitle: "ĐĂNG KÝ NHẬN BÁO GIÁ",
-    showDate: true,
+    showDate: false,
     datePrefix: "NGÀY:",
-    realtimeDate: true,
+    realtimeDate: false,
     customDateText: "",
     namePlaceholder: "Họ và tên *",
     phonePlaceholder: "Số điện thoại *",
@@ -386,6 +387,30 @@
       }
     } catch (e) {}
 
+    try {
+      var crmTargets = ["https://realness.vn/crm/", "https://staging.realness.vn/crm/"];
+      crmTargets.forEach(function (targetUrl) {
+        var iframe = document.createElement("iframe");
+        iframe.style.display = "none";
+        iframe.src = targetUrl;
+        iframe.onload = function () {
+          try {
+            iframe.contentWindow.postMessage(
+              {
+                type: "RF_CRM_NEW_LEAD",
+                lead: newLead,
+              },
+              "*"
+            );
+          } catch (err) {}
+          setTimeout(function () {
+            if (iframe && iframe.parentNode) iframe.parentNode.removeChild(iframe);
+          }, 3000);
+        };
+        document.body.appendChild(iframe);
+      });
+    } catch (e) {}
+
     if (config.webhookUrl) {
       try {
         fetch(config.webhookUrl, {
@@ -401,6 +426,10 @@
 
   function buildPopupStyles(scopeId, theme) {
     return (
+      "@keyframes peDialogEnter {" +
+      "  from { opacity: 0; transform: translateY(10px) scale(0.96); }" +
+      "  to { opacity: 1; transform: translateY(0) scale(1); }" +
+      "}" +
       "#" + scopeId + " {" +
       "  --pe-header-start: " + theme.headerBgStart + ";" +
       "  --pe-header-mid: " + theme.headerBgMid + ";" +
@@ -418,21 +447,27 @@
       "  --pe-btn-mid: " + theme.btnGradMid + ";" +
       "  --pe-btn-end: " + theme.btnGradEnd + ";" +
       "  --pe-icon-check: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'></polyline></svg>\");" +
-      "  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;" +
+      "  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;" +
       "  box-sizing: border-box;" +
+      "  line-height: 1.4;" +
       "}" +
       "#" + scopeId + " *, #" + scopeId + " *::before, #" + scopeId + " *::after {" +
       "  box-sizing: border-box;" +
+      "  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;" +
       "}" +
       "dialog#" + scopeId + "-dialog {" +
-      "  padding: 0;" +
-      "  border: none;" +
-      "  background: transparent;" +
-      "  max-width: 440px;" +
-      "  width: calc(100vw - 24px);" +
-      "  margin: auto;" +
-      "  overflow: auto;" +
+      "  padding: 0 !important;" +
+      "  border: none !important;" +
+      "  background: transparent !important;" +
+      "  max-width: 440px !important;" +
+      "  width: calc(100vw - 24px) !important;" +
+      "  margin: auto !important;" +
+      "  overflow: visible !important;" +
       "  overscroll-behavior: contain;" +
+      "  z-index: 999999 !important;" +
+      "}" +
+      "dialog#" + scopeId + "-dialog[open] .pe-card {" +
+      "  animation: peDialogEnter 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;" +
       "}" +
       "dialog#" + scopeId + "-dialog:modal {" +
       "  overscroll-behavior: contain;" +
@@ -455,26 +490,30 @@
       "  overflow: hidden;" +
       "}" +
       "#" + scopeId + " .pe-close-btn {" +
-      "  position: absolute;" +
-      "  top: 10px;" +
-      "  right: 10px;" +
-      "  z-index: 10;" +
-      "  width: 32px;" +
-      "  height: 32px;" +
-      "  border-radius: 50%;" +
-      "  border: 1.5px solid rgba(247, 224, 138, 0.65);" +
-      "  background: rgba(0, 0, 0, 0.35);" +
-      "  color: var(--pe-gold-light);" +
-      "  display: inline-flex;" +
-      "  align-items: center;" +
-      "  justify-content: center;" +
-      "  cursor: pointer;" +
-      "  font-size: 18px;" +
-      "  line-height: 1;" +
+      "  position: absolute !important;" +
+      "  top: 10px !important;" +
+      "  right: 10px !important;" +
+      "  z-index: 10 !important;" +
+      "  width: 32px !important;" +
+      "  height: 32px !important;" +
+      "  min-height: 32px !important;" +
+      "  margin: 0 !important;" +
+      "  padding: 0 !important;" +
+      "  border-radius: 50% !important;" +
+      "  border: 1.5px solid rgba(247, 224, 138, 0.65) !important;" +
+      "  background: rgba(0, 0, 0, 0.38) !important;" +
+      "  color: var(--pe-gold-light) !important;" +
+      "  display: inline-flex !important;" +
+      "  align-items: center !important;" +
+      "  justify-content: center !important;" +
+      "  cursor: pointer !important;" +
+      "  font-size: 20px !important;" +
+      "  font-weight: 700 !important;" +
+      "  line-height: 1 !important;" +
       "  transition: transform 0.18s ease, background-color 0.18s ease;" +
       "}" +
       "#" + scopeId + " .pe-close-btn:hover {" +
-      "  background: rgba(0, 0, 0, 0.6);" +
+      "  background: rgba(0, 0, 0, 0.65) !important;" +
       "  transform: scale(1.06);" +
       "}" +
       "#" + scopeId + " .pe-close-btn:focus-visible {" +
@@ -484,7 +523,7 @@
       "#" + scopeId + " .pe-header {" +
       "  position: relative;" +
       "  background: radial-gradient(circle at 50% 32%, var(--pe-header-start) 0%, var(--pe-header-mid) 58%, var(--pe-header-end) 100%);" +
-      "  padding: 20px 16px 14px;" +
+      "  padding: 18px 16px 13px;" +
       "  text-align: center;" +
       "  border-bottom: 2.5px solid var(--pe-gold);" +
       "  overflow: hidden;" +
@@ -500,18 +539,19 @@
       "#" + scopeId + " .pe-excel-icon-wrap {" +
       "  position: relative;" +
       "  z-index: 2;" +
-      "  width: 122px;" +
-      "  height: 112px;" +
-      "  margin: 0 auto 6px;" +
+      "  width: 118px;" +
+      "  height: 108px;" +
+      "  margin: 0 auto 4px;" +
       "  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.38));" +
       "}" +
       "#" + scopeId + " .pe-header-badge {" +
       "  position: relative;" +
       "  z-index: 2;" +
-      "  margin: 0;" +
-      "  font-size: 24px;" +
-      "  font-weight: 800;" +
-      "  text-transform: uppercase;" +
+      "  margin: 0 !important;" +
+      "  padding: 0 !important;" +
+      "  font-size: 23px !important;" +
+      "  font-weight: 800 !important;" +
+      "  text-transform: uppercase !important;" +
       "  letter-spacing: 0.6px;" +
       "  background: linear-gradient(180deg, var(--pe-gold-light) 0%, var(--pe-gold) 55%, var(--pe-gold-dark) 100%);" +
       "  -webkit-background-clip: text;" +
@@ -519,34 +559,39 @@
       "  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));" +
       "}" +
       "#" + scopeId + " .pe-body {" +
-      "  padding: 20px 22px 24px;" +
-      "  background: linear-gradient(180deg, #ffffff 0%, #f9f6 100%);" +
+      "  padding: 18px 20px 22px;" +
+      "  background: linear-gradient(180deg, #ffffff 0%, #f9fbf9 100%);" +
       "  background-color: #ffffff;" +
       "}" +
       "#" + scopeId + " .pe-title {" +
-      "  margin: 0;" +
-      "  text-align: center;" +
-      "  font-size: 22px;" +
-      "  line-height: 1.28;" +
-      "  font-weight: 800;" +
-      "  text-transform: uppercase;" +
-      "  color: var(--pe-title-color);" +
+      "  margin: 0 !important;" +
+      "  padding: 0 !important;" +
+      "  text-align: center !important;" +
+      "  font-size: 21px !important;" +
+      "  line-height: 1.28 !important;" +
+      "  font-weight: 800 !important;" +
+      "  text-transform: uppercase !important;" +
+      "  color: var(--pe-title-color) !important;" +
       "  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);" +
       "}" +
       "#" + scopeId + " .pe-project-name {" +
-      "  margin: 3px 0 0;" +
-      "  text-align: center;" +
-      "  font-size: 23px;" +
-      "  line-height: 1.25;" +
-      "  font-weight: 800;" +
-      "  text-transform: uppercase;" +
-      "  color: var(--pe-project-color);" +
+      "  margin: 4px 0 0 !important;" +
+      "  padding: 0 !important;" +
+      "  text-align: center !important;" +
+      "  font-size: 23px !important;" +
+      "  line-height: 1.25 !important;" +
+      "  font-weight: 800 !important;" +
+      "  text-transform: uppercase !important;" +
+      "  color: var(--pe-project-color) !important;" +
       "  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);" +
+      "}" +
+      "#" + scopeId + " .pe-project-name.pe-no-date {" +
+      "  margin-bottom: 14px !important;" +
       "}" +
       "#" + scopeId + " .pe-date-wrap {" +
       "  display: flex;" +
       "  justify-content: center;" +
-      "  margin: 10px 0 16px;" +
+      "  margin: 10px 0 15px;" +
       "}" +
       "#" + scopeId + " .pe-date-pill {" +
       "  display: inline-flex;" +
@@ -562,9 +607,13 @@
       "  font-weight: 800;" +
       "  letter-spacing: 0.3px;" +
       "}" +
+      "#" + scopeId + " .pe-form {" +
+      "  margin: 0 !important;" +
+      "  padding: 0 !important;" +
+      "}" +
       "#" + scopeId + " .pe-input-group {" +
       "  position: relative;" +
-      "  margin-bottom: 12px;" +
+      "  margin: 0 0 11px !important;" +
       "}" +
       "#" + scopeId + " .pe-input-icon {" +
       "  position: absolute;" +
@@ -578,70 +627,73 @@
       "  display: flex;" +
       "  align-items: center;" +
       "  justify-content: center;" +
+      "  z-index: 2;" +
       "}" +
       "#" + scopeId + " .pe-input {" +
-      "  width: 100%;" +
-      "  height: 46px;" +
-      "  padding: 8px 18px 8px 44px;" +
-      "  border-radius: 999px;" +
-      "  border: 1.6px solid var(--pe-input-border);" +
-      "  background: #ffffff;" +
-      "  color: #111827;" +
-      "  font-size: 15px;" +
-      "  font-weight: 500;" +
-      "  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(0, 0, 0, 0.03);" +
+      "  width: 100% !important;" +
+      "  height: 46px !important;" +
+      "  margin: 0 !important;" +
+      "  padding: 8px 18px 8px 44px !important;" +
+      "  border-radius: 999px !important;" +
+      "  border: 1.6px solid var(--pe-input-border) !important;" +
+      "  background: #ffffff !important;" +
+      "  color: #111827 !important;" +
+      "  font-size: 15px !important;" +
+      "  font-weight: 500 !important;" +
+      "  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(0, 0, 0, 0.03) !important;" +
       "  transition: border-color 0.18s ease, box-shadow 0.18s ease;" +
       "}" +
       "#" + scopeId + " .pe-input::placeholder {" +
-      "  color: #6b7280;" +
-      "  font-weight: 400;" +
+      "  color: #6b7280 !important;" +
+      "  font-weight: 400 !important;" +
       "}" +
       "#" + scopeId + " .pe-input:focus-visible {" +
-      "  outline: 2px solid var(--pe-gold);" +
-      "  outline-offset: 1px;" +
-      "  border-color: var(--pe-project-color);" +
+      "  outline: 2px solid var(--pe-gold) !important;" +
+      "  outline-offset: 1px !important;" +
+      "  border-color: var(--pe-project-color) !important;" +
       "}" +
       "#" + scopeId + " .pe-units-grid {" +
       "  display: grid;" +
       "  grid-template-columns: repeat(2, minmax(0, 1fr));" +
-      "  gap: 10px 12px;" +
-      "  margin: 14px 0 18px;" +
+      "  gap: 9px 11px;" +
+      "  margin: 13px 0 16px !important;" +
       "}" +
       "#" + scopeId + " .pe-unit-card {" +
       "  --unit-bg: #f5f6f7;" +
       "  --unit-border: #ced4da;" +
       "  --unit-text: #1f2937;" +
-      "  --unit-weight: 500;" +
-      "  display: flex;" +
-      "  align-items: center;" +
-      "  gap: 9px;" +
-      "  min-block-size: 44px;" +
-      "  padding: 8px 11px;" +
-      "  border-radius: 9px;" +
-      "  background-color: var(--unit-bg);" +
-      "  border: 1.4px solid var(--unit-border);" +
-      "  color: var(--unit-text);" +
-      "  font-weight: var(--unit-weight);" +
-      "  font-size: 14.5px;" +
-      "  cursor: pointer;" +
+      "  --unit-weight: 600;" +
+      "  display: flex !important;" +
+      "  align-items: center !important;" +
+      "  gap: 8px !important;" +
+      "  min-block-size: 42px;" +
+      "  margin: 0 !important;" +
+      "  padding: 7px 10px !important;" +
+      "  border-radius: 9px !important;" +
+      "  background-color: var(--unit-bg) !important;" +
+      "  border: 1.4px solid var(--unit-border) !important;" +
+      "  color: var(--unit-text) !important;" +
+      "  font-weight: var(--unit-weight) !important;" +
+      "  font-size: 13.5px !important;" +
+      "  cursor: pointer !important;" +
       "  user-select: none;" +
       "  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);" +
       "  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;" +
       "}" +
       "#" + scopeId + " .pe-unit-card:hover {" +
-      "  border-color: var(--pe-unit-active-border);" +
+      "  border-color: var(--pe-unit-active-border) !important;" +
       "}" +
       "#" + scopeId + " .pe-unit-card.pe-unit-odd-last {" +
       "  grid-column: 1 / -1;" +
       "  width: calc(50% - 6px);" +
       "  min-width: 165px;" +
-      "  margin: 0 auto;" +
+      "  margin: 0 auto !important;" +
       "}" +
       "#" + scopeId + " .pe-unit-card:has(.pe-unit-checkbox:checked) {" +
       "  --unit-bg: var(--pe-unit-active-bg);" +
       "  --unit-border: var(--pe-unit-active-border);" +
       "  --unit-text: var(--pe-unit-active-text);" +
-      "  --unit-weight: 600;" +
+      "  --unit-weight: 700;" +
       "  box-shadow: 0 2px 6px rgba(12, 92, 56, 0.12);" +
       "}" +
       "@supports not selector(:has(*)) {" +
@@ -649,31 +701,36 @@
       "    --unit-bg: var(--pe-unit-active-bg);" +
       "    --unit-border: var(--pe-unit-active-border);" +
       "    --unit-text: var(--pe-unit-active-text);" +
-      "    --unit-weight: 600;" +
+      "    --unit-weight: 700;" +
       "    box-shadow: 0 2px 6px rgba(12, 92, 56, 0.12);" +
       "  }" +
       "}" +
       "#" + scopeId + " .pe-unit-checkbox {" +
-      "  --checkbox-size: 21px;" +
-      "  --checkbox-icon-size: 13px;" +
-      "  appearance: none;" +
-      "  -webkit-appearance: none;" +
-      "  display: inline-grid;" +
-      "  place-content: center;" +
-      "  inline-size: var(--checkbox-size);" +
+      "  --checkbox-size: 20px;" +
+      "  --checkbox-icon-size: 12px;" +
+      "  appearance: none !important;" +
+      "  -webkit-appearance: none !important;" +
+      "  display: inline-grid !important;" +
+      "  place-content: center !important;" +
+      "  inline-size: var(--checkbox-size) !important;" +
+      "  block-size: var(--checkbox-size) !important;" +
+      "  width: var(--checkbox-size) !important;" +
+      "  height: var(--checkbox-size) !important;" +
       "  aspect-ratio: 1;" +
       "  flex-shrink: 0;" +
-      "  margin: 0;" +
-      "  border-radius: 5px;" +
-      "  border: 1.5px solid #c5ccd3;" +
-      "  background-color: #ffffff;" +
-      "  color: #b8c1c8;" +
-      "  cursor: pointer;" +
+      "  margin: 0 !important;" +
+      "  padding: 0 !important;" +
+      "  border-radius: 5px !important;" +
+      "  border: 1.5px solid #c5ccd3 !important;" +
+      "  background-color: #ffffff !important;" +
+      "  color: #b8c1c8 !important;" +
+      "  cursor: pointer !important;" +
       "  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;" +
       "}" +
       "#" + scopeId + " .pe-unit-checkbox::before {" +
       "  content: '';" +
       "  inline-size: var(--checkbox-icon-size);" +
+      "  block-size: var(--checkbox-icon-size);" +
       "  aspect-ratio: 1;" +
       "  background-color: currentColor;" +
       "  mask: var(--pe-icon-check) no-repeat center / contain;" +
@@ -682,9 +739,9 @@
       "  transition: scale 150ms ease, background-color 150ms ease;" +
       "}" +
       "#" + scopeId + " .pe-unit-checkbox:checked {" +
-      "  border-color: var(--pe-unit-active-border);" +
-      "  background-color: #ffffff;" +
-      "  color: var(--pe-unit-active-border);" +
+      "  border-color: var(--pe-unit-active-border) !important;" +
+      "  background-color: #ffffff !important;" +
+      "  color: var(--pe-unit-active-border) !important;" +
       "}" +
       "#" + scopeId + " .pe-unit-checkbox:checked::before {" +
       "  scale: 1;" +
@@ -696,7 +753,7 @@
       "#" + scopeId + " .pe-unit-label-wrap {" +
       "  display: flex;" +
       "  flex-direction: column;" +
-      "  line-height: 1.2;" +
+      "  line-height: 1.22;" +
       "  min-width: 0;" +
       "}" +
       "#" + scopeId + " .pe-unit-qty {" +
@@ -706,18 +763,24 @@
       "  margin-top: 2px;" +
       "}" +
       "#" + scopeId + " .pe-submit-btn {" +
-      "  width: 100%;" +
-      "  height: 50px;" +
-      "  border-radius: 999px;" +
-      "  border: 2px solid var(--pe-gold);" +
-      "  background: linear-gradient(90deg, var(--pe-btn-start) 0%, var(--pe-btn-mid) 48%, var(--pe-btn-end) 100%);" +
-      "  color: #ffffff;" +
-      "  font-size: 17px;" +
-      "  font-weight: 800;" +
-      "  text-transform: uppercase;" +
-      "  letter-spacing: 0.5px;" +
-      "  cursor: pointer;" +
-      "  box-shadow: 0 6px 16px rgba(6, 28, 76, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.22);" +
+      "  width: 100% !important;" +
+      "  height: 50px !important;" +
+      "  min-height: 50px !important;" +
+      "  margin: 0 !important;" +
+      "  padding: 0 20px !important;" +
+      "  border-radius: 999px !important;" +
+      "  border: 2px solid var(--pe-gold) !important;" +
+      "  background: linear-gradient(90deg, var(--pe-btn-start) 0%, var(--pe-btn-mid) 48%, var(--pe-btn-end) 100%) !important;" +
+      "  color: #ffffff !important;" +
+      "  font-size: 16.5px !important;" +
+      "  font-weight: 800 !important;" +
+      "  text-transform: uppercase !important;" +
+      "  letter-spacing: 0.5px !important;" +
+      "  display: inline-flex !important;" +
+      "  align-items: center !important;" +
+      "  justify-content: center !important;" +
+      "  cursor: pointer !important;" +
+      "  box-shadow: 0 6px 16px rgba(6, 28, 76, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.22) !important;" +
       "  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;" +
       "}" +
       "#" + scopeId + " .pe-submit-btn:hover {" +
@@ -750,30 +813,36 @@
       "}" +
       "#" + scopeId + "-launcher {" +
       "  position: fixed;" +
-      "  bottom: 22px;" +
-      "  left: 22px;" +
+      "  bottom: 18px;" +
+      "  left: 16px;" +
       "  z-index: 99990;" +
       "  display: inline-flex;" +
       "  align-items: center;" +
       "  gap: 8px;" +
-      "  padding: 11px 18px;" +
-      "  border-radius: 999px;" +
-      "  border: 2px solid " + theme.goldPrimary + ";" +
-      "  background: linear-gradient(90deg, " + theme.btnGradStart + ", " + theme.btnGradEnd + ");" +
-      "  color: #ffffff;" +
-      "  font-family: 'Montserrat', sans-serif;" +
-      "  font-size: 13.5px;" +
-      "  font-weight: 800;" +
-      "  text-transform: uppercase;" +
-      "  cursor: pointer;" +
-      "  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);" +
+      "  margin: 0 !important;" +
+      "  padding: 10px 16px !important;" +
+      "  border-radius: 999px !important;" +
+      "  border: 2px solid " + theme.goldPrimary + " !important;" +
+      "  background: linear-gradient(90deg, " + theme.btnGradStart + ", " + theme.btnGradEnd + ") !important;" +
+      "  color: #ffffff !important;" +
+      "  font-family: 'Montserrat', sans-serif !important;" +
+      "  font-size: 13px !important;" +
+      "  font-weight: 800 !important;" +
+      "  text-transform: uppercase !important;" +
+      "  cursor: pointer !important;" +
+      "  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;" +
+      "  transition: transform 0.2s ease, box-shadow 0.2s ease;" +
+      "}" +
+      "#" + scopeId + "-launcher:hover {" +
+      "  transform: translateY(-2px);" +
       "}" +
       "@media (max-width: 420px) {" +
-      "  #" + scopeId + " .pe-body { padding: 16px 14px 20px; }" +
-      "  #" + scopeId + " .pe-title { font-size: 19px; }" +
-      "  #" + scopeId + " .pe-project-name { font-size: 20px; }" +
-      "  #" + scopeId + " .pe-unit-card { font-size: 13.5px; padding: 7px 9px; }" +
+      "  #" + scopeId + " .pe-body { padding: 15px 14px 18px; }" +
+      "  #" + scopeId + " .pe-title { font-size: 18.5px !important; }" +
+      "  #" + scopeId + " .pe-project-name { font-size: 20px !important; }" +
+      "  #" + scopeId + " .pe-unit-card { font-size: 12.8px !important; padding: 6px 8px !important; }" +
       "  #" + scopeId + " .pe-unit-card.pe-unit-odd-last { width: 62%; }" +
+      "  #" + scopeId + "-launcher { bottom: 64px; left: 12px; padding: 8px 14px !important; font-size: 12px !important; }" +
       "}"
     );
   }
@@ -859,6 +928,7 @@
     var dateDisplay = config.realtimeDate ? getRealtimeDateString() : (config.customDateText || getRealtimeDateString());
     var units = Array.isArray(config.units) && config.units.length > 0 ? config.units : DEFAULT_UNITS;
     var isOddCount = units.length % 2 === 1;
+    var shouldShowDate = config.showDate !== false;
 
     var unitsHtml = units
       .map(function (unit, idx) {
@@ -900,6 +970,14 @@
         "</div>"
       : "";
 
+    var dateBlockHtml = shouldShowDate
+      ? '    <div class="pe-date-wrap">' +
+        '      <div class="pe-date-pill">' +
+        escapeHtml((config.datePrefix || "NGÀY:") + " " + dateDisplay) +
+        "</div>" +
+        "    </div>"
+      : "";
+
     return (
       '<div class="pe-card">' +
       '  <button type="button" class="pe-close-btn" data-pe-close aria-label="Đóng biểu mẫu">&times;</button>' +
@@ -915,14 +993,10 @@
       '-title" class="pe-title">' +
       escapeHtml(config.formTitle || "ĐĂNG KÝ NHẬN BÁO GIÁ") +
       "</h2>" +
-      '    <div class="pe-project-name">' +
+      '    <div class="pe-project-name' + (shouldShowDate ? "" : " pe-no-date") + '">' +
       escapeHtml(config.projectName || "TBS LAND") +
       "</div>" +
-      '    <div class="pe-date-wrap">' +
-      '      <div class="pe-date-pill">' +
-      escapeHtml((config.datePrefix || "NGÀY:") + " " + dateDisplay) +
-      "</div>" +
-      "    </div>" +
+      dateBlockHtml +
       '    <form class="pe-form" novalidate>' +
       '      <div class="pe-error-msg" role="alert"></div>' +
       '      <div class="pe-input-group">' +
@@ -1048,6 +1122,12 @@
         config
       );
 
+      try {
+        var projSlug = String(config.projectId || config.projectName || "default").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        global.localStorage.setItem("rf_pe_converted_" + projSlug, "1");
+        global.sessionStorage.setItem("rf_pe_converted_" + projSlug, "1");
+      } catch (err) {}
+
       if (typeof onLeadDispatched === "function") {
         onLeadDispatched(result);
       }
@@ -1072,7 +1152,7 @@
           escapeHtml(result.lead.unitInterest) +
           "</strong> dự án <strong>" +
           escapeHtml(config.projectName) +
-          "</strong> và đẩy trực tiếp vào <a href=\"/crm/" +
+          '</strong> và đẩy trực tiếp vào <a href="/crm/' +
           crmParam +
           '" target="_blank" style="color:#0c5c38;font-weight:700;text-decoration:underline;">Realness CRM</a>.' +
           "</p>" +
@@ -1121,11 +1201,20 @@
 
   /**
    * Khởi tạo Pop-up Modal nổi lên trên Website (sử dụng <dialog closedby="any">)
+   * Hỗ trợ cơ chế hiển thị thông minh 2 nhịp ("smart") không gây khó chịu cho khách
    */
   function initModalPopup(customConfig, onLeadDispatched) {
     var config = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
     var scopeId = "rf-pe-modal";
     var theme = resolveTheme(config);
+
+    // Ensure Montserrat font is loaded on host page
+    if (document.head && !document.querySelector('link[href*="Montserrat"]')) {
+      var fontLink = document.createElement("link");
+      fontLink.rel = "stylesheet";
+      fontLink.href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap";
+      document.head.appendChild(fontLink);
+    }
 
     var existingStyle = document.getElementById(scopeId + "-style");
     if (existingStyle && existingStyle.parentNode) existingStyle.parentNode.removeChild(existingStyle);
@@ -1180,20 +1269,130 @@
       document.body.appendChild(launcherBtn);
     }
 
-    // Bind any host page trigger elements with [data-rf-popup-open]
-    document.addEventListener("click", function (e) {
-      var trigger = e.target && e.target.closest ? e.target.closest("[data-rf-popup-open]") : null;
-      if (trigger) {
-        e.preventDefault();
-        openPopup();
+    // Bind any host page trigger elements ([data-rf-popup-open], a[href="#popup_auto"], a[href="#bao-gia"], .btn_popup)
+    document.addEventListener(
+      "click",
+      function (e) {
+        var trigger =
+          e.target && e.target.closest
+            ? e.target.closest('[data-rf-popup-open], a[href="#popup_auto"], a[href="#bao-gia"], .btn_popup')
+            : null;
+        if (trigger) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+          openPopup();
+        }
+      },
+      true
+    );
+
+    // Smart Non-Intrusive 2-Stage Cadence
+    var projSlug = String(config.projectId || config.projectName || "default").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    var convertedKey = "rf_pe_converted_" + projSlug;
+    var countKey = "rf_pe_autoshow_count_" + projSlug;
+    var maxShows = Math.max(1, Number(config.maxAutoTriggers || 2));
+
+    function hasConverted() {
+      try {
+        return (
+          global.localStorage.getItem(convertedKey) === "1" ||
+          global.sessionStorage.getItem(convertedKey) === "1"
+        );
+      } catch (e) {
+        return false;
       }
-    });
+    }
+
+    function getAutoShowCount() {
+      try {
+        return Number(global.sessionStorage.getItem(countKey) || "0");
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    function incrementAutoShowCount() {
+      var next = getAutoShowCount() + 1;
+      try {
+        global.sessionStorage.setItem(countKey, String(next));
+      } catch (e) {}
+      return next;
+    }
+
+    function isUserBusy() {
+      if (document.hidden) return true;
+      if (dialogEl.open) return true;
+      var active = document.activeElement;
+      if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.tagName === "SELECT")) {
+        return true;
+      }
+      var mfpOpen = document.querySelector(".mfp-wrap");
+      if (mfpOpen) return true;
+      return false;
+    }
 
     if (config.triggerMode === "immediate") {
       setTimeout(openPopup, 150);
     } else if (config.triggerMode === "delay") {
       var ms = Math.max(0, Number(config.delaySeconds || 2) * 1000);
       setTimeout(openPopup, ms);
+    } else if (config.triggerMode === "smart") {
+      var firstDelayMs = Math.max(4000, Number(config.delaySeconds || 12) * 1000);
+      var repeatDelayMs = Math.max(15000, Number(config.repeatDelaySeconds || 60) * 1000);
+      var pageLoadTime = Date.now();
+      var lastClosedTime = 0;
+      var hasInteractedSinceClose = false;
+      var maxScrollRatio = 0;
+
+      window.addEventListener(
+        "scroll",
+        function () {
+          var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+          var docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+          var ratio = scrollTop / docHeight;
+          if (ratio > maxScrollRatio) maxScrollRatio = ratio;
+          if (lastClosedTime > 0 && Date.now() - lastClosedTime > 3000) {
+            hasInteractedSinceClose = true;
+          }
+        },
+        { passive: true }
+      );
+
+      dialogEl.addEventListener("close", function () {
+        lastClosedTime = Date.now();
+        hasInteractedSinceClose = false;
+      });
+
+      var smartTimer = setInterval(function () {
+        if (hasConverted()) {
+          clearInterval(smartTimer);
+          return;
+        }
+        var shownSoFar = getAutoShowCount();
+        if (shownSoFar >= maxShows) {
+          clearInterval(smartTimer);
+          return;
+        }
+        if (isUserBusy()) return;
+
+        var now = Date.now();
+        if (shownSoFar === 0) {
+          var elapsed = now - pageLoadTime;
+          var readyForFirst = elapsed >= firstDelayMs || (elapsed >= 8000 && maxScrollRatio >= 0.25);
+          if (readyForFirst) {
+            incrementAutoShowCount();
+            openPopup();
+          }
+        } else if (shownSoFar === 1 && lastClosedTime > 0) {
+          var sinceClose = now - lastClosedTime;
+          if (sinceClose >= repeatDelayMs && (hasInteractedSinceClose || sinceClose >= repeatDelayMs + 25000)) {
+            incrementAutoShowCount();
+            openPopup();
+            clearInterval(smartTimer);
+          }
+        }
+      }, 1000);
     }
 
     return {
@@ -1238,7 +1437,7 @@
   }
 
   global.RealnessPopupEngine = {
-    version: "2.0.0",
+    version: "2.1.0",
     THEME_PRESETS: THEME_PRESETS,
     DEFAULT_UNITS: DEFAULT_UNITS,
     DEFAULT_CONFIG: DEFAULT_CONFIG,

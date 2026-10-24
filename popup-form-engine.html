@@ -489,17 +489,26 @@
         } catch (e) {}
       }
 
+      var rawProjectParam = params.get("project") || "GREEN SKYLINE";
+      if (rawProjectParam.trim().toUpperCase() === "TBS LAND") {
+        rawProjectParam = "GREEN SKYLINE";
+      }
+
       var state = {
-        projectName: params.get("project") || "TBS LAND",
+        projectName: rawProjectParam,
         headerBadgeText: params.get("badge") || "TẢI BẢNG GIÁ",
         formTitle: params.get("title") || "ĐĂNG KÝ NHẬN BÁO GIÁ",
+        showDate: params.get("showDate") === "1",
         datePrefix: params.get("datePrefix") || "NGÀY:",
-        realtimeDate: params.get("realtime") !== "0",
+        realtimeDate: params.get("realtime") === "1",
         submitText: params.get("submit") || "ĐĂNG KÝ BÁO GIÁ",
         themePreset: params.get("theme") || "emerald-gold",
         customColors: null,
         units: initialUnits,
-        triggerMode: "immediate",
+        triggerMode: "smart",
+        delaySeconds: 12,
+        repeatDelaySeconds: 60,
+        maxAutoTriggers: 2,
         showFloatingLauncher: true,
         floatingLauncherText: "Tải Bảng Giá",
       };
@@ -589,14 +598,17 @@
           projectName: state.projectName,
           headerBadgeText: state.headerBadgeText,
           formTitle: state.formTitle,
+          showDate: state.showDate,
           datePrefix: state.datePrefix,
           realtimeDate: state.realtimeDate,
           submitText: state.submitText,
           themePreset: state.themePreset,
           customColors: state.customColors,
           units: state.units,
-          triggerMode: "delay",
-          delaySeconds: 2,
+          triggerMode: "smart",
+          delaySeconds: 12,
+          repeatDelaySeconds: 60,
+          maxAutoTriggers: 2,
           showFloatingLauncher: true,
           floatingLauncherText: state.headerBadgeText || "Tải Bảng Giá",
         };
@@ -621,7 +633,7 @@
       inpFormTitle.value = state.formTitle;
       inpSubmitText.value = state.submitText;
       inpDatePrefix.value = state.datePrefix;
-      chkRealtimeDate.checked = state.realtimeDate;
+      chkRealtimeDate.checked = Boolean(state.showDate);
       selThemePreset.value = state.themePreset;
       syncColorInputsFromTheme();
       renderUnitEditor();
@@ -634,14 +646,15 @@
       function applyStyleFromUrl(rawUrl) {
         if (!rawUrl || !rawUrl.trim()) return;
         var lower = rawUrl.toLowerCase();
-        var detectedName = "TBS LAND";
+        var detectedName = "GREEN SKYLINE";
         var detectedTheme = "emerald-gold";
         var detectedUnits = [
-          { id: "u-1", label: "Căn 1PN", quantity: "", checked: true },
-          { id: "u-2", label: "Căn 2PN", quantity: "", checked: false },
-          { id: "u-3", label: "Căn 3PN", quantity: "", checked: false },
-          { id: "u-4", label: "Nhà phố/Biệt thự", quantity: "", checked: true },
-          { id: "u-5", label: "Shophouse", quantity: "", checked: false },
+          { id: "u-1", label: "Căn Studio", quantity: "", checked: false },
+          { id: "u-2", label: "Căn 1PN+", quantity: "", checked: true },
+          { id: "u-3", label: "Căn 2PN", quantity: "", checked: true },
+          { id: "u-4", label: "Căn 3PN", quantity: "", checked: false },
+          { id: "u-5", label: "Duplex và Penthouse", quantity: "", checked: false },
+          { id: "u-6", label: "Shophouse", quantity: "", checked: false },
         ];
 
         if (lower.indexOf("the-prive") !== -1 || lower.indexOf("theprive") !== -1) {
@@ -705,7 +718,7 @@
             { id: "gc-5", label: "Shophouse Thương Mại", quantity: "", checked: false },
           ];
         } else if (lower.indexOf("green-skyline") !== -1 || lower.indexOf("tbs") !== -1) {
-          detectedName = "TBS LAND";
+          detectedName = "GREEN SKYLINE";
           detectedTheme = "emerald-gold";
         } else {
           var parts = rawUrl.replace(/^https?:\/\//i, "").replace(/\.html?$/i, "").split("/").filter(Boolean);
@@ -769,6 +782,7 @@
         refreshAll();
       });
       chkRealtimeDate.addEventListener("change", function (e) {
+        state.showDate = e.target.checked;
         state.realtimeDate = e.target.checked;
         refreshAll();
       });
