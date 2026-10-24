@@ -115,19 +115,19 @@
   };
 
   var DEFAULT_UNITS = [
-    { id: "u-1", label: "Căn Studio", quantity: "", checked: false },
-    { id: "u-2", label: "Căn 1PN+", quantity: "", checked: true },
-    { id: "u-3", label: "Căn 2PN", quantity: "", checked: true },
-    { id: "u-4", label: "Căn 3PN", quantity: "", checked: false },
-    { id: "u-5", label: "Duplex và Penthouse", quantity: "", checked: false },
-    { id: "u-6", label: "Shophouse", quantity: "", checked: false },
+    { id: "u-1", label: "Căn Studio", checked: false },
+    { id: "u-2", label: "Căn 1PN+", checked: true },
+    { id: "u-3", label: "Căn 2PN", checked: true },
+    { id: "u-4", label: "Căn 3PN", checked: false },
+    { id: "u-5", label: "Duplex và Penthouse", checked: false },
+    { id: "u-6", label: "Shophouse", checked: false },
   ];
 
   var DEFAULT_CONFIG = {
     projectId: "green-skyline",
     projectName: "GREEN SKYLINE",
     headerBadgeText: "TẢI BẢNG GIÁ",
-    formTitle: "ĐĂNG KÝ NHẬN BÁO GIÁ",
+    formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
     showDate: false,
     datePrefix: "NGÀY:",
     realtimeDate: false,
@@ -136,7 +136,7 @@
     phonePlaceholder: "Số điện thoại *",
     showEmailField: false,
     emailPlaceholder: "Email nhận bảng giá (Tuỳ chọn)",
-    submitText: "ĐĂNG KÝ BÁO GIÁ",
+    submitText: "ĐĂNG KÝ",
     themePreset: "emerald-gold",
     customColors: null,
     units: DEFAULT_UNITS,
@@ -447,13 +447,13 @@
       "  --pe-btn-mid: " + theme.btnGradMid + ";" +
       "  --pe-btn-end: " + theme.btnGradEnd + ";" +
       "  --pe-icon-check: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'></polyline></svg>\");" +
-      "  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;" +
+      "  font-family: 'Be Vietnam Pro', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;" +
       "  box-sizing: border-box;" +
       "  line-height: 1.4;" +
       "}" +
       "#" + scopeId + " *, #" + scopeId + " *::before, #" + scopeId + " *::after {" +
       "  box-sizing: border-box;" +
-      "  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;" +
+      "  font-family: 'Be Vietnam Pro', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;" +
       "}" +
       "dialog#" + scopeId + "-dialog {" +
       "  padding: 0 !important;" +
@@ -567,10 +567,11 @@
       "  margin: 0 !important;" +
       "  padding: 0 !important;" +
       "  text-align: center !important;" +
-      "  font-size: 21px !important;" +
-      "  line-height: 1.28 !important;" +
+      "  font-size: 18.5px !important;" +
+      "  line-height: 1.32 !important;" +
       "  font-weight: 800 !important;" +
       "  text-transform: uppercase !important;" +
+      "  text-wrap: balance;" +
       "  color: var(--pe-title-color) !important;" +
       "  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);" +
       "}" +
@@ -756,12 +757,6 @@
       "  line-height: 1.22;" +
       "  min-width: 0;" +
       "}" +
-      "#" + scopeId + " .pe-unit-qty {" +
-      "  font-size: 11px;" +
-      "  font-weight: 700;" +
-      "  color: var(--pe-unit-active-border);" +
-      "  margin-top: 2px;" +
-      "}" +
       "#" + scopeId + " .pe-submit-btn {" +
       "  width: 100% !important;" +
       "  height: 50px !important;" +
@@ -825,7 +820,7 @@
       "  border: 2px solid " + theme.goldPrimary + " !important;" +
       "  background: linear-gradient(90deg, " + theme.btnGradStart + ", " + theme.btnGradEnd + ") !important;" +
       "  color: #ffffff !important;" +
-      "  font-family: 'Montserrat', sans-serif !important;" +
+      "  font-family: 'Be Vietnam Pro', 'Inter', 'Roboto', Arial, sans-serif !important;" +
       "  font-size: 13px !important;" +
       "  font-weight: 800 !important;" +
       "  text-transform: uppercase !important;" +
@@ -838,7 +833,7 @@
       "}" +
       "@media (max-width: 420px) {" +
       "  #" + scopeId + " .pe-body { padding: 15px 14px 18px; }" +
-      "  #" + scopeId + " .pe-title { font-size: 18.5px !important; }" +
+      "  #" + scopeId + " .pe-title { font-size: 17px !important; }" +
       "  #" + scopeId + " .pe-project-name { font-size: 20px !important; }" +
       "  #" + scopeId + " .pe-unit-card { font-size: 12.8px !important; padding: 6px 8px !important; }" +
       "  #" + scopeId + " .pe-unit-card.pe-unit-odd-last { width: 62%; }" +
@@ -894,7 +889,7 @@
       '    </defs>' +
       '    <!-- Gold PRICE Folder Tab on Right -->' +
       '    <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab)" />' +
-      '    <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Montserrat, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>' +
+      '    <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Be Vietnam Pro, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>' +
       '    <!-- Main White Document Sheet -->' +
       '    <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg)" />' +
       '    <!-- Folded Corner -->' +
@@ -936,15 +931,11 @@
         var checkedAttr = unit.checked ? " checked" : "";
         var activeClass = unit.checked ? " is-active" : "";
         var oddClass = isLastOdd ? " pe-unit-odd-last" : "";
-        var qtyHtml = unit.quantity
-          ? '<span class="pe-unit-qty">' + escapeHtml(unit.quantity) + "</span>"
-          : "";
-        var unitValue = unit.quantity ? unit.label + " (" + unit.quantity + ")" : unit.label;
 
         return (
           '<label class="pe-unit-card' + oddClass + activeClass + '">' +
           '  <input type="checkbox" class="pe-unit-checkbox" name="unit_interest" value="' +
-          escapeHtml(unitValue) +
+          escapeHtml(unit.label) +
           '"' +
           checkedAttr +
           " />" +
@@ -952,7 +943,6 @@
           "    <span>" +
           escapeHtml(unit.label) +
           "</span>" +
-          qtyHtml +
           "  </span>" +
           "</label>"
         );
@@ -991,7 +981,7 @@
       '    <h2 id="' +
       scopeId +
       '-title" class="pe-title">' +
-      escapeHtml(config.formTitle || "ĐĂNG KÝ NHẬN BÁO GIÁ") +
+      escapeHtml(config.formTitle || "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI") +
       "</h2>" +
       '    <div class="pe-project-name' + (shouldShowDate ? "" : " pe-no-date") + '">' +
       escapeHtml(config.projectName || "TBS LAND") +
@@ -1020,7 +1010,7 @@
       unitsHtml +
       "      </div>" +
       '      <button type="submit" class="pe-submit-btn">' +
-      escapeHtml(config.submitText || "ĐĂNG KÝ BÁO GIÁ") +
+      escapeHtml(config.submitText || "ĐĂNG KÝ") +
       "</button>" +
       "    </form>" +
       '    <div class="pe-success-box" aria-live="polite"></div>' +
@@ -1172,11 +1162,21 @@
     });
   }
 
+  function ensureBeVietnamProFont() {
+    if (typeof document !== "undefined" && document.head && !document.querySelector('link[href*="Be+Vietnam+Pro"]')) {
+      var fontLink = document.createElement("link");
+      fontLink.rel = "stylesheet";
+      fontLink.href = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap";
+      document.head.appendChild(fontLink);
+    }
+  }
+
   /**
    * Render trực tiếp vào 1 container DOM (Dùng cho Live Preview hoặc Inline Form)
    */
   function renderIntoContainer(containerEl, customConfig, onLeadDispatched) {
     if (!containerEl) return;
+    ensureBeVietnamProFont();
     var config = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
     var scopeId = "rf-pe-" + Math.random().toString(36).substring(2, 8);
     var theme = resolveTheme(config);
@@ -1208,13 +1208,8 @@
     var scopeId = "rf-pe-modal";
     var theme = resolveTheme(config);
 
-    // Ensure Montserrat font is loaded on host page
-    if (document.head && !document.querySelector('link[href*="Montserrat"]')) {
-      var fontLink = document.createElement("link");
-      fontLink.rel = "stylesheet";
-      fontLink.href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap";
-      document.head.appendChild(fontLink);
-    }
+    // Ensure Be Vietnam Pro font is loaded on host page
+    ensureBeVietnamProFont();
 
     var existingStyle = document.getElementById(scopeId + "-style");
     if (existingStyle && existingStyle.parentNode) existingStyle.parentNode.removeChild(existingStyle);

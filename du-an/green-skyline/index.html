@@ -2705,6 +2705,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			Trình duyệt của bạn không hỗ trợ phát video.
 		</video>
 	</div>
+
+	<div class="embed-lead-form-wrap" id="embed_form_green_skyline_bottom" style="width: 100%; margin: 14px auto 4px auto;">
+		<iframe id="rf_inline_embed_form" src="https://realness.vn/embed/lead-form?project=green-skyline&theme=light&style=popup&url=https%3A%2F%2Frealness.vn%2Fdu-an%2Fgreen-skyline" width="100%" height="640" frameborder="0" style="border:none;border-radius:16px;max-width:480px;width:100%;margin:0 auto;display:block;" title="Đăng ký nhận báo giá TBS LAND"></iframe>
+	</div>
 		</div>
 
 		
@@ -2995,23 +2999,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 (function() {
     function mountGreenSkylinePopup() {
+        var inlineIframe = document.getElementById("rf_inline_embed_form");
+        if (inlineIframe && window.location && window.location.hostname && window.location.hostname !== "realness.vn") {
+            inlineIframe.src = "/embed/lead-form/?project=green-skyline&theme=light&style=popup&url=https%3A%2F%2Frealness.vn%2Fdu-an%2Fgreen-skyline";
+        }
+        window.addEventListener("message", function(ev) {
+            if (!ev || !ev.data) return;
+            if (ev.data.type === "RF_LEAD_FORM_RESIZE" && inlineIframe && ev.data.height > 300) {
+                inlineIframe.style.height = (Number(ev.data.height) + 12) + "px";
+            }
+            if (ev.data.type === "RF_LEAD_SUBMITTED" || ev.data.type === "RF_POPUP_LEAD_SUBMITTED") {
+                try {
+                    window.localStorage.setItem("rf_pe_converted_green-skyline", "1");
+                    window.sessionStorage.setItem("rf_pe_converted_green-skyline", "1");
+                } catch (err) {}
+            }
+        });
+
         if (!window.RealnessPopupEngine) return;
         window.RealnessPopupEngine.initModalPopup({
             projectId: "green-skyline",
             projectName: "GREEN SKYLINE",
             headerBadgeText: "TẢI BẢNG GIÁ",
-            formTitle: "ĐĂNG KÝ NHẬN BÁO GIÁ",
-            showDate: false,
-            realtimeDate: false,
-            submitText: "ĐĂNG KÝ BÁO GIÁ",
+            formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+            showDate: true,
+            realtimeDate: true,
+            submitText: "ĐĂNG KÝ",
             themePreset: "emerald-gold",
             units: [
-                { id: "gs-1", label: "Căn Studio", quantity: "", checked: false },
-                { id: "gs-2", label: "Căn 1PN+", quantity: "", checked: true },
-                { id: "gs-3", label: "Căn 2PN", quantity: "", checked: true },
-                { id: "gs-4", label: "Căn 3PN", quantity: "", checked: false },
-                { id: "gs-5", label: "Duplex và Penthouse", quantity: "", checked: false },
-                { id: "gs-6", label: "Shophouse", quantity: "", checked: false }
+                { id: "gs-1", label: "Căn Studio", checked: false },
+                { id: "gs-2", label: "Căn 1PN+", checked: true },
+                { id: "gs-3", label: "Căn 2PN", checked: true },
+                { id: "gs-4", label: "Căn 3PN", checked: false },
+                { id: "gs-5", label: "Duplex và Penthouse", checked: false },
+                { id: "gs-6", label: "Shophouse", checked: false }
             ],
             triggerMode: "smart",
             delaySeconds: 12,

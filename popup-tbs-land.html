@@ -6,7 +6,7 @@
   <title>Pop-up Đăng Ký Nhận Báo Giá - TBS LAND (Realness CRM Engine)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --pe-header-start: #126b48;
@@ -34,7 +34,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      font-family: 'Be Vietnam Pro', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
       background:
         linear-gradient(180deg, rgba(6, 22, 16, 0.72), rgba(4, 15, 11, 0.85)),
         radial-gradient(circle at 50% 25%, #1d4d38 0%, #091812 100%);
@@ -161,10 +161,11 @@
     .pe-title {
       margin: 0;
       text-align: center;
-      font-size: 22px;
-      line-height: 1.28;
+      font-size: 18.5px;
+      line-height: 1.32;
       font-weight: 800;
       text-transform: uppercase;
+      text-wrap: balance;
       color: var(--pe-title-color);
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
@@ -359,13 +360,6 @@
       min-width: 0;
     }
 
-    .pe-unit-qty {
-      font-size: 10.5px;
-      font-weight: 700;
-      color: var(--pe-unit-active-border);
-      margin-top: 2px;
-    }
-
     /* Gold-bordered Navy-to-Emerald Gradient Submit CTA */
     .pe-submit-btn {
       width: 100%;
@@ -493,7 +487,7 @@
               </linearGradient>
             </defs>
             <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab)" />
-            <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Montserrat, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>
+            <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Be Vietnam Pro, Inter, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>
             <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg)" />
             <path d="M78 8 V21 C78 23.8 80.2 26 83 26 H96 L78 8 Z" fill="#cbd5d0" />
             <g stroke="#20724c" stroke-width="1.5" fill="#d8eee3" opacity="0.9">
@@ -520,7 +514,7 @@
 
       <!-- WHITE BODY SECTION -->
       <div class="pe-body">
-        <h2 class="pe-title" id="peMainTitle">ĐĂNG KÝ NHẬN BÁO GIÁ</h2>
+        <h2 class="pe-title" id="peMainTitle">ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI</h2>
         <div class="pe-project-name" id="peProjectName">TBS LAND</div>
 
         <div class="pe-date-wrap">
@@ -552,7 +546,7 @@
           <!-- Dynamic Unit Types Container -->
           <div class="pe-units-grid" id="peUnitsGrid" role="group" aria-label="Chọn loại căn quan tâm"></div>
 
-          <button type="submit" class="pe-submit-btn" id="peSubmitBtn">ĐĂNG KÝ BÁO GIÁ</button>
+          <button type="submit" class="pe-submit-btn" id="peSubmitBtn">ĐĂNG KÝ</button>
         </form>
 
         <div class="pe-success-box" id="peSuccessBox" aria-live="polite"></div>
@@ -562,26 +556,27 @@
 
   <script>
     /**
-     * CẤU HÌNH ENGINE POP-UP DỰ ÁN (CÓ THỂ TUỲ CHỈNH TRỰC TIẾP HOẶC QUA URL QUERY)
-     * - Đổi tone màu, tên dự án, danh sách căn (theo loại và số lượng)
+     * CẤU HÌNH ENGINE POP-UP DỰ ÁN (CÓ THỂ TUỲ CHỈNH TRỰC TIPE HOẶC QUA URL QUERY)
+     * - Đổi tone màu, tên dự án, danh sách các loại căn
      * - Ngày tự động cập nhật Realtime khi nhúng vào web
      * - Tự động đổ Lead vào hệ thống Realness CRM
      */
     window.POPUP_ENGINE_CONFIG = {
       projectName: "TBS LAND",
       headerBadgeText: "TẢI BẢNG GIÁ",
-      formTitle: "ĐĂNG KÝ NHẬN BÁO GIÁ",
+      formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
       datePrefix: "NGÀY:",
       realtimeDate: true,
-      submitText: "ĐĂNG KÝ BÁO GIÁ",
+      submitText: "ĐĂNG KÝ",
       budgetRange: "3.5 - 12 Tỷ",
-      // Tuỳ biến danh sách căn theo Loại căn (label) & Số lượng/Rổ hàng (quantity)
+      // Tuỳ biến danh sách các loại căn (label) - AI tự động quét từ bài viết dự án
       units: [
-        { label: "Căn 1PN", quantity: "", checked: true },
-        { label: "Căn 2PN", quantity: "", checked: false },
-        { label: "Căn 3PN", quantity: "", checked: false },
-        { label: "Nhà phố/Biệt thự", quantity: "", checked: true },
-        { label: "Shophouse", quantity: "", checked: false }
+        { label: "Căn Studio", checked: false },
+        { label: "Căn 1PN+", checked: true },
+        { label: "Căn 2PN", checked: true },
+        { label: "Căn 3PN", checked: false },
+        { label: "Duplex và Penthouse", checked: false },
+        { label: "Shophouse", checked: false }
       ]
     };
 
@@ -604,24 +599,23 @@
 
       dateEl.textContent = (cfg.datePrefix || "NGÀY:") + " " + todayStr;
       projectEl.textContent = cfg.projectName || "TBS LAND";
-      titleEl.textContent = cfg.formTitle || "ĐĂNG KÝ NHẬN BÁO GIÁ";
+      titleEl.textContent = cfg.formTitle || "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI";
       badgeEl.textContent = cfg.headerBadgeText || "TẢI BẢNG GIÁ";
-      submitBtn.textContent = cfg.submitText || "ĐĂNG KÝ BÁO GIÁ";
+      submitBtn.textContent = cfg.submitText || "ĐĂNG KÝ";
 
-      // 2. Render danh sách các loại căn & số lượng
+      // 2. Render danh sách các loại căn
       var units = Array.isArray(cfg.units) ? cfg.units : [];
       var isOdd = units.length % 2 === 1;
       unitsGrid.innerHTML = units
         .map(function (u, idx) {
           var isLastOdd = isOdd && idx === units.length - 1;
-          var val = u.quantity ? u.label + " (" + u.quantity + ")" : u.label;
           return (
             '<label class="pe-unit-card' +
             (isLastOdd ? " pe-unit-odd-last" : "") +
             (u.checked ? " is-active" : "") +
             '">' +
             '  <input type="checkbox" class="pe-unit-checkbox" name="unit_interest" value="' +
-            val.replace(/"/g, "&quot;") +
+            (u.label || "").replace(/"/g, "&quot;") +
             '"' +
             (u.checked ? " checked" : "") +
             " />" +
@@ -629,7 +623,6 @@
             "    <span>" +
             u.label +
             "</span>" +
-            (u.quantity ? '<span class="pe-unit-qty">' + u.quantity + "</span>" : "") +
             "  </span>" +
             "</label>"
           );
