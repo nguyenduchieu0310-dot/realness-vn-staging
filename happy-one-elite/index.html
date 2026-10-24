@@ -2019,39 +2019,45 @@ document.addEventListener("keydown", function(e) {
 
   @media (min-width: 560px) and (max-width: 999.98px) { .mf-box { max-width: 682px; margin: 0 auto; padding: 36px 30px 38px; } }
 
-  /* Desktop Widescreen Layout (>= 1000px) */
+  /* Desktop Widescreen Layout (>= 1000px) — International Web Desktop Standard */
   @media (min-width: 1000px) {
-    .mf-box { padding: 42px 44px; }
-    .mf-box::before { inset: 16px; }
-    .mf-box::after  { inset: 22px; }
-    .mf-cn { width: 15px; height: 15px; }
-    .mf-cn.tl { top: 15px; left: 15px; } .mf-cn.tr { top: 15px; right: 15px; }
-    .mf-cn.bl { bottom: 15px; left: 15px; } .mf-cn.br { bottom: 15px; right: 15px; }
+    .mf-wrap { max-width: 920px; padding: 14px 24px; }
+    .mf-box { padding: 20px 28px; }
+    .mf-box::before { inset: 9px; }
+    .mf-box::after  { inset: 13px; }
+    .mf-cn { width: 10px; height: 10px; }
+    .mf-cn.tl { top: 8px; left: 8px; } .mf-cn.tr { top: 8px; right: 8px; }
+    .mf-cn.bl { bottom: 8px; left: 8px; } .mf-cn.br { bottom: 8px; right: 8px; }
     .mf-grid {
-      display: grid; grid-template-columns: minmax(455px, 45.5%) 18px minmax(0, 54.5%);
+      display: grid; grid-template-columns: minmax(330px, 45%) 14px minmax(0, 55%);
       grid-template-areas: "brand vsep features" "dsep vsep features" "company vsep features";
-      column-gap: clamp(18px, 1.8vw, 26px); row-gap: 24px; align-items: center;
+      column-gap: 18px; row-gap: 9px; align-items: center;
     }
-    .mf-brand { grid-area: brand; gap: 22px; align-self: start; padding-top: 8px; }
-    .mf-logo { width: clamp(250px, 21.5vw, 300px); }
-    .mf-box .mf-title { font-size: clamp(17.5px, 1.62vw, 22.8px) !important; line-height: 1.42 !important; }
-    .mf-dsep { grid-area: dsep; }
-    .mf-company { grid-area: company; align-self: end; padding-bottom: 8px; }
-    .mf-box .mf-company-title { font-size: clamp(21.5px, 1.92vw, 27px) !important; }
-    .mf-box .mf-contacts { gap: 11.5px; padding-left: 0 !important; }
-    .mf-box .mf-crow { font-size: clamp(14.8px, 1.28vw, 18px) !important; white-space: nowrap; }
-    .mf-box .mf-phone { font-size: clamp(16px, 1.38vw, 19.4px) !important; }
-    .mf-vsep { grid-area: vsep; position: relative; width: 18px; align-self: stretch; display: flex; align-items: center; justify-content: center; margin: 14px 0; }
+    .mf-brand { grid-area: brand; gap: 8px; align-self: start; padding-top: 2px; }
+    .mf-logo { width: clamp(130px, 10.5vw, 152px); }
+    .mf-box .mf-title { font-size: clamp(11.5px, 0.9vw, 13px) !important; line-height: 1.38 !important; letter-spacing: .025em !important; }
+    .mf-dsep { grid-area: dsep; height: 10px; }
+    .mf-dm { width: 6.5px; height: 6.5px; }
+    .mf-ds { width: 3.5px; height: 3.5px; }
+    .mf-company { grid-area: company; align-self: end; padding-bottom: 2px; }
+    .mf-box .mf-company-title { font-size: clamp(13.5px, 1.05vw, 15px) !important; margin-bottom: 7px !important; }
+    .mf-box .mf-contacts { gap: 5.5px; padding-left: 0 !important; }
+    .mf-box .mf-crow { gap: 8px; font-size: clamp(12px, 0.88vw, 12.8px) !important; white-space: nowrap; }
+    .mf-cicon { width: 22px; height: 22px; border-radius: 5px; }
+    .mf-cicon svg { width: 12px; height: 12px; }
+    .mf-box .mf-phone { font-size: clamp(12.5px, 0.92vw, 13.5px) !important; }
+    .mf-vsep { grid-area: vsep; position: relative; width: 14px; align-self: stretch; display: flex; align-items: center; justify-content: center; margin: 4px 0; }
     .mf-vsep::before {
       content: ""; position: absolute; inset: 0 auto 0 50%; width: 1px; transform: translateX(-50%);
       background: linear-gradient(180deg, transparent 0%, rgba(204,174,122,.45) 18%, rgba(226,200,152,.65) 46%, transparent 48.5%, transparent 51.5%, rgba(226,200,152,.65) 54%, rgba(204,174,122,.45) 82%, transparent 100%);
     }
     .mf-box .mf-list { grid-area: features; justify-content: center; align-self: stretch; }
-    .mf-box .mf-item { gap: 20px; padding: clamp(16px, 1.5vw, 21px) 6px; }
+    .mf-box .mf-item { gap: 12px; padding: 7px 4px; }
     .mf-box .mf-item:last-child { border-bottom: 1px solid transparent; border-image: var(--line-grad) 1; }
-    .mf-icon { width: 60px; height: 60px; }
-    .mf-icon svg { width: 27px; height: 27px; }
-    .mf-box .mf-text { font-size: clamp(16.8px, 1.44vw, 20.2px) !important; line-height: 1.46 !important; }
+    .mf-icon { width: 34px; height: 34px; }
+    .mf-icon::after { inset: 2.5px; }
+    .mf-icon svg { width: 16px; height: 16px; }
+    .mf-box .mf-text { font-size: clamp(12.2px, 0.9vw, 13px) !important; line-height: 1.4 !important; }
   }
 </style>
 
