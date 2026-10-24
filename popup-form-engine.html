@@ -104,7 +104,7 @@
     .engine-workspace {
       flex: 1;
       display: grid;
-      grid-template-columns: 440px 1fr;
+      grid-template-columns: 540px 1fr;
       min-height: calc(100vh - 60px);
     }
     body.studio-collapsed .engine-workspace {
@@ -316,6 +316,26 @@
   <div class="engine-workspace">
     <!-- LEFT: CUSTOMIZATION ENGINE -->
     <aside class="engine-sidebar" id="engineSidebar">
+      <!-- 0. ĐIỀN LINK TRANG DỰ ÁN -> TỰ ĐỘNG NHẬN PHONG CÁCH THIẾT KẾ -->
+      <div class="panel-section" style="background:linear-gradient(135deg,rgba(16,185,129,0.16),rgba(37,99,235,0.16));border:1.5px solid #10b981;">
+        <h3 class="panel-title" style="color:#34d399;">
+          <span>🔗 Điền Link Trang Dự Án (Auto-Detect Style)</span>
+          <span id="urlDetectStatus" style="font-size:10px;background:#064e3b;color:#34d399;padding:2px 7px;border-radius:999px;">Tự động</span>
+        </h3>
+        <div class="field-row">
+          <label class="field-label">Dán link trang dự án để Form tự nhận phong cách thiết kế ngay lập tức:</label>
+          <input type="url" id="inpProjectUrl" class="field-input" value="https://realness.vn/du-an/green-skyline" placeholder="VD: https://realness.vn/du-an/the-prive..." style="border-color:#10b981;" />
+        </div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;">
+          <button type="button" class="quick-url-chip" data-url="https://realness.vn/du-an/green-skyline" style="padding:4px 9px;border-radius:999px;border:1px solid #10b981;background:rgba(16,185,129,0.2);color:#fff;font-size:11px;font-weight:700;cursor:pointer;">🌿 Green Skyline (TBS)</button>
+          <button type="button" class="quick-url-chip" data-url="https://realness.vn/du-an/the-prive" style="padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-size:11px;font-weight:600;cursor:pointer;">⚓ The Privé</button>
+          <button type="button" class="quick-url-chip" data-url="https://realness.vn/du-an/palm-river" style="padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-size:11px;font-weight:600;cursor:pointer;">🌲 Palm River</button>
+          <button type="button" class="quick-url-chip" data-url="https://realness.vn/du-an/happy-one-elite" style="padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-size:11px;font-weight:600;cursor:pointer;">🏛️ Happy One Elite</button>
+          <button type="button" class="quick-url-chip" data-url="https://realness.vn/du-an/tt-genesis" style="padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-size:11px;font-weight:600;cursor:pointer;">🍷 TT Genesis</button>
+          <button type="button" class="quick-url-chip" data-url="https://realness.vn/du-an/vlasta-premier" style="padding:4px 9px;border-radius:999px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;font-size:11px;font-weight:600;cursor:pointer;">🌊 Vlasta Premier</button>
+        </div>
+      </div>
+
       <!-- 1. THÔNG TIN DỰ ÁN & NGÀY REALTIME -->
       <div class="panel-section">
         <h3 class="panel-title">
@@ -330,6 +350,8 @@
             <option value="PALM RIVER LUXURY">PALM RIVER LUXURY</option>
             <option value="THE PRIVÉ AN PHÚ">THE PRIVÉ AN PHÚ</option>
             <option value="HAPPY ONE ELITE">HAPPY ONE ELITE</option>
+            <option value="TT GENESIS NHÀ BÈ">TT GENESIS NHÀ BÈ</option>
+            <option value="VLASTA PREMIER">VLASTA PREMIER</option>
             <option value="THE GLOBAL CITY">THE GLOBAL CITY</option>
           </select>
         </div>
@@ -604,6 +626,121 @@
       syncColorInputsFromTheme();
       renderUnitEditor();
       refreshAll();
+
+      // Auto-detect project style from URL
+      var inpProjectUrl = document.getElementById("inpProjectUrl");
+      var urlDetectStatus = document.getElementById("urlDetectStatus");
+
+      function applyStyleFromUrl(rawUrl) {
+        if (!rawUrl || !rawUrl.trim()) return;
+        var lower = rawUrl.toLowerCase();
+        var detectedName = "TBS LAND";
+        var detectedTheme = "emerald-gold";
+        var detectedUnits = [
+          { id: "u-1", label: "Căn 1PN", quantity: "", checked: true },
+          { id: "u-2", label: "Căn 2PN", quantity: "", checked: false },
+          { id: "u-3", label: "Căn 3PN", quantity: "", checked: false },
+          { id: "u-4", label: "Nhà phố/Biệt thự", quantity: "", checked: true },
+          { id: "u-5", label: "Shophouse", quantity: "", checked: false },
+        ];
+
+        if (lower.indexOf("the-prive") !== -1 || lower.indexOf("theprive") !== -1) {
+          detectedName = "THE PRIVÉ AN PHÚ";
+          detectedTheme = "navy-gold";
+          detectedUnits = [
+            { id: "tp-1", label: "Căn 1PN Luxury", quantity: "", checked: false },
+            { id: "tp-2", label: "Căn 2PN View Sông", quantity: "Hot", checked: true },
+            { id: "tp-3", label: "Căn 3PN Dual-Key", quantity: "", checked: false },
+            { id: "tp-4", label: "Sky Villa / Penthouse", quantity: "Giới hạn", checked: true },
+            { id: "tp-5", label: "Shophouse Bến Du Thuyền", quantity: "", checked: false },
+          ];
+        } else if (lower.indexOf("palm-river") !== -1 || lower.indexOf("palmriver") !== -1) {
+          detectedName = "PALM RIVER LUXURY";
+          detectedTheme = "teal-bronze";
+          detectedUnits = [
+            { id: "pr-1", label: "Căn 1PN", quantity: "", checked: false },
+            { id: "pr-2", label: "Căn 2PN View Sông", quantity: "Còn 9 căn", checked: true },
+            { id: "pr-3", label: "Căn 3PN Góc Panorama", quantity: "", checked: false },
+            { id: "pr-4", label: "Nhà phố/Biệt thự", quantity: "", checked: true },
+            { id: "pr-5", label: "Shophouse Đại Lộ", quantity: "", checked: false },
+          ];
+        } else if (lower.indexOf("happy-one") !== -1 || lower.indexOf("happyone") !== -1) {
+          detectedName = "HAPPY ONE ELITE";
+          detectedTheme = "navy-gold";
+          detectedUnits = [
+            { id: "ho-1", label: "Căn Studio / 1PN+", quantity: "Full NT", checked: true },
+            { id: "ho-2", label: "Căn 2PN", quantity: "Còn 14 căn", checked: true },
+            { id: "ho-3", label: "Căn 3PN Góc", quantity: "", checked: false },
+            { id: "ho-4", label: "Penthouse / Duplex", quantity: "", checked: false },
+            { id: "ho-5", label: "Shophouse Khối Đế", quantity: "", checked: false },
+          ];
+        } else if (lower.indexOf("tt-genesis") !== -1 || lower.indexOf("genesis") !== -1) {
+          detectedName = "TT GENESIS NHÀ BÈ";
+          detectedTheme = "burgundy-gold";
+          detectedUnits = [
+            { id: "tt-1", label: "Căn 1PN (48m²)", quantity: "", checked: true },
+            { id: "tt-2", label: "Căn 2PN (68m²)", quantity: "Hot", checked: true },
+            { id: "tt-3", label: "Căn 3PN Góc", quantity: "", checked: false },
+            { id: "tt-4", label: "Duplex / Penthouse", quantity: "", checked: false },
+            { id: "tt-5", label: "Shophouse Đào Sư Tích", quantity: "", checked: false },
+          ];
+        } else if (lower.indexOf("vlasta") !== -1) {
+          detectedName = "VLASTA PREMIER";
+          detectedTheme = "navy-gold";
+          detectedUnits = [
+            { id: "vl-1", label: "Căn 1PN (47m²)", quantity: "", checked: false },
+            { id: "vl-2", label: "Căn 2PN (64-84m²)", quantity: "Phổ biến", checked: true },
+            { id: "vl-3", label: "Căn 3PN View Sông", quantity: "", checked: true },
+            { id: "vl-4", label: "Penthouse / Sky Villa", quantity: "", checked: false },
+            { id: "vl-5", label: "Shophouse Khối Đế", quantity: "", checked: false },
+          ];
+        } else if (lower.indexOf("global-city") !== -1 || lower.indexOf("masterise") !== -1) {
+          detectedName = "THE GLOBAL CITY";
+          detectedTheme = "obsidian-gold";
+          detectedUnits = [
+            { id: "gc-1", label: "Căn 1PN - 2PN", quantity: "", checked: false },
+            { id: "gc-2", label: "Căn 3PN View Kênh Đào", quantity: "", checked: true },
+            { id: "gc-3", label: "Penthouse / Duplex", quantity: "", checked: false },
+            { id: "gc-4", label: "Nhà phố/Biệt thự", quantity: "SOHO", checked: true },
+            { id: "gc-5", label: "Shophouse Thương Mại", quantity: "", checked: false },
+          ];
+        } else if (lower.indexOf("green-skyline") !== -1 || lower.indexOf("tbs") !== -1) {
+          detectedName = "TBS LAND";
+          detectedTheme = "emerald-gold";
+        } else {
+          var parts = rawUrl.replace(/^https?:\/\//i, "").replace(/\.html?$/i, "").split("/").filter(Boolean);
+          var lastSlug = parts[parts.length - 1] || "du-an-moi";
+          detectedName = lastSlug.replace(/[-_]+/g, " ").toUpperCase();
+        }
+
+        state.projectName = detectedName;
+        state.themePreset = detectedTheme;
+        state.customColors = null;
+        state.units = detectedUnits;
+
+        inpProjectName.value = detectedName;
+        selThemePreset.value = detectedTheme;
+        if (urlDetectStatus) {
+          urlDetectStatus.textContent = "✓ Đã đồng bộ: " + detectedName;
+        }
+        syncColorInputsFromTheme();
+        renderUnitEditor();
+        refreshAll();
+      }
+
+      if (inpProjectUrl) {
+        inpProjectUrl.addEventListener("input", function (e) {
+          applyStyleFromUrl(e.target.value);
+        });
+      }
+
+      document.querySelectorAll(".quick-url-chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          var targetUrl = chip.getAttribute("data-url") || "";
+          if (inpProjectUrl) inpProjectUrl.value = targetUrl;
+          applyStyleFromUrl(targetUrl);
+        });
+      });
 
       // Wire events
       presetProjectSelect.addEventListener("change", function (e) {

@@ -127,6 +127,7 @@
     projectName: "TBS LAND",
     headerBadgeText: "TẢI BẢNG GIÁ",
     formTitle: "ĐĂNG KÝ NHẬN BÁO GIÁ",
+    showDate: true,
     datePrefix: "NGÀY:",
     realtimeDate: true,
     customDateText: "",
@@ -138,8 +139,10 @@
     themePreset: "emerald-gold",
     customColors: null,
     units: DEFAULT_UNITS,
-    triggerMode: "immediate", // "immediate" | "delay" | "button" | "inline"
-    delaySeconds: 2,
+    triggerMode: "immediate", // "immediate" | "delay" | "smart" | "button" | "inline"
+    delaySeconds: 12,
+    repeatDelaySeconds: 60,
+    maxAutoTriggers: 2,
     showFloatingLauncher: true,
     floatingLauncherText: "Tải Bảng Giá",
     agentName: "Hồng Phúc",

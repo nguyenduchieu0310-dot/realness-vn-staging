@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pop-up Đăng Ký Nhận Báo Giá - TBS LAND (Realness CRM Engine)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pe-header-start: #126b48;
+      --pe-header-mid: #074730;
+      --pe-header-end: #03281a;
+      --pe-gold: #d4af37;
+      --pe-gold-light: #f7e08a;
+      --pe-gold-dark: #9c7323;
+      --pe-title-color: #6e0a1e;
+      --pe-project-color: #0c5c38;
+      --pe-input-border: #154c37;
+      --pe-unit-active-bg: #dff2e8;
+      --pe-unit-active-border: #1c6b48;
+      --pe-unit-active-text: #082216;
+      --pe-btn-start: #061c4c;
+      --pe-btn-mid: #09335a;
+      --pe-btn-end: #074736;
+      --pe-icon-check: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'></polyline></svg>");
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background:
+        linear-gradient(180deg, rgba(6, 22, 16, 0.72), rgba(4, 15, 11, 0.85)),
+        radial-gradient(circle at 50% 25%, #1d4d38 0%, #091812 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    /* Native Modal Dialog Rules (Modern Web Guidance compliant) */
+    dialog#rfPopupDialog {
+      padding: 0;
+      border: none;
+      background: transparent;
+      max-width: 432px;
+      width: calc(100vw - 24px);
+      margin: auto;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+
+    dialog#rfPopupDialog:modal {
+      overscroll-behavior: contain;
+    }
+
+    dialog#rfPopupDialog::backdrop {
+      background: rgba(4, 15, 11, 0.68);
+      backdrop-filter: blur(4px);
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+
+    /* Main Popup Card */
+    .pe-card {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 18px;
+      border: 2.5px solid var(--pe-gold);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.25);
+      overflow: hidden;
+    }
+
+    .pe-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(247, 224, 138, 0.65);
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--pe-gold-light);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: transform 0.18s ease, background-color 0.18s ease;
+    }
+
+    .pe-close-btn:hover {
+      background: rgba(0, 0, 0, 0.6);
+      transform: scale(1.06);
+    }
+
+    .pe-close-btn:focus-visible {
+      outline: 2px solid var(--pe-gold-light);
+      outline-offset: 2px;
+    }
+
+    /* Top Emerald Header with Architectural Perspective Wireframe */
+    .pe-header {
+      position: relative;
+      background: radial-gradient(circle at 50% 32%, var(--pe-header-start) 0%, var(--pe-header-mid) 58%, var(--pe-header-end) 100%);
+      padding: 20px 16px 14px;
+      text-align: center;
+      border-bottom: 2.5px solid var(--pe-gold);
+      overflow: hidden;
+    }
+
+    .pe-header-wireframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.36;
+    }
+
+    .pe-excel-icon-wrap {
+      position: relative;
+      z-index: 2;
+      width: 122px;
+      height: 112px;
+      margin: 0 auto 6px;
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.38));
+    }
+
+    .pe-header-badge {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      background: linear-gradient(180deg, var(--pe-gold-light) 0%, var(--pe-gold) 55%, var(--pe-gold-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+    }
+
+    /* Form Body */
+    .pe-body {
+      padding: 20px 22px 24px;
+      background-color: #ffffff;
+    }
+
+    .pe-title {
+      margin: 0;
+      text-align: center;
+      font-size: 22px;
+      line-height: 1.28;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--pe-title-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .pe-project-name {
+      margin: 3px 0 0;
+      text-align: center;
+      font-size: 23px;
+      line-height: 1.25;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--pe-project-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Realtime Date Pill Badge */
+    .pe-date-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 16px;
+    }
+
+    .pe-date-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px 22px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--pe-gold-dark) 0%, var(--pe-gold) 22%, var(--pe-gold-light) 50%, var(--pe-gold) 78%, var(--pe-gold-dark) 100%);
+      border: 1px solid var(--pe-gold-dark);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.65);
+      color: #111111;
+      font-size: 14.5px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    /* Pill Inputs */
+    .pe-input-group {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .pe-input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--pe-input-border);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pe-input {
+      width: 100%;
+      height: 46px;
+      padding: 8px 18px 8px 44px;
+      border-radius: 999px;
+      border: 1.6px solid var(--pe-input-border);
+      background: #ffffff;
+      color: #111827;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .pe-input::placeholder {
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    .pe-input:focus-visible {
+      outline: 2px solid var(--pe-gold);
+      outline-offset: 1px;
+      border-color: var(--pe-project-color);
+    }
+
+    /* Unit Types Checkboxes Grid */
+    .pe-units-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 12px;
+      margin: 14px 0 18px;
+    }
+
+    .pe-unit-card {
+      --unit-bg: #f5f6f7;
+      --unit-border: #ced4da;
+      --unit-text: #1f2937;
+      --unit-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-block-size: 44px;
+      padding: 8px 11px;
+      border-radius: 9px;
+      background-color: var(--unit-bg);
+      border: 1.4px solid var(--unit-border);
+      color: var(--unit-text);
+      font-weight: var(--unit-weight);
+      font-size: 14.5px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .pe-unit-card:hover {
+      border-color: var(--pe-unit-active-border);
+    }
+
+    .pe-unit-card.pe-unit-odd-last {
+      grid-column: 1 / -1;
+      width: calc(50% - 6px);
+      min-width: 165px;
+      margin: 0 auto;
+    }
+
+    /* Child-state based styling (:has) with @supports fallback */
+    .pe-unit-card:has(.pe-unit-checkbox:checked) {
+      --unit-bg: var(--pe-unit-active-bg);
+      --unit-border: var(--pe-unit-active-border);
+      --unit-text: var(--pe-unit-active-text);
+      --unit-weight: 600;
+      box-shadow: 0 2px 6px rgba(12, 92, 56, 0.12);
+    }
+
+    @supports not selector(:has(*)) {
+      .pe-unit-card.is-active {
+        --unit-bg: var(--pe-unit-active-bg);
+        --unit-border: var(--pe-unit-active-border);
+        --unit-text: var(--pe-unit-active-text);
+        --unit-weight: 600;
+        box-shadow: 0 2px 6px rgba(12, 92, 56, 0.12);
+      }
+    }
+
+    .pe-unit-checkbox {
+      --checkbox-size: 21px;
+      --checkbox-icon-size: 13px;
+      appearance: none;
+      -webkit-appearance: none;
+      display: inline-grid;
+      place-content: center;
+      inline-size: var(--checkbox-size);
+      aspect-ratio: 1;
+      flex-shrink: 0;
+      margin: 0;
+      border-radius: 5px;
+      border: 1.5px solid #c5ccd3;
+      background-color: #ffffff;
+      color: #b8c1c8;
+      cursor: pointer;
+    }
+
+    .pe-unit-checkbox::before {
+      content: "";
+      inline-size: var(--checkbox-icon-size);
+      aspect-ratio: 1;
+      background-color: currentColor;
+      mask: var(--pe-icon-check) no-repeat center / contain;
+      -webkit-mask: var(--pe-icon-check) no-repeat center / contain;
+      scale: 0.92;
+      transition: scale 150ms ease, background-color 150ms ease;
+    }
+
+    .pe-unit-checkbox:checked {
+      border-color: var(--pe-unit-active-border);
+      background-color: #ffffff;
+      color: var(--pe-unit-active-border);
+    }
+
+    .pe-unit-checkbox:checked::before {
+      scale: 1;
+    }
+
+    .pe-unit-checkbox:focus-visible {
+      outline: 2px solid var(--pe-unit-active-border);
+      outline-offset: 2px;
+    }
+
+    .pe-unit-label-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+      min-width: 0;
+    }
+
+    .pe-unit-qty {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--pe-unit-active-border);
+      margin-top: 2px;
+    }
+
+    /* Gold-bordered Navy-to-Emerald Gradient Submit CTA */
+    .pe-submit-btn {
+      width: 100%;
+      height: 50px;
+      border-radius: 999px;
+      border: 2px solid var(--pe-gold);
+      background: linear-gradient(90deg, var(--pe-btn-start) 0%, var(--pe-btn-mid) 48%, var(--pe-btn-end) 100%);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(6, 28, 76, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.22);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .pe-submit-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    .pe-submit-btn:focus-visible {
+      outline: 2px solid var(--pe-gold);
+      outline-offset: 2px;
+    }
+
+    .pe-error-msg {
+      display: none;
+      margin: 0 0 12px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .pe-success-box {
+      display: none;
+      text-align: center;
+      padding: 18px 8px 10px;
+    }
+
+    /* Floating Trigger Button when Popup is closed */
+    .pe-floating-launcher {
+      position: fixed;
+      bottom: 22px;
+      left: 22px;
+      z-index: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: 2px solid var(--pe-gold);
+      background: linear-gradient(90deg, var(--pe-btn-start), var(--pe-btn-end));
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.38);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nút nổi mở lại Pop-up khi khách bấm đóng -->
+  <button type="button" class="pe-floating-launcher" id="btnReopenPopup">
+    <span>📥 TẢI BẢNG GIÁ</span>
+  </button>
+
+  <!-- Native HTML5 Modal Dialog with Light-Dismiss (closedby="any") -->
+  <dialog id="rfPopupDialog" closedby="any" aria-labelledby="peMainTitle">
+    <div class="pe-card">
+      <button type="button" class="pe-close-btn" id="btnClosePopup" aria-label="Đóng biểu mẫu">&times;</button>
+
+      <!-- TOP HEADER BANNER -->
+      <div class="pe-header">
+        <svg class="pe-header-wireframe" viewBox="0 0 430 175" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#f7e08a" stroke-width="0.85" opacity="0.58">
+            <line x1="0" y1="15" x2="115" y2="62" />
+            <line x1="0" y1="48" x2="115" y2="82" />
+            <line x1="0" y1="85" x2="115" y2="104" />
+            <line x1="0" y1="125" x2="115" y2="128" />
+            <line x1="0" y1="162" x2="115" y2="148" />
+            <line x1="18" y1="8" x2="18" y2="170" />
+            <line x1="48" y1="22" x2="48" y2="162" />
+            <line x1="78" y1="38" x2="78" y2="155" />
+            <line x1="104" y1="52" x2="104" y2="150" />
+
+            <line x1="430" y1="15" x2="315" y2="62" />
+            <line x1="430" y1="48" x2="315" y2="82" />
+            <line x1="430" y1="85" x2="315" y2="104" />
+            <line x1="430" y1="125" x2="315" y2="128" />
+            <line x1="430" y1="162" x2="315" y2="148" />
+            <line x1="412" y1="8" x2="412" y2="170" />
+            <line x1="382" y1="22" x2="382" y2="162" />
+            <line x1="352" y1="38" x2="352" y2="155" />
+            <line x1="326" y1="52" x2="326" y2="150" />
+          </g>
+        </svg>
+
+        <!-- 3D Excel Price Sheet SVG -->
+        <div class="pe-excel-icon-wrap" aria-hidden="true">
+          <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="peGoldTab" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f7df8b" />
+                <stop offset="50%" stop-color="#d4af37" />
+                <stop offset="100%" stop-color="#9a711c" />
+              </linearGradient>
+              <linearGradient id="peSheetBg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#e6ece9" />
+              </linearGradient>
+              <linearGradient id="peExcelBadge" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1e7e53" />
+                <stop offset="100%" stop-color="#0b462c" />
+              </linearGradient>
+            </defs>
+            <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab)" />
+            <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Montserrat, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>
+            <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg)" />
+            <path d="M78 8 V21 C78 23.8 80.2 26 83 26 H96 L78 8 Z" fill="#cbd5d0" />
+            <g stroke="#20724c" stroke-width="1.5" fill="#d8eee3" opacity="0.9">
+              <rect x="54" y="34" width="15" height="9" rx="1" />
+              <rect x="72" y="34" width="15" height="9" rx="1" />
+              <rect x="54" y="46" width="15" height="9" rx="1" />
+              <rect x="72" y="46" width="15" height="9" rx="1" />
+              <rect x="54" y="58" width="15" height="9" rx="1" />
+              <rect x="72" y="58" width="15" height="9" rx="1" />
+              <rect x="54" y="70" width="15" height="9" rx="1" />
+              <rect x="72" y="70" width="15" height="9" rx="1" />
+              <rect x="54" y="82" width="15" height="9" rx="1" />
+              <rect x="72" y="82" width="15" height="9" rx="1" />
+            </g>
+            <rect x="14" y="32" width="44" height="46" rx="8" fill="url(#peExcelBadge)" stroke="#349668" stroke-width="1.2" />
+            <path d="M27 44 L45 66 M45 44 L27 66" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />
+            <circle cx="94" cy="92" r="17" fill="#063723" stroke="url(#peGoldTab)" stroke-width="2.2" />
+            <path d="M94 83 V95 M88.5 90.5 L94 96 L99.5 90.5 M87 99.5 H101" stroke="#f5dc8b" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+
+        <h3 class="pe-header-badge" id="peBadgeText">TẢI BẢNG GIÁ</h3>
+      </div>
+
+      <!-- WHITE BODY SECTION -->
+      <div class="pe-body">
+        <h2 class="pe-title" id="peMainTitle">ĐĂNG KÝ NHẬN BÁO GIÁ</h2>
+        <div class="pe-project-name" id="peProjectName">TBS LAND</div>
+
+        <div class="pe-date-wrap">
+          <div class="pe-date-pill" id="peRealtimeDate">NGÀY: --/--/----</div>
+        </div>
+
+        <form class="pe-form" id="peLeadForm" novalidate>
+          <div class="pe-error-msg" id="peErrorMsg" role="alert"></div>
+
+          <div class="pe-input-group">
+            <span class="pe-input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+            <input type="text" name="fullname" class="pe-input" required autocomplete="name" placeholder="Họ và tên *" aria-label="Họ và tên" />
+          </div>
+
+          <div class="pe-input-group">
+            <span class="pe-input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+            </span>
+            <input type="tel" name="phone" class="pe-input" required inputmode="tel" autocomplete="tel" placeholder="Số điện thoại *" aria-label="Số điện thoại" />
+          </div>
+
+          <!-- Dynamic Unit Types Container -->
+          <div class="pe-units-grid" id="peUnitsGrid" role="group" aria-label="Chọn loại căn quan tâm"></div>
+
+          <button type="submit" class="pe-submit-btn" id="peSubmitBtn">ĐĂNG KÝ BÁO GIÁ</button>
+        </form>
+
+        <div class="pe-success-box" id="peSuccessBox" aria-live="polite"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    /**
+     * CẤU HÌNH ENGINE POP-UP DỰ ÁN (CÓ THỂ TUỲ CHỈNH TRỰC TIẾP HOẶC QUA URL QUERY)
+     * - Đổi tone màu, tên dự án, danh sách căn (theo loại và số lượng)
+     * - Ngày tự động cập nhật Realtime khi nhúng vào web
+     * - Tự động đổ Lead vào hệ thống Realness CRM
+     */
+    window.POPUP_ENGINE_CONFIG = {
+      projectName: "TBS LAND",
+      headerBadgeText: "TẢI BẢNG GIÁ",
+      formTitle: "ĐĂNG KÝ NHẬN BÁO GIÁ",
+      datePrefix: "NGÀY:",
+      realtimeDate: true,
+      submitText: "ĐĂNG KÝ BÁO GIÁ",
+      budgetRange: "3.5 - 12 Tỷ",
+      // Tuỳ biến danh sách căn theo Loại căn (label) & Số lượng/Rổ hàng (quantity)
+      units: [
+        { label: "Căn 1PN", quantity: "", checked: true },
+        { label: "Căn 2PN", quantity: "", checked: false },
+        { label: "Căn 3PN", quantity: "", checked: false },
+        { label: "Nhà phố/Biệt thự", quantity: "", checked: true },
+        { label: "Shophouse", quantity: "", checked: false }
+      ]
+    };
+
+    (function () {
+      var cfg = window.POPUP_ENGINE_CONFIG;
+      var dialog = document.getElementById("rfPopupDialog");
+      var unitsGrid = document.getElementById("peUnitsGrid");
+      var dateEl = document.getElementById("peRealtimeDate");
+      var projectEl = document.getElementById("peProjectName");
+      var titleEl = document.getElementById("peMainTitle");
+      var badgeEl = document.getElementById("peBadgeText");
+      var submitBtn = document.getElementById("peSubmitBtn");
+
+      // 1. Cập nhật Ngày Realtime (DD/MM/YYYY)
+      var now = new Date();
+      var dd = String(now.getDate()).padStart(2, "0");
+      var mm = String(now.getMonth() + 1).padStart(2, "0");
+      var yyyy = now.getFullYear();
+      var todayStr = dd + "/" + mm + "/" + yyyy;
+
+      dateEl.textContent = (cfg.datePrefix || "NGÀY:") + " " + todayStr;
+      projectEl.textContent = cfg.projectName || "TBS LAND";
+      titleEl.textContent = cfg.formTitle || "ĐĂNG KÝ NHẬN BÁO GIÁ";
+      badgeEl.textContent = cfg.headerBadgeText || "TẢI BẢNG GIÁ";
+      submitBtn.textContent = cfg.submitText || "ĐĂNG KÝ BÁO GIÁ";
+
+      // 2. Render danh sách các loại căn & số lượng
+      var units = Array.isArray(cfg.units) ? cfg.units : [];
+      var isOdd = units.length % 2 === 1;
+      unitsGrid.innerHTML = units
+        .map(function (u, idx) {
+          var isLastOdd = isOdd && idx === units.length - 1;
+          var val = u.quantity ? u.label + " (" + u.quantity + ")" : u.label;
+          return (
+            '<label class="pe-unit-card' +
+            (isLastOdd ? " pe-unit-odd-last" : "") +
+            (u.checked ? " is-active" : "") +
+            '">' +
+            '  <input type="checkbox" class="pe-unit-checkbox" name="unit_interest" value="' +
+            val.replace(/"/g, "&quot;") +
+            '"' +
+            (u.checked ? " checked" : "") +
+            " />" +
+            '  <span class="pe-unit-label-wrap">' +
+            "    <span>" +
+            u.label +
+            "</span>" +
+            (u.quantity ? '<span class="pe-unit-qty">' + u.quantity + "</span>" : "") +
+            "  </span>" +
+            "</label>"
+          );
+        })
+        .join("");
+
+      // Fallback cho trình duyệt cũ chưa hỗ trợ CSS :has()
+      if (typeof CSS !== "undefined" && !CSS.supports("selector(:has(*))")) {
+        var boxes = unitsGrid.querySelectorAll(".pe-unit-checkbox");
+        for (var i = 0; i < boxes.length; i++) {
+          boxes[i].addEventListener("change", function (e) {
+            var card = e.target.closest(".pe-unit-card");
+            if (card) card.classList.toggle("is-active", e.target.checked);
+          });
+        }
+      }
+
+      // Fallback cho trình duyệt chưa hỗ trợ <dialog closedby="any">
+      if (!("closedBy" in HTMLDialogElement.prototype)) {
+        dialog.addEventListener("click", function (event) {
+          if (event.target !== dialog) return;
+          var rect = dialog.getBoundingClientRect();
+          var isDialogContent =
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width;
+          if (isDialogContent) return;
+          dialog.close();
+        });
+      }
+
+      // Mở Pop-up tự động khi trang tải xong
+      if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute("open", "open");
+      }
+
+      document.getElementById("btnClosePopup").addEventListener("click", function () {
+        dialog.close();
+      });
+      document.getElementById("btnReopenPopup").addEventListener("click", function () {
+        if (!dialog.open) dialog.showModal();
+      });
+
+      // 3. Xử lý Submit & Đổ Lead vào Realness CRM
+      var form = document.getElementById("peLeadForm");
+      var errorEl = document.getElementById("peErrorMsg");
+      var successBox = document.getElementById("peSuccessBox");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var nameInput = form.querySelector('input[name="fullname"]');
+        var phoneInput = form.querySelector('input[name="phone"]');
+        var nameVal = nameInput.value.trim();
+        var phoneVal = phoneInput.value.trim();
+        var telRegex = /^[0-9+().\s-]{8,15}$/;
+
+        if (!nameVal) {
+          errorEl.textContent = "Vui lòng nhập Họ và tên của quý khách (*).";
+          errorEl.style.display = "block";
+          nameInput.focus();
+          return;
+        }
+        if (!phoneVal || !telRegex.test(phoneVal)) {
+          errorEl.textContent = "Vui lòng nhập Số điện thoại hợp lệ (8-12 số) (*).";
+          errorEl.style.display = "block";
+          phoneInput.focus();
+          return;
+        }
+        errorEl.style.display = "none";
+
+        var checked = form.querySelectorAll(".pe-unit-checkbox:checked");
+        var selectedUnits = [];
+        for (var c = 0; c < checked.length; c++) {
+          selectedUnits.push(checked[c].value);
+        }
+        var unitStr = selectedUnits.length > 0 ? selectedUnits.join(", ") : "Tất cả sản phẩm " + cfg.projectName;
+
+        // Đẩy vào CRM Storage + BroadcastChannel
+        var leadId = "LEAD-" + Math.floor(8820 + Math.random() * 900);
+        var timeStr = new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+        var placementTitle = "Pop-up Tải Bảng Giá " + cfg.projectName + " (" + todayStr + ")";
+
+        var newLead = {
+          id: leadId,
+          name: nameVal,
+          phone: phoneVal,
+          email: "",
+          project: cfg.projectName,
+          unitInterest: unitStr,
+          budgetRange: cfg.budgetRange || "3.5 - 12 Tỷ",
+          score: 96,
+          status: "new",
+          source: "Web Opt-in Form",
+          assignedAgent: {
+            id: "agent-1",
+            name: "Nguyễn Minh Tuấn",
+            rank: "VIP Specialist",
+            avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80",
+            activeLeads: 4
+          },
+          slaSecondsLeft: 300,
+          slaExpired: false,
+          createdAt: "Vừa xong",
+          currentStatusTag: "Khách mới điền Pop-up",
+          websiteFootprint: [
+            { time: timeStr, action: "Gửi Form Pop-up Báo Giá", detail: placementTitle },
+            { time: timeStr, action: "Chọn loại căn quan tâm", detail: unitStr }
+          ],
+          activityLogs: [
+            {
+              id: "log-" + Date.now(),
+              timestamp: timeStr,
+              type: "system",
+              title: "Khách điền Form Pop-up Website",
+              detail: placementTitle + " - SĐT: " + phoneVal + " - Căn: " + unitStr,
+              author: "Popup Form Engine"
+            }
+          ],
+          comments: [],
+          zaloHistory: []
+        };
+
+        try {
+          var raw = localStorage.getItem("rf_crm_leads_v2");
+          var list = raw ? JSON.parse(raw) : [];
+          if (!Array.isArray(list)) list = [];
+          localStorage.setItem("rf_crm_leads_v2", JSON.stringify([newLead].concat(list)));
+        } catch (err) {}
+
+        try {
+          if ("BroadcastChannel" in window) {
+            var ch = new BroadcastChannel("rf_crm_lead_channel");
+            ch.postMessage({ type: "NEW_LEAD", lead: newLead });
+            ch.close();
+          }
+        } catch (err) {}
+
+        form.style.display = "none";
+        successBox.style.display = "block";
+        successBox.innerHTML =
+          '<div style="font-size:18px;font-weight:800;color:#0c5c38;margin-bottom:8px;">✅ ĐĂNG KÝ NHẬN BÁO GIÁ THÀNH CÔNG!</div>' +
+          '<p style="font-size:13.5px;color:#374151;line-height:1.5;margin:0 0 14px;">Cảm ơn <strong>' +
+          nameVal +
+          "</strong>! Hệ thống đã ghi nhận yêu cầu báo giá <strong>" +
+          unitStr +
+          "</strong> dự án <strong>" +
+          cfg.projectName +
+          "</strong> và đẩy trực tiếp về hệ thống CRM.</p>" +
+          '<button type="button" id="btnResetForm" style="padding:9px 18px;border-radius:999px;border:1.5px solid #0c5c38;background:#fff;color:#0c5c38;font-weight:700;cursor:pointer;">Quay lại biểu mẫu</button>';
+
+        document.getElementById("btnResetForm").addEventListener("click", function () {
+          form.reset();
+          successBox.style.display = "none";
+          form.style.display = "block";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
