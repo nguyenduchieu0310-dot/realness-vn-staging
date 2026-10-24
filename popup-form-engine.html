@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pop-up Form Báo Giá BĐS - Realness CRM Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="/popup-engine.js"></script>
+  <style>
+    :root {
+      --bg-studio: #0b1118;
+      --bg-panel: #121c28;
+      --border-panel: rgba(255, 255, 255, 0.1);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #10b981;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #162a22 0%, #091117 100%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+    }
+    body.is-embed-only {
+      background: transparent;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+    /* Top Studio Toolbar */
+    .engine-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px;
+      background: rgba(15, 23, 34, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-panel);
+      gap: 12px;
+      flex-wrap: wrap;
+      z-index: 100;
+    }
+    body.is-embed-only .engine-topbar {
+      display: none !important;
+    }
+    .engine-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .engine-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #10b981, #047857);
+      color: #fff;
+      font-weight: 900;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35);
+    }
+    .engine-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-tool {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #f8fafc;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-tool:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .btn-tool.primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: #10b981;
+      color: #ffffff;
+    }
+    /* Main Workspace */
+    .engine-workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+    body.studio-collapsed .engine-workspace {
+      grid-template-columns: 1fr;
+    }
+    body.studio-collapsed .engine-sidebar {
+      display: none;
+    }
+    body.is-embed-only .engine-workspace {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      width: 100%;
+    }
+    body.is-embed-only .engine-sidebar {
+      display: none !important;
+    }
+    /* Left Controls Sidebar */
+    .engine-sidebar {
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border-panel);
+      padding: 20px;
+      overflow-y: auto;
+      max-height: calc(100vh - 60px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .panel-section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-panel);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .panel-title {
+      margin: 0 0 10px;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .field-row {
+      margin-bottom: 10px;
+    }
+    .field-row:last-child {
+      margin-bottom: 0;
+    }
+    .field-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 5px;
+    }
+    .field-input, .field-select {
+      width: 100%;
+      padding: 8px 11px;
+      border-radius: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(15, 23, 42, 0.75);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+    }
+    .field-input:focus, .field-select:focus {
+      border-color: #10b981;
+    }
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .color-item input[type="color"] {
+      width: 26px;
+      height: 26px;
+      border: none;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+    .color-item span {
+      font-size: 11px;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+    /* Unit Editor List */
+    .unit-editor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .unit-editor-row {
+      display: grid;
+      grid-template-columns: 24px 1fr 110px 28px;
+      gap: 6px;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .unit-del-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: none;
+      background: rgba(239, 68, 68, 0.18);
+      color: #f87171;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    /* Right Preview Stage */
+    .engine-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+      position: relative;
+      overflow-y: auto;
+    }
+    body.is-embed-only .engine-stage {
+      padding: 0;
+    }
+    .stage-caption {
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 34, 0.75);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    body.is-embed-only .stage-caption {
+      display: none !important;
+    }
+    .code-box {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      background: #070b10;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 11.5px;
+      resize: vertical;
+      margin-bottom: 8px;
+    }
+    @media (max-width: 960px) {
+      .engine-workspace {
+        grid-template-columns: 1fr;
+      }
+      .engine-sidebar {
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid var(--border-panel);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- TOPBAR -->
+  <header class="engine-topbar">
+    <div class="engine-brand">
+      <div class="engine-logo">RF</div>
+      <div>
+        <div style="font-size: 14.5px; font-weight: 800; color: #fff;">
+          REALNESS POP-UP FORM ENGINE <span style="font-size:11px;background:#064e3b;color:#34d399;padding:2px 7px;border-radius:4px;margin-left:4px;">CRM SYNC v2.0</span>
+        </div>
+        <div style="font-size: 11.5px; color: #94a3b8;">
+          Trình tạo Form Pop-up BĐS tuỳ biến Tone màu, Tên dự án, Ngày Realtime &amp; Loại căn đổ thẳng về CRM
+        </div>
+      </div>
+    </div>
+    <div class="engine-actions">
+      <button type="button" class="btn-tool" id="btnToggleStudio">
+        ⚙️ Ẩn/Hiện Bảng Tuỳ Biến Engine
+      </button>
+      <button type="button" class="btn-tool" id="btnTriggerModal">
+        🚀 Xem Thử Hiệu Ứng Nổi (Modal Pop-up)
+      </button>
+      <button type="button" class="btn-tool primary" id="btnDownloadHtml">
+        📥 Tải File HTML Độc Lập (.html)
+      </button>
+      <a href="/crm" class="btn-tool" style="border-color:#10b981;color:#34d399;">
+        📊 Mở Bảng Quản Trị Lead CRM &rarr;
+      </a>
+    </div>
+  </header>
+
+  <!-- WORKSPACE -->
+  <div class="engine-workspace">
+    <!-- LEFT: CUSTOMIZATION ENGINE -->
+    <aside class="engine-sidebar" id="engineSidebar">
+      <!-- 1. THÔNG TIN DỰ ÁN & NGÀY REALTIME -->
+      <div class="panel-section">
+        <h3 class="panel-title">
+          <span>1. Tên Dự Án &amp; Tiêu Đề Form</span>
+          <span style="font-size:10px;color:#94a3b8;">Realtime</span>
+        </h3>
+        <div class="field-row">
+          <label class="field-label">Chọn nhanh mẫu Dự Án có sẵn hoặc tự nhập:</label>
+          <select id="presetProjectSelect" class="field-select">
+            <option value="TBS LAND">TBS LAND (Mẫu chuẩn gốc)</option>
+            <option value="GREEN SKYLINE">GREEN SKYLINE - TBS LAND</option>
+            <option value="PALM RIVER LUXURY">PALM RIVER LUXURY</option>
+            <option value="THE PRIVÉ AN PHÚ">THE PRIVÉ AN PHÚ</option>
+            <option value="HAPPY ONE ELITE">HAPPY ONE ELITE</option>
+            <option value="THE GLOBAL CITY">THE GLOBAL CITY</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label">Tên Dự Án Hiển Thị Trên Pop-up:</label>
+          <input type="text" id="inpProjectName" class="field-input" value="TBS LAND" placeholder="VD: TBS LAND" />
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" class="field-row">
+          <div>
+            <label class="field-label">Tiêu đề trên Icon Excel:</label>
+            <input type="text" id="inpHeaderBadge" class="field-input" value="TẢI BẢNG GIÁ" />
+          </div>
+          <div>
+            <label class="field-label">Chữ trên Nút Submit:</label>
+            <input type="text" id="inpSubmitText" class="field-input" value="ĐĂNG KÝ BÁO GIÁ" />
+          </div>
+        </div>
+        <div class="field-row">
+          <label class="field-label">Tiêu đề chính của Form:</label>
+          <input type="text" id="inpFormTitle" class="field-input" value="ĐĂNG KÝ NHẬN BÁO GIÁ" />
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end;" class="field-row">
+          <div>
+            <label class="field-label">Nhãn Ngày:</label>
+            <input type="text" id="inpDatePrefix" class="field-input" value="NGÀY:" />
+          </div>
+          <div>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#34d399;cursor:pointer;padding-bottom:8px;">
+              <input type="checkbox" id="chkRealtimeDate" checked style="accent-color:#10b981;width:16px;height:16px;" />
+              <strong>Tự cập nhật Ngày Realtime</strong>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. TUỲ BIẾN TONE MÀU -->
+      <div class="panel-section">
+        <h3 class="panel-title">
+          <span>2. Tone Màu Chủ Đạo (Theme Engine)</span>
+        </h3>
+        <div class="field-row">
+          <label class="field-label">Bộ Tone Màu Thiết Kế Sẵn (Presets):</label>
+          <select id="selThemePreset" class="field-select">
+            <option value="emerald-gold">🌿 Emerald &amp; Luxury Gold (Chuẩn TBS Land)</option>
+            <option value="navy-gold">⚓ Royal Navy &amp; Champagne Gold (The Privé)</option>
+            <option value="burgundy-gold">🍷 Imperial Burgundy &amp; Gold (Biệt thự VIP)</option>
+            <option value="obsidian-gold">🖤 Obsidian Black &amp; Gold (Penthouse)</option>
+            <option value="teal-bronze">🌲 Forest Teal &amp; Bronze (Đô thị sinh thái)</option>
+          </select>
+        </div>
+        <div class="color-grid">
+          <label class="color-item">
+            <input type="color" id="colHeaderStart" value="#126b48" />
+            <span>Nền Header (Sáng)</span>
+          </label>
+          <label class="color-item">
+            <input type="color" id="colHeaderEnd" value="#03281a" />
+            <span>Nền Header (Đậm)</span>
+          </label>
+          <label class="color-item">
+            <input type="color" id="colGold" value="#d4af37" />
+            <span>Viền &amp; Nhãn Vàng</span>
+          </label>
+          <label class="color-item">
+            <input type="color" id="colTitle" value="#6e0a1e" />
+            <span>Màu Tiêu Đề Chính</span>
+          </label>
+          <label class="color-item">
+            <input type="color" id="colProject" value="#0c5c38" />
+            <span>Màu Tên Dự Án</span>
+          </label>
+          <label class="color-item">
+            <input type="color" id="colBtnStart" value="#061c4c" />
+            <span>Màu Nút Bấm</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 3. TUỲ CHỈNH CÁC LOẠI CĂN & SỐ LƯỢNG -->
+      <div class="panel-section">
+        <h3 class="panel-title">
+          <span>3. Tuỳ Chỉnh Loại Căn &amp; Số Lượng</span>
+          <button type="button" id="btnAddUnit" style="padding:4px 10px;border-radius:6px;border:none;background:#10b981;color:#fff;font-size:11px;font-weight:800;cursor:pointer;">
+            + Thêm Loại Căn
+          </button>
+        </h3>
+        <div style="font-size:11px;color:#94a3b8;margin-bottom:8px;">
+          Tích chọn ô đầu để đặt mặc định. Có thể thêm số lượng/ghi chú rổ hàng (VD: <em>Còn 5 căn</em>, <em>Suất ngoại giao</em>) hoặc để trống.
+        </div>
+        <div class="unit-editor-list" id="unitEditorList"></div>
+      </div>
+
+      <!-- 4. MÃ NHÚNG WEBSITE & CRM -->
+      <div class="panel-section">
+        <h3 class="panel-title">
+          <span>4. Mã Nhúng Website (Đổ Lead Về CRM)</span>
+        </h3>
+        <textarea id="txtEmbedScript" class="code-box" rows="4" readonly></textarea>
+        <div style="display:flex;gap:8px;">
+          <button type="button" id="btnCopyScript" class="btn-tool primary" style="flex:1;justify-content:center;">
+            📋 Sao Chép Mã Script Nhúng Web
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT: LIVE PREVIEW STAGE -->
+    <main class="engine-stage">
+      <div class="stage-caption">
+        <span>🟢 <strong>Xem trước Trực tiếp (1:1 Realtime Preview)</strong> — Điền thử form bên dưới để kiểm tra Lead nhảy vào CRM ngay lập tức</span>
+      </div>
+      <div id="popupPreviewMount" style="width:100%;max-width:435px;"></div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var Engine = window.RealnessPopupEngine;
+      if (!Engine) return;
+
+      var params = new URLSearchParams(window.location.search);
+      var isEmbedOnly = params.get("embed") === "1" || params.get("mode") === "embed";
+      if (isEmbedOnly) {
+        document.body.classList.add("is-embed-only");
+      }
+
+      // Hydrate config from URL query parameters if provided
+      var initialUnits = JSON.parse(JSON.stringify(Engine.DEFAULT_UNITS));
+      if (params.get("units")) {
+        try {
+          var parsedUnits = JSON.parse(params.get("units"));
+          if (Array.isArray(parsedUnits) && parsedUnits.length > 0) {
+            initialUnits = parsedUnits;
+          }
+        } catch (e) {}
+      }
+
+      var state = {
+        projectName: params.get("project") || "TBS LAND",
+        headerBadgeText: params.get("badge") || "TẢI BẢNG GIÁ",
+        formTitle: params.get("title") || "ĐĂNG KÝ NHẬN BÁO GIÁ",
+        datePrefix: params.get("datePrefix") || "NGÀY:",
+        realtimeDate: params.get("realtime") !== "0",
+        submitText: params.get("submit") || "ĐĂNG KÝ BÁO GIÁ",
+        themePreset: params.get("theme") || "emerald-gold",
+        customColors: null,
+        units: initialUnits,
+        triggerMode: "immediate",
+        showFloatingLauncher: true,
+        floatingLauncherText: "Tải Bảng Giá",
+      };
+
+      if (params.get("customColors")) {
+        try {
+          state.customColors = JSON.parse(params.get("customColors"));
+        } catch (e) {}
+      }
+
+      // DOM elements
+      var mountEl = document.getElementById("popupPreviewMount");
+      var inpProjectName = document.getElementById("inpProjectName");
+      var presetProjectSelect = document.getElementById("presetProjectSelect");
+      var inpHeaderBadge = document.getElementById("inpHeaderBadge");
+      var inpFormTitle = document.getElementById("inpFormTitle");
+      var inpSubmitText = document.getElementById("inpSubmitText");
+      var inpDatePrefix = document.getElementById("inpDatePrefix");
+      var chkRealtimeDate = document.getElementById("chkRealtimeDate");
+      var selThemePreset = document.getElementById("selThemePreset");
+      var colHeaderStart = document.getElementById("colHeaderStart");
+      var colHeaderEnd = document.getElementById("colHeaderEnd");
+      var colGold = document.getElementById("colGold");
+      var colTitle = document.getElementById("colTitle");
+      var colProject = document.getElementById("colProject");
+      var colBtnStart = document.getElementById("colBtnStart");
+      var unitEditorList = document.getElementById("unitEditorList");
+      var txtEmbedScript = document.getElementById("txtEmbedScript");
+
+      function syncColorInputsFromTheme() {
+        var resolved = Engine.resolveTheme(state);
+        colHeaderStart.value = resolved.headerBgStart;
+        colHeaderEnd.value = resolved.headerBgEnd;
+        colGold.value = resolved.goldPrimary;
+        colTitle.value = resolved.titleColor;
+        colProject.value = resolved.projectColor;
+        colBtnStart.value = resolved.btnGradStart;
+      }
+
+      function renderUnitEditor() {
+        unitEditorList.innerHTML = "";
+        state.units.forEach(function (u, idx) {
+          var row = document.createElement("div");
+          row.className = "unit-editor-row";
+          row.innerHTML =
+            '<input type="checkbox" title="Tích chọn mặc định" ' +
+            (u.checked ? "checked" : "") +
+            ' style="width:16px;height:16px;accent-color:#10b981;cursor:pointer;" />' +
+            '<input type="text" class="field-input" value="' +
+            (u.label || "").replace(/"/g, "&quot;") +
+            '" placeholder="Tên loại căn (VD: Căn 1PN)" style="padding:6px 8px;font-size:12px;" />' +
+            '<input type="text" class="field-input" value="' +
+            (u.quantity || "").replace(/"/g, "&quot;") +
+            '" placeholder="Số lượng / Rổ hàng" style="padding:6px 8px;font-size:11.5px;" />' +
+            '<button type="button" class="unit-del-btn" title="Xoá loại căn">&times;</button>';
+
+          var chk = row.querySelector('input[type="checkbox"]');
+          var inputs = row.querySelectorAll('input[type="text"]');
+          var delBtn = row.querySelector(".unit-del-btn");
+
+          chk.addEventListener("change", function (e) {
+            state.units[idx].checked = e.target.checked;
+            refreshAll();
+          });
+          inputs[0].addEventListener("input", function (e) {
+            state.units[idx].label = e.target.value;
+            refreshAll();
+          });
+          inputs[1].addEventListener("input", function (e) {
+            state.units[idx].quantity = e.target.value;
+            refreshAll();
+          });
+          delBtn.addEventListener("click", function () {
+            if (state.units.length <= 1) return;
+            state.units.splice(idx, 1);
+            renderUnitEditor();
+            refreshAll();
+          });
+
+          unitEditorList.appendChild(row);
+        });
+      }
+
+      function buildEmbedCode() {
+        var origin = window.location.origin && window.location.origin !== "null" ? window.location.origin : "https://realness.vn";
+        var cfgPayload = {
+          projectName: state.projectName,
+          headerBadgeText: state.headerBadgeText,
+          formTitle: state.formTitle,
+          datePrefix: state.datePrefix,
+          realtimeDate: state.realtimeDate,
+          submitText: state.submitText,
+          themePreset: state.themePreset,
+          customColors: state.customColors,
+          units: state.units,
+          triggerMode: "delay",
+          delaySeconds: 2,
+          showFloatingLauncher: true,
+          floatingLauncherText: state.headerBadgeText || "Tải Bảng Giá",
+        };
+        var escapedJson = JSON.stringify(cfgPayload).replace(/'/g, "&#39;");
+        return '<script src="' + origin + '/popup-engine.js" data-rf-popup-config=\'' + escapedJson + "' defer><\/script>";
+      }
+
+      function refreshAll() {
+        Engine.renderIntoContainer(mountEl, state, function () {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: "RF_POPUP_LEAD_SUBMITTED", project: state.projectName }, "*");
+          }
+        });
+        if (txtEmbedScript) {
+          txtEmbedScript.value = buildEmbedCode();
+        }
+      }
+
+      // Initialize inputs
+      inpProjectName.value = state.projectName;
+      inpHeaderBadge.value = state.headerBadgeText;
+      inpFormTitle.value = state.formTitle;
+      inpSubmitText.value = state.submitText;
+      inpDatePrefix.value = state.datePrefix;
+      chkRealtimeDate.checked = state.realtimeDate;
+      selThemePreset.value = state.themePreset;
+      syncColorInputsFromTheme();
+      renderUnitEditor();
+      refreshAll();
+
+      // Wire events
+      presetProjectSelect.addEventListener("change", function (e) {
+        state.projectName = e.target.value;
+        inpProjectName.value = state.projectName;
+        refreshAll();
+      });
+      inpProjectName.addEventListener("input", function (e) {
+        state.projectName = e.target.value;
+        refreshAll();
+      });
+      inpHeaderBadge.addEventListener("input", function (e) {
+        state.headerBadgeText = e.target.value;
+        refreshAll();
+      });
+      inpFormTitle.addEventListener("input", function (e) {
+        state.formTitle = e.target.value;
+        refreshAll();
+      });
+      inpSubmitText.addEventListener("input", function (e) {
+        state.submitText = e.target.value;
+        refreshAll();
+      });
+      inpDatePrefix.addEventListener("input", function (e) {
+        state.datePrefix = e.target.value;
+        refreshAll();
+      });
+      chkRealtimeDate.addEventListener("change", function (e) {
+        state.realtimeDate = e.target.checked;
+        refreshAll();
+      });
+
+      selThemePreset.addEventListener("change", function (e) {
+        state.themePreset = e.target.value;
+        state.customColors = null;
+        syncColorInputsFromTheme();
+        refreshAll();
+      });
+
+      function handleCustomColorChange() {
+        var base = Engine.THEME_PRESETS[state.themePreset] || Engine.THEME_PRESETS["emerald-gold"];
+        state.customColors = Object.assign({}, base, {
+          headerBgStart: colHeaderStart.value,
+          headerBgMid: colHeaderStart.value,
+          headerBgEnd: colHeaderEnd.value,
+          goldPrimary: colGold.value,
+          titleColor: colTitle.value,
+          projectColor: colProject.value,
+          unitActiveBorder: colProject.value,
+          inputBorder: colProject.value,
+          btnGradStart: colBtnStart.value,
+          btnGradEnd: colProject.value,
+        });
+        refreshAll();
+      }
+
+      [colHeaderStart, colHeaderEnd, colGold, colTitle, colProject, colBtnStart].forEach(function (el) {
+        el.addEventListener("input", handleCustomColorChange);
+      });
+
+      document.getElementById("btnAddUnit").addEventListener("click", function () {
+        state.units.push({
+          id: "u-" + Date.now(),
+          label: "Căn Penthouse",
+          quantity: "",
+          checked: false,
+        });
+        renderUnitEditor();
+        refreshAll();
+      });
+
+      document.getElementById("btnToggleStudio").addEventListener("click", function () {
+        document.body.classList.toggle("studio-collapsed");
+      });
+
+      document.getElementById("btnTriggerModal").addEventListener("click", function () {
+        var modalInstance = Engine.initModalPopup(
+          Object.assign({}, state, { triggerMode: "immediate" })
+        );
+        modalInstance.open();
+      });
+
+      document.getElementById("btnCopyScript").addEventListener("click", function () {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(txtEmbedScript.value);
+          var btn = document.getElementById("btnCopyScript");
+          var oldText = btn.textContent;
+          btn.textContent = "✅ Đã sao chép mã Script!";
+          setTimeout(function () {
+            btn.textContent = oldText;
+          }, 2200);
+        }
+      });
+
+      document.getElementById("btnDownloadHtml").addEventListener("click", function () {
+        var scopeId = "rf-popup-standalone";
+        var theme = Engine.resolveTheme(state);
+        var styles = Engine.buildPopupStyles(scopeId, theme);
+        var htmlCard = Engine.buildFormInnerHtml(state, scopeId);
+        var slug = (state.projectName || "tbs-land").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        var origin = window.location.origin && window.location.origin !== "null" ? window.location.origin : "https://realness.vn";
+
+        var standaloneDoc =
+          "<!DOCTYPE html>\n" +
+          '<html lang="vi">\n' +
+          "<head>\n" +
+          '  <meta charset="UTF-8" />\n' +
+          '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n' +
+          "  <title>Pop-up Báo Giá " + state.projectName + "</title>\n" +
+          '  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />\n' +
+          "  <style>\n" +
+          "    body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: rgba(4, 15, 11, 0.72); font-family: 'Montserrat', sans-serif; padding: 16px; }\n" +
+          "    " + styles + "\n" +
+          "  </style>\n" +
+          "</head>\n" +
+          "<body>\n" +
+          '  <div id="' + scopeId + '" style="width:100%;max-width:430px;">\n' +
+          "    " + htmlCard + "\n" +
+          "  </div>\n" +
+          '  <script src="' + origin + '/popup-engine.js"><\/script>\n' +
+          "  <script>\n" +
+          "    window.addEventListener('DOMContentLoaded', function() {\n" +
+          "      if (window.RealnessPopupEngine) {\n" +
+          "        window.RealnessPopupEngine.renderIntoContainer(document.getElementById('" + scopeId + "'), " + JSON.stringify(state) + ");\n" +
+          "      }\n" +
+          "    });\n" +
+          "  <\/script>\n" +
+          "</body>\n" +
+          "</html>";
+
+        var blob = new Blob([standaloneDoc], { type: "text/html;charset=utf-8" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "popup-bao-gia-" + slug + ".html";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    })();
+  </script>
+</body>
+</html>
