@@ -1249,6 +1249,9 @@
       }
     }
 
+    global.__rfPopupModalOpen = openPopup;
+    global.__rfPopupModalClose = closePopup;
+
     if (config.showFloatingLauncher) {
       var launcherBtn = document.createElement("button");
       launcherBtn.id = scopeId + "-launcher";
@@ -1265,22 +1268,25 @@
     }
 
     // Bind any host page trigger elements ([data-rf-popup-open], a[href="#popup_auto"], a[href="#bao-gia"], .btn_popup)
-    document.addEventListener(
-      "click",
-      function (e) {
-        var trigger =
-          e.target && e.target.closest
-            ? e.target.closest('[data-rf-popup-open], a[href="#popup_auto"], a[href="#bao-gia"], .btn_popup')
-            : null;
-        if (trigger) {
-          e.preventDefault();
-          e.stopPropagation();
-          if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
-          openPopup();
-        }
-      },
-      true
-    );
+    if (!global.__rfPopupClickBound) {
+      global.__rfPopupClickBound = true;
+      document.addEventListener(
+        "click",
+        function (e) {
+          var trigger =
+            e.target && e.target.closest
+              ? e.target.closest('[data-rf-popup-open], a[href="#popup_auto"], a[href="#bao-gia"], .btn_popup')
+              : null;
+          if (trigger && typeof global.__rfPopupModalOpen === "function") {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof e.stopImmediatePropagation === "function") e.stopImmediatePropagation();
+            global.__rfPopupModalOpen();
+          }
+        },
+        true
+      );
+    }
 
     // Smart Non-Intrusive 2-Stage Cadence
     var projSlug = String(config.projectId || config.projectName || "default").toLowerCase().replace(/[^a-z0-9]+/g, "-");
@@ -1398,9 +1404,12 @@
     };
   }
 
-  // Auto-init if loaded via <script data-rf-popup-auto="true" ...>
+  // Auto-init if loaded via <script data-rf-popup-config="..." ...>
   function autoInitFromScriptTag() {
-    var scriptEl = document.currentScript || document.querySelector("script[data-rf-popup-config], script[data-project-name]");
+    var scriptEl = document.currentScript;
+    if (!scriptEl || (!scriptEl.getAttribute("data-rf-popup-config") && !scriptEl.getAttribute("data-project-name") && !scriptEl.getAttribute("data-rf-popup-auto"))) {
+      scriptEl = document.querySelector("script[data-rf-popup-config], script[data-project-name], script[data-rf-popup-auto]");
+    }
     if (!scriptEl) return;
     var rawJson = scriptEl.getAttribute("data-rf-popup-config");
     var cfg = {};
@@ -1440,6 +1449,12 @@
     resolveTheme: resolveTheme,
     renderIntoContainer: renderIntoContainer,
     initModalPopup: initModalPopup,
+    open: function () {
+      if (typeof global.__rfPopupModalOpen === "function") global.__rfPopupModalOpen();
+    },
+    close: function () {
+      if (typeof global.__rfPopupModalClose === "function") global.__rfPopupModalClose();
+    },
     dispatchLeadToCrm: dispatchLeadToCrm,
     buildPopupStyles: buildPopupStyles,
     buildFormInnerHtml: buildFormInnerHtml,
