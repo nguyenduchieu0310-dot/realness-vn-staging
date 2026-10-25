@@ -1545,14 +1545,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 	<div class="green-skyline-hero-video" style="width: 100%; max-width: 100%; margin: 16px auto 0 auto; background: #000; line-height: 0;">
 		<video
+			id="video_intro_green_skyline"
 			src="/assets/green-skyline/green-skyline-intro.mp4"
 			poster="/assets/green-skyline/phoi-canh-quy-hoach-green-square-39ha.jpg"
 			controls
 			autoplay
 			muted
+			defaultMuted
 			loop
 			playsinline
-			preload="metadata"
+			webkit-playsinline="true"
+			x5-playsinline="true"
+			preload="auto"
 			style="width: 100%; height: auto; display: block;"
 		></video>
 	</div>
@@ -2700,8 +2704,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	</div>
 
 	<div class="video-ban-giao-wrap" id="video_ban_giao_green_skyline" style="width: 100%; margin: 0px;">
-		<video controls autoplay muted loop playsinline preload="metadata" style="width: 100%; height: auto; display: block; background: #000;">
-			<source src="/assets/green-skyline/vmobile-green.mp4" type="video/mp4" />
+		<video id="video_handover_green_skyline" src="/assets/green-skyline/vmobile-green.mp4" controls autoplay muted defaultMuted loop playsinline webkit-playsinline="true" x5-playsinline="true" preload="metadata" style="width: 100%; height: auto; display: block; background: #000;">
 			Trình duyệt của bạn không hỗ trợ phát video.
 		</video>
 	</div>
@@ -2998,7 +3001,110 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="/popup-engine.js" data-rf-popup-config='{"projectId":"green-skyline","projectUrl":"https://realness.vn/du-an/green-skyline","projectName":"TBS LAND","headerBadgeText":"TẢI BẢNG GIÁ","formTitle":"ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI","datePrefix":"NGÀY:","showDate":true,"realtimeDate":true,"submitText":"ĐĂNG KÝ","themePreset":"emerald-gold","customColors":{"headerBgStart":"#126b48","headerBgMid":"#074730","headerBgEnd":"#03281a","goldPrimary":"#d4af37","goldLight":"#f7e08a","goldDark":"#9c7323","titleColor":"#6e0a1e","projectColor":"#0c5c38","inputBorder":"#154c37","unitActiveBg":"#dff2e8","unitActiveBorder":"#1c6b48","unitActiveText":"#082216","btnGradStart":"#061c4c","btnGradMid":"#09335a","btnGradEnd":"#074736"},"units":[{"id":"u-1","label":"Căn Studio","checked":false},{"id":"u-2","label":"Căn 1PN+","checked":true},{"id":"u-3","label":"Căn 2PN","checked":true},{"id":"u-4","label":"Căn 3PN","checked":false},{"id":"u-5","label":"Duplex và Penthouse","checked":false},{"id":"u-6","label":"Shophouse","checked":false}],"triggerMode":"smart","delaySeconds":12,"repeatDelaySeconds":60,"maxAutoTriggers":2,"showFloatingLauncher":false,"floatingLauncherText":"Tải Bảng Giá","budgetRange":"3.5 - 12 Tỷ"}' defer></script>
 <script>
 (function() {
+    function enforceGreenSkylineVideoAutoplay() {
+        var videos = document.querySelectorAll(".green-skyline-hero-video video, #video_ban_giao_green_skyline video, video[autoplay]");
+        if (!videos || !videos.length) return;
+
+        function isInViewport(el) {
+            if (!el || !el.getBoundingClientRect) return false;
+            var rect = el.getBoundingClientRect();
+            var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+            return rect.bottom > 0 && rect.top < vh;
+        }
+
+        function tryPlayVideo(v) {
+            if (!v || v.__userPaused) return;
+            try {
+                v.defaultMuted = true;
+                v.muted = true;
+                v.playsInline = true;
+                v.setAttribute("muted", "");
+                v.setAttribute("playsinline", "");
+                v.setAttribute("webkit-playsinline", "true");
+                v.setAttribute("x5-playsinline", "true");
+                if (v.paused) {
+                    var p = v.play();
+                    if (p && typeof p.catch === "function") {
+                        p.catch(function() {});
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function tryPlayVisible() {
+            for (var i = 0; i < videos.length; i++) {
+                var v = videos[i];
+                if (i === 0 || isInViewport(v)) {
+                    tryPlayVideo(v);
+                }
+            }
+        }
+
+        for (var i = 0; i < videos.length; i++) {
+            (function(v, idx) {
+                v.defaultMuted = true;
+                v.muted = true;
+                v.playsInline = true;
+                v.addEventListener("pause", function() {
+                    if (!v.__autoPausing && !document.hidden && isInViewport(v) && v.readyState >= 2) {
+                        v.__userPaused = true;
+                    }
+                    v.__autoPausing = false;
+                });
+                v.addEventListener("play", function() {
+                    v.__userPaused = false;
+                });
+                if (idx === 0 || isInViewport(v)) {
+                    tryPlayVideo(v);
+                }
+                v.addEventListener("loadedmetadata", function() {
+                    if (idx === 0 || isInViewport(v)) tryPlayVideo(v);
+                });
+                v.addEventListener("canplay", function() {
+                    if (idx === 0 || isInViewport(v)) tryPlayVideo(v);
+                });
+            })(videos[i], i);
+        }
+
+        if ("IntersectionObserver" in window) {
+            var io = new IntersectionObserver(function(entries) {
+                for (var j = 0; j < entries.length; j++) {
+                    var target = entries[j].target;
+                    if (entries[j].isIntersecting) {
+                        tryPlayVideo(target);
+                    } else if (!target.paused) {
+                        target.__autoPausing = true;
+                        try { target.pause(); } catch (e) {}
+                    }
+                }
+            }, { threshold: 0.15 });
+            for (var k = 0; k < videos.length; k++) {
+                io.observe(videos[k]);
+            }
+        }
+
+        window.addEventListener("pageshow", tryPlayVisible, { passive: true });
+        document.addEventListener("visibilitychange", function() {
+            if (!document.hidden) tryPlayVisible();
+        });
+
+        var unlockEvents = ["touchstart", "pointerdown", "click", "keydown"];
+        function onUserGesture() {
+            tryPlayVisible();
+            var heroVid = videos[0];
+            if (heroVid && !heroVid.paused) {
+                for (var m = 0; m < unlockEvents.length; m++) {
+                    window.removeEventListener(unlockEvents[m], onUserGesture, true);
+                }
+            }
+        }
+        for (var n = 0; n < unlockEvents.length; n++) {
+            window.addEventListener(unlockEvents[n], onUserGesture, { capture: true, passive: true });
+        }
+    }
+
     function mountGreenSkylineEmbedBridge() {
+        enforceGreenSkylineVideoAutoplay();
         var inlineIframe = document.getElementById("rf_inline_embed_form");
         if (inlineIframe && window.location && window.location.protocol === "file:") {
             inlineIframe.src = "https://realness.vn/embed/lead-form/?project=green-skyline&theme=light&style=popup&url=https%3A%2F%2Frealness.vn%2Fdu-an%2Fgreen-skyline";
