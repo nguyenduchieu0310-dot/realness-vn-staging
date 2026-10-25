@@ -1252,19 +1252,9 @@
     global.__rfPopupModalOpen = openPopup;
     global.__rfPopupModalClose = closePopup;
 
-    if (config.showFloatingLauncher) {
-      var launcherBtn = document.createElement("button");
-      launcherBtn.id = scopeId + "-launcher";
-      launcherBtn.type = "button";
-      launcherBtn.innerHTML =
-        '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="' +
-        theme.goldLight +
-        '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
-        "<span>" +
-        escapeHtml(config.floatingLauncherText || "Tải Bảng Giá") +
-        "</span>";
-      launcherBtn.addEventListener("click", openPopup);
-      document.body.appendChild(launcherBtn);
+    var oldLauncher = document.getElementById(scopeId + "-launcher");
+    if (oldLauncher && oldLauncher.parentNode) {
+      oldLauncher.parentNode.removeChild(oldLauncher);
     }
 
     // Bind any host page trigger elements ([data-rf-popup-open], a[href="#popup_auto"], a[href="#bao-gia"], .btn_popup)

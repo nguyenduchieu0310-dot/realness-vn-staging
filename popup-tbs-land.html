@@ -432,11 +432,6 @@
 </head>
 <body>
 
-  <!-- Nút nổi mở lại Pop-up khi khách bấm đóng -->
-  <button type="button" class="pe-floating-launcher" id="btnReopenPopup">
-    <span>📥 TẢI BẢNG GIÁ</span>
-  </button>
-
   <!-- Native HTML5 Modal Dialog with Light-Dismiss (closedby="any") -->
   <dialog id="rfPopupDialog" closedby="any" aria-labelledby="peMainTitle">
     <div class="pe-card">
@@ -664,9 +659,6 @@
 
       document.getElementById("btnClosePopup").addEventListener("click", function () {
         dialog.close();
-      });
-      document.getElementById("btnReopenPopup").addEventListener("click", function () {
-        if (!dialog.open) dialog.showModal();
       });
 
       // 3. Xử lý Submit & Đổ Lead vào Realness CRM
