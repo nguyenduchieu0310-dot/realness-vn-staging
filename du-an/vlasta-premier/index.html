@@ -753,11 +753,15 @@ p {
     width: 100%;
 }
 .yellow-col {
+  position: relative;
   width: 100%;
 	padding: 25px;
-  background: rgb(255, 250, 240);
+  background: linear-gradient(135deg, #c86d28 0%, #df8538 50%, #a85418 100%);
   background-size: cover;
+  border: 2px solid #f3b562;
   border-radius: 0 20px 20px 20px;
+  box-shadow: 0 12px 28px rgba(168, 84, 24, 0.25);
+  color: #ffffff;
 /*   overflow: hidden; */
 }
 .yellow-col::before {
@@ -768,9 +772,21 @@ p {
 	  border-radius: 0 20px 20px 20px;
     content: "";
     height: 100%;
-    left: -15px;
-    top: -15px;
+    left: -12px;
+    top: -12px;
     width: 100%;
+}
+.yellow-col ul,
+.yellow-col li,
+.yellow-col span {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+.yellow-col b,
+.yellow-col strong {
+  color: #fff3d1 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 .img-rounded  img {
   display: block;
@@ -977,20 +993,6 @@ p {
 			
 <p style="text-align: justify;"><a href="#top"><b>VLASTA PREMIER</b></a><span style="font-weight: 400;"> là dự án căn hộ </span><b>Định Vị Phân Khúc Cao Cấp Hạng Sang</b><span style="font-weight: 400;"> do </span><b>VĂN PHÚ – INVEST</b><span style="font-weight: 400;"> phát triển. Nơi tinh hoa kiến trúc giao hòa cùng triết lý </span><b>“Vị Nhân Sinh”</b><span style="font-weight: 400;"> và </span><b>“Khởi Nguyên Sống Mới”</b><span style="font-weight: 400;"> làm nền tảng, Vlasta Premier kiến tạo chuẩn sống tinh hoa dành cho những chủ nhân có gu thẩm mỹ tinh tế và tư duy khác biệt. Tọa lạc bên dòng sông thơ mộng, dự án giao hòa nhịp sống đô thị với sự an nhiên, nơi kiến trúc sang trọng, tiện ích chọn lọc và không gian riêng tư tạo nên trải nghiệm sống đẳng cấp.</span></p>
 <p style="text-align: justify;">Đồng thời, dự án mở ra tiềm năng giá trị bất động sản dài hạn trong bối cảnh phát triển đô thị và hạ tầng Nam Sài Gòn.</p>
-<div id="vlasta-intro-video-wrap" style="width: 100%; margin: 20px auto 4px; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 214, 125, 0.35); background: #1e130c;">
-  <video
-    id="vlasta-intro-video"
-    src="/assets/vlasta-premier/videos/vlasta-intro-ngang.mp4"
-    autoplay
-    muted
-    loop
-    playsinline
-    webkit-playsinline
-    controls
-    preload="metadata"
-    style="width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; object-fit: cover;"
-  ></video>
-</div>
 		</div>
 				
 <style>
@@ -1021,6 +1023,21 @@ p {
 }
 </style>
 	</section>
+
+	<div id="vlasta-intro-video-wrap" style="width: 100%; margin: 0; padding: 0; background: #1e130c; overflow: hidden;">
+	  <video
+	    id="vlasta-intro-video"
+	    src="/assets/vlasta-premier/videos/vlasta-intro-ngang.mp4"
+	    autoplay
+	    muted
+	    loop
+	    playsinline
+	    webkit-playsinline
+	    controls
+	    preload="metadata"
+	    style="width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; object-fit: cover; margin: 0; padding: 0;"
+	  ></video>
+	</div>
 	
 	<div class="img has-hover x md-x lg-x y md-y lg-y" id="image_phon_hoa_rieng_tu">
 								<div class="img-inner dark" >
@@ -1398,10 +1415,10 @@ p {
 <div class="row"  id="row-1668358920">
 
 	<div id="col-142655808" class="col small-12 large-12"  >
-				<div class="col-inner dark"  >
+				<div class="col-inner"  >
 			
 			
-<h2 style="text-align: center;"><span style="font-size: 150%; color: #ffd67d;">TIỆN ÍCH DỰ ÁN VLASTA PREMIER<br /></span></h2>
+<h2 style="text-align: center;"><span style="font-size: 150%; color: #5d3722;">TIỆN ÍCH DỰ ÁN VLASTA PREMIER<br /></span></h2>
 <p style="text-align: justify;"><span style="font-weight: 400;">Vlasta Premier được phát triển theo định hướng </span><b>khu căn hộ cao cấp ven sông trong đô thị hiện hữu</b><span style="font-weight: 400;">, tập trung phục vụ nhu cầu </span><b>sống thực, tiện nghi và bền vững</b><span style="font-weight: 400;"> của cư dân Quận 7. Hệ tiện ích nội khu không chạy theo mô hình nghỉ dưỡng hay giải trí đại chúng, mà được thiết kế </span><b>tinh gọn, chọn lọc</b><span style="font-weight: 400;">, đề cao trải nghiệm sinh hoạt hằng ngày, sức khỏe và sự riêng tư trong môi trường sống hiện đại.</span></p>
 		</div>
 					</div>
@@ -1577,9 +1594,11 @@ p {
 #section_1974651161 {
   padding-top: 24px;
   padding-bottom: 24px;
+  background-color: #ffffff;
 }
 #section_1974651161 .section-bg.bg-loaded {
-  background-image: url("/assets/vlasta-premier/media/vlasta-media-15-bf5b2d66c3.jpg");
+  background-image: none;
+  background-color: #ffffff;
 }
 #section_1974651161 .ux-shape-divider--top svg {
   height: 150px;
