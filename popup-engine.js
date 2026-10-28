@@ -134,12 +134,12 @@
   };
 
   var DEFAULT_UNITS = [
-    { id: "u-1", label: "Căn Studio", checked: false },
-    { id: "u-2", label: "Căn 1PN+", checked: true },
-    { id: "u-3", label: "Căn 2PN", checked: true },
-    { id: "u-4", label: "Căn 3PN", checked: false },
-    { id: "u-5", label: "Duplex và Penthouse", checked: false },
-    { id: "u-6", label: "Shophouse", checked: false },
+    { id: "ai-u-1", label: "Căn Studio", checked: false },
+    { id: "ai-u-2", label: "Căn 1PN+", checked: true },
+    { id: "ai-u-3", label: "Căn 1PN", checked: true },
+    { id: "ai-u-4", label: "Căn 2PN+", checked: false },
+    { id: "ai-u-5", label: "Căn 2PN", checked: true },
+    { id: "ai-u-6", label: "Căn 3PN", checked: false },
   ];
 
   var DEFAULT_CONFIG = {
@@ -1003,7 +1003,7 @@
       escapeHtml(config.formTitle || "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI") +
       "</h2>" +
       '    <div class="pe-project-name' + (shouldShowDate ? "" : " pe-no-date") + '">' +
-      escapeHtml(config.projectName || "TBS LAND") +
+      escapeHtml(config.projectName || "GREEN SKYLINE") +
       "</div>" +
       dateBlockHtml +
       '    <form class="pe-form" novalidate>' +
