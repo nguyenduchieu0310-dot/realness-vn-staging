@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi" style="background:transparent !important;background-color:transparent !important;overflow:hidden;margin:0;padding:0;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Đăng Ký Nhận Báo Giá - Realness CRM</title>
+  <script src="/popup-engine.js"></script>
+  <style>
+    html, body, #root {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
+      background-color: rgba(0, 0, 0, 0) !important;
+      overflow: hidden !important;
+      font-family: 'Be Vietnam Pro', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+    .embed-stage {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 8px 4px;
+      box-sizing: border-box;
+      background: transparent;
+    }
+    #embedCardMount {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    /* Compact embedded card tweaks matching PopupFormVisualCard (isEmbedded=true) */
+    #embedCardMount .pe-close-btn {
+      display: none !important;
+    }
+    #embedCardMount .pe-card {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(212, 175, 55, 0.25) !important;
+    }
+    #embedCardMount .pe-header {
+      padding: 12px 14px 9px !important;
+    }
+    #embedCardMount .pe-excel-icon-wrap {
+      width: 82px !important;
+      height: 75px !important;
+      margin: 0 auto 2px !important;
+    }
+    #embedCardMount .pe-header-badge {
+      font-size: 19px !important;
+    }
+    #embedCardMount .pe-body {
+      padding: 13px 16px 16px !important;
+    }
+    #embedCardMount .pe-title {
+      font-size: 16.5px !important;
+      line-height: 1.28 !important;
+    }
+    #embedCardMount .pe-project-name {
+      font-size: 20px !important;
+      margin: 2px 0 0 !important;
+    }
+    #embedCardMount .pe-project-name.pe-no-date {
+      margin-bottom: 10px !important;
+    }
+    #embedCardMount .pe-date-wrap {
+      margin: 7px 0 11px !important;
+    }
+    #embedCardMount .pe-date-pill {
+      padding: 3.5px 16px !important;
+      font-size: 12.5px !important;
+    }
+    #embedCardMount .pe-input-group {
+      margin: 0 0 9px !important;
+    }
+    #embedCardMount .pe-input {
+      height: 41px !important;
+      font-size: 14px !important;
+    }
+    #embedCardMount .pe-units-grid {
+      gap: 7px 9px !important;
+      margin: 10px 0 12px !important;
+    }
+    #embedCardMount .pe-unit-card {
+      min-block-size: 36px !important;
+      padding: 5px 9px !important;
+      font-size: 12.8px !important;
+    }
+    #embedCardMount .pe-submit-btn {
+      height: 44px !important;
+      min-height: 44px !important;
+      font-size: 15px !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="embed-stage">
+      <div id="embedCardMount"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var Engine = window.RealnessPopupEngine;
+      var mountEl = document.getElementById("embedCardMount");
+      if (!Engine || !mountEl) return;
+
+      var search = new URLSearchParams(window.location.search);
+      var rawTarget = (search.get("url") || search.get("projectUrl") || search.get("project") || search.get("p") || "green-skyline").toLowerCase();
+
+      var cfg = {
+        projectId: "green-skyline",
+        projectUrl: "https://realness.vn/du-an/green-skyline",
+        projectName: "TBS LAND",
+        headerBadgeText: search.get("badge") || "TẢI BẢNG GIÁ",
+        formTitle: search.get("title") || "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+        showDate: true,
+        datePrefix: "NGÀY:",
+        realtimeDate: true,
+        submitText: search.get("submit") || "ĐĂNG KÝ",
+        themePreset: "emerald-gold",
+        units: [
+          { id: "u-1", label: "Căn Studio", checked: false },
+          { id: "u-2", label: "Căn 1PN+", checked: true },
+          { id: "u-3", label: "Căn 2PN", checked: true },
+          { id: "u-4", label: "Căn 3PN", checked: false },
+          { id: "u-5", label: "Duplex và Penthouse", checked: false },
+          { id: "u-6", label: "Shophouse", checked: false }
+        ],
+        budgetRange: "3.5 - 12 Tỷ"
+      };
+
+      if (rawTarget.indexOf("the-prive") !== -1 || rawTarget.indexOf("theprive") !== -1) {
+        cfg.projectId = "the-prive";
+        cfg.projectName = "THE PRIVÉ AN PHÚ";
+        cfg.themePreset = "navy-gold";
+        cfg.budgetRange = "6.8 - 25 Tỷ";
+        cfg.units = [
+          { id: "tp-1", label: "Căn 1PN", checked: false },
+          { id: "tp-2", label: "Căn 2PN", checked: true },
+          { id: "tp-3", label: "Căn 3PN", checked: true },
+          { id: "tp-4", label: "Duplex và Penthouse", checked: false },
+          { id: "tp-5", label: "Sky Villa", checked: false },
+          { id: "tp-6", label: "Shophouse", checked: false }
+        ];
+      } else if (rawTarget.indexOf("palm-river") !== -1 || rawTarget.indexOf("palmriver") !== -1) {
+        cfg.projectId = "palm-river";
+        cfg.projectName = "PALM RIVER LUXURY";
+        cfg.themePreset = "teal-bronze";
+        cfg.budgetRange = "7.5 - 28 Tỷ";
+      } else if (rawTarget.indexOf("happy-one") !== -1 || rawTarget.indexOf("happyone") !== -1) {
+        cfg.projectId = "happy-one-elite";
+        cfg.projectName = "HAPPY ONE ELITE";
+        cfg.themePreset = "navy-gold";
+        cfg.budgetRange = "2.2 - 4.8 Tỷ";
+      } else if (rawTarget.indexOf("tt-genesis") !== -1 || rawTarget.indexOf("genesis") !== -1) {
+        cfg.projectId = "tt-genesis";
+        cfg.projectName = "TT GENESIS";
+        cfg.themePreset = "burgundy-gold";
+        cfg.budgetRange = "2.5 - 5.5 Tỷ";
+      } else if (rawTarget.indexOf("vlasta") !== -1) {
+        cfg.projectId = "vlasta-premier";
+        cfg.projectName = "VLASTA PREMIER";
+        cfg.themePreset = "navy-gold";
+        cfg.budgetRange = "5.5 - 18 Tỷ";
+      }
+
+      Engine.renderIntoContainer(mountEl, cfg, function (result) {
+        try {
+          window.localStorage.setItem("rf_pe_converted_" + cfg.projectId, "1");
+          window.sessionStorage.setItem("rf_pe_converted_" + cfg.projectId, "1");
+          if (window.parent && window.parent !== window) {
+            window.parent.localStorage.setItem("rf_pe_converted_" + cfg.projectId, "1");
+            window.parent.sessionStorage.setItem("rf_pe_converted_" + cfg.projectId, "1");
+          }
+        } catch (e) {}
+        if (window.parent && window.parent !== window && result && result.lead) {
+          window.parent.postMessage(
+            {
+              type: "RF_LEAD_SUBMITTED",
+              leadId: result.lead.id,
+              project: cfg.projectName,
+              lead: result.lead
+            },
+            "*"
+          );
+        }
+        setTimeout(measureAndNotifyHeight, 30);
+      });
+
+      var lastPostedHeight = 0;
+      var lastWidth = window.innerWidth;
+
+      function measureAndNotifyHeight() {
+        if (!window.parent || window.parent === window) return;
+        var rect = mountEl.getBoundingClientRect();
+        if (rect.height <= 0) return;
+        var exactHeight = Math.ceil(rect.height) + 16;
+        if (Math.abs(exactHeight - lastPostedHeight) > 2) {
+          lastPostedHeight = exactHeight;
+          window.parent.postMessage({ type: "RF_LEAD_FORM_RESIZE", height: exactHeight }, "*");
+        }
+      }
+
+      measureAndNotifyHeight();
+      setTimeout(measureAndNotifyHeight, 120);
+
+      if (typeof ResizeObserver !== "undefined") {
+        var ro = new ResizeObserver(function () {
+          measureAndNotifyHeight();
+        });
+        ro.observe(mountEl);
+      }
+
+      window.addEventListener("resize", function () {
+        if (window.innerWidth !== lastWidth) {
+          lastWidth = window.innerWidth;
+          measureAndNotifyHeight();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

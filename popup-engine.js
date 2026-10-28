@@ -1166,7 +1166,7 @@
     if (typeof document !== "undefined" && document.head && !document.querySelector('link[href*="Be+Vietnam+Pro"]')) {
       var fontLink = document.createElement("link");
       fontLink.rel = "stylesheet";
-      fontLink.href = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap";
+      fontLink.href = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap";
       document.head.appendChild(fontLink);
     }
   }
