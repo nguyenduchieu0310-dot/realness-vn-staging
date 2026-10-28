@@ -864,9 +864,6 @@ var App = {
             jQuery('.tab-pane-plan[data-content="' + tab + '"]')
                 .addClass('active');
 
-            jQuery('.wrap-infor-tower.show .slider_floor').slick('setPosition');
-            jQuery('.wrap-infor-plan.show .slider_floor').slick('setPosition');
-
         });
 
         //handle tab list room unit plan
@@ -881,9 +878,6 @@ var App = {
                 .removeClass('show')
                 .filter('[data-room="' + room + '"]')
                 .addClass('show');
-
-            jQuery('.wrap-infor-plan.show .slider_floor').slick('setPosition');
-
 
             // Mobile: scroll xuống phần thông tin
             if (window.innerWidth < 1026) {
@@ -904,8 +898,6 @@ var App = {
                 .removeClass('show')
                 .filter('[data-tower="' + tower + '"]')
                 .addClass('show');
-
-            jQuery('.wrap-infor-tower.show .slider_floor').slick('setPosition');
 
             // Mobile: scroll xuống phần thông tin
             if (window.innerWidth < 1026) {
@@ -938,20 +930,6 @@ var App = {
             wrap.find('.photo_plan_bedroom[data-bedroom="' + tab + '"]')
                 .addClass('active');
 
-        });
-
-
-
-        jQuery('.slider_floor').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            dots: false,
-            arrows: false,
-            infinite: true,
-            autoplay: true,
-            speed: 800,
-            autoplaySpeed: 3000,
-            fade: false,
         });
     },
     sliderNews: function () {

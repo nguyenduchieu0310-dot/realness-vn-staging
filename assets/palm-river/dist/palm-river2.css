@@ -1738,19 +1738,20 @@ body .bg-web video {
 }
 .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-4 {
   position: absolute;
-  top: 10%;
-  right: 0;
-  width: 44vw;
-  aspect-ratio: 740/420;
+  top: 8%;
+  right: -4%;
+  width: 52vw;
+  aspect-ratio: 740/470;
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-4 {
-    width: 67vw;
+    width: 78vw;
   }
 }
 @media (max-width: 767px) {
   .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-4 {
-    width: 70vw;
+    width: 86vw;
+    right: -4vw;
   }
 }
 .ocp_life .horizontal-scroll-wrapper .horizontal .item .note-item-2 {
@@ -1837,19 +1838,21 @@ body .bg-web video {
 }
 .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-5 {
   position: absolute;
-  bottom: 8%;
-  left: 43%;
-  width: 12vw;
-  aspect-ratio: 1/1;
+  bottom: 6%;
+  left: 41%;
+  width: 20vw;
+  aspect-ratio: 4/3;
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-5 {
-    width: 30vw;
+    width: 44vw;
   }
 }
 @media (max-width: 767px) {
   .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-5 {
-    width: 40vw;
+    left: 42%;
+    bottom: 6%;
+    width: 62vw;
   }
 }
 .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-6 {
@@ -3578,60 +3581,56 @@ body .bg-web video {
   padding-top: 32px;
   border-top: 1px solid rgba(61, 76, 60, 0.15);
 }
+.site_plan .wrap-infor-tower .gallery_plan > .row > [class*="col-"],
+.site_plan .wrap-infor-plan .gallery_plan > .row > [class*="col-"] {
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
+}
+.site_plan .wrap-infor-tower .gallery_plan .describe-plan,
+.site_plan .wrap-infor-plan .gallery_plan .describe-plan {
+  margin-bottom: 16px !important;
+}
+.site_plan .wrap-infor-tower .gallery_plan .slider_floor,
+.site_plan .wrap-infor-plan .gallery_plan .slider_floor {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 0;
+  margin-top: 12px;
+}
 .site_plan .wrap-infor-tower .gallery_plan .slider_floor .item,
 .site_plan .wrap-infor-plan .gallery_plan .slider_floor .item {
-  padding: 0 10px;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  border: 0 !important;
 }
 .site_plan .wrap-infor-tower .gallery_plan .slider_floor figure,
 .site_plan .wrap-infor-plan .gallery_plan .slider_floor figure {
   position: relative;
-  padding-bottom: 50%;
-  margin-bottom: 0;
-  overflow: hidden;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  overflow: visible;
+  border: 0 !important;
 }
 .site_plan .wrap-infor-tower .gallery_plan .slider_floor figure::before,
-.site_plan .wrap-infor-plan .gallery_plan .slider_floor figure::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%);
-}
+.site_plan .wrap-infor-plan .gallery_plan .slider_floor figure::before,
 .site_plan .wrap-infor-tower .gallery_plan .slider_floor figure::after,
 .site_plan .wrap-infor-plan .gallery_plan .slider_floor figure::after {
-  position: absolute;
-  content: "";
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAABLFJREFUeAHtWkFy2kgU/ZLsJFXJAlfFdmUzA5WZPXMCwwniOYHtE5icIHCCOCcwPkHICSxOALOeZFBWiQkpU6lkkxhp3pO6QSUL0w0kmCq/qnYLqWm93/379f+NHVH49KlXQfXCcaQcRVKQGdjeLjmyROD9kWFTHxybjx+XzvjB5Z/Pn9+/QHWOUjEhv2KQYxMGk7M4/f7bQ8fxTtXDxtevclIqlYZyC9Hr9QoPHwr4ysvkzlWVU3fO6ev3ezVZE4BvnZzJ3dG+t7EhW1tbt3Pks7i87BWuruQSl0NX31wX8kSKa8GVNcedAavG2huwIUvChw+94r178mw0kjJ0uoJS0Jsiroe4DnAZuK74aNPe2Sl1ZQkYy+g8oYGSs2NcVlSxQQDD6p4nbahKIJYYy7/MAU0cI8nNT4ceHOWWyKgt4nXxbPjkSUKMO+ijR3GMVRSJKhi3PZAvMiRAPwHINDGADZkD1jOggj6GHkV1y0dp4Pu+WAA7P0OCA5nMXIDQ4Gh7+0/f5PsWwd8EDPrUFs7Qo6OMWQiDQW8fffV0vzpIM4XRqCuXeS2T0eKI12WJYHyDSpNvIbQ5MokOZhoA8kVFnj7MhXdk6y6mwEyUUb3m+kAdwIjqrAV+owGKPPMELrgAC7OqF+bPAuUYynRuasRUA5TbkHzZhvwUae2C0InOoiyN6CojhlYGwCeZNNQsyY9nbEoTI7eQjBEqhTzKa5cbSqgUkxo/tHGbtLuhriK726I8g8Df6l5sIGdpVl98J98tyf5y+PHjO7OEi6OoJW0weH8ghmBqquSVKOT0W9ByeXHxrm7aL2VW8bkkt+zzazPw40dUZ51M2+9GPpu0947jDl2vlpdT04epYEkbd08MAddpRVFEHlxbpzLLAMz3QWKI2G7t5eSFv72Z1gD+rwO4ilhgc9Oppd+RRt4aiEfvwQOZK8W8yb8XSFsLmXqMPAPiUcJ0WW3pksRE+N5VeVqDweDtfvodpki7dfbZNQNAnH7KkapdXIxfaIJ2Um2c5s0C70WR9zIh4p6IIZJzq9ith3lufc0AyhdkK26IBXmat/LzAP8+SUllRxtP4gz6eE+UxJqKA98NcYg9gZzy5HzqRtbv/9dUls+1+eQ9n3dTjKLw1c7O09x9wCiUsDGCULH+sUxUw0dpmx5bZmKwLtLPv6a1nRXMFeB3HZvocFFkyX/7JtWbjL7xVIKyp7ZzqkbcsQp5fwpAvmxDnph5rEJ/5cjjssWOMRsd26zJBIi/jicLPTozIW+N1KkwC+KafyuyIKhQKJ1Uqmp1Sm6d1OcojR+Go1e7u3+0xAL6FyFRYQVdBn0+N832NO+5z4WoNJL8JFVUt5hu+hIbJP9sbkqgQwclBmg3wvrx9nC4tZ/6JYjhcgNKY7y5LcWAtCEZyTSFj6i09eVLeDaPry/NAA3lWjxSfCZJRsaiRzmQZKS7nud2v38P3yyaWy/dgF8NzfvueH3VuDNg1aABY62WNUGaKw2I0ztIm9UWvkqEoauPe3xHbemMAGU0Cp/fv+82b+tvxqljyzo/IzU9jLU/c7RthBX+t0qMMAwbu7tP664iU8cuyWTel9sNeoaPUiV53vgfoY8NHHba6IYAAAAASUVORK5CYII=");
-  width: 20px;
-  height: 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-}
-.site_plan .wrap-infor-tower .gallery_plan .slider_floor figure:hover::before, .site_plan .wrap-infor-tower .gallery_plan .slider_floor figure:hover::after,
-.site_plan .wrap-infor-plan .gallery_plan .slider_floor figure:hover::before,
-.site_plan .wrap-infor-plan .gallery_plan .slider_floor figure:hover::after {
-  opacity: 1;
-  transition: all 0.5s ease;
+  display: none !important;
 }
 .site_plan .wrap-infor-tower .gallery_plan .slider_floor figure img,
 .site_plan .wrap-infor-plan .gallery_plan .slider_floor figure img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  border: 0 !important;
+  border-radius: 0 !important;
   -o-object-fit: cover;
      object-fit: cover;
 }
