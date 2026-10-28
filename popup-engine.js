@@ -112,6 +112,25 @@
       btnGradMid: "#115e59",
       btnGradEnd: "#064e3b",
     },
+    "vlasta-ocean": {
+      id: "vlasta-ocean",
+      name: "Coastal Ocean Navy & Royal Gold (Chuẩn Vlasta Premier)",
+      headerBgStart: "#ad6501",
+      headerBgMid: "#ad6501",
+      headerBgEnd: "#04122c",
+      goldPrimary: "#c59b27",
+      goldLight: "#ffd67d",
+      goldDark: "#9e7a1a",
+      titleColor: "#7a1224",
+      projectColor: "#481f04",
+      inputBorder: "#481f04",
+      unitActiveBg: "#fef3c7",
+      unitActiveBorder: "#481f04",
+      unitActiveText: "#1e293b",
+      btnGradStart: "#071f49",
+      btnGradMid: "#0a2e6d",
+      btnGradEnd: "#481f04",
+    },
   };
 
   var DEFAULT_UNITS = [

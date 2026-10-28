@@ -400,6 +400,7 @@
             <option value="burgundy-gold">🍷 Imperial Burgundy &amp; Gold (Biệt thự VIP)</option>
             <option value="obsidian-gold">🖤 Obsidian Black &amp; Gold (Penthouse)</option>
             <option value="teal-bronze">🌲 Forest Teal &amp; Bronze (Đô thị sinh thái)</option>
+            <option value="vlasta-ocean">🌊 Coastal Ocean &amp; Royal Gold (Chuẩn Vlasta Premier)</option>
           </select>
         </div>
         <div class="color-grid">
@@ -494,15 +495,30 @@
         rawProjectParam = "GREEN SKYLINE";
       }
 
+      var isVlastaDefault =
+        rawProjectParam.toLowerCase().indexOf("vlasta") !== -1 ||
+        params.get("theme") === "vlasta-ocean";
+
+      if (isVlastaDefault && !params.get("units")) {
+        initialUnits = [
+          { id: "ai-u-1", label: "Căn 1PN+ 50m2", checked: false },
+          { id: "ai-u-2", label: "Căn 1PN - 59m2", checked: false },
+          { id: "ai-u-3", label: "Căn 2PN (70 - 80m2)", checked: false },
+          { id: "ai-u-4", label: "Căn 3PN (101 - 102m2)", checked: false },
+          { id: "ai-u-5", label: "Duplex và Penthouse", checked: false },
+          { id: "ai-u-6", label: "Shophoue Thông tầng", checked: false },
+        ];
+      }
+
       var state = {
         projectName: rawProjectParam,
         headerBadgeText: params.get("badge") || "TẢI BẢNG GIÁ",
         formTitle: params.get("title") || "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
-        showDate: params.get("showDate") === "1",
+        showDate: params.get("showDate") !== null ? params.get("showDate") === "1" : isVlastaDefault,
         datePrefix: params.get("datePrefix") || "NGÀY:",
-        realtimeDate: params.get("realtime") === "1",
+        realtimeDate: params.get("realtime") !== null ? params.get("realtime") === "1" : isVlastaDefault,
         submitText: params.get("submit") || "ĐĂNG KÝ",
-        themePreset: params.get("theme") || "emerald-gold",
+        themePreset: params.get("theme") || (isVlastaDefault ? "vlasta-ocean" : "emerald-gold"),
         customColors: null,
         units: initialUnits,
         triggerMode: "smart",
@@ -696,13 +712,14 @@
           ];
         } else if (lower.indexOf("vlasta") !== -1) {
           detectedName = "VLASTA PREMIER";
-          detectedTheme = "navy-gold";
+          detectedTheme = "vlasta-ocean";
           detectedUnits = [
-            { id: "vl-1", label: "Căn 1PN+", checked: false },
-            { id: "vl-2", label: "Căn 2PN", checked: true },
-            { id: "vl-3", label: "Căn 3PN", checked: true },
-            { id: "vl-4", label: "Duplex và Penthouse", checked: false },
-            { id: "vl-5", label: "Shophouse", checked: false },
+            { id: "ai-u-1", label: "Căn 1PN+ 50m2", checked: false },
+            { id: "ai-u-2", label: "Căn 1PN - 59m2", checked: false },
+            { id: "ai-u-3", label: "Căn 2PN (70 - 80m2)", checked: false },
+            { id: "ai-u-4", label: "Căn 3PN (101 - 102m2)", checked: false },
+            { id: "ai-u-5", label: "Duplex và Penthouse", checked: false },
+            { id: "ai-u-6", label: "Shophoue Thông tầng", checked: false },
           ];
         } else if (lower.indexOf("global-city") !== -1 || lower.indexOf("masterise") !== -1) {
           detectedName = "THE GLOBAL CITY";
