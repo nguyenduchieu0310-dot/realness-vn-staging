@@ -1814,7 +1814,7 @@ var CPFB_CFG = {"pdfjs":"https://palm-city.com.vn/palm-river/wp-content/plugins/
 (function() {
   function initLazyMediaAndScrollRefresh() {
     var lazyVideos = document.querySelectorAll("video[data-lazy-video]");
-    function loadAndPlayVideo(video) {
+    function loadVideoSources(video) {
       if (video.dataset.lazyLoaded) return;
       video.dataset.lazyLoaded = "1";
       var sources = video.querySelectorAll("source[data-src]");
@@ -1822,21 +1822,46 @@ var CPFB_CFG = {"pdfjs":"https://palm-city.com.vn/palm-river/wp-content/plugins/
         srcEl.setAttribute("src", srcEl.getAttribute("data-src"));
       });
       video.load();
+    }
+    function safePlay(video) {
       var p = video.play();
       if (p && typeof p.catch === "function") p.catch(function() {});
     }
-    if ("IntersectionObserver" in window && lazyVideos.length) {
-      var vObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            loadAndPlayVideo(entry.target);
-            vObserver.unobserve(entry.target);
-          }
-        });
-      }, { rootMargin: "800px 0px" });
-      lazyVideos.forEach(function(v) { vObserver.observe(v); });
+    if ("IntersectionObserver" in window) {
+      if (lazyVideos.length) {
+        var loadObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              loadVideoSources(entry.target);
+              safePlay(entry.target);
+              loadObserver.unobserve(entry.target);
+            }
+          });
+        }, { rootMargin: "600px 0px" });
+        lazyVideos.forEach(function(v) { loadObserver.observe(v); });
+      }
+      var allAutoplayVideos = document.querySelectorAll("video[autoplay]");
+      if (allAutoplayVideos.length) {
+        var playObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            var v = entry.target;
+            if (entry.isIntersecting) {
+              if (v.dataset.lazyVideo && !v.dataset.lazyLoaded) {
+                loadVideoSources(v);
+              }
+              if (v.paused) safePlay(v);
+            } else {
+              if (!v.paused) v.pause();
+            }
+          });
+        }, { rootMargin: "150px 0px", threshold: 0.01 });
+        allAutoplayVideos.forEach(function(v) { playObserver.observe(v); });
+      }
     } else {
-      lazyVideos.forEach(loadAndPlayVideo);
+      lazyVideos.forEach(function(v) {
+        loadVideoSources(v);
+        safePlay(v);
+      });
     }
 
     var refreshTimer = null;
