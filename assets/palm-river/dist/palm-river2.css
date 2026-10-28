@@ -2242,6 +2242,10 @@ body .bg-web video {
   border-radius: 2.804px;
   background: #3D4C3C;
   padding: 4px;
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 12px;
 }
 .door_step .slider_doorstep-wrapper .slider_doorstep-2 .item-doorstep .name-location {
   color: var(--Beigi, #EBEBDF);
@@ -2251,15 +2255,17 @@ body .bg-web video {
   font-style: normal;
   font-weight: 400;
   line-height: 125%;
-  height: 40px;
+  height: auto;
+  padding-right: 6px;
   /* 17.5px */
   letter-spacing: 0.7px;
   text-transform: uppercase;
 }
 .door_step .slider_doorstep-wrapper .slider_doorstep-2 .item-doorstep .timing {
-  margin: 16px 0 32px 0;
+  margin: 4px 0 4px 6px;
 }
 .door_step .slider_doorstep-wrapper .slider_doorstep-2 .item-doorstep figure {
+  grid-column: 1 / -1;
   position: relative;
   padding-bottom: 60%;
   overflow: hidden;
