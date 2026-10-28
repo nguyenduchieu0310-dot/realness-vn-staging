@@ -1965,8 +1965,8 @@ body .bg-web video {
   }
 }
 .behind_river .infor_behind {
-  position: absolute;
-  top: 80px;
+  position: relative;
+  padding-top: 80px;
   left: 0;
   width: 100%;
   z-index: 4;
@@ -1979,6 +1979,7 @@ body .bg-web video {
 @media (max-width: 767px) {
   .behind_river .infor_behind {
     position: relative;
+    padding-top: 0;
     top: 3rem;
   }
 }
