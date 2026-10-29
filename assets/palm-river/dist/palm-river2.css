@@ -1068,33 +1068,112 @@ body .bg-web video {
 }
 .banner_site .content-banner {
   position: absolute;
-  top: 45%;
+  top: 46%;
   transform: translateY(-50%);
   left: 0;
   width: 100%;
   z-index: 1;
 }
-.banner_site .content-banner .title-banner .title-banner-main {
-  color: var(--White, #FFF);
-  font-family: "DVN - Beaufort";
-  font-size: 80px;
-  font-style: normal;
+.banner_site .content-banner .hero-luxury-lockup {
+  max-width: 720px;
+  padding: 0 8px;
+}
+.banner_site .content-banner .hero-lux-brand {
+  font-family: "DVN - Beaufort", serif;
+  font-size: clamp(42px, 11.2vw, 76px);
   font-weight: 400;
-  line-height: 95%;
-  /* 87.4px */
-  letter-spacing: -1.84px;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  margin: 0;
+  background: linear-gradient(180deg, #FDF3CF 0%, #E7C67A 50%, #C19442 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 6px rgba(8, 28, 22, 0.45));
 }
-@media (max-width: 767px) {
-  .banner_site .content-banner .title-banner .title-banner-main {
-    font-size: 59px;
-  }
+.banner_site .content-banner .hero-lux-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
 }
-@media (min-width: 1200px) {
-  .banner_site .content-banner .title-banner .title-banner-main .title-2 {
-    transform: translateX(100px);
-    display: block;
-  }
+.banner_site .content-banner .hero-lux-divider.wave-divider {
+  margin: 8px auto 14px;
+}
+.banner_site .content-banner .hero-lux-divider.wave-divider .divider-line {
+  height: 1px;
+  width: clamp(78px, 22vw, 150px);
+  background: linear-gradient(90deg, rgba(226, 192, 117, 0.12), rgba(226, 192, 117, 0.9));
+}
+.banner_site .content-banner .hero-lux-divider.wave-divider .divider-line.right {
+  background: linear-gradient(270deg, rgba(226, 192, 117, 0.12), rgba(226, 192, 117, 0.9));
+}
+.banner_site .content-banner .hero-lux-divider .wave-icon {
+  display: inline-block;
+  width: clamp(34px, 9vw, 46px);
+  aspect-ratio: 99/44;
+  background: linear-gradient(180deg, #FDF3CF 0%, #E5C274 52%, #BE903E 100%);
+  -webkit-mask: url("/assets/palm-river/uploads/2026/08/logo-short.png") no-repeat center / contain;
+  mask: url("/assets/palm-river/uploads/2026/08/logo-short.png") no-repeat center / contain;
+  filter: drop-shadow(0 2px 4px rgba(8, 28, 22, 0.35));
+}
+.banner_site .content-banner .hero-lux-body {
+  position: relative;
+  padding: 14px 10px 18px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse 72% 62% at 50% 50%, rgba(238, 247, 245, 0.84) 0%, rgba(225, 241, 238, 0.58) 52%, rgba(225, 241, 238, 0) 82%);
+}
+.banner_site .content-banner .hero-lux-title {
+  font-family: "DVN - Beaufort", serif;
+  font-size: clamp(27px, 7.3vw, 48px);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  color: #0D2B22;
+  margin: 0 0 8px;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.45);
+}
+.banner_site .content-banner .hero-lux-subtitle {
+  font-family: "DVN - Beaufort", serif;
+  font-size: clamp(19px, 5.1vw, 32px);
+  font-weight: 400;
+  line-height: 1.32;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+  color: #7D5B30;
+  background: linear-gradient(180deg, #8F6A3A 0%, #6B4C23 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 6px rgba(255, 255, 255, 0.4));
+}
+.banner_site .content-banner .hero-lux-divider.lotus-divider {
+  margin: 10px auto 12px;
+}
+.banner_site .content-banner .hero-lux-divider.lotus-divider .divider-line {
+  height: 1px;
+  width: clamp(84px, 24vw, 165px);
+  background: linear-gradient(90deg, rgba(132, 98, 54, 0.08), rgba(132, 98, 54, 0.72));
+}
+.banner_site .content-banner .hero-lux-divider.lotus-divider .divider-line.right {
+  background: linear-gradient(270deg, rgba(132, 98, 54, 0.08), rgba(132, 98, 54, 0.72));
+}
+.banner_site .content-banner .hero-lux-divider .lotus-icon {
+  width: clamp(24px, 6.4vw, 32px);
+  height: auto;
+}
+.banner_site .content-banner .hero-lux-tagline {
+  font-family: "DVN - Beaufort", serif;
+  font-size: clamp(15px, 4.1vw, 24px);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: #112F26;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.45);
 }
 .banner_site .banner-bottom {
   position: absolute;
