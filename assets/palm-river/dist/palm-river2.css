@@ -1530,11 +1530,34 @@ body .bg-web video {
   transform-origin: left center;
   will-change: transform;
 }
+.ocp_life .ocp-life-intro {
+  padding: 28px 0 0;
+  position: relative;
+  z-index: 2;
+}
+.ocp_life .ocp-life-intro p {
+  color: #3D4C3C;
+  font-size: 20px;
+  line-height: 1.55;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto;
+}
+@media (max-width: 767px) {
+  .ocp_life .ocp-life-intro {
+    padding: 18px 0 0;
+  }
+  .ocp_life .ocp-life-intro p {
+    font-size: 16px;
+    line-height: 1.55;
+    text-align: left;
+  }
+}
 .ocp_life .horizontal-scroll-wrapper .horizontal {
   display: flex;
   height: 100%;
   gap: 1rem;
-  margin-top: 54px;
+  margin-top: 16px;
 }
 .ocp_life .horizontal-scroll-wrapper .horizontal > div {
   display: flex;
@@ -1593,6 +1616,7 @@ body .bg-web video {
 @media (max-width: 767px) {
   .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-1 {
     width: 70vw;
+    top: 4%;
   }
 }
 .ocp_life .horizontal-scroll-wrapper .horizontal .item .title {
@@ -1603,6 +1627,7 @@ body .bg-web video {
 @media (max-width: 767px) {
   .ocp_life .horizontal-scroll-wrapper .horizontal .item .title {
     left: 76vw;
+    top: 6%;
   }
 }
 .ocp_life .horizontal-scroll-wrapper .horizontal .item .photo-2 {
