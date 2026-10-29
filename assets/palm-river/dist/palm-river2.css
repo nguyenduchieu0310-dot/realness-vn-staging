@@ -3179,56 +3179,49 @@ body .bg-web video {
 .feature_amen .title-section .title-feature span {
   margin-left: 100px;
 }
+.feature_amen .arr-amen {
+  display: none !important;
+}
 .feature_amen .slider_amen-wrapper {
   position: relative;
-  margin: 0 -8px;
+  margin: 0;
 }
-.feature_amen .slider_amen-wrapper .slider_amen .slick-list {
-  padding-right: 40%;
-  padding-left: 0;
+.feature_amen .slider_amen-wrapper .slider_amen {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 0;
 }
-@media (min-width: 768px) and (max-width: 1024px) {
-  .feature_amen .slider_amen-wrapper .slider_amen .slick-list {
-    padding-right: 50%;
-  }
-}
-@media (max-width: 767px) {
-  .feature_amen .slider_amen-wrapper .slider_amen .slick-list {
-    padding: 0;
+@media (min-width: 1200px) {
+  .feature_amen .slider_amen-wrapper .slider_amen {
+    width: 100%;
+    left: 0;
+    transform: none;
   }
 }
 .feature_amen .slider_amen-wrapper .slider_amen .amen-item {
   position: relative;
-  margin: 0 8px;
-}
-.feature_amen .slider_amen-wrapper .slider_amen .amen-item .amen-content {
-  position: absolute;
-  background: linear-gradient(180deg, rgba(45, 57, 44, 0) 0%, #2D392C 100%);
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 32px;
-}
-@media (max-width: 767px) {
-  .feature_amen .slider_amen-wrapper .slider_amen .amen-item .amen-content {
-    padding: 16px;
-  }
-}
-.feature_amen .slider_amen-wrapper .slider_amen .amen-item .amen-content p {
-  width: 75%;
-  opacity: 0.75;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  border: 0 !important;
 }
 .feature_amen .slider_amen-wrapper .slider_amen .amen-item figure {
-  padding-bottom: 100%;
-  margin-bottom: 0;
-  overflow: hidden;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  overflow: visible;
+  border: 0 !important;
 }
 .feature_amen .slider_amen-wrapper .slider_amen .amen-item figure img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  border: 0 !important;
+  border-radius: 0 !important;
   -o-object-fit: cover;
      object-fit: cover;
 }

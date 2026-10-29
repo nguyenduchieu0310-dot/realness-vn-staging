@@ -788,19 +788,7 @@ var App = {
 
     },
     sliderAmen: function () {
-        jQuery('.slider_amen').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            dots: false,
-            arrows: true,
-            infinite: true,
-            autoplay: false,
-            speed: 800,
-            autoplaySpeed: 2000,
-            fade: false,
-            prevArrow: '.feature_amen .arr-amen.left',
-            nextArrow: '.feature_amen .arr-amen.right',
-        });
+        // Converted to full-width stacked vertical image list
     },
     sliderDesign: function () {
         var $slider = jQuery('.slider_design');
