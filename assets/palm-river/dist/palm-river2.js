@@ -1301,11 +1301,13 @@ jQuery(document).ready(function () {
 
 //add class active when get top 0 for menu
 jQuery(window).on('scroll', function () {
+    const $shortMenu = jQuery('.short-menu');
+    if (!$shortMenu.length) return;
     const scrollTop = jQuery(window).scrollTop();
 
-    jQuery('.short-menu').toggleClass(
+    $shortMenu.toggleClass(
         'active',
-        scrollTop > 0 && scrollTop >= jQuery('.short-menu').offset().top
+        scrollTop > 0 && scrollTop >= $shortMenu.offset().top
     );
 });
 
