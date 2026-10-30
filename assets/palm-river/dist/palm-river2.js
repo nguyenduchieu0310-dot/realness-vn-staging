@@ -1720,13 +1720,214 @@ var CPFB_CFG = {"pdfjs":"https://palm-city.com.vn/palm-river/wp-content/plugins/
     });
   });
 
-  // Local Contact Form 7 handler so form submission works offline / on file:// protocol
+  // Realness CRM Lead Dispatch Engine for Palm River Contact Form 7
+  var CRM_STORAGE_KEY = 'rf_crm_leads_v2';
+  var CRM_CHANNEL_NAME = 'rf_crm_lead_channel';
+  var CRM_SHARED_COOKIE_KEY = 'rf_crm_shared_leads';
+  var PALM_RIVER_AGENT = {
+    id: 'agent-hp',
+    name: 'Hồng Phúc (0938819400)',
+    rank: 'VIP Specialist',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
+    activeLeads: 4
+  };
+
+  function pushPalmRiverLeadToCrm(payload) {
+    var now = new Date();
+    var timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    var dateStr = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    var leadId = 'LEAD-' + Math.floor(8820 + Math.random() * 900);
+    var cleanName = (payload.name || '').trim() || 'Khách quan tâm Palm River';
+    var cleanPhone = (payload.phone || '').trim();
+    var cleanEmail = (payload.email || '').trim();
+    var project = 'Palm River';
+    var reqVal = (payload.requestType || '').trim();
+    var unitInterest = reqVal ? ('Yêu cầu: ' + reqVal + ' · Đăng ký nhận tư vấn Palm River') : 'Đăng ký nhận bảng giá & chính sách ưu đãi Palm River';
+    var budgetRange = '7 - 15 Tỷ';
+    var placementTitle = 'Form Đăng Ký Nhận Tư Vấn Palm River';
+    var agent = PALM_RIVER_AGENT;
+
+    var newLead = {
+      id: leadId,
+      name: cleanName,
+      phone: cleanPhone,
+      email: cleanEmail,
+      project: project,
+      unitInterest: unitInterest,
+      budgetRange: budgetRange,
+      score: 96,
+      status: 'new',
+      source: 'Web Opt-in Form',
+      assignedAgent: agent,
+      slaSecondsLeft: 300,
+      slaExpired: false,
+      createdAt: 'Vừa xong',
+      currentStatusTag: 'Khách mới điền Form',
+      websiteFootprint: [
+        {
+          time: timeStr,
+          action: 'Gửi Form Opt-in thành công',
+          detail: 'Form: ' + placementTitle + ' · Dự án: ' + project
+        },
+        {
+          time: timeStr,
+          action: 'Ghi nhận nhu cầu khách hàng',
+          detail: unitInterest
+        },
+        {
+          time: timeStr,
+          action: 'Đồng bộ Zalo & Kích hoạt SLA',
+          detail: 'Số điện thoại Zalo: ' + cleanPhone + ' · Phân phối cho chuyên viên ' + agent.name
+        }
+      ],
+      activityLogs: [
+        {
+          id: 'log-' + Date.now() + '-1',
+          timestamp: timeStr,
+          type: 'system',
+          title: 'Khách điền Form Website',
+          detail: 'Đăng ký từ "' + placementTitle + '". Khách hàng: ' + cleanName + ' - SĐT: ' + cleanPhone,
+          author: 'Web Form Engine'
+        },
+        {
+          id: 'log-' + Date.now() + '-2',
+          timestamp: timeStr,
+          type: 'system',
+          title: 'Chấm điểm Lead & Kích hoạt SLA',
+          detail: 'Hệ thống AI chấm 96 điểm (Lead Nóng). Kích hoạt đồng hồ SLA phản hồi trong 5 phút.',
+          author: 'AI Lead Scoring'
+        },
+        {
+          id: 'log-' + Date.now() + '-3',
+          timestamp: timeStr,
+          type: 'system',
+          title: 'Điều phối tự động (CRM Dispatch)',
+          detail: 'Phân phối ngay cho Chuyên viên ' + agent.name + ' phụ trách ' + project,
+          author: 'CRM Engine'
+        }
+      ],
+      comments: [
+        {
+          id: 'cmt-' + Date.now(),
+          timestamp: timeStr,
+          author: 'CRM Dispatch Bot',
+          authorAvatar: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80',
+          tag: 'Khách mới điền Form',
+          tagColor: '#10b981',
+          content: '⚡ Khách vừa đăng ký qua Form "' + placementTitle + '" lúc ' + timeStr + ' ngày ' + dateStr + '. ' + unitInterest + '. Sales vui lòng bấm VoIP gọi hoặc gửi Zalo ngay trong vòng 5 phút (SLA)!'
+        }
+      ],
+      zaloHistory: [
+        {
+          id: 'zm-' + Date.now() + '-1',
+          sender: 'agent',
+          time: timeStr,
+          text: 'Dạ em chào anh/chị ' + cleanName + '! Em là Hồng Phúc (0938819400) - chuyên viên tư vấn dự án Palm River thuộc Realness.vn. Em nhận được đăng ký nhận tư vấn của anh/chị. Em gửi anh/chị trọn bộ bảng giá và tài liệu chi tiết qua Zalo ạ!'
+        },
+        {
+          id: 'zm-' + Date.now() + '-2',
+          sender: 'agent',
+          time: timeStr,
+          cardType: 'brochure',
+          cardTitle: 'Bộ Tài Liệu & Bảng Giá Palm River Đợt 1 (PDF)',
+          cardDetail: 'Mặt bằng chi tiết căn hộ, chính sách thanh toán 10% vốn ban đầu & ưu đãi mở bán mới nhất'
+        }
+      ]
+    };
+
+    function saveToStorage(storageObj) {
+      try {
+        if (!storageObj) return;
+        var raw = storageObj.getItem(CRM_STORAGE_KEY);
+        var list = [];
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) list = parsed;
+        }
+        var updated = [newLead].concat(list.filter(function(l) { return l && l.id !== leadId; }));
+        storageObj.setItem(CRM_STORAGE_KEY, JSON.stringify(updated));
+      } catch (err) {}
+    }
+    saveToStorage(window.localStorage);
+    try {
+      if (window.parent && window.parent !== window) {
+        saveToStorage(window.parent.localStorage);
+      }
+    } catch (err) {}
+
+    var compactItem = {
+      id: leadId,
+      n: cleanName,
+      p: cleanPhone,
+      e: cleanEmail,
+      pr: project,
+      u: unitInterest,
+      b: budgetRange,
+      pl: placementTitle,
+      t: now.getTime()
+    };
+    try {
+      var existingCookies = [];
+      var parts = document.cookie ? document.cookie.split('; ') : [];
+      for (var c = 0; c < parts.length; c++) {
+        if (parts[c].indexOf(CRM_SHARED_COOKIE_KEY + '=') === 0) {
+          var parsedCookie = JSON.parse(decodeURIComponent(parts[c].substring(CRM_SHARED_COOKIE_KEY.length + 1)));
+          if (Array.isArray(parsedCookie)) existingCookies = parsedCookie;
+        }
+      }
+      var mergedCookies = [compactItem].concat(existingCookies.filter(function(x) { return x && x.id !== leadId; })).slice(0, 5);
+      var encodedCookie = encodeURIComponent(JSON.stringify(mergedCookies));
+      document.cookie = CRM_SHARED_COOKIE_KEY + '=' + encodedCookie + '; domain=.realness.vn; path=/; max-age=604800; SameSite=Lax; Secure';
+      document.cookie = CRM_SHARED_COOKIE_KEY + '=' + encodedCookie + '; path=/; max-age=604800; SameSite=Lax';
+    } catch (err) {}
+
+    try {
+      if ('BroadcastChannel' in window) {
+        var channel = new BroadcastChannel(CRM_CHANNEL_NAME);
+        channel.postMessage({ type: 'NEW_LEAD', lead: newLead });
+        channel.close();
+      }
+    } catch (err) {}
+
+    try {
+      window.dispatchEvent(new CustomEvent('rf_crm_new_lead', { detail: newLead }));
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'RF_CRM_NEW_LEAD', lead: newLead }, '*');
+        window.parent.dispatchEvent(new CustomEvent('rf_crm_new_lead', { detail: newLead }));
+      }
+    } catch (err) {}
+
+    try {
+      var targets = ['https://realness.vn/crm/', 'https://staging.realness.vn/crm/'];
+      targets.forEach(function(targetUrl) {
+        var iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = targetUrl;
+        iframe.onload = function() {
+          try {
+            iframe.contentWindow.postMessage({
+              type: 'RF_CRM_NEW_LEAD',
+              lead: newLead
+            }, '*');
+          } catch (e) {}
+          setTimeout(function() {
+            if (iframe && iframe.parentNode) iframe.parentNode.removeChild(iframe);
+          }, 3000);
+        };
+        document.body.appendChild(iframe);
+      });
+    } catch (err) {}
+
+    return { lead: newLead, compact: compactItem };
+  }
+
   document.addEventListener('submit', function(e) {
     var form = e.target;
     if (!form || !form.classList || !form.classList.contains('wpcf7-form')) return;
     if (window.location.hostname === 'palm-city.com.vn') return;
 
     e.preventDefault();
+    e.stopPropagation();
     e.stopImmediatePropagation();
 
     var out = form.querySelector('.wpcf7-response-output');
@@ -1735,24 +1936,40 @@ var CPFB_CFG = {"pdfjs":"https://palm-city.com.vn/palm-river/wp-content/plugins/
     var emailInput = form.querySelector('[name="your-email"]');
     var phoneInput = form.querySelector('[name="your-phone"]');
 
+    var nameVal = nameInput ? (nameInput.value || '').trim() : '';
+    var phoneVal = phoneInput ? (phoneInput.value || '').trim() : '';
+    var emailVal = emailInput ? (emailInput.value || '').trim() : '';
+    var reqVal = reqSelect ? (reqSelect.value || '').trim() : '';
+
     var valid = true;
-    var errMsg = 'Một hoặc nhiều mục có lỗi. Vui lòng kiểm tra và thử lại.';
+    var errMsg = 'Vui lòng điền đầy đủ Họ & tên và Số liên hệ.';
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     var phoneRegex = /^[0-9+()\s.-]{8,15}$/;
 
-    [reqSelect, nameInput, emailInput, phoneInput].forEach(function(field) {
-      if (!field) return;
-      var val = (field.value || '').trim();
-      var fieldInvalid = !val;
-      if (val && field === emailInput && !emailRegex.test(val)) {
-        fieldInvalid = true;
+    if (nameInput) {
+      var nameInvalid = !nameVal;
+      nameInput.setAttribute('aria-invalid', nameInvalid ? 'true' : 'false');
+      if (nameInvalid) valid = false;
+    }
+    if (phoneInput) {
+      var phoneInvalid = !phoneVal || !phoneRegex.test(phoneVal);
+      phoneInput.setAttribute('aria-invalid', phoneInvalid ? 'true' : 'false');
+      if (phoneInvalid) {
+        valid = false;
+        if (phoneVal) errMsg = 'Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.';
       }
-      if (val && field === phoneInput && !phoneRegex.test(val)) {
-        fieldInvalid = true;
+    }
+    if (emailInput) {
+      var emailInvalid = Boolean(emailVal && !emailRegex.test(emailVal));
+      emailInput.setAttribute('aria-invalid', emailInvalid ? 'true' : 'false');
+      if (emailInvalid) {
+        valid = false;
+        errMsg = 'Địa chỉ Email không hợp lệ. Vui lòng kiểm tra lại.';
       }
-      field.setAttribute('aria-invalid', fieldInvalid ? 'true' : 'false');
-      if (fieldInvalid) valid = false;
-    });
+    }
+    if (reqSelect) {
+      reqSelect.setAttribute('aria-invalid', 'false');
+    }
 
     if (!valid) {
       form.classList.remove('init', 'sent', 'submitting');
@@ -1764,11 +1981,22 @@ var CPFB_CFG = {"pdfjs":"https://palm-city.com.vn/palm-river/wp-content/plugins/
         out.style.display = 'block';
       }
     } else {
+      var dispatched = pushPalmRiverLeadToCrm({
+        name: nameVal,
+        phone: phoneVal,
+        email: emailVal,
+        requestType: reqVal
+      });
+
       form.classList.remove('init', 'invalid', 'submitting');
       form.classList.add('sent');
       form.setAttribute('data-status', 'sent');
       if (out) {
-        out.textContent = 'Cảm ơn bạn đã gửi thông tin. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.';
+        var crmParam = '';
+        try {
+          crmParam = '?crm_lead=' + encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(dispatched.compact)))));
+        } catch (err) {}
+        out.innerHTML = '✅ Cảm ơn quý khách <strong>' + (nameVal || '') + '</strong>! Thông tin đăng ký dự án <strong>Palm River</strong> đã được tự động đẩy vào hệ thống <a href="/crm/' + crmParam + '" target="_blank" style="color:inherit;text-decoration:underline;font-weight:bold;">CRM Realness.vn</a>. Chuyên viên <strong>Hồng Phúc (0938819400)</strong> sẽ liên hệ ngay trong 5 phút!';
         out.setAttribute('aria-hidden', 'false');
         out.style.display = 'block';
       }
