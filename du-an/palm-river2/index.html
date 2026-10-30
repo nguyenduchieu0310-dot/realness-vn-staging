@@ -3085,7 +3085,7 @@ theo nhịp chảy tự nhiên của thiên nhiên.</p>
 				<div class="address-infor">
 							
 				</div>
-				<h2 class="title-form-ft mb-4 fw-400 f-title text-uppercase">Đăng ký nhận tư vấn</h2>
+				<h2 id="dang-ky-tu-van" class="title-form-ft mb-4 fw-400 f-title text-uppercase">Đăng ký nhận tư vấn</h2>
 				 
 <div class="wpcf7 no-js" id="wpcf7-f348-o1" lang="en-US" dir="ltr" data-wpcf7-id="348">
 <div class="screen-reader-response"><p role="status" aria-live="polite" aria-atomic="true"></p> <ul></ul></div>
@@ -3507,6 +3507,128 @@ theo nhịp chảy tự nhiên của thiên nhiên.</p>
             </div>
         </div>
     </div>  
+
+    <!-- Sticky Compact Bottom Contact Bar -->
+    <nav class="pr-bottom-bar" aria-label="Liên hệ nhanh Palm River">
+        <div class="pr-bottom-bar__inner">
+            <a href="tel:0938819400" class="pr-bottom-bar__item" aria-label="Gọi điện 0938819400 (Hồng Phúc)">
+                <span class="pr-bottom-bar__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 16.65v2.55a1.8 1.8 0 0 1-1.96 1.8 17.85 17.85 0 0 1-7.78-2.77 17.55 17.55 0 0 1-5.4-5.4A17.85 17.85 0 0 1 3.59 5.04 1.8 1.8 0 0 1 5.38 3.1h2.55a1.8 1.8 0 0 1 1.8 1.55c.11.86.32 1.7.63 2.5a1.8 1.8 0 0 1-.4 1.9l-1.08 1.08a14.4 14.4 0 0 0 5.4 5.4l1.08-1.08a1.8 1.8 0 0 1 1.9-.4c.8.31 1.64.52 2.5.63a1.8 1.8 0 0 1 1.74 1.97z"/>
+                        <path d="M14.2 3.4a5.2 5.2 0 0 1 5.2 5.2"/>
+                        <path d="M14.2 6.8a1.8 1.8 0 0 1 1.8 1.8"/>
+                    </svg>
+                </span>
+                <span class="pr-bottom-bar__label">Gọi điện</span>
+            </a>
+            <a href="https://zalo.me/0938819400" target="_blank" rel="noopener noreferrer" class="pr-bottom-bar__item" aria-label="Chat Zalo 0938819400 (Hồng Phúc)">
+                <span class="pr-bottom-bar__icon pr-bottom-bar__icon--zalo" aria-hidden="true">
+                    <svg viewBox="0 0 40 24" fill="none">
+                        <text x="1.5" y="19.5" font-family="'Be Vietnam Pro', system-ui, -apple-system, sans-serif" font-weight="800" font-size="14.2" letter-spacing="-0.3" fill="#ffffff" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" style="paint-order: stroke fill;">Zalo</text>
+                        <path d="M30.2 2.6a6.2 6.2 0 0 1 5.6 5.2" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>
+                        <path d="M29.4 5.7a3.2 3.2 0 0 1 2.9 2.7" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="pr-bottom-bar__label">Chat Zalo</span>
+            </a>
+            <a href="#dang-ky-tu-van" class="pr-bottom-bar__item js-pr-register-scroll" aria-label="Đăng ký nhận tư vấn">
+                <span class="pr-bottom-bar__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 4H6a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4.2"/>
+                        <rect x="8" y="2" width="5" height="3" rx="0.9"/>
+                        <path d="M7.2 10l1.2 1.2 2.2-2.2"/>
+                        <path d="M7.2 14.2h4"/>
+                        <path d="M7.2 17.2h2.8"/>
+                        <path d="M18.4 6.6a1.45 1.45 0 0 1 2.05 2.05l-5.75 5.75-2.7.65.65-2.7 5.75-5.75z"/>
+                        <path d="M18.6 3.1a4 4 0 0 1 3.2 3.2"/>
+                    </svg>
+                </span>
+                <span class="pr-bottom-bar__label">Đăng ký</span>
+            </a>
+        </div>
+    </nav>
+    <style>
+        .footer_site {
+            padding-bottom: calc(46px + env(safe-area-inset-bottom, 0px)) !important;
+        }
+        .pr-bottom-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1040;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(0, 0, 0, 0.09);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+            padding: 4px 8px calc(3px + env(safe-area-inset-bottom, 0px));
+        }
+        .pr-bottom-bar__inner {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        .pr-bottom-bar__item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            padding: 2px 4px;
+            color: #1c241e !important;
+            text-decoration: none !important;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pr-bottom-bar__item:hover,
+        .pr-bottom-bar__item:active {
+            opacity: 0.72;
+            color: #3D4C3C !important;
+        }
+        .pr-bottom-bar__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 20px;
+            color: #1c241e;
+        }
+        .pr-bottom-bar__icon svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
+        .pr-bottom-bar__icon--zalo svg {
+            width: 34px;
+            height: 20px;
+        }
+        .pr-bottom-bar__label {
+            font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+            font-size: 11.5px;
+            font-weight: 500;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            color: #1c241e;
+            white-space: nowrap;
+        }
+    </style>
+    <script>
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest && e.target.closest('.js-pr-register-scroll');
+            if (!btn) return;
+            var target = document.getElementById('dang-ky-tu-van') || document.getElementById('wpcf7-f348-o1');
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(function() {
+                    var nameInput = document.querySelector('#wpcf7-f348-o1 input[name="your-name"]');
+                    if (nameInput) nameInput.focus({ preventScroll: true });
+                }, 550);
+            }
+        });
+    </script>
 
 <script src="/assets/palm-river/dist/palm-river2.js" defer></script>
 </body>
