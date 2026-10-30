@@ -1190,13 +1190,145 @@
     }
   }
 
+  function normalizeEngineProjectKey(raw) {
+    var str = String(raw || "").trim().toLowerCase();
+    try {
+      str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    } catch (e) {}
+    return str
+      .replace(/đ/g, "d")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function extractEngineProjectKeys(cfg) {
+    var keys = [];
+    function addKey(val) {
+      var k = normalizeEngineProjectKey(val);
+      if (!k) return;
+      if (keys.indexOf(k) === -1) keys.push(k);
+      if (/-staging$/.test(k)) addKey(k.replace(/-staging$/, ""));
+      if (/-luxury$/.test(k)) addKey(k.replace(/-luxury$/, ""));
+      if (/-an-phu$/.test(k)) addKey(k.replace(/-an-phu$/, ""));
+      if (k === "green-skyline" && keys.indexOf("tbs-land") === -1) keys.push("tbs-land");
+      if (k === "tbs-land" && keys.indexOf("green-skyline") === -1) keys.push("green-skyline");
+      if (k === "palm-river") {
+        if (keys.indexOf("palm-river-staging") === -1) keys.push("palm-river-staging");
+        if (keys.indexOf("palm-river-luxury") === -1) keys.push("palm-river-luxury");
+      }
+    }
+    function extractFromUrl(u) {
+      if (!u) return;
+      var s = String(u);
+      var mPath = s.match(/\/(?:du-an|phan-tich)\/([^/?#]+)/i);
+      if (mPath && mPath[1]) addKey(mPath[1]);
+      var mHtml = s.match(/\/([^/?#]+)\.html/i);
+      if (mHtml && mHtml[1]) addKey(mHtml[1]);
+    }
+    if (cfg) {
+      extractFromUrl(cfg.projectUrl);
+      addKey(cfg.projectId);
+      addKey(cfg.projectName);
+      addKey(cfg.id);
+    }
+    if (typeof window !== "undefined" && window.location) {
+      extractFromUrl(window.location.pathname);
+    }
+    return keys;
+  }
+
+  function readPublishedCookieForKey(key) {
+    if (typeof document === "undefined" || !key) return null;
+    try {
+      var prefix = "rf_pe_pub_" + key + "=";
+      var parts = document.cookie ? document.cookie.split("; ") : [];
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].indexOf(prefix) === 0) {
+          var raw = decodeURIComponent(parts[i].substring(prefix.length));
+          var parsed = JSON.parse(raw);
+          if (parsed && parsed.projectName && Array.isArray(parsed.units)) return parsed;
+        }
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  function findCrmPublishedOverride(cfg) {
+    var candidateKeys = extractEngineProjectKeys(cfg);
+    if (!candidateKeys.length) return null;
+
+    // 1. Check rf_crm_published_popup_configs_v1 in localStorage
+    try {
+      var rawMap = global.localStorage && global.localStorage.getItem("rf_crm_published_popup_configs_v1");
+      if (rawMap) {
+        var map = JSON.parse(rawMap);
+        for (var i = 0; i < candidateKeys.length; i++) {
+          var k = candidateKeys[i];
+          if (map && map[k] && Array.isArray(map[k].units)) {
+            return map[k];
+          }
+        }
+      }
+    } catch (e) {}
+
+    // 2. Check cross-subdomain cookie
+    for (var c = 0; c < candidateKeys.length; c++) {
+      var fromCookie = readPublishedCookieForKey(candidateKeys[c]);
+      if (fromCookie) return fromCookie;
+    }
+
+    // 3. Check rf_crm_popup_configs_v4 in localStorage
+    try {
+      var rawList = global.localStorage && global.localStorage.getItem("rf_crm_popup_configs_v4");
+      if (rawList) {
+        var list = JSON.parse(rawList);
+        if (Array.isArray(list)) {
+          for (var j = 0; j < list.length; j++) {
+            var item = list[j];
+            var itemKeys = extractEngineProjectKeys(item);
+            for (var m = 0; m < candidateKeys.length; m++) {
+              if (itemKeys.indexOf(candidateKeys[m]) !== -1) {
+                return item;
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {}
+
+    return null;
+  }
+
+  function applyCrmOverrideToConfig(baseConfig, crmCfg) {
+    if (!crmCfg) return baseConfig;
+    return Object.assign({}, baseConfig, {
+      projectUrl: crmCfg.projectUrl || baseConfig.projectUrl,
+      projectName: crmCfg.projectName || baseConfig.projectName,
+      headerBadgeText: crmCfg.headerBadgeText || baseConfig.headerBadgeText,
+      formTitle: crmCfg.formTitle || baseConfig.formTitle,
+      datePrefix: crmCfg.datePrefix || baseConfig.datePrefix || "NGÀY:",
+      showDate: crmCfg.realtimeDate !== undefined ? Boolean(crmCfg.realtimeDate || crmCfg.customDateText) : baseConfig.showDate,
+      realtimeDate: crmCfg.realtimeDate !== undefined ? crmCfg.realtimeDate : baseConfig.realtimeDate,
+      customDateText: crmCfg.customDateText !== undefined ? crmCfg.customDateText : baseConfig.customDateText,
+      namePlaceholder: crmCfg.namePlaceholder || baseConfig.namePlaceholder,
+      phonePlaceholder: crmCfg.phonePlaceholder || baseConfig.phonePlaceholder,
+      submitText: crmCfg.submitText || baseConfig.submitText,
+      themePreset: crmCfg.themePreset || baseConfig.themePreset,
+      customColors: crmCfg.colors || crmCfg.customColors || baseConfig.customColors,
+      units: Array.isArray(crmCfg.units) && crmCfg.units.length > 0 ? crmCfg.units : baseConfig.units,
+      budgetRange: crmCfg.budgetRange || baseConfig.budgetRange,
+      showFloatingLauncher: false,
+    });
+  }
+
   /**
    * Render trực tiếp vào 1 container DOM (Dùng cho Live Preview hoặc Inline Form)
    */
   function renderIntoContainer(containerEl, customConfig, onLeadDispatched) {
     if (!containerEl) return;
     ensureBeVietnamProFont();
-    var config = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
+    var baseCfg = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
+    var config = applyCrmOverrideToConfig(baseCfg, findCrmPublishedOverride(baseCfg));
     var scopeId = "rf-pe-" + Math.random().toString(36).substring(2, 8);
     var theme = resolveTheme(config);
 
@@ -1223,7 +1355,8 @@
    * Hỗ trợ cơ chế hiển thị thông minh 2 nhịp ("smart") không gây khó chịu cho khách
    */
   function initModalPopup(customConfig, onLeadDispatched) {
-    var config = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
+    var baseCfg = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
+    var config = applyCrmOverrideToConfig(baseCfg, findCrmPublishedOverride(baseCfg));
     var scopeId = "rf-pe-modal";
     var theme = resolveTheme(config);
 
@@ -1251,6 +1384,61 @@
 
     var rootEl = dialogEl.querySelector("#" + scopeId);
     wireFormInteractions(rootEl, config, dialogEl, onLeadDispatched);
+
+    function hotReloadModalWithCrmConfig(newCrmCfg) {
+      if (!newCrmCfg) return;
+      config = applyCrmOverrideToConfig(baseCfg, newCrmCfg);
+      theme = resolveTheme(config);
+      styleEl.textContent = buildPopupStyles(scopeId, theme);
+      dialogEl.innerHTML = '<div id="' + scopeId + '">' + buildFormInnerHtml(config, scopeId) + "</div>";
+      var newRootEl = dialogEl.querySelector("#" + scopeId);
+      wireFormInteractions(newRootEl, config, dialogEl, onLeadDispatched);
+    }
+
+    function forwardPublishedConfigToIframes(payload) {
+      try {
+        var frames = document.querySelectorAll('iframe[src*="/embed/lead-form"], iframe[src*="/embed/form"]');
+        for (var i = 0; i < frames.length; i++) {
+          if (frames[i].contentWindow) {
+            frames[i].contentWindow.postMessage(payload, "*");
+          }
+        }
+      } catch (e) {}
+    }
+
+    function checkAndApplyPayload(payload) {
+      if (!payload || payload.type !== "RF_POPUP_CONFIG_PUBLISHED" || !payload.config) return;
+      forwardPublishedConfigToIframes(payload);
+      var myKeys = extractEngineProjectKeys(baseCfg);
+      var incomingKeys = Array.isArray(payload.keys) ? payload.keys : extractEngineProjectKeys(payload.config);
+      for (var i = 0; i < incomingKeys.length; i++) {
+        if (myKeys.indexOf(incomingKeys[i]) !== -1) {
+          hotReloadModalWithCrmConfig(payload.config);
+          break;
+        }
+      }
+    }
+
+    try {
+      if ("BroadcastChannel" in global) {
+        var syncCh = new BroadcastChannel("rf_crm_popup_sync_channel");
+        syncCh.onmessage = function (ev) {
+          checkAndApplyPayload(ev.data);
+        };
+      }
+    } catch (e) {}
+
+    if (typeof global.addEventListener === "function") {
+      global.addEventListener("storage", function (ev) {
+        if (!ev || !ev.key || ev.key === "rf_crm_published_popup_configs_v1" || ev.key === "rf_crm_popup_configs_v4") {
+          var latest = findCrmPublishedOverride(baseCfg);
+          if (latest) hotReloadModalWithCrmConfig(latest);
+        }
+      });
+      global.addEventListener("rf:popup-config-published", function (ev) {
+        if (ev && ev.detail) checkAndApplyPayload(ev.detail);
+      });
+    }
 
     function openPopup() {
       if (typeof dialogEl.showModal === "function") {
