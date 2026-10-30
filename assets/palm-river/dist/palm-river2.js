@@ -2079,3 +2079,271 @@ var CPFB_CFG = {"pdfjs":"https://palm-city.com.vn/palm-river/wp-content/plugins/
     initLazyMediaAndScrollRefresh();
   }
 })();
+;
+(function() {
+  var viToEnMap = {
+    "Liên hệ": "Contact",
+    "Về Palm River": "About Palm River",
+    "Tổng quan": "Overview",
+    "Vị trí": "Location",
+    "Tiện ích": "Amenities",
+    "Mặt bằng": "Floor Plan",
+    "CĂN HỘ HẠNG SANG": "LUXURY RESIDENCES",
+    "CHUẨN RESORT NGHỈ DƯỠNG": "RESORT-STYLE LIVING",
+    "VEN SÔNG.": "BY THE RIVER.",
+    "DÀNH CHO CHỦ NHÂN TINH HOA": "FOR DISCERNING OWNERS",
+    "GIỮA LÒNG THÀNH PHỐ.": "IN THE HEART OF THE CITY.",
+    "Scroll để xem": "Scroll to explore",
+    "Palm River là phân khu căn hộ cao cấp ven sông thuộc quần thể khu đô thị Palm City rộng 30,2 ha (Gồm 6 Phân Khu Cao Tầng và Thấp Tầng, Trung Tâm Thương Mại, Trường Học Quốc Tế, Bệnh Viện Quốc Tế, Toà Nhà Văn Phòng Hạng A+, Biểu Tượng Landmark) . Một chốn riêng tư ven sông, nơi thiên nhiên, dòng nước, cộng đồng và sức khỏe cùng kiến tạo chuẩn sống vượt trên mọi giới hạn. Hội tụ chuẩn sống wellness đỉnh cao cùng dải công viên sinh thái 2,7km.": "Palm River is a luxury riverside residential enclave within the 30.2-hectare Palm City integrated township (comprising 6 high-rise and low-rise subdivisions, a shopping mall, international schools, an international hospital, Grade A+ office towers, and a landmark tower). A private riverside sanctuary where nature, water, community, and wellness converge to redefine elevated living along a 2.7km eco-park.",
+    "Phân khu thuộc": "A subdivision of",
+    "Khu đô thị tích hợp": "Integrated Township",
+    "Khởi nguồn từ dòng nước": "Inspired by the Flow of Water",
+    "Nằm trong lòng Palm City, Palm River mở ra một không gian sống riêng tư bên sông, nơi dòng nước khơi nguồn một chuẩn sống cân bằng và tái tạo.": "Nestled within Palm City, Palm River opens up a private riverside living space where flowing water inspires a balanced and regenerative lifestyle.",
+    "Từ kiến trúc, cảnh quan": "From architecture and landscape",
+    "đến từng không gian sống,": "to every living space,",
+    "mọi chi tiết đều được kiến tạo": "every detail is crafted",
+    "theo nhịp chảy tự nhiên của thiên nhiên.": "in harmony with nature's rhythm.",
+    "Cuộc sống luôn vận hành theo dòng chảy riêng. Nuôi dưỡng bởi không gian, sự gắn kết và những khoảnh khắc thường nhật.": "Life flows at its own pace, nurtured by space, connection, and everyday moments.",
+    "Vượt trên": "Beyond",
+    "những điều thường nhật": "the Everyday",
+    "Xa xỉ đích thực là khi mỗi ngày đều có những khoảng lặng để cân bằng, tái tạo và tận hưởng cuộc sống trọn vẹn.": "True luxury is having moments of stillness every day to balance, recharge, and savor life to the fullest.",
+    "Như dòng nước mang theo nguồn sinh khí nuôi dưỡng sự sống, Palm River kiến tạo một chuẩn sống hài hòa với thiên nhiên, gắn kết cộng đồng và nuôi dưỡng những giá trị bền vững vượt trên nhịp sống thường nhật.": "Like water carrying vital energy that nurtures life, Palm River creates a lifestyle in harmony with nature, connecting the community and fostering enduring values.",
+    "Dòng Chảy Khơi Nguồn": "The Flow That Inspires",
+    "Nhịp Sống": "Vitality",
+    "Thiên nhiên bao bọc từng không gian sống. Mặt nước mở ra những khoảng sống khoáng đạt. Cộng đồng kết nối bền chặt, để mỗi ngày bên gia đình đều trôi qua nhẹ nhàng và trọn vẹn.": "Nature embraces every living space. Expansive water views open up breathable horizons, uniting a close-knit community where every day with family unfolds peacefully.",
+    "Sống": "Living",
+    "Giao Hòa": "in Harmony",
+    "Cùng Thiên Nhiên": "with Nature",
+    "Lấy cảm hứng từ nhịp điệu và linh hồn của dòng sông, kiến trúc tại Palm River uốn lượn theo những đường cong mềm mại tựa như những gợn sóng.": "Inspired by the rhythm and soul of the river, the architecture at Palm River curves gracefully like gentle waves.",
+    "VỊ TRÍ": "LOCATION",
+    "Phường Bình Trưng, TP. Hồ Chí Minh": "Binh Trung Ward, Ho Chi Minh City",
+    "QUY MÔ": "SCALE",
+    "04 tòa tháp căn hộ và khu shophouse": "04 residential towers & shophouse podium",
+    "TỔNG SẢN PHẨM": "TOTAL UNITS",
+    "620 Căn hộ, 13 Shophouse & 71 Officetel": "620 Residences, 13 Shophouses & 71 Officetels",
+    "LOẠI HÌNH SẢN PHẨM": "PRODUCT TYPES",
+    "Studio, 1PN, 2PN, 3PN, Duplex, Penthouse & Shophouse": "Studio, 1BR, 2BR, 3BR, Duplex, Penthouse & Shophouse",
+    "Kết Nối": "Seamless",
+    "Mọi Tiện Ích Sống Thiết Yếu": "Connection to Essential Amenities",
+    "Địa điểm nổi bật": "Key Destinations",
+    "Vành đai 2": "Ring Road 2",
+    "Nút giao An Phú": "An Phu Interchange",
+    "Sân bay quốc tế Long Thành": "Long Thanh International Airport",
+    "Đường sắt cao tốc Bắc - Nam": "North - South High-Speed Railway",
+    "Bệnh viện Quốc tế Palm": "Palm International Hospital",
+    "Khu liên hợp thể dục thể thao quốc gia Rạch Chiếc": "Rach Chiec National Sports Complex",
+    "Trung tâm thương mại Palm": "Palm Shopping Mall",
+    "phút": "mins",
+    "lái xe": "drive",
+    "Sống nghỉ dưỡng": "Resort Living",
+    "giữa lòng": "in the Heart",
+    "thành phố": "of the City",
+    "Với hơn 68 tiện ích, Palm River mang trải nghiệm sống nghỉ dưỡng vào từng khoảnh khắc thường nhật.": "With over 68 curated amenities, Palm River brings a resort-style living experience into every moment.",
+    "Với hơn 68 tiện ích, Palm River mang trải nghiệm sống nghỉ dưỡng vào từng khoảnh khắc mỗi ngày.": "With over 68 curated amenities, Palm River brings a resort-style living experience into every single day.",
+    "Ngoài trời": "Outdoor",
+    "Trong nhà": "Indoor",
+    "Tầng trệt": "Ground Floor",
+    "Tầng 2": "Level 2",
+    "Tầng 20": "Level 20",
+    "Sảnh chính đón khách": "Grand Arrival Lobby",
+    "Thảm Yoga ngoài trời": "Outdoor Yoga Lawn",
+    "Vườn cảnh quan thác nước": "Waterfall Landscape Garden",
+    "Khu vực ghế ngồi âm sàn": "Sunken Lounge Seating",
+    "Khu vực tiệc nướng ngoài trời": "Outdoor BBQ Pavilion",
+    "Khu thư giãn thác nước": "Waterfall Relaxation Deck",
+    "Khu vui chơi trẻ em": "Kids' Playground",
+    "Sân Pickleball": "Pickleball Court",
+    "Hồ bơi dài 70m": "70m Lap Pool",
+    "Hồ bơi trẻ em": "Kids' Pool",
+    "Khu vực tắm nắng quanh hồ": "Poolside Sun Deck",
+    "Bể sục Jacuzzi": "Jacuzzi",
+    "Khu vực ghế ngồi thương mại": "Retail Alfresco Seating",
+    "Không gian ghế ngồi thư giãn": "Relaxation Lounge",
+    "Tiểu cảnh nước": "Water Feature",
+    "Thảm nghỉ ngắm cảnh": "Scenic Viewing Lawn",
+    "Tuyến phố thương mại": "Retail Promenade",
+    "Đường dạo bộ ven hồ": "Waterside Walking Path",
+    "Sân chơi cho thú cưng": "Pet Park",
+    "Khu vực Bungalow ngoài trời": "Outdoor Bungalow Cabanas",
+    "Sảnh thư giãn ngắm sông": "River-View Lounge",
+    "Không gian thưởng thức cà phê": "Coffee Terrace",
+    "Không gian chờ dịch vụ": "Concierge Waiting Lounge",
+    "Không gian ẩm thực ngoài trời": "Outdoor Dining Terrace",
+    "Bàn thưởng lãm cảnh thành phố": "City-View Viewing Deck",
+    "Thảm cỏ tự nhiên tầng cao": "Elevated Sky Lawn",
+    "Cảnh quan thác nước nghệ thuật": "Artistic Waterfall Feature",
+    "Sảnh thang máy riêng": "Private Lift Lobby",
+    "Phòng nhận thư/bưu phẩm": "Mail & Parcel Room",
+    "Khu thể chất và rèn luyện": "Fitness & Workout Zone",
+    "Phòng Massage trị liệu": "Spa & Therapy Room",
+    "Rạp chiếu phim tại gia": "Private Cinema",
+    "Phòng Karaoke": "Karaoke Lounge",
+    "Khu chăm sóc sức khỏe gia đình": "Family Wellness Center",
+    "Sảnh sinh hoạt cộng đồng": "Community Lounge",
+    "Sảnh đón khách trong nhà": "Indoor Reception Lounge",
+    "Phòng xông hơi khô": "Dry Sauna",
+    "Bể ngâm lạnh phục hồi chuyên sâu": "Cold Plunge Recovery Pool",
+    "Cabana nghỉ dưỡng ven hồ": "Poolside Resort Cabanas",
+    "Phòng Gym trên cao": "Sky Gym",
+    "Phòng Golf mô phỏng": "3D Golf Simulator",
+    "Phòng thay đồ": "Changing Rooms",
+    "Không gian thư giãn và phục hồi": "Relaxation & Recovery Lounge",
+    "Võng xích đu ngắm thành phố": "City-View Swing Hammocks",
+    "Không gian giải trí Bida ngoài trời": "Outdoor Billiards Lounge",
+    "Không gian giải trí banh bàn": "Foosball Game Zone",
+    "Phòng xông hơi nước": "Steam Room",
+    "Sảnh tiệc biệt lập trong nhà": "Private Indoor Dining & Party Room",
+    "Khu nghỉ ngơi giữa lòng hồ": "Floating Poolside Lounge",
+    "Đài nghỉ dưỡng trên không": "Sky Resort Pavilion",
+    "Góc thể thao ngoài trời": "Outdoor Fitness Corner",
+    "Vườn sinh thái": "Eco Garden",
+    "Onsen trên không": "Sky Onsen",
+    "Không gian thưởng ngoạn đô thị": "Urban Viewing Gallery",
+    "Khu tiệc nướng BBQ trên cao": "Sky BBQ Terrace",
+    "Đài vọng cảnh": "Observation Deck",
+    "Vườn đá trị liệu": "Reflexology Stone Path",
+    "Vườn treo trên không": "Sky Hanging Garden",
+    "Cung đường xanh đón gió": "Breezy Green Walkway",
+    "Sảnh nghỉ dưỡng trên cao": "Sky Resort Lounge",
+    "Không gian thư giãn phong cách bãi biển": "Beach-Style Lounge Deck",
+    "Hồ bơi vô cực": "Infinity Pool",
+    "Không gian rèn luyện thể chất": "Sky Workout Deck",
+    "Thảm tập Yoga trên cao": "Sky Yoga Deck",
+    "Tổ hợp giải trí đa năng": "Multi-Purpose Entertainment Hub",
+    "Không gian làm việc sáng tạo": "Co-Working & Creative Space",
+    "Sảnh thư giãn thiết kế độc bản": "Signature Bespoke Lounge",
+    "ĐĂNG KÝ": "REGISTER",
+    "nổi bật": "Signature",
+    "Nghệ thuật của thiết kế": "The Art of Design",
+    "Mỗi đường nét thiết kế tại Palm River đều kết tinh linh hồn của dòng sông cùng dáng hình của những tán cọ - lặng lẽ kể một câu chuyện về nhịp sống, sự vươn mình và phong cách sống đô thị tinh tế. Triết lý này tuôn chảy xuyên suốt trong không gian kiến trúc, từ mặt ngoài uốn lượn mềm mại cho đến những không gian nội thất tĩnh tại được tinh tuyển tỉ mỉ. Mỗi chi tiết đều được trau chuốt nhằm đánh thức trọn vẹn các giác quan, kiến tạo nên một trải nghiệm sống chuẩn nghỉ dưỡng tràn đầy sinh khí ngay giữa lòng thành phố.": "Every design line at Palm River crystallizes the soul of the river and the silhouette of palm fronds—quietly telling a story of vitality, growth, and refined urban living. This philosophy flows seamlessly from the undulating facade to the serenely curated interiors, awakening the senses in a vibrant resort sanctuary right in the heart of the city.",
+    "Khơi nguồn cảm hứng từ Wabi-Sabi, nội thất thể hiện gu thẩm mỹ tinh tế qua các chất liệu tự nhiên thuần khiết - gỗ ấm, đá nhám và những bề mặt chạm khắc tinh xảo. Tất cả cùng hội tụ để tạo nên một không gian tĩnh tại, gần gũi và hoàn mỹ.": "Inspired by Wabi-Sabi, the interiors express refined aesthetics through pure natural materials—warm timber, textured stone, and finely crafted surfaces—converging to create a serene, intimate, and timeless space.",
+    "Sơ đồ mặt bằng": "Master Floor Plan",
+    "Layout căn hộ": "Unit Layouts",
+    "Tháp 3": "Tower 3",
+    "Tháp 4": "Tower 4",
+    "phòng ngủ": "Bedrooms",
+    "Tải xuống": "Download",
+    "Tầng": "Floor",
+    "Các căn hộ được quy hoạch tối ưu hóa công năng, đón trọn ánh sáng tự nhiên và luồng gió mát từ dòng sông": "Thoughtfully planned layouts maximize functionality, welcoming natural light and cool river breezes.",
+    "Hình ảnh hóa kiến ​​trúc 3D": "3D Architectural Visualization",
+    "Hình ảnh hóa kiến trúc 3D": "3D Architectural Visualization",
+    "Tối ưu trải nghiệm sống, cân bằng giữa sự riêng tư - tiện nghi - kết nối": "Optimized living experience balancing privacy, comfort, and connectivity.",
+    "Loại phòng*": "Unit Type*",
+    "Căn hộ 2 phòng ngủ": "2-Bedroom Standard",
+    "Căn 2 phòng ngủ đặc biệt": "2-Bedroom Special",
+    "3 phòng ngủ tiêu chuẩn": "3-Bedroom Standard",
+    "3 phòng ngủ đặc biệt": "3-Bedroom Special",
+    "Tầng dưới": "Lower Level",
+    "Tầng trên": "Upper Level",
+    "Diện tích tim tường": "Gross Floor Area (Wall-to-Wall)",
+    "Diện tích thông thủy": "Net Floor Area (Clear Area)",
+    "Các căn hộ 2 phòng ngủ được thiết kế với công nghệ nhà thông minh cùng không gian nội thất hiện đại, mang đến trải nghiệm sống tiện nghi, đáp ứng phong cách sống đương đại và giá trị bền vững cho cả an cư lẫn đầu tư dài hạn.": "2-Bedroom residences feature smart-home technology and contemporary interiors, delivering effortless comfort and enduring value for both homeowners and long-term investors.",
+    "Sở hữu diện tích rộng rãi cùng thiết kế thông minh, căn hộ 3 phòng ngủ mang đến sự cân bằng hoàn hảo giữa công năng sống tiện nghi và giá trị sức khoẻ thể chất lẫn tinh thần. Bố cục không gian khoáng đạt được tối ưu để đón trọn ánh sáng tự nhiên, mở rộng tầm nhìn ôm trọn cảnh quan sông xanh và thiên nhiên thuần khiết.": "With generous proportions and intelligent layouts, 3-Bedroom residences strike a harmonious balance between modern functionality and holistic well-being, opening up to panoramic river and greenery views.",
+    "Lấy cảm hứng từ hình thái villa nghỉ dưỡng, Duplex mở ra một cách sống khác biệt giữa khu dân cư ven sông mật độ thấp. Ở tầng sống khác, không gian mở ra từng lớp trải nghiệm độc bản, trải dài qua hai tầng để tạo nên những khoảng dành cho kết nối, tận hưởng, riêng tư và nghỉ ngơi theo cách riêng.": "Inspired by resort villas, Duplex residences offer a distinctive double-height living experience within a low-density riverside enclave, unfolding across two levels for connection, indulgence, and private retreat.",
+    "Giá bán": "Pricing",
+    "và chính Sách bán Hàng": "& Sales Policy",
+    "Đơn Vị Phát Triển": "Developer",
+    "Hướng Việt Properties là nhà phát triển bất động sản cao cấp và bất động sản công nghiệp uy tín. Nổi tiếng với tiềm lực tài chính vững mạnh, minh bạch, tiến độ thi công chuẩn xác và chất lượng bàn giao vượt trội. Tầm nhìn tiên phong trong kiến tạo bất động sản cao cấp, Hướng Việt Properties ghi dấu ấn qua hàng loạt công trình biểu tượng chuẩn quốc tế như :": "Huong Viet Properties is a prestigious luxury real estate and industrial developer, renowned for strong financial capacity, transparency, on-schedule construction, and superior handover quality. With a pioneering vision in luxury real estate, Huong Viet Properties has made its mark through iconic international-standard landmarks including:",
+    "+ Tòa nhà Vp Hạng A+ : The Hallmark.": "+ Grade A+ Office Tower: The Hallmark.",
+    "+ Căn Hộ Hạng Sang : The Metropole Thủ Thiêm.": "+ Luxury Residences: The Metropole Thu Thiem.",
+    "+ Dự án căn hộ biệt thự trên không cao cấp : Serenity Sky Villas": "+ Luxury Sky Villas: Serenity Sky Villas.",
+    "+ Dự án BĐS Tại Cầu Giấy Hà Nội: The West.": "+ Mixed-Use Complex in Cau Giay, Hanoi: The West.",
+    "+ Khu công nghiệp Trảng Bàng & Prodezi.": "+ Trang Bang & Prodezi Industrial Parks.",
+    "Liên hệ đặt lịch": "Book a Private Viewing",
+    "Đăng ký nhận tư vấn": "Register for Consultation",
+    "Yêu cầu:": "Inquiry:",
+    "Tài liệu": "Brochure & Documents",
+    "Chính sách": "Privacy Policy",
+    "Điều khoản": "Terms of Use",
+    "Thông tin dự án": "Project Information",
+    "DỊCH VỤ TƯ VẤN BẤT ĐỘNG SẢN": "REAL ESTATE ADVISORY SERVICES",
+    "CHUYÊN NGHIỆP - CHIẾN LƯỢC CHỌN CĂN -": "PROFESSIONAL - STRATEGIC UNIT SELECTION -",
+    "TỐI ƯU TIỀM NĂNG SINH LỜI": "MAXIMIZING INVESTMENT RETURNS",
+    "Gọi điện": "Call Now",
+    "Chat Zalo": "Zalo Chat",
+    "Đăng ký": "Register"
+  };
+
+  var trackedNodes = [];
+  var trackedPlaceholders = [];
+  var initialized = false;
+  var currentLang = "vi";
+
+  function collectTranslatableNodes() {
+    if (initialized) return;
+    initialized = true;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    var node;
+    while ((node = walker.nextNode())) {
+      var parent = node.parentElement;
+      if (!parent) continue;
+      var tag = parent.tagName;
+      if (tag === "SCRIPT" || tag === "STYLE" || parent.closest(".lang_site")) continue;
+      var raw = node.nodeValue;
+      var norm = raw.replace(/\s+/g, " ").trim();
+      if (norm && viToEnMap[norm]) {
+        trackedNodes.push({
+          node: node,
+          viRaw: raw,
+          enRaw: raw.replace(norm, viToEnMap[norm])
+        });
+      }
+    }
+    var inputs = document.querySelectorAll("input[placeholder], textarea[placeholder]");
+    var phMap = {
+      "Họ & tên": "Full Name",
+      "Số liên hệ": "Phone Number",
+      "Email": "Email Address"
+    };
+    inputs.forEach(function(inp) {
+      var ph = (inp.getAttribute("placeholder") || "").trim();
+      if (phMap[ph]) {
+        trackedPlaceholders.push({
+          el: inp,
+          vi: ph,
+          en: phMap[ph]
+        });
+      }
+    });
+  }
+
+  function applyLanguage(lang) {
+    collectTranslatableNodes();
+    currentLang = lang;
+    document.documentElement.setAttribute("lang", lang);
+    trackedNodes.forEach(function(item) {
+      item.node.nodeValue = lang === "en" ? item.enRaw : item.viRaw;
+    });
+    trackedPlaceholders.forEach(function(item) {
+      item.el.setAttribute("placeholder", lang === "en" ? item.en : item.vi);
+    });
+    var curText = document.querySelector(".js-current-lang-text");
+    var switchLink = document.querySelector(".js-switch-lang");
+    if (curText && switchLink) {
+      if (lang === "en") {
+        curText.textContent = "EN";
+        switchLink.textContent = "VI";
+        switchLink.setAttribute("data-lang", "vi");
+        switchLink.setAttribute("href", "#vi");
+      } else {
+        curText.textContent = "VI";
+        switchLink.textContent = "EN";
+        switchLink.setAttribute("data-lang", "en");
+        switchLink.setAttribute("href", "#en");
+      }
+    }
+  }
+
+  document.addEventListener("click", function(e) {
+    var btn = e.target.closest(".js-switch-lang");
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var targetLang = btn.getAttribute("data-lang") || (currentLang === "vi" ? "en" : "vi");
+    applyLanguage(targetLang);
+    if (window.jQuery) {
+      window.jQuery(".banner_site .banner-bottom .lang_site").removeClass("active");
+      window.jQuery(".banner_site .banner-bottom .lang_site ul").stop(true, true).slideUp();
+    }
+  }, true);
+})();
