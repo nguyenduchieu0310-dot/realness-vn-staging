@@ -112,24 +112,174 @@
       btnGradMid: "#115e59",
       btnGradEnd: "#064e3b",
     },
+    "happy-one-slate": {
+      id: "happy-one-slate",
+      name: "Nordic Slate & Terracotta Gold (Chuẩn Happy One Elite)",
+      headerBgStart: "#2c4a6f",
+      headerBgMid: "#1b324f",
+      headerBgEnd: "#0d1b2e",
+      goldPrimary: "#e09f5a",
+      goldLight: "#f9d5a7",
+      goldDark: "#9c5923",
+      titleColor: "#8b1e24",
+      projectColor: "#1e3a5f",
+      inputBorder: "#2c4a6f",
+      unitActiveBg: "#ffedd5",
+      unitActiveBorder: "#c2410c",
+      unitActiveText: "#431407",
+      btnGradStart: "#0d1b2e",
+      btnGradMid: "#2c4a6f",
+      btnGradEnd: "#9a3412",
+    },
     "vlasta-ocean": {
       id: "vlasta-ocean",
       name: "Royal Amber Bronze & Gold (Chuẩn Vlasta Premier)",
-      headerBgStart: "#b4690e",
-      headerBgMid: "#7c4306",
-      headerBgEnd: "#3b1d02",
-      goldPrimary: "#d4a528",
-      goldLight: "#ffe082",
-      goldDark: "#9a7112",
+      headerBgStart: "#9a5500",
+      headerBgMid: "#663600",
+      headerBgEnd: "#351c00",
+      goldPrimary: "#d69e2e",
+      goldLight: "#ffd87d",
+      goldDark: "#976a14",
       titleColor: "#7a1224",
-      projectColor: "#5c2d06",
-      inputBorder: "#6b3407",
-      unitActiveBg: "#fef3c7",
-      unitActiveBorder: "#b4690e",
-      unitActiveText: "#3b1d02",
-      btnGradStart: "#3b1d02",
-      btnGradMid: "#7c4306",
-      btnGradEnd: "#b4690e",
+      projectColor: "#5c2e04",
+      inputBorder: "#4e2806",
+      unitActiveBg: "#fdf3e6",
+      unitActiveBorder: "#9a5500",
+      unitActiveText: "#351c00",
+      btnGradStart: "#351c00",
+      btnGradMid: "#663600",
+      btnGradEnd: "#9a5500",
+    },
+  };
+
+  var CRM_SYNC_API_URL = "https://realness-crm-sync.backness2112.workers.dev/api/popup-configs";
+
+  var PROJECT_DEFAULT_CONFIGS = {
+    "vlasta-premier": {
+      projectId: "vlasta-premier",
+      projectUrl: "https://realness.vn/du-an/vlasta-premier",
+      projectName: "VLASTA PREMIER",
+      headerBadgeText: "TẢI BẢNG GIÁ",
+      formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+      showDate: true,
+      datePrefix: "NGÀY:",
+      realtimeDate: true,
+      submitText: "ĐĂNG KÝ",
+      themePreset: "vlasta-ocean",
+      customColors: {
+        headerBgStart: "#9a5500",
+        headerBgMid: "#663600",
+        headerBgEnd: "#351c00",
+        goldPrimary: "#d69e2e",
+        goldLight: "#ffd87d",
+        goldDark: "#976a14",
+        titleColor: "#7a1224",
+        projectColor: "#5c2e04",
+        inputBorder: "#4e2806",
+        unitActiveBg: "#fdf3e6",
+        unitActiveBorder: "#9a5500",
+        unitActiveText: "#351c00",
+        btnGradStart: "#351c00",
+        btnGradMid: "#663600",
+        btnGradEnd: "#9a5500",
+      },
+      units: [
+        { id: "vl-1", label: "Căn 1PN+ (59m2)", checked: false },
+        { id: "vl-2", label: "Căn 1PN (50m2)", checked: false },
+        { id: "vl-3", label: "Căn 2PN (77,6 - 84,1m2)", checked: false },
+        { id: "vl-4", label: "Căn 3PN (101 - 102m2)", checked: false },
+        { id: "vl-5", label: "Duplex và Penthouse", checked: false },
+        { id: "vl-6", label: "Officetel", checked: false },
+      ],
+      budgetRange: "4.5 - 15 Tỷ",
+    },
+    "the-prive": {
+      projectId: "the-prive",
+      projectUrl: "https://realness.vn/du-an/the-prive",
+      projectName: "THE PRIVÉ AN PHÚ",
+      headerBadgeText: "TẢI BẢNG GIÁ",
+      formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+      showDate: true,
+      datePrefix: "NGÀY:",
+      realtimeDate: true,
+      submitText: "ĐĂNG KÝ",
+      themePreset: "navy-gold",
+      customColors: null,
+      units: [
+        { id: "tp-1", label: "Căn 1PN", checked: false },
+        { id: "tp-2", label: "Căn 2PN", checked: true },
+        { id: "tp-3", label: "Căn 3PN", checked: true },
+        { id: "tp-4", label: "Duplex và Penthouse", checked: false },
+        { id: "tp-5", label: "Sky Villa", checked: false },
+        { id: "tp-6", label: "Shophouse", checked: false },
+      ],
+      budgetRange: "8.5 - 25 Tỷ",
+    },
+    "palm-river": {
+      projectId: "palm-river",
+      projectUrl: "https://realness.vn/du-an/palm-river",
+      projectName: "PALM RIVER LUXURY",
+      headerBadgeText: "TẢI BẢNG GIÁ",
+      formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+      showDate: true,
+      datePrefix: "NGÀY:",
+      realtimeDate: true,
+      submitText: "ĐĂNG KÝ",
+      themePreset: "teal-bronze",
+      customColors: null,
+      units: [
+        { id: "pr-1", label: "Căn 1PN+", checked: false },
+        { id: "pr-2", label: "Căn 2PN", checked: true },
+        { id: "pr-3", label: "Căn 3PN", checked: false },
+        { id: "pr-4", label: "Duplex và Penthouse", checked: false },
+        { id: "pr-5", label: "Nhà phố/Biệt thự", checked: true },
+        { id: "pr-6", label: "Shophouse", checked: false },
+      ],
+      budgetRange: "7 - 28 Tỷ",
+    },
+    "happy-one-elite": {
+      projectId: "happy-one-elite",
+      projectUrl: "https://realness.vn/du-an/happy-one-elite",
+      projectName: "HAPPY ONE ELITE",
+      headerBadgeText: "TẢI BẢNG GIÁ",
+      formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+      showDate: true,
+      datePrefix: "NGÀY:",
+      realtimeDate: true,
+      submitText: "ĐĂNG KÝ",
+      themePreset: "happy-one-slate",
+      customColors: null,
+      units: [
+        { id: "ho-1", label: "Căn Studio", checked: false },
+        { id: "ho-2", label: "Căn 1PN", checked: true },
+        { id: "ho-3", label: "Căn 2PN", checked: true },
+        { id: "ho-4", label: "Căn 3PN", checked: false },
+        { id: "ho-5", label: "Duplex và Penthouse", checked: false },
+        { id: "ho-6", label: "Shophouse", checked: false },
+      ],
+      budgetRange: "2.8 - 5.5 Tỷ",
+    },
+    "tt-genesis": {
+      projectId: "tt-genesis",
+      projectUrl: "https://realness.vn/du-an/tt-genesis",
+      projectName: "TT GENESIS NHÀ BÈ",
+      headerBadgeText: "TẢI BẢNG GIÁ",
+      formTitle: "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+      showDate: true,
+      datePrefix: "NGÀY:",
+      realtimeDate: true,
+      submitText: "ĐĂNG KÝ",
+      themePreset: "burgundy-gold",
+      customColors: null,
+      units: [
+        { id: "tt-1", label: "Căn Studio", checked: false },
+        { id: "tt-2", label: "Căn 1PN+", checked: true },
+        { id: "tt-3", label: "Căn 2PN", checked: true },
+        { id: "tt-4", label: "Căn 3PN", checked: false },
+        { id: "tt-5", label: "Duplex và Penthouse", checked: false },
+        { id: "tt-6", label: "Shophouse", checked: false },
+      ],
+      budgetRange: "3.2 - 7.5 Tỷ",
     },
   };
 
@@ -773,8 +923,15 @@
       "#" + scopeId + " .pe-unit-label-wrap {" +
       "  display: flex;" +
       "  flex-direction: column;" +
-      "  line-height: 1.22;" +
+      "  line-height: 1.25;" +
       "  min-width: 0;" +
+      "  overflow: hidden;" +
+      "}" +
+      "#" + scopeId + " .pe-unit-label-wrap span {" +
+      "  display: block;" +
+      "  overflow: hidden;" +
+      "  text-overflow: ellipsis;" +
+      "  white-space: nowrap;" +
       "}" +
       "#" + scopeId + " .pe-submit-btn {" +
       "  width: 100% !important;" +
@@ -861,7 +1018,8 @@
     );
   }
 
-  function buildHeaderGraphicSvg(theme) {
+  function buildHeaderGraphicSvg(theme, scopeId) {
+    var sfx = scopeId ? "-" + scopeId : "";
     return (
       '<!-- Architectural Perspective Wireframe Lines -->' +
       '<svg class="pe-header-wireframe" viewBox="0 0 430 175" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
@@ -892,29 +1050,29 @@
       '<div class="pe-excel-icon-wrap" aria-hidden="true">' +
       '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
       '    <defs>' +
-      '      <linearGradient id="peGoldTab" x1="0" y1="0" x2="1" y2="1">' +
-      '        <stop offset="0%" stop-color="#f7df8b" />' +
-      '        <stop offset="50%" stop-color="#d4af37" />' +
-      '        <stop offset="100%" stop-color="#9a711c" />' +
+      '      <linearGradient id="peGoldTab' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+      '        <stop offset="0%" stop-color="' + theme.goldLight + '" />' +
+      '        <stop offset="50%" stop-color="' + theme.goldPrimary + '" />' +
+      '        <stop offset="100%" stop-color="' + theme.goldDark + '" />' +
       '      </linearGradient>' +
-      '      <linearGradient id="peSheetBg" x1="0" y1="0" x2="0" y2="1">' +
+      '      <linearGradient id="peSheetBg' + sfx + '" x1="0" y1="0" x2="0" y2="1">' +
       '        <stop offset="0%" stop-color="#ffffff" />' +
       '        <stop offset="100%" stop-color="#e6ece9" />' +
       '      </linearGradient>' +
-      '      <linearGradient id="peExcelBadge" x1="0" y1="0" x2="1" y2="1">' +
-      '        <stop offset="0%" stop-color="#1e7e53" />' +
-      '        <stop offset="100%" stop-color="#0b462c" />' +
+      '      <linearGradient id="peExcelBadge' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+      '        <stop offset="0%" stop-color="' + theme.headerBgStart + '" />' +
+      '        <stop offset="100%" stop-color="' + theme.headerBgEnd + '" />' +
       '      </linearGradient>' +
       '    </defs>' +
       '    <!-- Gold PRICE Folder Tab on Right -->' +
-      '    <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab)" />' +
+      '    <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab' + sfx + ')" />' +
       '    <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Be Vietnam Pro, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>' +
       '    <!-- Main White Document Sheet -->' +
-      '    <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg)" />' +
+      '    <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg' + sfx + ')" />' +
       '    <!-- Folded Corner -->' +
       '    <path d="M78 8 V21 C78 23.8 80.2 26 83 26 H96 L78 8 Z" fill="#cbd5d0" />' +
       '    <!-- Spreadsheet Grid Cells -->' +
-      '    <g stroke="#20724c" stroke-width="1.5" fill="#d8eee3" opacity="0.9">' +
+      '    <g stroke="' + theme.headerBgStart + '" stroke-width="1.5" fill="' + theme.unitActiveBg + '" opacity="0.9">' +
       '      <rect x="54" y="34" width="15" height="9" rx="1" />' +
       '      <rect x="72" y="34" width="15" height="9" rx="1" />' +
       '      <rect x="54" y="46" width="15" height="9" rx="1" />' +
@@ -926,18 +1084,18 @@
       '      <rect x="54" y="82" width="15" height="9" rx="1" />' +
       '      <rect x="72" y="82" width="15" height="9" rx="1" />' +
       '    </g>' +
-      '    <!-- Left 3D Green X Badge -->' +
-      '    <rect x="14" y="32" width="44" height="46" rx="8" fill="url(#peExcelBadge)" stroke="#349668" stroke-width="1.2" />' +
+      '    <!-- Left 3D Theme X Badge -->' +
+      '    <rect x="14" y="32" width="44" height="46" rx="8" fill="url(#peExcelBadge' + sfx + ')" stroke="' + theme.goldPrimary + '" stroke-width="1.2" />' +
       '    <path d="M27 44 L45 66 M45 44 L27 66" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />' +
       '    <!-- Bottom-Right Download Circle Badge -->' +
-      '    <circle cx="94" cy="92" r="17" fill="#063723" stroke="url(#peGoldTab)" stroke-width="2.2" />' +
-      '    <path d="M94 83 V95 M88.5 90.5 L94 96 L99.5 90.5 M87 99.5 H101" stroke="#f5dc8b" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />' +
+      '    <circle cx="94" cy="92" r="17" fill="' + theme.headerBgEnd + '" stroke="url(#peGoldTab' + sfx + ')" stroke-width="2.2" />' +
+      '    <path d="M94 83 V95 M88.5 90.5 L94 96 L99.5 90.5 M87 99.5 H101" stroke="' + theme.goldLight + '" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />' +
       '  </svg>' +
       '</div>'
     );
   }
 
-  function buildFormInnerHtml(config, scopeId) {
+  function buildFormInnerHtml(config, scopeId, isInline) {
     var theme = resolveTheme(config);
     var dateDisplay = config.realtimeDate ? getRealtimeDateString() : (config.customDateText || getRealtimeDateString());
     var units = Array.isArray(config.units) && config.units.length > 0 ? config.units : DEFAULT_UNITS;
@@ -952,7 +1110,7 @@
         var oddClass = isLastOdd ? " pe-unit-odd-last" : "";
 
         return (
-          '<label class="pe-unit-card' + oddClass + activeClass + '">' +
+          '<label class="pe-unit-card' + oddClass + activeClass + '" title="' + escapeHtml(unit.label) + '">' +
           '  <input type="checkbox" class="pe-unit-checkbox" name="unit_interest" value="' +
           escapeHtml(unit.label) +
           '"' +
@@ -987,11 +1145,15 @@
         "    </div>"
       : "";
 
+    var closeBtnHtml = isInline
+      ? ""
+      : '  <button type="button" class="pe-close-btn" data-pe-close aria-label="Đóng biểu mẫu">&times;</button>';
+
     return (
       '<div class="pe-card">' +
-      '  <button type="button" class="pe-close-btn" data-pe-close aria-label="Đóng biểu mẫu">&times;</button>' +
+      closeBtnHtml +
       '  <div class="pe-header">' +
-      buildHeaderGraphicSvg(theme) +
+      buildHeaderGraphicSvg(theme, scopeId) +
       '    <h3 class="pe-header-badge">' +
       escapeHtml(config.headerBadgeText || "TẢI BẢNG GIÁ") +
       "</h3>" +
@@ -1299,6 +1461,17 @@
     return null;
   }
 
+  function resolveProjectDefaultConfig(cfg) {
+    var candidateKeys = extractEngineProjectKeys(cfg);
+    for (var i = 0; i < candidateKeys.length; i++) {
+      var k = candidateKeys[i];
+      if (PROJECT_DEFAULT_CONFIGS[k]) {
+        return PROJECT_DEFAULT_CONFIGS[k];
+      }
+    }
+    return null;
+  }
+
   function applyCrmOverrideToConfig(baseConfig, crmCfg) {
     if (!crmCfg) return baseConfig;
     return Object.assign({}, baseConfig, {
@@ -1321,29 +1494,118 @@
     });
   }
 
+  function fetchRemoteCrmPopupConfig(cfg, onResolved) {
+    if (typeof fetch !== "function") return;
+    var candidateKeys = extractEngineProjectKeys(cfg);
+    if (!candidateKeys.length) return;
+    var primaryKey = candidateKeys[0];
+    fetch(CRM_SYNC_API_URL + "?project=" + encodeURIComponent(primaryKey) + "&t=" + Math.floor(Date.now() / 5000), {
+      method: "GET",
+      cache: "no-store",
+    })
+      .then(function (res) {
+        return res.ok ? res.json() : null;
+      })
+      .then(function (data) {
+        if (!data || !data.configs || typeof data.configs !== "object") return;
+        try {
+          var existingRaw = global.localStorage && global.localStorage.getItem("rf_crm_published_popup_configs_v1");
+          var existingMap = existingRaw ? JSON.parse(existingRaw) : {};
+          var mergedMap = Object.assign({}, existingMap, data.configs);
+          if (global.localStorage) {
+            global.localStorage.setItem("rf_crm_published_popup_configs_v1", JSON.stringify(mergedMap));
+          }
+          for (var i = 0; i < candidateKeys.length; i++) {
+            var k = candidateKeys[i];
+            if (mergedMap[k] && Array.isArray(mergedMap[k].units)) {
+              if (typeof onResolved === "function") {
+                onResolved(mergedMap[k]);
+              }
+              break;
+            }
+          }
+        } catch (e) {}
+      })
+      .catch(function () {});
+  }
+
   /**
    * Render trực tiếp vào 1 container DOM (Dùng cho Live Preview hoặc Inline Form)
    */
   function renderIntoContainer(containerEl, customConfig, onLeadDispatched) {
     if (!containerEl) return;
     ensureBeVietnamProFont();
-    var baseCfg = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
+    var projectDefaults = resolveProjectDefaultConfig(customConfig || {}) || {};
+    var baseCfg = Object.assign({}, DEFAULT_CONFIG, projectDefaults, customConfig || {});
     var config = applyCrmOverrideToConfig(baseCfg, findCrmPublishedOverride(baseCfg));
     var scopeId = "rf-pe-" + Math.random().toString(36).substring(2, 8);
-    var theme = resolveTheme(config);
 
-    containerEl.innerHTML =
-      "<style>" +
-      buildPopupStyles(scopeId, theme) +
-      "</style>" +
-      '<div id="' +
-      scopeId +
-      '">' +
-      buildFormInnerHtml(config, scopeId) +
-      "</div>";
+    function renderMount() {
+      var theme = resolveTheme(config);
+      containerEl.innerHTML =
+        "<style>" +
+        buildPopupStyles(scopeId, theme) +
+        "</style>" +
+        '<div id="' +
+        scopeId +
+        '">' +
+        buildFormInnerHtml(config, scopeId, true) +
+        "</div>";
 
-    var rootEl = containerEl.querySelector("#" + scopeId);
-    wireFormInteractions(rootEl, config, null, onLeadDispatched);
+      var rootEl = containerEl.querySelector("#" + scopeId);
+      wireFormInteractions(rootEl, config, null, onLeadDispatched);
+    }
+
+    renderMount();
+
+    function hotReloadInline(newCrmCfg) {
+      if (!newCrmCfg) return;
+      config = applyCrmOverrideToConfig(baseCfg, newCrmCfg);
+      renderMount();
+    }
+
+    fetchRemoteCrmPopupConfig(baseCfg, function (remoteCfg) {
+      hotReloadInline(remoteCfg);
+    });
+
+    function checkInlinePayload(payload) {
+      if (!payload || payload.type !== "RF_POPUP_CONFIG_PUBLISHED" || !payload.config) return;
+      var myKeys = extractEngineProjectKeys(baseCfg);
+      var incomingKeys = Array.isArray(payload.keys) ? payload.keys : extractEngineProjectKeys(payload.config);
+      for (var i = 0; i < incomingKeys.length; i++) {
+        if (myKeys.indexOf(incomingKeys[i]) !== -1) {
+          hotReloadInline(payload.config);
+          break;
+        }
+      }
+    }
+
+    try {
+      if ("BroadcastChannel" in global) {
+        var inlineCh = new BroadcastChannel("rf_crm_popup_sync_channel");
+        inlineCh.onmessage = function (ev) {
+          checkInlinePayload(ev.data);
+        };
+      }
+    } catch (e) {}
+
+    if (typeof global.addEventListener === "function") {
+      global.addEventListener("storage", function (ev) {
+        if (!ev || !ev.key || ev.key === "rf_crm_published_popup_configs_v1" || ev.key === "rf_crm_popup_configs_v4") {
+          var latest = findCrmPublishedOverride(baseCfg);
+          if (latest) hotReloadInline(latest);
+        }
+      });
+      global.addEventListener("rf:popup-config-published", function (ev) {
+        if (ev && ev.detail) checkInlinePayload(ev.detail);
+      });
+      global.addEventListener("message", function (ev) {
+        if (ev && ev.data && ev.data.type === "RF_POPUP_CONFIG_PUBLISHED") {
+          checkInlinePayload(ev.data);
+        }
+      });
+    }
+
     return {
       scopeId: scopeId,
       config: config,
@@ -1355,7 +1617,8 @@
    * Hỗ trợ cơ chế hiển thị thông minh 2 nhịp ("smart") không gây khó chịu cho khách
    */
   function initModalPopup(customConfig, onLeadDispatched) {
-    var baseCfg = Object.assign({}, DEFAULT_CONFIG, customConfig || {});
+    var projectDefaults = resolveProjectDefaultConfig(customConfig || {}) || {};
+    var baseCfg = Object.assign({}, DEFAULT_CONFIG, projectDefaults, customConfig || {});
     var config = applyCrmOverrideToConfig(baseCfg, findCrmPublishedOverride(baseCfg));
     var scopeId = "rf-pe-modal";
     var theme = resolveTheme(config);
@@ -1379,7 +1642,7 @@
     dialogEl.id = scopeId + "-dialog";
     dialogEl.setAttribute("closedby", "any");
     dialogEl.setAttribute("aria-labelledby", scopeId + "-title");
-    dialogEl.innerHTML = '<div id="' + scopeId + '">' + buildFormInnerHtml(config, scopeId) + "</div>";
+    dialogEl.innerHTML = '<div id="' + scopeId + '">' + buildFormInnerHtml(config, scopeId, false) + "</div>";
     document.body.appendChild(dialogEl);
 
     var rootEl = dialogEl.querySelector("#" + scopeId);
@@ -1390,10 +1653,19 @@
       config = applyCrmOverrideToConfig(baseCfg, newCrmCfg);
       theme = resolveTheme(config);
       styleEl.textContent = buildPopupStyles(scopeId, theme);
-      dialogEl.innerHTML = '<div id="' + scopeId + '">' + buildFormInnerHtml(config, scopeId) + "</div>";
+      dialogEl.innerHTML = '<div id="' + scopeId + '">' + buildFormInnerHtml(config, scopeId, false) + "</div>";
       var newRootEl = dialogEl.querySelector("#" + scopeId);
       wireFormInteractions(newRootEl, config, dialogEl, onLeadDispatched);
     }
+
+    fetchRemoteCrmPopupConfig(baseCfg, function (remoteCfg) {
+      hotReloadModalWithCrmConfig(remoteCfg);
+      forwardPublishedConfigToIframes({
+        type: "RF_POPUP_CONFIG_PUBLISHED",
+        keys: extractEngineProjectKeys(baseCfg),
+        config: remoteCfg,
+      });
+    });
 
     function forwardPublishedConfigToIframes(payload) {
       try {

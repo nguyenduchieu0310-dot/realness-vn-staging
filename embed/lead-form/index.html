@@ -30,62 +30,62 @@
       margin: 0 auto;
       box-sizing: border-box;
     }
-    /* Compact embedded card tweaks matching PopupFormVisualCard (isEmbedded=true) */
-    #embedCardMount .pe-close-btn {
+    /* High-specificity compact embedded card rules matching PopupFormVisualCard (isEmbedded=true) */
+    #root .embed-stage #embedCardMount .pe-close-btn {
       display: none !important;
     }
-    #embedCardMount .pe-card {
+    #root .embed-stage #embedCardMount .pe-card {
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(212, 175, 55, 0.25) !important;
     }
-    #embedCardMount .pe-header {
+    #root .embed-stage #embedCardMount .pe-header {
       padding: 12px 14px 9px !important;
     }
-    #embedCardMount .pe-excel-icon-wrap {
+    #root .embed-stage #embedCardMount .pe-excel-icon-wrap {
       width: 82px !important;
       height: 75px !important;
       margin: 0 auto 2px !important;
     }
-    #embedCardMount .pe-header-badge {
+    #root .embed-stage #embedCardMount .pe-header-badge {
       font-size: 19px !important;
     }
-    #embedCardMount .pe-body {
+    #root .embed-stage #embedCardMount .pe-body {
       padding: 13px 16px 16px !important;
     }
-    #embedCardMount .pe-title {
+    #root .embed-stage #embedCardMount .pe-title {
       font-size: 16.5px !important;
       line-height: 1.28 !important;
     }
-    #embedCardMount .pe-project-name {
+    #root .embed-stage #embedCardMount .pe-project-name {
       font-size: 20px !important;
       margin: 2px 0 0 !important;
     }
-    #embedCardMount .pe-project-name.pe-no-date {
+    #root .embed-stage #embedCardMount .pe-project-name.pe-no-date {
       margin-bottom: 10px !important;
     }
-    #embedCardMount .pe-date-wrap {
+    #root .embed-stage #embedCardMount .pe-date-wrap {
       margin: 7px 0 11px !important;
     }
-    #embedCardMount .pe-date-pill {
+    #root .embed-stage #embedCardMount .pe-date-pill {
       padding: 3.5px 16px !important;
       font-size: 12.5px !important;
     }
-    #embedCardMount .pe-input-group {
+    #root .embed-stage #embedCardMount .pe-input-group {
       margin: 0 0 9px !important;
     }
-    #embedCardMount .pe-input {
+    #root .embed-stage #embedCardMount .pe-input {
       height: 41px !important;
       font-size: 14px !important;
     }
-    #embedCardMount .pe-units-grid {
+    #root .embed-stage #embedCardMount .pe-units-grid {
       gap: 7px 9px !important;
       margin: 10px 0 12px !important;
     }
-    #embedCardMount .pe-unit-card {
+    #root .embed-stage #embedCardMount .pe-unit-card {
       min-block-size: 36px !important;
       padding: 5px 9px !important;
       font-size: 12.8px !important;
     }
-    #embedCardMount .pe-submit-btn {
+    #root .embed-stage #embedCardMount .pe-submit-btn {
       height: 44px !important;
       min-height: 44px !important;
       font-size: 15px !important;
@@ -109,76 +109,34 @@
 
       var cfg = {
         projectId: "green-skyline",
-        projectUrl: "https://realness.vn/du-an/green-skyline",
-        projectName: "GREEN SKYLINE",
-        headerBadgeText: search.get("badge") || "TẢI BẢNG GIÁ",
-        formTitle: search.get("title") || "ĐĂNG KÝ TƯ VẤN VÀ NHẬN GIỎ HÀNG ƯU ĐÃI",
+        projectUrl: search.get("url") || search.get("projectUrl") || "https://realness.vn/du-an/green-skyline",
         showDate: true,
         datePrefix: "NGÀY:",
-        realtimeDate: true,
-        submitText: search.get("submit") || "ĐĂNG KÝ",
-        themePreset: "emerald-gold",
-        customColors: {
-          headerBgStart: "#126b48",
-          headerBgMid: "#074730",
-          headerBgEnd: "#03281a",
-          goldPrimary: "#d4af37",
-          goldLight: "#f7e08a",
-          goldDark: "#9c7323",
-          titleColor: "#6e0a1e",
-          projectColor: "#0c5c38",
-          inputBorder: "#154c37",
-          unitActiveBg: "#dff2e8",
-          unitActiveBorder: "#1c6b48",
-          unitActiveText: "#082216",
-          btnGradStart: "#061c4c",
-          btnGradMid: "#09335a",
-          btnGradEnd: "#074736"
-        },
-        units: [
-          { id: "ai-u-1", label: "Căn Studio", checked: false },
-          { id: "ai-u-2", label: "Căn 1PN+", checked: true },
-          { id: "ai-u-3", label: "Căn 1PN", checked: true },
-          { id: "ai-u-4", label: "Căn 2PN+", checked: false },
-          { id: "ai-u-5", label: "Căn 2PN", checked: true },
-          { id: "ai-u-6", label: "Căn 3PN", checked: false }
-        ],
-        budgetRange: "3.5 - 12 Tỷ"
+        realtimeDate: true
       };
 
-      if (rawTarget.indexOf("the-prive") !== -1 || rawTarget.indexOf("theprive") !== -1) {
+      if (search.get("badge")) cfg.headerBadgeText = search.get("badge");
+      if (search.get("title")) cfg.formTitle = search.get("title");
+      if (search.get("submit")) cfg.submitText = search.get("submit");
+
+      if (rawTarget.indexOf("vlasta") !== -1) {
+        cfg.projectId = "vlasta-premier";
+        cfg.projectUrl = "https://realness.vn/du-an/vlasta-premier";
+      } else if (rawTarget.indexOf("the-prive") !== -1 || rawTarget.indexOf("theprive") !== -1) {
         cfg.projectId = "the-prive";
-        cfg.projectName = "THE PRIVÉ AN PHÚ";
-        cfg.themePreset = "navy-gold";
-        cfg.budgetRange = "6.8 - 25 Tỷ";
-        cfg.units = [
-          { id: "tp-1", label: "Căn 1PN", checked: false },
-          { id: "tp-2", label: "Căn 2PN", checked: true },
-          { id: "tp-3", label: "Căn 3PN", checked: true },
-          { id: "tp-4", label: "Duplex và Penthouse", checked: false },
-          { id: "tp-5", label: "Sky Villa", checked: false },
-          { id: "tp-6", label: "Shophouse", checked: false }
-        ];
+        cfg.projectUrl = "https://realness.vn/du-an/the-prive";
       } else if (rawTarget.indexOf("palm-river") !== -1 || rawTarget.indexOf("palmriver") !== -1) {
         cfg.projectId = "palm-river";
-        cfg.projectName = "PALM RIVER LUXURY";
-        cfg.themePreset = "teal-bronze";
-        cfg.budgetRange = "7.5 - 28 Tỷ";
+        cfg.projectUrl = "https://realness.vn/du-an/palm-river";
       } else if (rawTarget.indexOf("happy-one") !== -1 || rawTarget.indexOf("happyone") !== -1) {
         cfg.projectId = "happy-one-elite";
-        cfg.projectName = "HAPPY ONE ELITE";
-        cfg.themePreset = "navy-gold";
-        cfg.budgetRange = "2.2 - 4.8 Tỷ";
+        cfg.projectUrl = "https://realness.vn/du-an/happy-one-elite";
       } else if (rawTarget.indexOf("tt-genesis") !== -1 || rawTarget.indexOf("genesis") !== -1) {
         cfg.projectId = "tt-genesis";
-        cfg.projectName = "TT GENESIS";
-        cfg.themePreset = "burgundy-gold";
-        cfg.budgetRange = "2.5 - 5.5 Tỷ";
-      } else if (rawTarget.indexOf("vlasta") !== -1) {
-        cfg.projectId = "vlasta-premier";
-        cfg.projectName = "VLASTA PREMIER";
-        cfg.themePreset = "navy-gold";
-        cfg.budgetRange = "5.5 - 18 Tỷ";
+        cfg.projectUrl = "https://realness.vn/du-an/tt-genesis";
+      } else if (rawTarget.indexOf("global-city") !== -1 || rawTarget.indexOf("globalcity") !== -1) {
+        cfg.projectId = "global-city";
+        cfg.projectUrl = "https://realness.vn/du-an/the-global-city";
       }
 
       Engine.renderIntoContainer(mountEl, cfg, function (result) {
@@ -195,7 +153,7 @@
             {
               type: "RF_LEAD_SUBMITTED",
               leadId: result.lead.id,
-              project: cfg.projectName,
+              project: result.lead.project || cfg.projectId,
               lead: result.lead
             },
             "*"
@@ -220,12 +178,20 @@
 
       measureAndNotifyHeight();
       setTimeout(measureAndNotifyHeight, 120);
+      setTimeout(measureAndNotifyHeight, 450);
 
       if (typeof ResizeObserver !== "undefined") {
         var ro = new ResizeObserver(function () {
           measureAndNotifyHeight();
         });
         ro.observe(mountEl);
+      }
+
+      if (typeof MutationObserver !== "undefined") {
+        var mo = new MutationObserver(function () {
+          setTimeout(measureAndNotifyHeight, 20);
+        });
+        mo.observe(mountEl, { childList: true, subtree: true });
       }
 
       window.addEventListener("resize", function () {
