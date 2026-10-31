@@ -150,6 +150,25 @@
       btnGradMid: "#663600",
       btnGradEnd: "#9a5500",
     },
+    "vlasta-cream-luxury": {
+      id: "vlasta-cream-luxury",
+      name: "Warm Ivory Cream & Champagne Bronze (Chuẩn Thiết Kế Mẫu Vlasta)",
+      headerBgStart: "#fbf6f2",
+      headerBgMid: "#f9f5ee",
+      headerBgEnd: "#f8f4e9",
+      goldPrimary: "#e7c49a",
+      goldLight: "#eed4b4",
+      goldDark: "#d4ad7d",
+      titleColor: "#52341d",
+      projectColor: "#8d6643",
+      inputBorder: "#865b36",
+      unitActiveBg: "#f5efe6",
+      unitActiveBorder: "#a5784e",
+      unitActiveText: "#4c301b",
+      btnGradStart: "#a5784e",
+      btnGradMid: "#b68b5f",
+      btnGradEnd: "#c59968",
+    },
   };
 
   var CRM_SYNC_API_URL = "https://realness-crm-sync.backness2112.workers.dev/api/popup-configs";
@@ -621,8 +640,33 @@
     return POPUP_FONT_STACKS[key];
   }
 
+  function isLightHex(hex) {
+    var clean = String(hex || "#ffffff").replace(/[^0-9a-fA-F]/g, "");
+    var full =
+      clean.length === 3
+        ? clean
+            .split("")
+            .map(function (c) {
+              return c + c;
+            })
+            .join("")
+        : (clean + "000000").slice(0, 6);
+    var num = parseInt(full, 16);
+    var r = (num >> 16) & 255;
+    var g = (num >> 8) & 255;
+    var b = num & 255;
+    var lum = 0.299 * r + 0.587 * g + 0.114 * b;
+    return lum > 180;
+  }
+
   function buildPopupStyles(scopeId, theme, fontFamily) {
-    var fontStack = resolveFontStack(fontFamily).css;
+    var displayFontStack = resolveFontStack(fontFamily).css;
+    var isSerif = fontFamily === "Playfair Display" || fontFamily === "Cormorant Garamond";
+    var uiFontStack = isSerif
+      ? POPUP_FONT_STACKS["Be Vietnam Pro"].css
+      : displayFontStack;
+    var isLightHdr = isLightHex(theme.headerBgMid);
+
     return (
       "@keyframes peDialogEnter {" +
       "  from { opacity: 0; transform: translateY(10px) scale(0.96); }" +
@@ -645,13 +689,13 @@
       "  --pe-btn-mid: " + theme.btnGradMid + ";" +
       "  --pe-btn-end: " + theme.btnGradEnd + ";" +
       "  --pe-icon-check: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'></polyline></svg>\");" +
-      "  font-family: " + fontStack + " !important;" +
+      "  font-family: " + uiFontStack + " !important;" +
       "  box-sizing: border-box;" +
       "  line-height: 1.4;" +
       "}" +
       "#" + scopeId + " *, #" + scopeId + " *::before, #" + scopeId + " *::after {" +
       "  box-sizing: border-box;" +
-      "  font-family: " + fontStack + ";" +
+      "  font-family: " + uiFontStack + ";" +
       "}" +
       "dialog#" + scopeId + "-dialog {" +
       "  padding: 0 !important;" +
@@ -681,9 +725,9 @@
       "  width: 100%;" +
       "  max-width: 430px;" +
       "  margin: 0 auto;" +
-      "  background: #ffffff;" +
+      "  background: " + (isLightHdr ? "var(--pe-header-start)" : "#ffffff") + ";" +
       "  border-radius: 18px;" +
-      "  border: 2.5px solid var(--pe-gold);" +
+      "  border: " + (isLightHdr ? "1.8px solid var(--pe-project-color)" : "2.5px solid var(--pe-gold)") + ";" +
       "  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(212, 175, 55, 0.25);" +
       "  overflow: hidden;" +
       "}" +
@@ -698,9 +742,9 @@
       "  margin: 0 !important;" +
       "  padding: 0 !important;" +
       "  border-radius: 50% !important;" +
-      "  border: 1.5px solid rgba(247, 224, 138, 0.65) !important;" +
-      "  background: rgba(0, 0, 0, 0.38) !important;" +
-      "  color: var(--pe-gold-light) !important;" +
+      "  border: 1.5px solid " + (isLightHdr ? "var(--pe-project-color)" : "rgba(247, 224, 138, 0.65)") + " !important;" +
+      "  background: " + (isLightHdr ? "rgba(255, 255, 255, 0.88)" : "rgba(0, 0, 0, 0.38)") + " !important;" +
+      "  color: " + (isLightHdr ? "var(--pe-title-color)" : "var(--pe-gold-light)") + " !important;" +
       "  display: inline-flex !important;" +
       "  align-items: center !important;" +
       "  justify-content: center !important;" +
@@ -711,7 +755,7 @@
       "  transition: transform 0.18s ease, background-color 0.18s ease;" +
       "}" +
       "#" + scopeId + " .pe-close-btn:hover {" +
-      "  background: rgba(0, 0, 0, 0.65) !important;" +
+      "  background: " + (isLightHdr ? "#ffffff" : "rgba(0, 0, 0, 0.65)") + " !important;" +
       "  transform: scale(1.06);" +
       "}" +
       "#" + scopeId + " .pe-close-btn:focus-visible {" +
@@ -720,10 +764,14 @@
       "}" +
       "#" + scopeId + " .pe-header {" +
       "  position: relative;" +
-      "  background: radial-gradient(circle at 50% 32%, var(--pe-header-start) 0%, var(--pe-header-mid) 58%, var(--pe-header-end) 100%);" +
+      "  background: " +
+      (isLightHdr
+        ? "linear-gradient(135deg, var(--pe-header-start) 0%, var(--pe-header-mid) 52%, var(--pe-header-end) 100%)"
+        : "radial-gradient(circle at 50% 32%, var(--pe-header-start) 0%, var(--pe-header-mid) 58%, var(--pe-header-end) 100%)") +
+      ";" +
       "  padding: 18px 16px 13px;" +
       "  text-align: center;" +
-      "  border-bottom: 2.5px solid var(--pe-gold);" +
+      "  border-bottom: " + (isLightHdr ? "1.2px solid var(--pe-gold-dark)" : "2.5px solid var(--pe-gold)") + ";" +
       "  overflow: hidden;" +
       "}" +
       "#" + scopeId + " .pe-header-wireframe {" +
@@ -732,7 +780,7 @@
       "  width: 100%;" +
       "  height: 100%;" +
       "  pointer-events: none;" +
-      "  opacity: 0.34;" +
+      "  opacity: " + (isLightHdr ? "0.28" : "0.34") + ";" +
       "}" +
       "#" + scopeId + " .pe-excel-icon-wrap {" +
       "  position: relative;" +
@@ -740,49 +788,55 @@
       "  width: 118px;" +
       "  height: 108px;" +
       "  margin: 0 auto 4px;" +
-      "  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.38));" +
+      "  filter: " + (isLightHdr ? "drop-shadow(0 8px 14px rgba(134, 91, 54, 0.22))" : "drop-shadow(0 8px 14px rgba(0, 0, 0, 0.38))") + ";" +
       "}" +
       "#" + scopeId + " .pe-header-badge {" +
       "  position: relative;" +
       "  z-index: 2;" +
       "  margin: 0 !important;" +
       "  padding: 0 !important;" +
-      "  font-size: 23px !important;" +
-      "  font-weight: 800 !important;" +
+      "  font-family: " + displayFontStack + " !important;" +
+      "  font-size: " + (isSerif ? "25px" : "23px") + " !important;" +
+      "  font-weight: " + (isSerif ? "700" : "800") + " !important;" +
       "  text-transform: uppercase !important;" +
-      "  letter-spacing: 0.6px;" +
-      "  background: linear-gradient(180deg, var(--pe-gold-light) 0%, var(--pe-gold) 55%, var(--pe-gold-dark) 100%);" +
-      "  -webkit-background-clip: text;" +
-      "  -webkit-text-fill-color: transparent;" +
-      "  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));" +
+      "  letter-spacing: " + (isSerif ? "0.8px" : "0.6px") + ";" +
+      (isLightHdr
+        ? "  color: var(--pe-title-color) !important;"
+        : "  background: linear-gradient(180deg, var(--pe-gold-light) 0%, var(--pe-gold) 55%, var(--pe-gold-dark) 100%);" +
+          "  -webkit-background-clip: text;" +
+          "  -webkit-text-fill-color: transparent;" +
+          "  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));") +
       "}" +
       "#" + scopeId + " .pe-body {" +
       "  padding: 18px 20px 22px;" +
-      "  background: linear-gradient(180deg, #ffffff 0%, #f9fbf9 100%);" +
-      "  background-color: #ffffff;" +
+      "  background: " + (isLightHdr ? "var(--pe-header-start)" : "linear-gradient(180deg, #ffffff 0%, #f9fbf9 100%)") + ";" +
+      "  background-color: " + (isLightHdr ? "var(--pe-header-start)" : "#ffffff") + ";" +
       "}" +
       "#" + scopeId + " .pe-title {" +
       "  margin: 0 !important;" +
       "  padding: 0 !important;" +
       "  text-align: center !important;" +
+      "  font-family: " + uiFontStack + " !important;" +
       "  font-size: 18.5px !important;" +
       "  line-height: 1.32 !important;" +
       "  font-weight: 800 !important;" +
       "  text-transform: uppercase !important;" +
       "  text-wrap: balance;" +
       "  color: var(--pe-title-color) !important;" +
-      "  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);" +
+      "  text-shadow: " + (isLightHdr ? "none" : "0 1px 2px rgba(0, 0, 0, 0.1)") + ";" +
       "}" +
       "#" + scopeId + " .pe-project-name {" +
       "  margin: 4px 0 0 !important;" +
       "  padding: 0 !important;" +
       "  text-align: center !important;" +
-      "  font-size: 23px !important;" +
-      "  line-height: 1.25 !important;" +
-      "  font-weight: 800 !important;" +
+      "  font-family: " + displayFontStack + " !important;" +
+      "  font-size: " + (isSerif ? "26px" : "23px") + " !important;" +
+      "  line-height: 1.22 !important;" +
+      "  font-weight: " + (isSerif ? "600" : "800") + " !important;" +
+      "  letter-spacing: " + (isSerif ? "0.5px" : "0") + ";" +
       "  text-transform: uppercase !important;" +
       "  color: var(--pe-project-color) !important;" +
-      "  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);" +
+      "  text-shadow: " + (isLightHdr ? "none" : "0 1px 2px rgba(0, 0, 0, 0.1)") + ";" +
       "}" +
       "#" + scopeId + " .pe-project-name.pe-no-date {" +
       "  margin-bottom: 14px !important;" +
@@ -796,12 +850,21 @@
       "  display: inline-flex;" +
       "  align-items: center;" +
       "  justify-content: center;" +
-      "  padding: 5px 22px;" +
+      "  padding: 6px 24px;" +
       "  border-radius: 999px;" +
-      "  background: linear-gradient(90deg, var(--pe-gold-dark) 0%, var(--pe-gold) 22%, var(--pe-gold-light) 50%, var(--pe-gold) 78%, var(--pe-gold-dark) 100%);" +
+      "  background: " +
+      (isLightHdr
+        ? "linear-gradient(90deg, var(--pe-gold-light) 0%, var(--pe-gold) 50%, var(--pe-gold-dark) 100%)"
+        : "linear-gradient(90deg, var(--pe-gold-dark) 0%, var(--pe-gold) 22%, var(--pe-gold-light) 50%, var(--pe-gold) 78%, var(--pe-gold-dark) 100%)") +
+      ";" +
       "  border: 1px solid var(--pe-gold-dark);" +
-      "  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.65);" +
-      "  color: #111111;" +
+      "  box-shadow: " +
+      (isLightHdr
+        ? "0 3px 8px rgba(134, 91, 54, 0.15)"
+        : "0 3px 6px rgba(0, 0, 0, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.65)") +
+      ";" +
+      "  color: " + (isLightHdr ? "var(--pe-title-color)" : "#111111") + ";" +
+      "  font-family: " + uiFontStack + " !important;" +
       "  font-size: 14.5px;" +
       "  font-weight: 800;" +
       "  letter-spacing: 0.3px;" +
@@ -1051,11 +1114,12 @@
     var sfx = scopeId ? "-" + scopeId : "";
     var iconType = (config && config.headerIconType) ? config.headerIconType : "excel";
     var customIconUrl = (config && config.customIconUrl) ? String(config.customIconUrl) : "";
+    var isLightHdr = isLightHex(theme.headerBgMid);
 
     var wireframeHtml =
       '<!-- Architectural Perspective Wireframe Lines -->' +
       '<svg class="pe-header-wireframe" viewBox="0 0 430 175" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
-      '  <g stroke="' + theme.goldLight + '" stroke-width="0.85" opacity="0.55">' +
+      '  <g stroke="' + (isLightHdr ? theme.projectColor : theme.goldLight) + '" stroke-width="0.85" opacity="0.55">' +
       '    <line x1="0" y1="15" x2="115" y2="62" />' +
       '    <line x1="0" y1="48" x2="115" y2="82" />' +
       '    <line x1="0" y1="85" x2="115" y2="104" />' +
@@ -1191,6 +1255,13 @@
         '    <path d="M81 86 L86 91 L96 81" stroke="' + theme.goldLight + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />' +
         '  </svg>';
     } else {
+      var badgeStart = isLightHdr ? theme.btnGradStart : theme.headerBgStart;
+      var badgeEnd = isLightHdr ? theme.projectColor : theme.headerBgEnd;
+      var gridStroke = isLightHdr ? theme.projectColor : theme.headerBgStart;
+      var gridFill = isLightHdr ? "#faf6f0" : theme.unitActiveBg;
+      var dlCircleFill = isLightHdr ? theme.titleColor : theme.headerBgEnd;
+      var dlArrowStroke = isLightHdr ? "#f8f4e9" : theme.goldLight;
+      var sheetCornerFill = isLightHdr ? theme.goldPrimary : "#cbd5d0";
       innerIconHtml =
         '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
         '    <defs>' +
@@ -1201,18 +1272,20 @@
         '      </linearGradient>' +
         '      <linearGradient id="peSheetBg' + sfx + '" x1="0" y1="0" x2="0" y2="1">' +
         '        <stop offset="0%" stop-color="#ffffff" />' +
-        '        <stop offset="100%" stop-color="#e6ece9" />' +
+        '        <stop offset="100%" stop-color="' + (isLightHdr ? "#f7f3eb" : "#e6ece9") + '" />' +
         '      </linearGradient>' +
         '      <linearGradient id="peExcelBadge' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
-        '        <stop offset="0%" stop-color="' + theme.headerBgStart + '" />' +
-        '        <stop offset="100%" stop-color="' + theme.headerBgEnd + '" />' +
+        '        <stop offset="0%" stop-color="' + badgeStart + '" />' +
+        '        <stop offset="100%" stop-color="' + badgeEnd + '" />' +
         '      </linearGradient>' +
         '    </defs>' +
-        '    <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab' + sfx + ')" />' +
-        '    <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Be Vietnam Pro, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>' +
+        (isLightHdr
+          ? ''
+          : '    <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab' + sfx + ')" />' +
+            '    <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Be Vietnam Pro, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>') +
         '    <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg' + sfx + ')" />' +
-        '    <path d="M78 8 V21 C78 23.8 80.2 26 83 26 H96 L78 8 Z" fill="#cbd5d0" />' +
-        '    <g stroke="' + theme.headerBgStart + '" stroke-width="1.5" fill="' + theme.unitActiveBg + '" opacity="0.9">' +
+        '    <path d="M78 8 V21 C78 23.8 80.2 26 83 26 H96 L78 8 Z" fill="' + sheetCornerFill + '" />' +
+        '    <g stroke="' + gridStroke + '" stroke-width="1.4" fill="' + gridFill + '" opacity="0.92">' +
         '      <rect x="54" y="34" width="15" height="9" rx="1" />' +
         '      <rect x="72" y="34" width="15" height="9" rx="1" />' +
         '      <rect x="54" y="46" width="15" height="9" rx="1" />' +
@@ -1226,8 +1299,8 @@
         '    </g>' +
         '    <rect x="14" y="32" width="44" height="46" rx="8" fill="url(#peExcelBadge' + sfx + ')" stroke="' + theme.goldPrimary + '" stroke-width="1.2" />' +
         '    <path d="M27 44 L45 66 M45 44 L27 66" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />' +
-        '    <circle cx="94" cy="92" r="17" fill="' + theme.headerBgEnd + '" stroke="url(#peGoldTab' + sfx + ')" stroke-width="2.2" />' +
-        '    <path d="M94 83 V95 M88.5 90.5 L94 96 L99.5 90.5 M87 99.5 H101" stroke="' + theme.goldLight + '" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />' +
+        '    <circle cx="94" cy="92" r="17" fill="' + dlCircleFill + '" stroke="url(#peGoldTab' + sfx + ')" stroke-width="2" />' +
+        '    <path d="M94 83 V95 M88.5 90.5 L94 96 L99.5 90.5 M87 99.5 H101" stroke="' + dlArrowStroke + '" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />' +
         '  </svg>';
     }
 
