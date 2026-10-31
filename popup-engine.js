@@ -328,9 +328,10 @@
     themePreset: "emerald-gold",
     customColors: null,
     units: DEFAULT_UNITS,
-    triggerMode: "immediate", // "immediate" | "delay" | "smart" | "button" | "inline"
-    delaySeconds: 12,
-    repeatDelaySeconds: 60,
+    triggerMode: "delay", // "immediate" | "delay" | "smart" | "button" | "inline"
+    delaySeconds: 60,
+    timingVersion: 2,
+    repeatDelaySeconds: 120,
     maxAutoTriggers: 2,
     showFloatingLauncher: false,
     floatingLauncherText: "Tải Bảng Giá",
@@ -573,30 +574,6 @@
         global.parent.postMessage({ type: "RF_CRM_NEW_LEAD", lead: newLead }, "*");
         global.parent.dispatchEvent(new CustomEvent("rf_crm_new_lead", { detail: newLead }));
       }
-    } catch (e) {}
-
-    try {
-      var crmTargets = ["https://realness.vn/crm/", "https://staging.realness.vn/crm/"];
-      crmTargets.forEach(function (targetUrl) {
-        var iframe = document.createElement("iframe");
-        iframe.style.display = "none";
-        iframe.src = targetUrl;
-        iframe.onload = function () {
-          try {
-            iframe.contentWindow.postMessage(
-              {
-                type: "RF_CRM_NEW_LEAD",
-                lead: newLead,
-              },
-              "*"
-            );
-          } catch (err) {}
-          setTimeout(function () {
-            if (iframe && iframe.parentNode) iframe.parentNode.removeChild(iframe);
-          }, 3000);
-        };
-        document.body.appendChild(iframe);
-      });
     } catch (e) {}
 
     if (config.webhookUrl) {
@@ -1559,13 +1536,41 @@
     if (typeof document === "undefined" || !document.head) return;
     var fontSpec = resolveFontStack(fontFamily);
     var safeId = "rf-pe-font-" + String(fontFamily || "Be-Vietnam-Pro").replace(/[^a-zA-Z0-9]/g, "-");
-    if (!document.getElementById(safeId)) {
-      var fontLink = document.createElement("link");
-      fontLink.id = safeId;
-      fontLink.rel = "stylesheet";
-      fontLink.href = fontSpec.href;
-      document.head.appendChild(fontLink);
+    if (document.getElementById(safeId)) return;
+    var familyParam = String(fontFamily || "Be Vietnam Pro").trim().replace(/\s+/g, "+");
+    var existingLinks = document.querySelectorAll('link[href*="fonts.googleapis.com"]');
+    for (var i = 0; i < existingLinks.length; i++) {
+      var href = existingLinks[i].getAttribute("href") || "";
+      if (href === fontSpec.href || (familyParam && href.indexOf(familyParam) !== -1)) {
+        return;
+      }
     }
+    var fontLink = document.createElement("link");
+    fontLink.id = safeId;
+    fontLink.rel = "stylesheet";
+    fontLink.href = fontSpec.href;
+    document.head.appendChild(fontLink);
+  }
+
+  function hasActiveFormInteraction(rootNode) {
+    if (!rootNode || typeof document === "undefined") return false;
+    var active = document.activeElement;
+    if (active && active !== document.body && rootNode.contains(active)) {
+      return true;
+    }
+    var inputs = rootNode.querySelectorAll(
+      'input[name="name"], input[name="fullname"], input[name="phone"], input[name="email"], input[type="text"], input[type="tel"], input[type="email"]'
+    );
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i].value && String(inputs[i].value).trim().length > 0) {
+        return true;
+      }
+    }
+    var successBox = rootNode.querySelector("[data-pe-success]");
+    if (successBox && successBox.style.display && successBox.style.display !== "none") {
+      return true;
+    }
+    return false;
   }
 
   function normalizeEngineProjectKey(raw) {
@@ -1631,19 +1636,46 @@
     return null;
   }
 
+  function mergeWithGlobalTiming(projectCfg, globalCfg) {
+    if (!projectCfg && !globalCfg) return null;
+    if (!projectCfg && globalCfg) return globalCfg;
+    if (projectCfg && !globalCfg) return projectCfg;
+    if (
+      globalCfg.timingVersion &&
+      Number(globalCfg.timingVersion) >= 2 &&
+      (!projectCfg.timingVersion ||
+        Number(projectCfg.timingVersion) < 2 ||
+        (globalCfg.updatedAtTimestamp &&
+          (!projectCfg.updatedAtTimestamp || globalCfg.updatedAtTimestamp >= projectCfg.updatedAtTimestamp)))
+    ) {
+      return Object.assign({}, projectCfg, {
+        triggerMode: globalCfg.triggerMode || projectCfg.triggerMode || "delay",
+        delaySeconds:
+          globalCfg.delaySeconds !== undefined ? Number(globalCfg.delaySeconds) : projectCfg.delaySeconds,
+        timingVersion: 2,
+      });
+    }
+    return projectCfg;
+  }
+
   function findCrmPublishedOverride(cfg) {
     var candidateKeys = extractEngineProjectKeys(cfg);
     if (!candidateKeys.length) return null;
+
+    var globalOverride = null;
 
     // 1. Check rf_crm_published_popup_configs_v1 in localStorage
     try {
       var rawMap = global.localStorage && global.localStorage.getItem("rf_crm_published_popup_configs_v1");
       if (rawMap) {
         var map = JSON.parse(rawMap);
+        if (map && map["__global__"]) {
+          globalOverride = map["__global__"];
+        }
         for (var i = 0; i < candidateKeys.length; i++) {
           var k = candidateKeys[i];
           if (map && map[k] && Array.isArray(map[k].units)) {
-            return map[k];
+            return mergeWithGlobalTiming(map[k], globalOverride);
           }
         }
       }
@@ -1652,7 +1684,7 @@
     // 2. Check cross-subdomain cookie
     for (var c = 0; c < candidateKeys.length; c++) {
       var fromCookie = readPublishedCookieForKey(candidateKeys[c]);
-      if (fromCookie) return fromCookie;
+      if (fromCookie) return mergeWithGlobalTiming(fromCookie, globalOverride);
     }
 
     // 3. Check rf_crm_popup_configs_v4 in localStorage
@@ -1666,7 +1698,7 @@
             var itemKeys = extractEngineProjectKeys(item);
             for (var m = 0; m < candidateKeys.length; m++) {
               if (itemKeys.indexOf(candidateKeys[m]) !== -1) {
-                return item;
+                return mergeWithGlobalTiming(item, globalOverride);
               }
             }
           }
@@ -1674,7 +1706,7 @@
       }
     } catch (e) {}
 
-    return null;
+    return globalOverride;
   }
 
   function resolveProjectDefaultConfig(cfg) {
@@ -1689,7 +1721,29 @@
   }
 
   function applyCrmOverrideToConfig(baseConfig, crmCfg) {
-    if (!crmCfg) return baseConfig;
+    var baseHasV2Timing = baseConfig && baseConfig.timingVersion && Number(baseConfig.timingVersion) >= 2;
+    var defaultTriggerMode = baseHasV2Timing && baseConfig.triggerMode ? baseConfig.triggerMode : "delay";
+    var defaultDelaySeconds =
+      baseHasV2Timing && baseConfig.delaySeconds !== undefined && !isNaN(Number(baseConfig.delaySeconds))
+        ? Math.max(0, Number(baseConfig.delaySeconds))
+        : 60;
+
+    if (!crmCfg) {
+      return Object.assign({}, baseConfig, {
+        triggerMode: defaultTriggerMode,
+        delaySeconds: defaultDelaySeconds,
+        timingVersion: 2,
+      });
+    }
+
+    var crmHasV2Timing = crmCfg.timingVersion && Number(crmCfg.timingVersion) >= 2;
+    var resolvedTriggerMode =
+      crmHasV2Timing && crmCfg.triggerMode ? crmCfg.triggerMode : defaultTriggerMode;
+    var resolvedDelaySeconds =
+      crmHasV2Timing && crmCfg.delaySeconds !== undefined && crmCfg.delaySeconds !== null && !isNaN(Number(crmCfg.delaySeconds))
+        ? Math.max(0, Number(crmCfg.delaySeconds))
+        : defaultDelaySeconds;
+
     return Object.assign({}, baseConfig, {
       projectUrl: crmCfg.projectUrl || baseConfig.projectUrl,
       projectName: crmCfg.projectName || baseConfig.projectName,
@@ -1709,6 +1763,9 @@
       customColors: crmCfg.colors || crmCfg.customColors || baseConfig.customColors,
       units: Array.isArray(crmCfg.units) && crmCfg.units.length > 0 ? crmCfg.units : baseConfig.units,
       budgetRange: crmCfg.budgetRange || baseConfig.budgetRange,
+      triggerMode: resolvedTriggerMode,
+      delaySeconds: resolvedDelaySeconds,
+      timingVersion: 2,
       showFloatingLauncher: false,
     });
   }
@@ -1734,14 +1791,18 @@
           if (global.localStorage) {
             global.localStorage.setItem("rf_crm_published_popup_configs_v1", JSON.stringify(mergedMap));
           }
+          var globalCfg = mergedMap["__global__"] || null;
+          var matchedProjectCfg = null;
           for (var i = 0; i < candidateKeys.length; i++) {
             var k = candidateKeys[i];
             if (mergedMap[k] && Array.isArray(mergedMap[k].units)) {
-              if (typeof onResolved === "function") {
-                onResolved(mergedMap[k]);
-              }
+              matchedProjectCfg = mergedMap[k];
               break;
             }
+          }
+          var resolved = mergeWithGlobalTiming(matchedProjectCfg, globalCfg);
+          if (resolved && typeof onResolved === "function") {
+            onResolved(resolved);
           }
         } catch (e) {}
       })
@@ -1780,6 +1841,7 @@
     function hotReloadInline(newCrmCfg) {
       if (!newCrmCfg) return;
       config = applyCrmOverrideToConfig(baseCfg, newCrmCfg);
+      if (hasActiveFormInteraction(containerEl)) return;
       renderMount();
     }
 
@@ -1873,6 +1935,7 @@
       ensurePopupFont(config.fontFamily);
       theme = resolveTheme(config);
       styleEl.textContent = buildPopupStyles(scopeId, theme, config.fontFamily);
+      if (hasActiveFormInteraction(dialogEl)) return;
       dialogEl.innerHTML = '<div id="' + scopeId + '">' + buildFormInnerHtml(config, scopeId, false) + "</div>";
       var newRootEl = dialogEl.querySelector("#" + scopeId);
       wireFormInteractions(newRootEl, config, dialogEl, onLeadDispatched);
@@ -1903,11 +1966,24 @@
       forwardPublishedConfigToIframes(payload);
       var myKeys = extractEngineProjectKeys(baseCfg);
       var incomingKeys = Array.isArray(payload.keys) ? payload.keys : extractEngineProjectKeys(payload.config);
+      var matchedKey = false;
       for (var i = 0; i < incomingKeys.length; i++) {
         if (myKeys.indexOf(incomingKeys[i]) !== -1) {
-          hotReloadModalWithCrmConfig(payload.config);
+          matchedKey = true;
           break;
         }
+      }
+      if (matchedKey) {
+        hotReloadModalWithCrmConfig(payload.config);
+      } else if (incomingKeys.indexOf("__global__") !== -1) {
+        // Apply global timing update while keeping this project's own colors & units
+        hotReloadModalWithCrmConfig(
+          Object.assign({}, config, {
+            triggerMode: payload.config.triggerMode || "delay",
+            delaySeconds: payload.config.delaySeconds !== undefined ? Number(payload.config.delaySeconds) : 60,
+            timingVersion: 2,
+          })
+        );
       }
     }
 
@@ -2022,68 +2098,85 @@
       return false;
     }
 
-    if (config.triggerMode === "immediate") {
-      setTimeout(openPopup, 150);
-    } else if (config.triggerMode === "delay") {
-      var ms = Math.max(0, Number(config.delaySeconds || 2) * 1000);
-      setTimeout(openPopup, ms);
-    } else if (config.triggerMode === "smart") {
-      var firstDelayMs = Math.max(4000, Number(config.delaySeconds || 12) * 1000);
-      var repeatDelayMs = Math.max(15000, Number(config.repeatDelaySeconds || 60) * 1000);
-      var pageLoadTime = Date.now();
-      var lastClosedTime = 0;
-      var hasInteractedSinceClose = false;
-      var maxScrollRatio = 0;
+    // Unified Reactive Auto-Popup Timer (Default strictly 60s, dynamically synced with CRM)
+    var pageLoadTime = Date.now();
+    var autoOpenedThisView = false;
+    var lastClosedTime = 0;
+    var hasInteractedSinceClose = false;
 
-      window.addEventListener(
-        "scroll",
-        function () {
-          var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
-          var docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-          var ratio = scrollTop / docHeight;
-          if (ratio > maxScrollRatio) maxScrollRatio = ratio;
-          if (lastClosedTime > 0 && Date.now() - lastClosedTime > 3000) {
-            hasInteractedSinceClose = true;
-          }
-        },
-        { passive: true }
-      );
-
-      dialogEl.addEventListener("close", function () {
-        lastClosedTime = Date.now();
-        hasInteractedSinceClose = false;
-      });
-
-      var smartTimer = setInterval(function () {
-        if (hasConverted()) {
-          clearInterval(smartTimer);
-          return;
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (lastClosedTime > 0 && Date.now() - lastClosedTime > 3000) {
+          hasInteractedSinceClose = true;
         }
-        var shownSoFar = getAutoShowCount();
-        if (shownSoFar >= maxShows) {
-          clearInterval(smartTimer);
-          return;
-        }
-        if (isUserBusy()) return;
+      },
+      { passive: true }
+    );
 
-        var now = Date.now();
-        if (shownSoFar === 0) {
-          var elapsed = now - pageLoadTime;
-          var readyForFirst = elapsed >= firstDelayMs || (elapsed >= 8000 && maxScrollRatio >= 0.25);
-          if (readyForFirst) {
-            incrementAutoShowCount();
-            openPopup();
-          }
-        } else if (shownSoFar === 1 && lastClosedTime > 0) {
-          var sinceClose = now - lastClosedTime;
-          if (sinceClose >= repeatDelayMs && (hasInteractedSinceClose || sinceClose >= repeatDelayMs + 25000)) {
-            incrementAutoShowCount();
-            openPopup();
-            clearInterval(smartTimer);
-          }
-        }
-      }, 1000);
+    dialogEl.addEventListener("close", function () {
+      lastClosedTime = Date.now();
+      hasInteractedSinceClose = false;
+    });
+
+    function getTargetFirstDelayMs() {
+      var mode = config.triggerMode || "delay";
+      if (mode === "immediate") return 150;
+      var sec =
+        config.delaySeconds !== undefined && config.delaySeconds !== null && !isNaN(Number(config.delaySeconds))
+          ? Math.max(0, Number(config.delaySeconds))
+          : 60;
+      return sec * 1000;
     }
+
+    global.__rfPopupGetTimerState = function () {
+      return {
+        triggerMode: config.triggerMode || "delay",
+        delaySeconds:
+          config.delaySeconds !== undefined && !isNaN(Number(config.delaySeconds))
+            ? Number(config.delaySeconds)
+            : 60,
+        targetDelayMs: getTargetFirstDelayMs(),
+        elapsedMs: Date.now() - pageLoadTime,
+        autoOpenedThisView: autoOpenedThisView,
+        isOpen: Boolean(dialogEl.open),
+      };
+    };
+
+    if (global.__rfPopupAutoTimer) {
+      clearInterval(global.__rfPopupAutoTimer);
+    }
+
+    global.__rfPopupAutoTimer = setInterval(function () {
+      if (hasConverted()) {
+        clearInterval(global.__rfPopupAutoTimer);
+        return;
+      }
+      var mode = config.triggerMode || "delay";
+      if (mode === "button" || mode === "inline") {
+        return;
+      }
+      if (isUserBusy()) return;
+
+      var now = Date.now();
+      if (!autoOpenedThisView) {
+        var firstDelayMs = getTargetFirstDelayMs();
+        var elapsed = now - pageLoadTime;
+        if (elapsed >= firstDelayMs) {
+          autoOpenedThisView = true;
+          incrementAutoShowCount();
+          openPopup();
+        }
+      } else if (mode === "smart" && getAutoShowCount() < maxShows && lastClosedTime > 0) {
+        var repeatDelayMs = Math.max(30000, Number(config.repeatDelaySeconds || 120) * 1000);
+        var sinceClose = now - lastClosedTime;
+        if (sinceClose >= repeatDelayMs && (hasInteractedSinceClose || sinceClose >= repeatDelayMs + 25000)) {
+          incrementAutoShowCount();
+          openPopup();
+          clearInterval(global.__rfPopupAutoTimer);
+        }
+      }
+    }, 500);
 
     return {
       open: openPopup,
