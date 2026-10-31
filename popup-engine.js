@@ -593,7 +593,36 @@
     return { lead: newLead, compact: compactItem };
   }
 
-  function buildPopupStyles(scopeId, theme) {
+  var POPUP_FONT_STACKS = {
+    "Be Vietnam Pro": {
+      css: "'Be Vietnam Pro', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif",
+      href: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap",
+    },
+    "Montserrat": {
+      css: "'Montserrat', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif",
+      href: "https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap",
+    },
+    "Playfair Display": {
+      css: "'Playfair Display', 'Be Vietnam Pro', Georgia, serif",
+      href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap",
+    },
+    "Cormorant Garamond": {
+      css: "'Cormorant Garamond', 'Be Vietnam Pro', Georgia, serif",
+      href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap",
+    },
+    "Plus Jakarta Sans": {
+      css: "'Plus Jakarta Sans', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif",
+      href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap",
+    },
+  };
+
+  function resolveFontStack(fontFamily) {
+    var key = fontFamily && POPUP_FONT_STACKS[fontFamily] ? fontFamily : "Be Vietnam Pro";
+    return POPUP_FONT_STACKS[key];
+  }
+
+  function buildPopupStyles(scopeId, theme, fontFamily) {
+    var fontStack = resolveFontStack(fontFamily).css;
     return (
       "@keyframes peDialogEnter {" +
       "  from { opacity: 0; transform: translateY(10px) scale(0.96); }" +
@@ -616,13 +645,13 @@
       "  --pe-btn-mid: " + theme.btnGradMid + ";" +
       "  --pe-btn-end: " + theme.btnGradEnd + ";" +
       "  --pe-icon-check: url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'></polyline></svg>\");" +
-      "  font-family: 'Be Vietnam Pro', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;" +
+      "  font-family: " + fontStack + " !important;" +
       "  box-sizing: border-box;" +
       "  line-height: 1.4;" +
       "}" +
       "#" + scopeId + " *, #" + scopeId + " *::before, #" + scopeId + " *::after {" +
       "  box-sizing: border-box;" +
-      "  font-family: 'Be Vietnam Pro', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;" +
+      "  font-family: " + fontStack + ";" +
       "}" +
       "dialog#" + scopeId + "-dialog {" +
       "  padding: 0 !important;" +
@@ -1018,13 +1047,15 @@
     );
   }
 
-  function buildHeaderGraphicSvg(theme, scopeId) {
+  function buildHeaderGraphicSvg(theme, scopeId, config) {
     var sfx = scopeId ? "-" + scopeId : "";
-    return (
+    var iconType = (config && config.headerIconType) ? config.headerIconType : "excel";
+    var customIconUrl = (config && config.customIconUrl) ? String(config.customIconUrl) : "";
+
+    var wireframeHtml =
       '<!-- Architectural Perspective Wireframe Lines -->' +
       '<svg class="pe-header-wireframe" viewBox="0 0 430 175" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
       '  <g stroke="' + theme.goldLight + '" stroke-width="0.85" opacity="0.55">' +
-      '    <!-- Left Building Perspective -->' +
       '    <line x1="0" y1="15" x2="115" y2="62" />' +
       '    <line x1="0" y1="48" x2="115" y2="82" />' +
       '    <line x1="0" y1="85" x2="115" y2="104" />' +
@@ -1034,7 +1065,6 @@
       '    <line x1="48" y1="22" x2="48" y2="162" />' +
       '    <line x1="78" y1="38" x2="78" y2="155" />' +
       '    <line x1="104" y1="52" x2="104" y2="150" />' +
-      '    <!-- Right Building Perspective -->' +
       '    <line x1="430" y1="15" x2="315" y2="62" />' +
       '    <line x1="430" y1="48" x2="315" y2="82" />' +
       '    <line x1="430" y1="85" x2="315" y2="104" />' +
@@ -1045,54 +1075,163 @@
       '    <line x1="352" y1="38" x2="352" y2="155" />' +
       '    <line x1="326" y1="52" x2="326" y2="150" />' +
       '  </g>' +
-      '</svg>' +
-      '<!-- 3D Excel Price Sheet Illustration -->' +
-      '<div class="pe-excel-icon-wrap" aria-hidden="true">' +
-      '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-      '    <defs>' +
-      '      <linearGradient id="peGoldTab' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
-      '        <stop offset="0%" stop-color="' + theme.goldLight + '" />' +
-      '        <stop offset="50%" stop-color="' + theme.goldPrimary + '" />' +
-      '        <stop offset="100%" stop-color="' + theme.goldDark + '" />' +
-      '      </linearGradient>' +
-      '      <linearGradient id="peSheetBg' + sfx + '" x1="0" y1="0" x2="0" y2="1">' +
-      '        <stop offset="0%" stop-color="#ffffff" />' +
-      '        <stop offset="100%" stop-color="#e6ece9" />' +
-      '      </linearGradient>' +
-      '      <linearGradient id="peExcelBadge' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
-      '        <stop offset="0%" stop-color="' + theme.headerBgStart + '" />' +
-      '        <stop offset="100%" stop-color="' + theme.headerBgEnd + '" />' +
-      '      </linearGradient>' +
-      '    </defs>' +
-      '    <!-- Gold PRICE Folder Tab on Right -->' +
-      '    <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab' + sfx + ')" />' +
-      '    <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Be Vietnam Pro, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>' +
-      '    <!-- Main White Document Sheet -->' +
-      '    <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg' + sfx + ')" />' +
-      '    <!-- Folded Corner -->' +
-      '    <path d="M78 8 V21 C78 23.8 80.2 26 83 26 H96 L78 8 Z" fill="#cbd5d0" />' +
-      '    <!-- Spreadsheet Grid Cells -->' +
-      '    <g stroke="' + theme.headerBgStart + '" stroke-width="1.5" fill="' + theme.unitActiveBg + '" opacity="0.9">' +
-      '      <rect x="54" y="34" width="15" height="9" rx="1" />' +
-      '      <rect x="72" y="34" width="15" height="9" rx="1" />' +
-      '      <rect x="54" y="46" width="15" height="9" rx="1" />' +
-      '      <rect x="72" y="46" width="15" height="9" rx="1" />' +
-      '      <rect x="54" y="58" width="15" height="9" rx="1" />' +
-      '      <rect x="72" y="58" width="15" height="9" rx="1" />' +
-      '      <rect x="54" y="70" width="15" height="9" rx="1" />' +
-      '      <rect x="72" y="70" width="15" height="9" rx="1" />' +
-      '      <rect x="54" y="82" width="15" height="9" rx="1" />' +
-      '      <rect x="72" y="82" width="15" height="9" rx="1" />' +
-      '    </g>' +
-      '    <!-- Left 3D Theme X Badge -->' +
-      '    <rect x="14" y="32" width="44" height="46" rx="8" fill="url(#peExcelBadge' + sfx + ')" stroke="' + theme.goldPrimary + '" stroke-width="1.2" />' +
-      '    <path d="M27 44 L45 66 M45 44 L27 66" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />' +
-      '    <!-- Bottom-Right Download Circle Badge -->' +
-      '    <circle cx="94" cy="92" r="17" fill="' + theme.headerBgEnd + '" stroke="url(#peGoldTab' + sfx + ')" stroke-width="2.2" />' +
-      '    <path d="M94 83 V95 M88.5 90.5 L94 96 L99.5 90.5 M87 99.5 H101" stroke="' + theme.goldLight + '" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />' +
-      '  </svg>' +
-      '</div>'
-    );
+      '</svg>';
+
+    var innerIconHtml = "";
+    if (iconType === "custom-image" && customIconUrl) {
+      innerIconHtml =
+        '<div style="width:100%;height:100%;border-radius:14px;border:2px solid ' + theme.goldPrimary + ';background:linear-gradient(135deg,' + theme.headerBgStart + ',' + theme.headerBgEnd + ');padding:4px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;overflow:hidden;">' +
+        '  <img src="' + escapeHtml(customIconUrl) + '" alt="Icon thiết kế dự án" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" />' +
+        '</div>';
+    } else if (iconType === "building") {
+      innerIconHtml =
+        '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '    <defs>' +
+        '      <linearGradient id="peBldGold' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.goldLight + '" />' +
+        '        <stop offset="50%" stop-color="' + theme.goldPrimary + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.goldDark + '" />' +
+        '      </linearGradient>' +
+        '      <linearGradient id="peBldTower' + sfx + '" x1="0" y1="0" x2="0" y2="1">' +
+        '        <stop offset="0%" stop-color="#ffffff" />' +
+        '        <stop offset="100%" stop-color="#dce5e7" />' +
+        '      </linearGradient>' +
+        '      <linearGradient id="peBldBrand' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.headerBgStart + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.headerBgEnd + '" />' +
+        '      </linearGradient>' +
+        '    </defs>' +
+        '    <rect x="64" y="20" width="36" height="82" rx="4" fill="url(#peBldBrand' + sfx + ')" stroke="url(#peBldGold' + sfx + ')" stroke-width="1.6" />' +
+        '    <path d="M70 20 L82 8 L94 20 Z" fill="url(#peBldGold' + sfx + ')" />' +
+        '    <rect x="26" y="14" width="44" height="88" rx="5" fill="url(#peBldTower' + sfx + ')" stroke="url(#peBldGold' + sfx + ')" stroke-width="2" />' +
+        '    <rect x="34" y="8" width="28" height="6" rx="2" fill="url(#peBldGold' + sfx + ')" />' +
+        '    <g fill="' + theme.headerBgMid + '" opacity="0.88">' +
+        '      <rect x="33" y="24" width="12" height="8" rx="1.5" />' +
+        '      <rect x="51" y="24" width="12" height="8" rx="1.5" />' +
+        '      <rect x="33" y="36" width="12" height="8" rx="1.5" />' +
+        '      <rect x="51" y="36" width="12" height="8" rx="1.5" />' +
+        '      <rect x="33" y="48" width="12" height="8" rx="1.5" />' +
+        '      <rect x="51" y="48" width="12" height="8" rx="1.5" />' +
+        '      <rect x="33" y="60" width="12" height="8" rx="1.5" />' +
+        '      <rect x="51" y="60" width="12" height="8" rx="1.5" />' +
+        '      <rect x="33" y="72" width="12" height="8" rx="1.5" />' +
+        '      <rect x="51" y="72" width="12" height="8" rx="1.5" />' +
+        '    </g>' +
+        '    <rect x="41" y="86" width="14" height="16" rx="2" fill="url(#peBldGold' + sfx + ')" />' +
+        '    <rect x="16" y="101" width="94" height="6" rx="3" fill="url(#peBldGold' + sfx + ')" />' +
+        '    <circle cx="96" cy="90" r="16" fill="' + theme.headerBgEnd + '" stroke="url(#peBldGold' + sfx + ')" stroke-width="2.2" />' +
+        '    <path d="M96 81 V93 M90.5 88.5 L96 94 L101.5 88.5 M89 97.5 H103" stroke="' + theme.goldLight + '" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />' +
+        '  </svg>';
+    } else if (iconType === "diamond") {
+      innerIconHtml =
+        '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '    <defs>' +
+        '      <linearGradient id="peDiaGold' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.goldLight + '" />' +
+        '        <stop offset="50%" stop-color="' + theme.goldPrimary + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.goldDark + '" />' +
+        '      </linearGradient>' +
+        '      <linearGradient id="peDiaTop' + sfx + '" x1="0" y1="0" x2="0" y2="1">' +
+        '        <stop offset="0%" stop-color="#ffffff" />' +
+        '        <stop offset="100%" stop-color="' + theme.goldLight + '" />' +
+        '      </linearGradient>' +
+        '      <linearGradient id="peDiaBody' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.goldPrimary + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.headerBgStart + '" />' +
+        '      </linearGradient>' +
+        '    </defs>' +
+        '    <circle cx="65" cy="58" r="46" fill="' + theme.headerBgEnd + '" fill-opacity="0.45" stroke="url(#peDiaGold' + sfx + ')" stroke-width="1.8" stroke-dasharray="4 3" />' +
+        '    <polygon points="38,22 92,22 110,46 20,46" fill="url(#peDiaTop' + sfx + ')" stroke="url(#peDiaGold' + sfx + ')" stroke-width="2" />' +
+        '    <polygon points="20,46 110,46 65,102" fill="url(#peDiaBody' + sfx + ')" stroke="url(#peDiaGold' + sfx + ')" stroke-width="2.2" />' +
+        '    <path d="M38 22 L48 46 L65 102 M92 22 L82 46 L65 102 M65 22 L48 46 M65 22 L82 46 M20 46 H110" stroke="#ffffff" stroke-width="1.4" stroke-opacity="0.75" />' +
+        '    <path d="M22 18 L24 24 L30 26 L24 28 L22 34 L20 28 L14 26 L20 24 Z" fill="' + theme.goldLight + '" />' +
+        '    <path d="M106 16 L107.5 20.5 L112 22 L107.5 23.5 L106 28 L104.5 23.5 L100 22 L104.5 20.5 Z" fill="#ffffff" />' +
+        '  </svg>';
+    } else if (iconType === "gift") {
+      innerIconHtml =
+        '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '    <defs>' +
+        '      <linearGradient id="peGiftGold' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.goldLight + '" />' +
+        '        <stop offset="50%" stop-color="' + theme.goldPrimary + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.goldDark + '" />' +
+        '      </linearGradient>' +
+        '      <linearGradient id="peGiftBox' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.headerBgStart + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.headerBgEnd + '" />' +
+        '      </linearGradient>' +
+        '    </defs>' +
+        '    <path d="M65 34 C50 14, 34 20, 44 34 C50 40, 60 36, 65 34 Z" fill="url(#peGiftGold' + sfx + ')" />' +
+        '    <path d="M65 34 C80 14, 96 20, 86 34 C80 40, 70 36, 65 34 Z" fill="url(#peGiftGold' + sfx + ')" />' +
+        '    <rect x="24" y="34" width="82" height="18" rx="5" fill="url(#peGiftBox' + sfx + ')" stroke="url(#peGiftGold' + sfx + ')" stroke-width="2" />' +
+        '    <rect x="30" y="52" width="70" height="50" rx="6" fill="#ffffff" stroke="url(#peGiftGold' + sfx + ')" stroke-width="2" />' +
+        '    <rect x="58" y="34" width="14" height="68" fill="url(#peGiftGold' + sfx + ')" />' +
+        '    <rect x="30" y="69" width="70" height="12" fill="url(#peGiftGold' + sfx + ')" />' +
+        '    <circle cx="96" cy="90" r="16" fill="' + theme.headerBgEnd + '" stroke="url(#peGiftGold' + sfx + ')" stroke-width="2" />' +
+        '    <text x="96" y="94" fill="' + theme.goldLight + '" font-size="10" font-weight="800" text-anchor="middle" font-family="sans-serif">VIP</text>' +
+        '  </svg>';
+    } else if (iconType === "document") {
+      innerIconHtml =
+        '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '    <defs>' +
+        '      <linearGradient id="peDocGold' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.goldLight + '" />' +
+        '        <stop offset="50%" stop-color="' + theme.goldPrimary + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.goldDark + '" />' +
+        '      </linearGradient>' +
+        '    </defs>' +
+        '    <rect x="38" y="10" width="62" height="84" rx="6" fill="url(#peDocGold' + sfx + ')" opacity="0.85" />' +
+        '    <rect x="26" y="16" width="64" height="88" rx="6" fill="#ffffff" stroke="url(#peDocGold' + sfx + ')" stroke-width="2" />' +
+        '    <rect x="36" y="28" width="44" height="8" rx="3" fill="' + theme.headerBgStart + '" />' +
+        '    <rect x="36" y="44" width="44" height="4" rx="2" fill="#cbd5e1" />' +
+        '    <rect x="36" y="54" width="36" height="4" rx="2" fill="#cbd5e1" />' +
+        '    <rect x="36" y="64" width="42" height="4" rx="2" fill="#cbd5e1" />' +
+        '    <rect x="36" y="74" width="28" height="4" rx="2" fill="#cbd5e1" />' +
+        '    <circle cx="88" cy="86" r="18" fill="' + theme.headerBgEnd + '" stroke="url(#peDocGold' + sfx + ')" stroke-width="2.4" />' +
+        '    <path d="M81 86 L86 91 L96 81" stroke="' + theme.goldLight + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />' +
+        '  </svg>';
+    } else {
+      innerIconHtml =
+        '  <svg viewBox="0 0 130 116" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '    <defs>' +
+        '      <linearGradient id="peGoldTab' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.goldLight + '" />' +
+        '        <stop offset="50%" stop-color="' + theme.goldPrimary + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.goldDark + '" />' +
+        '      </linearGradient>' +
+        '      <linearGradient id="peSheetBg' + sfx + '" x1="0" y1="0" x2="0" y2="1">' +
+        '        <stop offset="0%" stop-color="#ffffff" />' +
+        '        <stop offset="100%" stop-color="#e6ece9" />' +
+        '      </linearGradient>' +
+        '      <linearGradient id="peExcelBadge' + sfx + '" x1="0" y1="0" x2="1" y2="1">' +
+        '        <stop offset="0%" stop-color="' + theme.headerBgStart + '" />' +
+        '        <stop offset="100%" stop-color="' + theme.headerBgEnd + '" />' +
+        '      </linearGradient>' +
+        '    </defs>' +
+        '    <path d="M84 14 H103 C107 14 110 17 110 21 V74 C110 78 107 81 103 81 H84 V14 Z" fill="url(#peGoldTab' + sfx + ')" />' +
+        '    <text x="99" y="48" fill="#ffffff" font-size="9.5" font-weight="800" font-family="Be Vietnam Pro, Arial, sans-serif" letter-spacing="0.8" transform="rotate(90 99 48)" text-anchor="middle">PRICE</text>' +
+        '    <path d="M36 8 H78 L96 26 V94 C96 98.4 92.4 102 88 102 H36 C31.6 102 28 98.4 28 94 V16 C28 11.6 31.6 8 36 8 Z" fill="url(#peSheetBg' + sfx + ')" />' +
+        '    <path d="M78 8 V21 C78 23.8 80.2 26 83 26 H96 L78 8 Z" fill="#cbd5d0" />' +
+        '    <g stroke="' + theme.headerBgStart + '" stroke-width="1.5" fill="' + theme.unitActiveBg + '" opacity="0.9">' +
+        '      <rect x="54" y="34" width="15" height="9" rx="1" />' +
+        '      <rect x="72" y="34" width="15" height="9" rx="1" />' +
+        '      <rect x="54" y="46" width="15" height="9" rx="1" />' +
+        '      <rect x="72" y="46" width="15" height="9" rx="1" />' +
+        '      <rect x="54" y="58" width="15" height="9" rx="1" />' +
+        '      <rect x="72" y="58" width="15" height="9" rx="1" />' +
+        '      <rect x="54" y="70" width="15" height="9" rx="1" />' +
+        '      <rect x="72" y="70" width="15" height="9" rx="1" />' +
+        '      <rect x="54" y="82" width="15" height="9" rx="1" />' +
+        '      <rect x="72" y="82" width="15" height="9" rx="1" />' +
+        '    </g>' +
+        '    <rect x="14" y="32" width="44" height="46" rx="8" fill="url(#peExcelBadge' + sfx + ')" stroke="' + theme.goldPrimary + '" stroke-width="1.2" />' +
+        '    <path d="M27 44 L45 66 M45 44 L27 66" stroke="#ffffff" stroke-width="5" stroke-linecap="round" />' +
+        '    <circle cx="94" cy="92" r="17" fill="' + theme.headerBgEnd + '" stroke="url(#peGoldTab' + sfx + ')" stroke-width="2.2" />' +
+        '    <path d="M94 83 V95 M88.5 90.5 L94 96 L99.5 90.5 M87 99.5 H101" stroke="' + theme.goldLight + '" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" />' +
+        '  </svg>';
+    }
+
+    return wireframeHtml + '<div class="pe-excel-icon-wrap" aria-hidden="true">' + innerIconHtml + '</div>';
   }
 
   function buildFormInnerHtml(config, scopeId, isInline) {
@@ -1153,7 +1292,7 @@
       '<div class="pe-card">' +
       closeBtnHtml +
       '  <div class="pe-header">' +
-      buildHeaderGraphicSvg(theme, scopeId) +
+      buildHeaderGraphicSvg(theme, scopeId, config) +
       '    <h3 class="pe-header-badge">' +
       escapeHtml(config.headerBadgeText || "TẢI BẢNG GIÁ") +
       "</h3>" +
@@ -1343,11 +1482,15 @@
     });
   }
 
-  function ensureBeVietnamProFont() {
-    if (typeof document !== "undefined" && document.head && !document.querySelector('link[href*="Be+Vietnam+Pro"]')) {
+  function ensurePopupFont(fontFamily) {
+    if (typeof document === "undefined" || !document.head) return;
+    var fontSpec = resolveFontStack(fontFamily);
+    var safeId = "rf-pe-font-" + String(fontFamily || "Be-Vietnam-Pro").replace(/[^a-zA-Z0-9]/g, "-");
+    if (!document.getElementById(safeId)) {
       var fontLink = document.createElement("link");
+      fontLink.id = safeId;
       fontLink.rel = "stylesheet";
-      fontLink.href = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap";
+      fontLink.href = fontSpec.href;
       document.head.appendChild(fontLink);
     }
   }
@@ -1487,6 +1630,9 @@
       phonePlaceholder: crmCfg.phonePlaceholder || baseConfig.phonePlaceholder,
       submitText: crmCfg.submitText || baseConfig.submitText,
       themePreset: crmCfg.themePreset || baseConfig.themePreset,
+      fontFamily: crmCfg.fontFamily || baseConfig.fontFamily || "Be Vietnam Pro",
+      headerIconType: crmCfg.headerIconType || baseConfig.headerIconType || "excel",
+      customIconUrl: crmCfg.customIconUrl !== undefined ? crmCfg.customIconUrl : (baseConfig.customIconUrl || ""),
       customColors: crmCfg.colors || crmCfg.customColors || baseConfig.customColors,
       units: Array.isArray(crmCfg.units) && crmCfg.units.length > 0 ? crmCfg.units : baseConfig.units,
       budgetRange: crmCfg.budgetRange || baseConfig.budgetRange,
@@ -1534,17 +1680,17 @@
    */
   function renderIntoContainer(containerEl, customConfig, onLeadDispatched) {
     if (!containerEl) return;
-    ensureBeVietnamProFont();
     var projectDefaults = resolveProjectDefaultConfig(customConfig || {}) || {};
     var baseCfg = Object.assign({}, DEFAULT_CONFIG, projectDefaults, customConfig || {});
     var config = applyCrmOverrideToConfig(baseCfg, findCrmPublishedOverride(baseCfg));
     var scopeId = "rf-pe-" + Math.random().toString(36).substring(2, 8);
 
     function renderMount() {
+      ensurePopupFont(config.fontFamily);
       var theme = resolveTheme(config);
       containerEl.innerHTML =
         "<style>" +
-        buildPopupStyles(scopeId, theme) +
+        buildPopupStyles(scopeId, theme, config.fontFamily) +
         "</style>" +
         '<div id="' +
         scopeId +
@@ -1623,8 +1769,8 @@
     var scopeId = "rf-pe-modal";
     var theme = resolveTheme(config);
 
-    // Ensure Be Vietnam Pro font is loaded on host page
-    ensureBeVietnamProFont();
+    // Ensure selected font is loaded on host page
+    ensurePopupFont(config.fontFamily);
 
     var existingStyle = document.getElementById(scopeId + "-style");
     if (existingStyle && existingStyle.parentNode) existingStyle.parentNode.removeChild(existingStyle);
@@ -1635,7 +1781,7 @@
 
     var styleEl = document.createElement("style");
     styleEl.id = scopeId + "-style";
-    styleEl.textContent = buildPopupStyles(scopeId, theme);
+    styleEl.textContent = buildPopupStyles(scopeId, theme, config.fontFamily);
     document.head.appendChild(styleEl);
 
     var dialogEl = document.createElement("dialog");
@@ -1651,8 +1797,9 @@
     function hotReloadModalWithCrmConfig(newCrmCfg) {
       if (!newCrmCfg) return;
       config = applyCrmOverrideToConfig(baseCfg, newCrmCfg);
+      ensurePopupFont(config.fontFamily);
       theme = resolveTheme(config);
-      styleEl.textContent = buildPopupStyles(scopeId, theme);
+      styleEl.textContent = buildPopupStyles(scopeId, theme, config.fontFamily);
       dialogEl.innerHTML = '<div id="' + scopeId + '">' + buildFormInnerHtml(config, scopeId, false) + "</div>";
       var newRootEl = dialogEl.querySelector("#" + scopeId);
       wireFormInteractions(newRootEl, config, dialogEl, onLeadDispatched);
