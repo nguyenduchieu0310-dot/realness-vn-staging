@@ -1336,7 +1336,7 @@
 
     var closeBtnHtml = isInline
       ? ""
-      : '  <button type="button" class="pe-close-btn" data-pe-close aria-label="Đóng biểu mẫu">&times;</button>';
+      : '  <button type="button" class="pe-close-btn" data-pe-close data-rf-pe-close aria-label="Đóng biểu mẫu">&times;</button>';
 
     return (
       '<div class="pe-card">' +
@@ -1638,7 +1638,14 @@
 
   function mergeWithGlobalTiming(projectCfg, globalCfg) {
     if (!projectCfg && !globalCfg) return null;
-    if (!projectCfg && globalCfg) return globalCfg;
+    if (!projectCfg && globalCfg) {
+      return {
+        isGlobalTimingOnly: true,
+        triggerMode: globalCfg.triggerMode || "delay",
+        delaySeconds: globalCfg.delaySeconds !== undefined ? Number(globalCfg.delaySeconds) : 60,
+        timingVersion: 2,
+      };
+    }
     if (projectCfg && !globalCfg) return projectCfg;
     if (
       globalCfg.timingVersion &&
@@ -1706,7 +1713,7 @@
       }
     } catch (e) {}
 
-    return globalOverride;
+    return mergeWithGlobalTiming(null, globalOverride);
   }
 
   function resolveProjectDefaultConfig(cfg) {
@@ -1743,6 +1750,15 @@
       crmHasV2Timing && crmCfg.delaySeconds !== undefined && crmCfg.delaySeconds !== null && !isNaN(Number(crmCfg.delaySeconds))
         ? Math.max(0, Number(crmCfg.delaySeconds))
         : defaultDelaySeconds;
+
+    if (crmCfg.isGlobalTimingOnly) {
+      return Object.assign({}, baseConfig, {
+        triggerMode: resolvedTriggerMode,
+        delaySeconds: resolvedDelaySeconds,
+        timingVersion: 2,
+        showFloatingLauncher: false,
+      });
+    }
 
     return Object.assign({}, baseConfig, {
       projectUrl: crmCfg.projectUrl || baseConfig.projectUrl,
@@ -1787,7 +1803,30 @@
         try {
           var existingRaw = global.localStorage && global.localStorage.getItem("rf_crm_published_popup_configs_v1");
           var existingMap = existingRaw ? JSON.parse(existingRaw) : {};
-          var mergedMap = Object.assign({}, existingMap, data.configs);
+          var mergedMap = Object.assign({}, data.configs, existingMap);
+          Object.keys(data.configs).forEach(function (key) {
+            var remoteEntry = data.configs[key];
+            var localEntry = existingMap[key];
+            if (
+              !localEntry ||
+              !localEntry.updatedAtTimestamp ||
+              (remoteEntry && remoteEntry.updatedAtTimestamp && remoteEntry.updatedAtTimestamp >= localEntry.updatedAtTimestamp)
+            ) {
+              mergedMap[key] = remoteEntry;
+            }
+          });
+          if (mergedMap["__global__"]) {
+            mergedMap["__global__"] = {
+              isGlobalTimingOnly: true,
+              triggerMode: mergedMap["__global__"].triggerMode || "delay",
+              delaySeconds:
+                mergedMap["__global__"].delaySeconds !== undefined
+                  ? Number(mergedMap["__global__"].delaySeconds)
+                  : 60,
+              timingVersion: 2,
+              updatedAtTimestamp: mergedMap["__global__"].updatedAtTimestamp || 0,
+            };
+          }
           if (global.localStorage) {
             global.localStorage.setItem("rf_crm_published_popup_configs_v1", JSON.stringify(mergedMap));
           }
