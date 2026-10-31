@@ -660,6 +660,10 @@ var App = {
             slidesToScroll: 1,
             centerMode: false,
             infinite: true,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            pauseOnHover: false,
+            pauseOnFocus: false,
             arrows: true,
             focusOnSelect: true,
             prevArrow: '.slider_doorstep-wrapper .btn-control .btn-slide.down',
@@ -670,7 +674,9 @@ var App = {
                     breakpoint: 1025,
                     settings: {
                         vertical: false,
-                        verticalSwiping: false
+                        verticalSwiping: false,
+                        autoplay: true,
+                        autoplaySpeed: 3000
                     }
                 }
             ]
