@@ -659,25 +659,33 @@ p {
 .blue-col {
   position: relative;
   width: 100%;
-  padding: 24px 28px 36px 22px !important;
+  padding: 26px 24px 28px 24px !important;
   background: url("/assets/vlasta-premier/media/vlasta-media-15-bf5b2d66c3.jpg") no-repeat center center;
   background-size: cover;
   border-radius: 0 20px 20px 20px;
+  box-sizing: border-box;
+}
+.blue-col > .col-inner {
+  padding: 0 !important;
+  margin: 0 !important;
 }
 .blue-col p:last-child {
   margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 .blue-col::before {
   pointer-events: none;
   position: absolute;
-  z-index: -1;
-  border: 2px solid #C58B43;
-  border-radius: 0 20px 20px 20px;
+  z-index: 1;
+  border: 1.5px solid #C58B43;
+  border-radius: 0 16px 16px 16px;
   content: "";
-  height: 100%;
-  left: -12px;
-  top: -12px;
-  width: 100%;
+  top: 8px;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: auto !important;
+  height: auto !important;
 }
 .yellow-col {
   position: relative;
@@ -1103,7 +1111,7 @@ p {
 				<div class="col-inner"  >
 			<div class="img has-hover x md-x lg-x y md-y lg-y" id="image_tong_quan_card" style="width: 100%; margin: 0 auto;">
 				<div class="img-inner dark">
-					<img loading="lazy" decoding="async" width="676" height="1024" src="/assets/vlasta-premier/media/vlasta-tong-quan-card.png?v=1" class="attachment-original size-original" alt="Tổng quan dự án Vlasta Premier - Chủ đầu tư Văn Phú Invest" style="width: 100%; height: auto; display: block; border-radius: 14px;" />
+					<img loading="lazy" decoding="async" width="674" height="1024" src="/assets/vlasta-premier/media/vlasta-tong-quan-card-v2.png?v=2" class="attachment-original size-original" alt="Tổng quan dự án Vlasta Premier - Chủ đầu tư Văn Phú Invest" style="width: 100%; height: auto; display: block; border-radius: 14px;" />
 				</div>
 			</div>
 		</div>
@@ -1356,6 +1364,7 @@ p {
 			.vlasta-nk-btn--prev { left: 10px; }
 			.vlasta-nk-btn--next { right: 10px; }
 			.vlasta-nk-dots {
+				display: none !important;
 				position: absolute;
 				bottom: 12px;
 				left: 50%;
