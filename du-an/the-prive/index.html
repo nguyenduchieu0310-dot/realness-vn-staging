@@ -8066,10 +8066,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 })
             </script>
         </div>
-        <div class="hero-stacked-banners">
-            <img src="/assets/the-prive/hero-banner-1.jpg" alt="The Privé - Biểu tượng của phong cách sống tinh hoa" loading="eager" decoding="async">
-            <img src="/assets/the-prive/hero-banner-2.jpg" alt="The Privé - Nơi yêu thương hóa thành những khoảnh khắc" loading="lazy" decoding="async">
-        </div>
         <div class="section-content-wrapper">
         <div class="container-d">
             <div class="row gutter-xxl justify-content-between align-items-end">
@@ -12912,23 +12908,6 @@ font-size: 1.085714285714286em!important;
   .section-home-slide.with-video .video-background .plyr:before {
     display: none !important;
   }
-  .hero-stacked-banners {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0;
-    line-height: 0;
-    font-size: 0;
-    background: #04243d;
-  }
-  .hero-stacked-banners img {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
   .section-home-slide.with-video .section-content-wrapper {
     position: static !important;
     background: url(https://theprive.vn/wp-content/themes/theprive/images/bg.svg) no-repeat center center;
@@ -13021,9 +13000,6 @@ font-size: 1.085714285714286em!important;
     .section-home-slide.with-video .video-background .plyr {
       aspect-ratio: 9 / 16 !important;
       width: 100% !important;
-      max-width: 100%;
-    }
-    .hero-stacked-banners {
       max-width: 100%;
     }
     /* Responsive layout for newly surfaced sections (Liên kết vùng, Tiện ích Resort, Thư viện, Tài liệu) */
@@ -13256,7 +13232,7 @@ font-size: 1.085714285714286em!important;
 
       // Support file:// protocol for local assets & Floorplan Engine images
       if (window.location.protocol === 'file:') {
-        $('.hero-stacked-banners img, .overview-inserted-banner img').each(function() {
+        $('.overview-inserted-banner img').each(function() {
           var src = $(this).attr('src');
           if (src && src.indexOf('/assets/') === 0) {
             $(this).attr('src', src.slice(1));
