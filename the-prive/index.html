@@ -7964,11 +7964,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
                 <span>Menu</span>
             </button>
-            <div class="rf-header-quicknav font-2" aria-label="Danh mục chính">
-              <a href="#vi-tri" class="rf-quicknav-link" data-target-anchor="vi-tri">Vị trí</a>
-              <a href="#mat-bang-tien-ich" class="rf-quicknav-link" data-target-anchor="mat-bang-tien-ich">Tiện ích</a>
-              <a href="#thu-vien" class="rf-quicknav-link" data-target-anchor="thu-vien">Thư viện</a>
-            </div>
             <div class="dropdown dropdown-language font-1">
               <a class="dropdown-toggle" type="button" id="dropdownLanguage" data-bs-toggle="dropdown" aria-expanded="false">
                 VN              </a>
@@ -8144,6 +8139,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
             </div>
         </div>
+    </div>
+    <div class="overview-inserted-banner">
+        <img src="/assets/the-prive/overview-banner.jpg" alt="The Privé - Định nghĩa lại chuẩn mực của một biểu tượng thượng lưu" class="img-fluid w-100 d-block" loading="lazy" decoding="async">
     </div>
     <div class="d-block d-xl-none">
         <div class="animated fadeInUpShort animated delay-1250">
@@ -12950,34 +12948,6 @@ font-size: 1.085714285714286em!important;
     height: auto;
   }
 
-  /* Visible header quick-nav for "Vị trí", "Tiện ích", "Thư viện" outside 3-bar menu */
-  .rf-header-quicknav {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-left: 1rem;
-  }
-  .rf-header-quicknav .rf-quicknav-link {
-    color: #ffffff;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    padding: 0.28rem 0.7rem;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(4, 36, 61, 0.45);
-    transition: all 0.2s ease;
-    white-space: nowrap;
-  }
-  .rf-header-quicknav .rf-quicknav-link:hover,
-  .rf-header-quicknav .rf-quicknav-link:focus {
-    color: #fff;
-    border-color: #ea8d6b;
-    background: rgba(234, 141, 107, 0.28);
-  }
-
   #masterplan.section-masterplan {
     background: #ffffff !important;
     color: #111111;
@@ -13007,11 +12977,6 @@ font-size: 1.085714285714286em!important;
     }
     body.fp-viewing-mat-bang-tong-quan #header:not(.menu-open) .dropdown-language > a {
       color: #04243d;
-    }
-    body.fp-viewing-mat-bang-tong-quan #header:not(.menu-open) .rf-header-quicknav .rf-quicknav-link {
-      color: #04243d;
-      border-color: rgba(4, 36, 61, 0.35);
-      background: rgba(255, 255, 255, 0.85);
     }
     body.fp-viewing-mat-bang-tong-quan #header:not(.menu-open) .header-bottom .navbar-toggler {
       color: #fff;
@@ -13051,7 +13016,7 @@ font-size: 1.085714285714286em!important;
     }
     /* Fix header overlap on Hero section across both Tablet (768-1199px) and Mobile (<768px) */
     .section-home-slide.with-video {
-      padding-top: var(--navH, 92px);
+      padding-top: var(--navH, 59px);
     }
     .section-home-slide.with-video .video-background .plyr {
       aspect-ratio: 9 / 16 !important;
@@ -13124,37 +13089,6 @@ font-size: 1.085714285714286em!important;
   }
 
   @media (max-width: 991px) {
-    /* Display quicknav ("Vị trí", "Tiện ích", "Thư viện") cleanly as a second row in mobile/tablet header */
-    #header .header-bottom .navbar {
-      flex-wrap: wrap;
-    }
-    #header .header-bottom .header-left {
-      display: contents;
-    }
-    #header .header-bottom .navbar-brand {
-      order: 1;
-    }
-    #header .header-bottom .dropdown-language {
-      order: 2;
-      margin-left: auto;
-      margin-right: 0.65rem;
-    }
-    #header .header-bottom .navbar-toggler {
-      order: 3;
-    }
-    #header .header-bottom .rf-header-quicknav {
-      order: 4;
-      width: 100%;
-      justify-content: center;
-      margin: 0.45rem 0 0.15rem;
-      padding-top: 0.4rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.14);
-      gap: 0.5rem;
-    }
-    #header .header-bottom .rf-header-quicknav .rf-quicknav-link {
-      font-size: 0.75rem;
-      padding: 0.24rem 0.7rem;
-    }
 
     /* Clean single-column layout & centered submenus for mobile/tablet overlay menu */
     .overlay-menu {
@@ -13199,6 +13133,10 @@ font-size: 1.085714285714286em!important;
     }
     .section-introduction .section-items .items .item:nth-child(even) .title:after {
       width: 100%;
+    }
+    .section-introduction .section-items .items .item .title {
+      font-size: clamp(0.82rem, 3.7vw, 1.1rem);
+      padding-right: 0.25rem;
     }
   }
 
@@ -13318,7 +13256,7 @@ font-size: 1.085714285714286em!important;
 
       // Support file:// protocol for local assets & Floorplan Engine images
       if (window.location.protocol === 'file:') {
-        $('.hero-stacked-banners img').each(function() {
+        $('.hero-stacked-banners img, .overview-inserted-banner img').each(function() {
           var src = $(this).attr('src');
           if (src && src.indexOf('/assets/') === 0) {
             $(this).attr('src', src.slice(1));
