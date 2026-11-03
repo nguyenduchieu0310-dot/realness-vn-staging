@@ -1,0 +1,139 @@
+<krpano debugmode="false" showerrors="false">
+    <!-- Action to handle scene load and activate corresponding button -->
+    <action name="update_button_state">
+        <!-- Reset all buttons to inactive state -->
+        set(layer[btn_tien_ich].is_active, false);
+        set(layer[btn_tien_ich].backgroundcolor, 0x091D36);
+        set(layer[btn_tien_ich].css, 'text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500;');
+        set(layer[btn_can_ho_mau].is_active, false);
+        set(layer[btn_can_ho_mau].backgroundcolor, 0x091D36);
+        set(layer[btn_can_ho_mau].css, 'text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500;');
+        set(layer[btn_sanh_sapphire].is_active, false);
+        set(layer[btn_sanh_sapphire].backgroundcolor, 0x091D36);
+        set(layer[btn_sanh_sapphire].css, 'text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500;');
+
+        <!-- Activate button based on loaded scene -->
+        if(get(scene[get(xml.scene)].name) == 'scene_pin_1',
+            set(layer[btn_tien_ich].is_active, true);
+            set(layer[btn_tien_ich].backgroundcolor, 0x1F2937);
+            set(layer[btn_tien_ich].css, 'text-align:center; color:#EACDA6; font-family:UTM Optima; font-size:10px; font-weight:500;');
+        );
+        if(get(scene[get(xml.scene)].name) == 'scene_pin_18',
+            set(layer[btn_sanh_sapphire].is_active, true);
+            set(layer[btn_sanh_sapphire].backgroundcolor, 0x1F2937);
+            set(layer[btn_sanh_sapphire].css, 'text-align:center; color:#EACDA6; font-family:UTM Optima; font-size:10px; font-weight:500;');
+        );
+    </action>
+
+    <!-- Action to adjust button container scale and position based on screen size -->
+    <action name="adjust_button_scale">
+        if(device.mobile OR device.tablet OR stagewidth LT 1024,
+            set(layer[button_container].scale, 0.8);
+            set(layer[button_container].css, 'overflow:hidden;overflow-x:scroll;padding:5px 10px;');
+            set(layer[button_container].x, 0);
+            set(layer[button_container].y, 85);
+            set(layer[btn_tien_ich].width, 75);
+            set(layer[btn_tien_ich].css, 'font-size:8px; color:#fff; text-align:center; white-space:nowrap;');
+            set(layer[btn_tien_ich].x, 10);
+            set(layer[btn_can_ho_mau].width, 75);
+            set(layer[btn_can_ho_mau].css, 'font-size:8px; color:#fff; text-align:center; white-space:nowrap;');
+            set(layer[btn_can_ho_mau].x, 89);
+            set(layer[btn_sanh_sapphire].width, 75);
+            set(layer[btn_sanh_sapphire].css, 'font-size:8px; color:#fff; text-align:center; white-space:nowrap;');
+            set(layer[btn_sanh_sapphire].x, 168);
+        ,
+            set(layer[button_container].scale, 1.0);
+            set(layer[button_container].x, 0);
+            set(layer[button_container].y, 50);
+        );
+    </action>
+
+    <!-- Container for buttons -->
+    <layer name="button_container"
+           type="container"
+           align="bottom"
+           x="0"
+           y="50"
+           zorder="999"
+           width="300"
+           height="48"
+           background="true"
+           backgroundcolor="0xA99F97"
+           borderradius="12"
+           padding="4"
+           css="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; border-radius:12px; overflow:hidden; background-color:rgba(169,159,151,0.6); box-shadow:0 2px 8px rgba(0,0,0,0.15); padding:4px; gap:4px;">
+
+    <!-- Nút 1: TIỆN ÍCH -->
+    <layer name="btn_tien_ich"
+           type="text"
+           html="TIỆN ÍCH"
+           align="left"
+           x="0"
+           width="96"
+           height="36"
+           background="true"
+           backgroundcolor="0x091D36"
+           border="true"
+           bordercolor="0xFFFFFF"
+           borderwidth="1"
+           borderradius="12"
+           bgroundedge="24"
+           autoheight="true"
+           padding="10 0"
+           css="text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500; border-radius:12px;"
+           is_active="false"
+           onclick="loadscene(scene_pin_1, null, MERGE, BLEND(1));"
+           onhover="if(!layer[btn_tien_ich].is_active, set(layer[btn_tien_ich].css, 'text-align:center; color:#EACDA6; font-family:UTM Optima; font-size:10px; font-weight:500;'));"
+           onout="if(!layer[btn_tien_ich].is_active, set(layer[btn_tien_ich].css, 'text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500;'));"
+           handcursor="true" />
+
+    <!-- Nút 2: CĂN HỘ MẪU -->
+    <layer name="btn_can_ho_mau"
+           type="text"
+           html="CĂN HỘ MẪU"
+           align="left"
+           x="100"
+           width="96"
+           height="36"
+           background="true"
+           backgroundcolor="0x091D36"
+           border="true"
+           bordercolor="0xFFFFFF"
+           borderwidth="1"
+           borderradius="12"
+           bgroundedge="24"
+           autoheight="true"
+           padding="10 0"
+           css="text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500; border-radius:12px;"
+           is_active="false"
+           onclick="js(selectScene('CANHO_2PN'))"
+           onhover="if(!layer[btn_can_ho_mau].is_active, set(layer[btn_can_ho_mau].css, 'text-align:center; color:#EACDA6; font-family:UTM Optima; font-size:10px; font-weight:500;'));"
+           onout="if(!layer[btn_can_ho_mau].is_active, set(layer[btn_can_ho_mau].css, 'text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500;'));"
+           handcursor="true" />
+
+    <!-- Nút 3: SẢNH SAPPHIRE -->
+    <layer name="btn_sanh_sapphire"
+           type="text"
+           html="SẢNH 5,6,7,8"
+           align="left"
+           x="200"
+           width="96"
+           height="36"
+           background="true"
+           backgroundcolor="0x091D36"
+           border="true"
+           bordercolor="0xFFFFFF"
+           borderwidth="1"
+           borderradius="12"
+           bgroundedge="24"
+           autoheight="true"
+           padding="10 0"
+           css="text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500; border-radius:12px;"
+           is_active="false"
+           onclick="loadscene(scene_pin_18, null, MERGE, BLEND(1));"
+           onhover="if(!layer[btn_sanh_sapphire].is_active, set(layer[btn_sanh_sapphire].css, 'text-align:center; color:#EACDA6; font-family:UTM Optima; font-size:10px; font-weight:500;'));"
+           onout="if(!layer[btn_sanh_sapphire].is_active, set(layer[btn_sanh_sapphire].css, 'text-align:center; color:#fff; font-family:UTM Optima; font-size:10px; font-weight:500;'));"
+           handcursor="true" />
+
+    </layer>
+</krpano>

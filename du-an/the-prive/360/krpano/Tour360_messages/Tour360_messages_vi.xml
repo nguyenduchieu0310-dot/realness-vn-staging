@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<krpano>
+
+<!-- ************************ -->
+<!--         Messages         -->
+<!-- ************************ -->
+
+  <!-- <data name="vi_project_title"><![CDATA[Waterpoint 2]]></data>
+  <data name="vi_project_author_name"><![CDATA[Megapixel Co.,Ltd]]></data>
+  <data name="vi_project_author_url"><![CDATA[#]]></data> -->
+
+
+  <data name="vi_panogroup8417_title"><![CDATA[Tổng quan dự án123]]></data>
+
+  <data name="vi_pano8448_title"><![CDATA[Cổng chào1]]></data>
+  
+  <!-- Content -->
+  <data name="vi_scene_saigon_sport_city_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    SaiGon Sport City
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_the_global_city_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    The Global City
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_landmark81_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Landmark 81
+  [/div][/div]]]></data>
+
+  <data name="vi_scene_nova_sun_avenue_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    The Sun Avenue
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_cao_toc_ltdd_maichitho_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Nút Giao An Phú
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_estekka_heights_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Estella Heights
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_bitexco_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Bitexco
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_giao_xu_tan_lap_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Nhà Thờ Giáo Xứ 
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_venica_khang_dien_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Venica Khang Điền
+    [/div][/div]]]></data>
+  <data name="vi_scene_pctt_mattruoc_daytime_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Đất Xanh Homes Riverside
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_pin_11_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    River view point/ Khu ngắm cảnh sông
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_pin_12_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Times Square/ Quảng trường thời đại
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_pin_13_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Trạm sạc xe điện
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_pin_14_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Outdoor cinema/ Chiếu phim ngoài trời
+  [/div][/div]]]></data>
+
+  <data name="vi_scene_pin_15_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Marina/ Bến du thuyền
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_pin_16_tooltip"><![CDATA[[div class='hotspot-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+  Boat
+    [/div][/div]]]></data>
+
+  <data name="vi_scene_khulienhopttdtrachchiec_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]Khu Liên Hợp TDTT Rạch Chiếc[/div][/div]]]></data>
+
+  <data name="vi_mattruoc_datxanh_tooltip"><![CDATA[
+
+    [div class='hotspot-tooltip']
+      [div class='image']
+        <img src="./krpano/skin/logohotpot.png" alt="img" />
+      [/div]
+    [/div]
+
+  ]]></data>
+
+
+    <data name="vi_scenehamthuthiem_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]Hầm Thủ Thiêm[/div][/div]]]></data>
+    
+
+    <data name="vi_scene_thanh_my_loi_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Thạnh Mỹ Lợi
+    [/div][/div]]]></data>
+
+    <data name="vi_scene_cau_phu_my_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Cầu Phú Mỹ
+    [/div][/div]]]></data>
+
+    <data name="vi_scene_pha_cat_lai_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Phà Cát Lái
+    [/div][/div]]]></data>
+
+    <data name="vi_scene_thanh_da_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    Thanh Đa
+    [/div][/div]]]></data>
+
+    <data name="vi_scene_the_lake_view_tooltip"><![CDATA[[div class='note-tooltip'][div class='title'][div class='spot_logo'][div][/div][/div]
+    The Lake View
+    [/div][/div]]]></data>
+
+
+  <!-- End -->
+  <data name="vi_spotpoint8532_tooltip"><![CDATA[[div class='hotspot-tooltip pk'][div class='title'][div class='spot_logo'][div][/div][/div]Phân khu Aquaria[/div][/div]]]></data>
+ 
+  <data name="vi_pano8411_title"><![CDATA[Vòng xoay DT830]]></data>
+  <data name="vi_spotpoint11880_tooltip"><![CDATA[[div class='hotspot-tooltip streetview'][div class='title'][div class='spot_logo'][div][/div][/div]CLB ven sông[/div][/div]]]></data>
+  <data name="vi_spotpoint9466_tooltip"><![CDATA[[div class='hotspot-tooltip nm'][div class='title'][div class='spot_logo'][div][/div][/div]Biệt thự đơn lập[/div][/div]]]></data>
+
+  <data name="vi_spotpoint9466javascriptcalljsfunctioncall"><![CDATA[ShowIframe(1)]]></data>
+  
+  <data name="vi_spotpoint17029_tooltip"><![CDATA[[div class='hotspot-tooltip homeview arrow'][div class='title'][div class='spot_logo'][div][/div][/div]Mặt sau[/div][/div]]]></data>
+  <data name="vi_spotpoint17082_tooltip"><![CDATA[[div class='hotspot-tooltip homeview'][div class='title'][div class='spot_logo'][div][/div][/div]Phòng giải trí[/div][/div]]]></data>
+
+  <data name="vi_panotourmapskey"><![CDATA[AIzaSyAWXH4d76M9WHvvP60WwnD3F532SoToxkE]]></data>
+  <data name="vi_panotourmapsdisplay_close_text"><![CDATA[Close]]></data>
+  <data name="vi_contextmenuopenFsLabel"><![CDATA[Xem toàn màn hình]]></data>
+  <data name="vi_contextmenucloseFsLabel"><![CDATA[Thoát toàn màn hình]]></data>
+  <data name="vi_contextmenuopenVrLabel"><![CDATA[Xem trên kính thực tế ảo]]></data>
+
+  <data name="vi_vr_setup_hmd0"><![CDATA[SELECT YOUR HMD]]></data>
+  <data name="vi_vr_setup_advanced"><![CDATA[ADVANCED SETTINGS]]></data>
+  <data name="vi_vr_setup_title"><![CDATA[WEB VR SETTINGS]]></data>
+  <data name="vi_vr_setup_dvn1"><![CDATA[Device:]]></data>
+  <data name="vi_vr_setup_siz1"><![CDATA[Screen size:]]></data>
+  <data name="vi_vr_setup_ipd1"><![CDATA[IPD:]]></data>
+  <data name="vi_vr_setup_hmd1"><![CDATA[HMD:]]></data>
+  <data name="vi_vr_setup_hmd3"><![CDATA[Customize]]></data>
+  <data name="vi_vr_setup_cal"><![CDATA[Calibrate gyroscope]]></data>
+  <data name="vi_vr_setup_sav"><![CDATA[SAVE]]></data>
+  <data name="vi_vr_setup_rst"><![CDATA[RESET]]></data>
+  <data name="vi_vr_setup_simple"><![CDATA[SIMPLE]]></data>
+  <data name="vi_vr_setup_cls"><![CDATA[CLOSE]]></data>
+  <data name="vi_vr_setup_m31"><![CDATA[HMD SETTINGS]]></data>
+  <data name="vi_vr_setup_fov1"><![CDATA[FOV:]]></data>
+  <data name="vi_vr_setup_dst1"><![CDATA[Distortion:]]></data>
+  <data name="vi_vr_setup_d2tx"><![CDATA[Distortion 2:]]></data>
+  <data name="vi_vr_setup_vig1"><![CDATA[Vignette:]]></data>
+  <data name="vi_vr_setup_cac1"><![CDATA[Chromatic aberration:]]></data>
+  <data name="vi_vr_setup_olp1"><![CDATA[Overlap:]]></data>
+  <data name="vi_vr_setup_m35"><![CDATA[RETURN]]></data>
+  <data name="vi_vr_setup_cb1"><![CDATA[GYROSCOPE]]></data>
+  <data name="vi_vr_setup_cb2"><![CDATA[Place the device on a flat and[br]stable surface and tab CALIBRATE[br]to correct a gyroscope drifting.]]></data>
+  <data name="vi_vr_setup_cb3"><![CDATA[CALIBRATE]]></data>
+  <data name="vi_vr_setup_cb4"><![CDATA[RESET]]></data>
+  <data name="vi_vr_setup_cb5"><![CDATA[RETURN]]></data>
+  <data name="vi_vr_setup_cb6"><![CDATA[Calibrating...]]></data>
+  <data name="vi_vr_setup_cb7"><![CDATA[Successful calibration]]></data>
+  <data name="vi_vr_setup_cb8"><![CDATA[Calibration failed]]></data>
+  <data name="vi_vr_setup_unavailable"><![CDATA[VR mode[br]is unavailable on your device]]></data>
+
+
+
+</krpano>

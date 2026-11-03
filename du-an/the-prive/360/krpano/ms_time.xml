@@ -1,0 +1,55 @@
+<krpano>
+	<layer name="sun_moon_bg" url="skin/sun_moon.png" keep="false" align="bottomcenter" edge="center" x="0" y="80" handcursor="false" scale="0.3" scale.mobile="0.1" y.tablet="90"/>
+
+	<layer name="slider_bg" url="skin/ranger_bar.png" keep="false" align="bottomcenter" edge="center" x="0" y="80" handcursor="false" scale="0.3" scale.mobile="0.1" y.tablet="90"/>
+
+	<layer name="slider_grip" url="skin/timeslide.png" align="leftcenter" edge="center" parent="slider_bg" x="0" keep="false" scale="0.3" scale.mobile="0.2" alpha="0"
+	 ondown="copy(drag_currentx, x); copy(drag_stagex, mouse.stagex);
+	               asyncloop(pressed,
+	                 calc(newx, drag_currentx + (mouse.stagex - drag_stagex)); 
+	                 clamp(newx, 0, get(layer[slider_bg].pixelwidth));
+	                 copy(x, newx);
+	                 setblend(calc(newx / layer[slider_bg].pixelwidth));
+	               );"
+		onloaded="delayedcall(3, tween(layer[slider_grip].alpha,1) );" 
+	/>
+
+	<action name="setblend">
+		set(blend1, %1);
+		sub(blend2, 1.0, %1);
+
+		copy(hotspot[pano1_f].alpha, blend1);
+		copy(hotspot[pano1_l].alpha, blend1);
+		copy(hotspot[pano1_r].alpha, blend1);
+		copy(hotspot[pano1_b].alpha, blend1);
+		copy(hotspot[pano1_u].alpha, blend1);
+		copy(hotspot[pano1_d].alpha, blend1);
+
+		copy(hotspot[pano2_f].alpha, blend2);
+		copy(hotspot[pano2_l].alpha, blend2);
+		copy(hotspot[pano2_r].alpha, blend2);
+		copy(hotspot[pano2_b].alpha, blend2);
+		copy(hotspot[pano2_u].alpha, blend2);
+		copy(hotspot[pano2_d].alpha, blend2);
+	</action>
+	
+	<action name="start" autorun="onstart">
+		setblend(0);
+		
+	</action>
+	<style name="cubeface" distorted="true" width="1000" height="1000" enabled="false" alpha="0.0" />
+
+	<hotspot name="pano1_f" style="cubeface" url="./assets/images_oj/msnight/pctt_matsau_night_f.jpg" ath="0" atv="0" />
+	<hotspot name="pano1_l" style="cubeface" url="./assets/images_oj/msnight/pctt_matsau_night_l.jpg" ath="-90" atv="0" />
+	<hotspot name="pano1_r" style="cubeface" url="./assets/images_oj/msnight/pctt_matsau_night_r.jpg" ath="+90" atv="0" />
+	<hotspot name="pano1_u" style="cubeface" url="./assets/images_oj/msnight/pctt_matsau_night_u.jpg" ath="0" atv="-90" />
+	<hotspot name="pano1_d" style="cubeface" url="./assets/images_oj/msnight/pctt_matsau_night_d.jpg" ath="0" atv="+90" />
+	<hotspot name="pano1_b" style="cubeface" url="./assets/images_oj/msnight/pctt_matsau_night_b.jpg" ath="+180" atv="0" />
+	
+	<!-- <hotspot name="pano2_f" style="cubeface" url="./assets/images/images_oj/mssun/pctt_matsau_daytime_f.jpg" ath="0" atv="0" />
+	<hotspot name="pano2_l" style="cubeface" url="./assets/images/images_oj/mssun/pctt_matsau_daytime_l.jpg" ath="-90" atv="0" />
+	<hotspot name="pano2_r" style="cubeface" url="./assets/images/images_oj/mssun/pctt_matsau_daytime_r.jpg" ath="+90" atv="0" />
+	<hotspot name="pano2_u" style="cubeface" url="./assets/images/images_oj/mssun/pctt_matsau_daytime_u.jpg" ath="0" atv="-90" />
+	<hotspot name="pano2_d" style="cubeface" url="./assets/images/images_oj/mssun/pctt_matsau_daytime_d.jpg" ath="0" atv="+90" />
+	<hotspot name="pano2_b" style="cubeface" url="./assets/images/images_oj/mssun/pctt_matsau_daytime_b.jpg" ath="+180" atv="0" /> -->
+</krpano>

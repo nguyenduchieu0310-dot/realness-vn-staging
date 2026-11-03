@@ -1,0 +1,153 @@
+<krpano debugmode="false" showerrors="false">
+	
+	<!-- Floorplan -->
+	
+	<!-- <layer name="floorplan_container2" type="image" scale="0.7"  url="icon3.png" align="bottomright" y="320" x="20" keep="true" onclick="togglebangdo()">
+	</layer> -->
+		<action name="togglebangdo">
+			if(layer[floorplan_container].visible == true,
+				tween(layer[floorplan_container].alpha, 0.0, 0.3, default, set(layer[floorplan_container].visible, false); );
+			,
+				set(layer[floorplan_container].visible, true);
+				tween(layer[floorplan_container].alpha, 1.0, 0.3);
+			);
+		</action>
+
+	<layer name="floorplan_container" type="container" keep="true" enabled="true"
+		bgcolor="0x000000" bgalpha="0.2" alpha="1"
+		width="255" height="265" zorder="225" bgcapture="true" state="maximized"
+		align="righttop" scalechildren="true" x="5" y="50"
+		bgroundedge="10" scale="1"  
+		visible.mobile="false"
+		align.mobile="center" x.mobile="0" y.mobile="0"
+		>
+		
+
+
+		<layer name="floorplan_image" type="image" url="bando.jpg" align="center" scale="0.2"  enabled="true" bgroundedge="10" y.mobile="0" 
+		onclick="toggle_floor_plan_size();"> 
+			<!-- Ngoại thất -->
+			<layer name="dot_pin1" style="mapspot" x="16" y="203" onclick="loadscene_everpano(scene_PIN_1);" />
+			<layer name="dot_pin2" style="mapspot" x="102" y="205" onclick="loadscene_everpano(scene_PIN_2);" />
+			<layer name="dot_pin3" style="mapspot" x="35" y="170" onclick="loadscene_everpano(scene_PIN_3);" />
+			<layer name="dot_pin4" style="mapspot" x="48" y="69" onclick="loadscene_everpano(scene_PIN_4);" />
+			<layer name="dot_pin5" style="mapspot" x="50" y="18" onclick="loadscene_everpano(scene_PIN_5);" />
+			<layer name="dot_pin6" style="mapspot" x="89" y="130" onclick="loadscene_everpano(scene_PIN_6);" />
+			<layer name="dot_pin7" style="mapspot" x="130" y="130" onclick="loadscene_everpano(scene_PIN_7);" />
+			<layer name="dot_pin8" style="mapspot" x="185" y="158" onclick="loadscene_everpano(scene_PIN_8);" />
+			<layer name="dot_pin9" style="mapspot" x="131" y="158" onclick="loadscene_everpano(scene_PIN_9);" />
+			<layer name="dot_pin10" style="mapspot" x="159" y="205" onclick="loadscene_everpano(scene_PIN_10);" />
+			<layer name="dot_pin11" style="mapspot" x="184" y="130" onclick="loadscene_everpano(scene_PIN_11);" />
+			<layer name="dot_pin12" style="mapspot" x="184" y="98" onclick="loadscene_everpano(scene_PIN_12);" />
+			<layer name="dot_pin13" style="mapspot" x="89" y="91" onclick="loadscene_everpano(scene_PIN_13);" />
+			<layer name="dot_pin14" style="mapspot" x="45" y="130" onclick="loadscene_everpano(scene_PIN_14);" />
+			<!-- END -->
+			
+
+		</layer>
+
+		<layer name="activespot" type="container"
+			width="12" height="12"
+			bgcolor="0xe92323" bgalpha="1" bgborder="1 0xFF0000 1" bgroundedge="12"
+			bgshadow="0 0 10 3 0x000000 0.25" align="center" edge="center" enabled="true" bgcapture="true" x="0" y="0"
+		 />
+
+		<!-- radar -->
+		<plugin name="radar"
+	        url.html5="%SWFPATH%/plugins/radar_source.js"
+	        align="center"
+	        edge="center"
+	        x="0" y="0"
+	        scale="0.2"
+	        heading="0.0"
+	        headingoffset="90.0"
+	        fillcolor="0xe69b23"
+	        fillalpha="0.5"
+	        linewidth="0.0"
+	        linecolor="0xFFFFFF"
+	        linealpha="0.3"
+	        invert="false"
+	        enabled="false"
+	    />
+
+	</layer>
+	<!-- END Floorplan -->	
+
+
+	<action name="updateradar">
+		trace(%1);
+		set(layer[activespot].parent, %1);
+		set(layer[radar].parent, %1);
+		tween(layer[radar].heading, %2);
+	</action>
+	
+	<action name="toggle_floor_plan_size">
+		set(state, get(layer[floorplan_container].state));
+
+		if(state == minimized, 
+			<!-- if state là minimized -->
+			if(device.mobile,
+				tween(layer[floorplan_container].scale, 1);
+				,
+				
+				tween(layer[floorplan_container].scale, 1);
+
+			);
+
+			set(layer[floorplan_container].state, maximized);
+			
+			,
+
+			<!-- if state là maximized -->
+			if(device.mobile,
+				tween(layer[floorplan_container].scale, 1);
+				,
+				
+				tween(layer[floorplan_container].scale, 1.5);
+
+			);
+
+			
+			set(layer[floorplan_container].state, minimized);
+		)
+
+	</action>
+
+	<action name="show_map_mobile">
+		set(layer[floorplan_container].visible, false);
+	</action>
+
+	<action name="hide_map_mobile">
+		set(layer[floorplan_container].visible, true);
+	</action>
+
+	<action name="loadscene_everpano">
+		set(layer[floorplan_container].visible,false);
+      	set(layer[icon_map].state,turn_off);
+
+	    loadscene(%1, null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5));
+	    set(events.onviewloaded, null);
+	    set(events.onkeydown, stoptween(view.tx|view.ty|view.tz);set(events.onkeydown,null); );
+	    tween(view.tx|view.ty|view.tz, calc('' + image.ox + '|' + image.oy + '|' + image.oz), 2, default, set(events.onkeydown,null);
+	</action>
+
+
+	<!-- END action -->
+	
+
+	<!-- STYLE -->
+	<style name="mapspot" 
+		type="container" width="12" height="12"
+		bgcolor="0xFFFFFF" bgalpha="1.0" bgborder="1 0xFF0000 1" bgroundedge="18"
+		bgshadow="0 0 10 3 0x000000 0.0" align="lefttop" edge="center" enabled="true" bgcapture="true"
+		
+	/>
+	<style name="mapspot2" 
+		type="container" width="15" height="15"
+		bgcolor="0xedd73a" bgalpha="1.0" bgborder="1 0xFF0000 1" bgroundedge="18"
+		bgshadow="0 0 10 3 0x000000 0.0" align="lefttop" edge="center" enabled="true" bgcapture="true"
+	/>
+	
+	<!-- END STYLE -->
+	
+</krpano>

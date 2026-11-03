@@ -1,0 +1,188 @@
+<krpano>
+	
+	<!-- Floorplan -->
+	<layer name="floorplan_container" type="container" keep="true" enabled="true"
+		bgcolor="0x000000" bgalpha="0.0" alpha="1" 
+		width="290" height="200" zorder="225" bgcapture="true" state="maximized"
+		align="rightbottom" 
+		align.mobile ="center"
+		x.mobile = "0"
+		y.mobile ="0"
+		scalechildren="true" x="-5" y="75"
+		bgroundedge="10" scale="1"  
+		y.tablet="100"
+		>
+		
+		<layer name="floorplan_image" type="image" url="datxanh_map1333.png" align="center" scale="0.28" enabled="true" bgroundedge="30" 
+			y.mobile="0" 
+		onclick="toggle_floor_plan_size();">	
+			<!-- Ngoại thất -->
+			<layer name="dot_view_ttmt" style="mapspot" x="115" y="166" onhover="showtext(Tổng thể mặt trước,STYLE1);" onclick="skin_loadscene(dot_view_ttmt, get(skin_settings.loadscene_vertical));" />
+	<layer name="dot_view_ttms" style="mapspot" x="144" y="0" onhover="showtext(Tổng thể mặt sau,STYLE1);" onclick="skin_loadscene(scene_pctt_matsau_daytime, get(skin_settings.loadscene_vertical));" />
+			<layer name="dot_pin_1" style="mapspot" x="191" y="38" onhover="showtext(Bắt đầu tour,STYLE1);" onclick="skin_loadscene(scene_pin_1, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_2" style="mapspot" x="178" y="65" onhover="showtext(Lối vào khu tiện ích,STYLE1);" onclick="skin_loadscene(scene_pin_2, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_3" style="mapspot" x="153" y="67" onhover="showtext(BBQ,STYLE1);" onclick="skin_loadscene(scene_pin_3, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_4" style="mapspot" x="146" y="57" onhover="showtext(Sân chơi trẻ em,STYLE1);" onclick="skin_loadscene(scene_pin_4, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_5" style="mapspot" x="98" y="59" onhover="showtext(Sân tennis và Pickleball,STYLE1);" onclick="skin_loadscene(scene_pin_5, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_6" style="mapspot" x="77" y="62" onhover="showtext(Sân bóng rổ,STYLE1);" onclick="skin_loadscene(scene_pin_6, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_7" style="mapspot" x="55" y="44" onhover="showtext(Cây xanh,STYLE1);" onclick="skin_loadscene(scene_pin_7, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_8" style="mapspot" x="12" y="66" onhover="showtext(Vườn hoa nhiệt đới,STYLE1);" onclick="skin_loadscene(scene_pin_8, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_9" style="mapspot" x="47" y="90" onhover="showtext(Azurea Pool,STYLE1);" onclick="skin_loadscene(scene_pin_9, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_10" style="mapspot" x="66" y="72" onhover="showtext(Khu ngồi thư giãn 1,STYLE1);" onclick="skin_loadscene(scene_pin_10, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_11" style="mapspot" x="82" y="82" onhover="showtext(Hồ Cạn,STYLE1);" onclick="skin_loadscene(scene_pin_11, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_12" style="mapspot" x="111" y="80" onhover="showtext(Lumina Pool,STYLE1);" onclick="skin_loadscene(scene_pin_12, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_13" style="mapspot" x="133" y="75" onhover="showtext(Khu ngồi thư giãn 2,STYLE1);" onclick="skin_loadscene(scene_pin_13, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_14" style="mapspot" x="158" y="83" onhover="showtext(Khu tập thể dục,STYLE1);" onclick="skin_loadscene(scene_pin_14, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_15" style="mapspot" x="195" y="104" onhover="showtext(Palm Breeze,STYLE1);" onclick="skin_loadscene(scene_pin_15, get(skin_settings.loadscene_vertical));" />
+
+			<layer name="dot_pin_16" style="mapspot" x="221" y="161" onhover="showtext(Đài vọng cảnh,STYLE1);" onclick="skin_loadscene(scene_pin_16, get(skin_settings.loadscene_vertical));" />
+
+			<!-- <layer name="dot_pin_17" style="mapspot" x="193" y="72" onhover="showtext(Sảnh Dimon,STYLE1);" onclick="skin_loadscene(scene_pin_17, get(skin_settings.loadscene_vertical));" /> -->
+			
+			<layer name="dot_pin_18" style="mapspot" x="130" y="54" onhover="showtext(Sảnh tháp 5.6.7.8,STYLE1);" onclick="skin_loadscene(scene_pin_18, get(skin_settings.loadscene_vertical));" />
+			<layer name="dot_pin_19" style="mapspot" x="130" y="63" onhover="showtext(Hành lang thang máy 5.6.7.8,STYLE1);" onclick="skin_loadscene(scene_pin_19, get(skin_settings.loadscene_vertical));" />
+			<layer name="dot_pin_20" style="mapspot" x="119" y="63" onhover="showtext(Nội thất thang máy,STYLE1);" onclick="skin_loadscene(scene_pin20, get(skin_settings.loadscene_vertical));" />
+			<!-- <layer name="dot_pin_21" style="mapspot" x="25" y="56" onhover="showtext(Sảnh Ruby,STYLE1);" onclick="skin_loadscene(scene_pin21, get(skin_settings.loadscene_vertical));" /> -->
+
+			<!-- END -->
+			<!-- Block -->
+		
+
+		</layer>
+
+		<layer name="activespot" type="container"
+			width="12" height="12"
+			bgcolor="0xe92323" bgalpha="1" bgborder="1 0xFF0000 1" bgroundedge="12"
+			bgshadow="0 0 10 3 0x000000 0.25" align="center" edge="center" enabled="true" bgcapture="true" x="0" y="0"
+		 />
+
+		<!-- radar -->
+		<plugin name="radar"
+	        url.html5="%SWFPATH%/plugins/radar_source.js"
+	        align="center"
+	        edge="center"
+	        x="0" y="0"
+	        scale="0.2"
+	        heading="0.0"
+	        headingoffset="90.0"
+	        fillcolor="0xe69b23"
+	        fillalpha="0.5"
+	        linewidth="0.0"
+	        linecolor="0xFFFFFF"
+	        linealpha="0.3"
+	        invert="false"
+	        enabled="false"
+	    />
+
+	</layer>
+	<!-- END Floorplan -->	
+
+
+	<action name="updateradar">
+		trace(%1);
+		set(layer[activespot].parent, %1);
+		set(layer[radar].parent, %1);
+		tween(layer[radar].heading, %2);
+	</action>
+	
+	<action name="toggle_floor_plan_size">
+		set(state, get(layer[floorplan_container].state));
+
+		if(state == minimized, 
+			<!-- if state là minimized -->
+			if(device.mobile,
+				tween(layer[floorplan_container].scale, 1);
+				,
+				
+				tween(layer[floorplan_container].scale, 1);
+
+			);
+
+			set(layer[floorplan_container].state, maximized);
+			
+			,
+
+			<!-- if state là maximized -->
+			if(device.mobile,
+				tween(layer[floorplan_container].scale, 1.2);
+				,
+				
+				tween(layer[floorplan_container].scale, 1.5);
+
+			);
+
+			
+			set(layer[floorplan_container].state, minimized);
+		)
+
+	</action>
+
+	<action name="show_map_mobile">
+		<!-- set(layer[floorplan_container].visible, false); -->
+		tween(layer[floorplan_container].x, 32, 0.25);
+		tween(layer[floorplan_container].y, 100, 0.25);
+	</action>
+
+	<action name="hide_map_mobile">
+		<!-- set(layer[floorplan_container].visible, true); -->
+		tween(layer[floorplan_container].x, -2000,0.9);
+	</action>
+
+	<action name="show_map_destop">
+		set(layer[floorplan_container].visible, false);
+	</action>
+
+	<action name="hide_map_destop">
+		set(layer[floorplan_container].visible, true);
+	</action>
+	<!-- END action -->
+	
+	<action name="switch_zorder">
+		set(style[mapspot3].zorder, 3);
+	</action>
+
+	<!-- STYLE -->
+	<style name="mapspot" 
+		type="container" width="12" height="12" 
+		bgcolor="0xFFFFFF" bgalpha="1.0" bgborder="1 0xFF0000 1" bgroundedge="18" scale="0.8"	
+		bgshadow="0 0 10 3 0x000000 0.0" align="lefttop" edge="center" enabled="true" bgcapture="true"
+			
+	/>
+	<style name="mapspot2" 
+		type="container" width="12" height="12" 
+		bgcolor="0xedd73a" bgalpha="1.0" bgborder="1 0xFF0000 1" bgroundedge="18"
+		bgshadow="0 0 10 3 0x000000 0.0" align="lefttop" edge="center" enabled="true" bgcapture="true"
+	/>
+	
+
+	<textstyle name="STYLE1"
+	           font="UTM Aptima" fontsize.no-mobile="14" fontsize.mobile="28" bold="true" italic="true"
+	           background="true" backgroundcolor="0xFFFFFF" backgroundalpha="0.7"
+	           bgborder="true" bordercolor="0xEEEECC"
+	           textcolor="0x0050a0"
+	           padding="2 4"
+	           roundedge="3"
+	           origin="cursor"
+	           edge="bottom"
+	           textalign="none"
+	           xoffset="0"
+	           yoffset.no-touch="-5"
+	           yoffset.touch="-40"
+	           />
+	<!-- END STYLE -->
+	
+</krpano>

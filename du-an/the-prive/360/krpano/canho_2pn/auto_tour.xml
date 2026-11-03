@@ -1,0 +1,183 @@
+<krpano>    
+    <!-- Hệ thống Tour Đơn Giản -->
+    <action name="tour_start">
+       
+        set(tour_active, true);
+        
+        <!-- Kiểm tra xem có đang ở scene_pin1 không -->
+        if(scene[get(xml.scene)].name == scene_pin_1,
+            <!-- Nếu đang ở scene_pin1, bắt đầu từ index 1 -->
+            set(tour_index, 1);
+        ,
+            <!-- Nếu không phải scene_pin1, bắt đầu từ index 0 -->
+            set(tour_index, 0);
+        );
+        
+        tour_next_scene();
+        <!-- Đổi icon sang pause -->
+        set(layer[ev_model3d].crop, "400|000|080|080");
+    </action>
+    
+    <action name="tour_stop">
+        set(tour_active, false);
+        stopdelayedcall(tour_delay_call);
+        set(layer[ev_model3d].crop, "400|160|080|080");
+    </action>
+    
+    <!-- Tour toggle action -->
+    <action name="toggle_tour">
+        if(tour_active,
+            tour_stop();
+        ,
+            tour_start();
+        );
+    </action>
+    
+    <!-- Chọn scene kế tiếp và điều hướng -->
+    <action name="tour_next_scene">
+        if(tour_active,
+            
+            if(tour_index == 0,
+                looktocoord(24.23, -25, -163.98, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_1,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 1,
+                looktocoord(92.7, -25, -157.73, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_2,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 2,
+                looktocoord(139.64, -25, -158.92, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_10,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 3,
+                looktocoord(92.7, -25, -157.73, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_2,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 4,
+                looktocoord(24.23, -25, -163.98, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_1,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 5,
+                looktocoord(27.86, -25, -132.51, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_3,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 6,
+                looktocoord(43.56, -25, -106.21, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_14,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 7,
+                looktocoord(50.67, -25, -74.31, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_4,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 8,
+                looktocoord(36.37, -25, -17.17, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_5,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 9,
+                looktocoord(50.67, -25, -74.31, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_4,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 10,
+                looktocoord(43.56, -25, -106.21, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_14,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 11,
+                looktocoord(80.01, -25, -104.35, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_6,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 12,
+                looktocoord(86.47, -25, -78.81, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_13,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 13,
+                looktocoord(80.01, -25, -104.35, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_6,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 14,
+                looktocoord(108.04, -25, -103.83, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_7,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 15,
+                looktocoord(114.87, -25, -129.33, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_9,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 16,
+                looktocoord(108.04, -25, -103.83, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_7,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 17,
+                looktocoord(145.69, -25, -99.37, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_11,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 18,
+                looktocoord(147.07, -25, -72.79, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_12,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 19,
+                looktocoord(145.69, -25, -99.37, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_11,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            if(tour_index == 20,
+                looktocoord(153.96, -25, -128.62, 1.0);
+                delayedcall(1.0, loadscene(scene_PIN_8,  null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5)));
+            );
+            
+            set(wait_time, 5.0);
+            delayedcall(tour_delay_call, get(wait_time),
+                add(tour_index, 1);
+                if(tour_index GT 20, 
+                    tour_stop();
+                ,
+                    tour_next_scene();
+                );
+            );
+        );
+    </action>
+    
+    <!-- Hàm để nhìn vào tọa độ XYZ -->
+    <action name="looktocoord" type="Javascript" args="tx, ty, tz, time">
+        var vlookat = 0;
+        var hlookat = 0;
+        
+        // Lấy vị trí camera hiện tại
+        var cx = krpano.view.tx;
+        var cy = krpano.view.ty;
+        var cz = krpano.view.tz;
+        
+        // Tính góc giữa camera và điểm cần nhìn
+        var dx = tx - cx;
+        var dy = ty - cy;
+        var dz = tz - cz;
+        
+        // Tính góc nhìn theo chiều ngang (hlookat)
+        hlookat = Math.atan2(dx, dz) * 180 / Math.PI;
+        
+        // Tính góc nhìn theo chiều dọc (vlookat)
+        var dist = Math.sqrt(dx*dx + dz*dz);
+        vlookat = Math.atan2(dy, dist) * 180 / Math.PI;
+        
+        // Set góc nhìn mới
+        krpano.call("tween(view.hlookat, " + hlookat + ", " + time + ", easeInOutQuad);");
+        krpano.call("tween(view.vlookat, " + vlookat + ", " + time + ", easeInOutQuad);");
+    </action>
+</krpano> 

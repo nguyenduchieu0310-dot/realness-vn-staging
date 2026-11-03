@@ -1,0 +1,2972 @@
+<krpano version="1.22.4" title="Virtual Tour" onnewscene="init_hotspot_tooltips();" debugmode="false" showerrors="false">
+
+
+	<!-- <include url="auto_tour_ath_atv.xml"/> -->
+
+	<set name="previous_scene" value="" />
+
+	<include url="skin/vtourskin.xml" />
+
+	<include url="skin/action_file.xml" />
+
+	<include url="skin/Tour360_skin.xml"/>
+
+	<include url="Tour360_core/Tour360_core.xml"/>
+
+	<include url="Tour360_messages/Tour360_messages_vi.xml"/>
+
+	<include url="%FIRSTXML%/megapixel.xml"/>
+
+
+
+	<include url="plugins/circle_hotspots.xml"/>
+
+	<include url="plugins/showtext.xml" />	
+
+	<include url="floor_plan/floor_plan2.xml"/>
+
+
+
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+
+	
+
+
+
+
+
+
+	<action name="pl_resume_route">
+
+		set(state,on);autorotate.start();
+
+	</action>
+
+	<action name="pl_pause_route">
+
+			set(state,off);autorotate.stop();
+
+	</action>
+
+
+
+	<!-- <action name="startup" autorun="onstart">
+
+		playsound(bgSound, "nhacnen.mp3", 0);
+
+	</action> -->
+
+
+	<!-- tự động di chuyển -->
+	<action name="looktohotspot" args="ath, atv, time">
+       tween(view.hlookat, get(ath), get(time), easeInOutQuad);
+       tween(view.vlookat, get(atv), get(time), easeInOutQuad);
+   </action>
+
+
+	<!-- Tooltip definitions -->
+	<layer name="tooltip" keep="true" type="text" parent="STAGE" visible="false"  background="false"
+		   css="font-family:UTM Aptima; font-size:14px; color:#FFFFFF; background-color:rgba(9, 29, 54, 0.8); text-align:center; padding: 6px 20px 6px 20px;
+		border-radius: 20px;  border: 1px solid #FFFFFF; " 
+		   textalign="center" zorder="99999"/>
+
+	<action name="showtooltip">
+		set(layer[tooltip].html, %1);
+		if(%2 != null,
+			set(layer[tooltip].x, %2),
+			copy(layer[tooltip].x, mouse.x); add(layer[tooltip].x, 5);
+		);
+		if(%3 != null,
+			set(layer[tooltip].y, %3),
+			copy(layer[tooltip].y, mouse.y); add(layer[tooltip].y, 25);
+		);
+		set(layer[tooltip].visible, true);
+	</action>
+
+	<action name="hidetooltip">
+		set(layer[tooltip].visible, false);
+	</action>
+		
+	<style name="funnyhover"
+				keep="false"
+				enabled="true"
+				visible="true"
+				alpha="1.0"
+				capture="false"
+				handcursor="true"
+				zorder="0"
+				fillcolor="0xFFFFFF"
+				fillalpha="0.0"
+				borderwidth="2.0"
+				bordercolor="0xFFFFFF"
+				borderalpha="0.0"
+				tooltip=""
+				onover="tween(fillalpha,0.2,0.3,easeOutQuad); tween(borderalpha,0.1,0.2,easeOutQuad); tween(borderwidth,0.2,0.1,easeOutQuad); showtooltip(get(title));"
+				onout="tween(fillalpha,0.0,0.1,easeInQuad); tween(borderalpha,0,0.2,easeInQuad); tween(borderwidth,0.4,0.2,easeInQuad); hidetooltip();"
+		/>
+
+	<action name="playBgSound">
+
+		pausesound(bgSound);
+
+	</action>
+
+	<action name="stopBgSound">
+
+		resumesound(bgSound);
+
+	</action>
+
+
+
+
+
+	<!-- HOA BẮC GIÓ -->
+
+	<layer name="compress" type="container" keep="true" bgcolor="0x333333" bgalpha="0.0" align="topright" width="100" height="100" x="5" y="0"
+
+		x.mobile="0" >
+
+
+			<layer name="bac_hoa_gio" url="skin/bac-hoa-gio_old.png" align="center" scale="0.8" scale.mobile="0.7" y="0" y.mobile="-10" x.mobile="15"/>
+
+	</layer>
+
+	<events name="compass_events" keep="true" onviewchange="compass_update_rotate();" />
+
+	<action name="compass_update_rotate">
+
+		set(global_heading, 180);
+
+		set(global_heading2, 0);
+
+		<!-- xoay kim -->
+
+		calc(plugin[compass2_pointer].rotate, view.hlookat - global_heading);
+
+		calc(plugin[bac_hoa_gio].rotate, view.hlookat - global_heading2);
+
+	</action>
+
+<!-- Poly hotspot-->
+
+
+	<style name="letter_content"
+
+	       capture="false" handcursor="true"
+
+	       fillcolor="0xffff00" fillalpha="0.0"
+
+	       bordercolor="0x271756" borderalpha="1.0" borderwidth="3"
+
+	       onover="tween(alpha, 0.6, 0.25);"
+
+	       onout="tween(alpha, 1.0, 0.25);"
+
+	       ondown.touch="onover(); asyncloop(pressed, onhover(); );"
+
+	       onup.touch="onout();"
+
+
+
+	       />
+
+
+
+	<style name="infospot"
+
+		renderer="webgl"
+
+		type="text"
+
+		css="text-align:center; color:#0050a0; font-family:UTM Aptima; font-weight:500; font-size:25px;text-shadow: -1px 0 rgb(255 255 255 / 50%), 0 1px rgb(255 255 255 / 50%), 1px 0 rgb(255 255 255 / 50%), 0 -1px rgb(255 255 255 / 50%);"
+
+		width="400" height="auto"
+
+		bgroundedge="0"
+
+		bgalpha="0.0"
+
+		bgcolor="0x555555"
+
+		bgborder="0 0xFFFFFF 0"
+
+		handcursor="false"
+
+		/>
+
+
+
+	<style name="info_pin"
+
+		renderer="webgl"
+
+		type="text"
+
+		css="text-align:center; color:#fff; font-family: UTM Aptima; font-weight:400; font-size:20px;text-shadow: 0px 2px 5px #0050a0;"
+
+		width="400" height="auto"
+
+		bgroundedge="0"
+
+		alpha="1"
+
+		bgalpha="0.0"
+
+		bgcolor="0x555555"
+
+		bgborder="0 0xFFFFFF 0"
+
+		handcursor="false"
+
+		/>
+
+
+
+	<style name="infosanh"
+
+		type="text"
+
+		css.html5="text-align:center; color:#FFFFFF; font-family:UTM Aptima; font-weight:300; font-size:13px;"
+
+		width="auto" height="auto"
+
+		bgroundedge="10"
+
+		alpha="1"
+
+		bgalpha="0.8"
+
+		bgcolor="0x814a36"
+
+		bgborder="1 0xFFFFFF 1"
+
+		padding="8"
+
+		/>
+
+
+
+	<style name="info_note"
+
+		renderer="webgl"
+
+		type="text"
+
+		css="text-align:center; color:#fde74c; font-family:UTM Aptima; font-weight:500; font-size:24px;text-shadow: -1px 0 #9d9a9a, 0 1px #9d9a9a, 1px 0 #9d9a9a, 0 -1px #9d9a9a;"
+
+		width="400" height="auto"
+
+		bgroundedge="0"
+
+		bgalpha="0.0"
+
+		bgcolor="0x555555"
+
+		bgborder="0 0xFFFFFF 0"
+
+		/>
+
+
+
+	<style name="text_tongthe"
+
+		renderer="webgl"
+
+		type="text"
+
+		css="background-color:#091D36; text-align:center; color:#fff; font-family:UTM Aptima; font-weight:500; font-size:12px;border-radius:20px;padding:5px 10px;"
+
+		width="auto" height="auto"
+
+		bgroundedge="0"
+
+		bgalpha="0.0"
+
+		bgcolor="0x555555"
+
+		bgborder="0 0xFFFFFF 0"
+
+		/>
+
+
+
+	<style name="text_batdautour"
+
+		renderer="webgl"
+
+		type="text"
+
+		css="background-color:#091D36; text-align:center; color:#fff; font-family:UTM Aptima; font-weight:500; font-size:15px;border-radius:20px;padding:5px 10px;"
+
+		width="auto" height="auto"
+
+		bgroundedge="0"
+
+		bgalpha="0.0"
+
+		bgcolor="0x555555"
+
+		bgborder="0 0xFFFFFF 0"
+
+		/>
+
+	<style name="text_batdautour" 
+
+        devices="mobile"
+
+        css="background-color:#091D36; text-align:center; color:#fff; font-family:UTM Aptima; font-weight:500; font-size:10px;border-radius:20px;padding:5px 10px;" />
+
+					<textstyle name="STYLE8"
+
+	           font="Arial" bold="false" fontsize="14"
+
+	            padding="4"
+
+	           origin="cursor" edge="bottom" yoffset.no-touch="-10" yoffset.touch="-40"
+
+	           textcolor="0xFFFFFF"
+
+	           background="true"
+
+           		backgroundcolor="0x54e3dc"
+
+           		backgroundalpha=".4"
+
+           		border="false"
+
+           	bordercolor="0x000000"
+
+           	borderalpha="1.0"
+
+           	borderwidth="1.0"
+
+           	roundedge="10"
+
+	           />
+
+	<textstyle name="STYLE8_content"
+
+	           font="UTM Aptima" bold="false" fontsize="14"
+
+	            padding="4"
+
+	           origin="cursor" edge="bottom" yoffset.no-touch="-10" yoffset.touch="-40"
+
+	           textcolor="0xFFFFFF"
+
+	           background="true"
+
+           		backgroundcolor="0x091D36"
+
+           		backgroundalpha="0.7"
+
+           		border="false"
+
+				bordercolor="0xffffff"
+
+				borderalpha="1.0"
+
+				borderwidth="1.0"
+
+				roundedge="10"
+
+				zorder="1"
+
+	           />
+
+
+
+	           <style name="text"
+
+	       type="text"
+
+	       background="false"
+
+	       css="color:#FFFFFF;"
+
+	       enabled="false"
+
+	       />
+
+		
+
+
+
+
+
+	<!-- hotspot styles (black and white hotspots) -->
+
+	<style name="hotspot_ani_black"
+
+	       url="skin/hotspot_ani_black_64x64x20.png"
+
+	       crop="0|0|64|64"
+
+	       frames="20" framewidth="64" frameheight="64" frame="0"
+
+	       onloaded="hotspot_animate();"
+
+	       />
+
+
+
+	<style name="hotspot_ani_white"
+
+	       url="skin/hotspot_ani_white_64x64x20.png"
+
+	       crop="0|0|64|64"
+
+	       frames="20" framewidth="64" frameheight="64" frame="0"
+
+	       onloaded="hotspot_animate();"
+
+	       />
+
+			<!-- Custom loadscene action -->
+
+    <action name="custom_loadscene">
+
+        trace('Calling custom_loadscene with scene: ', get(name));
+
+        copy(previous_scene, scene[get(xml.scene)].name);
+
+        trace('Transitioning to scene: ', get(name), ', setting previous_scene to: ', get(previous_scene));
+
+        loadscene(get(linkedscene), null, MERGE, BLEND(1));
+
+				
+
+    </action>
+
+
+
+    <!-- Action to initialize tooltips -->
+
+    <action name="init_hotspot_tooltips">
+
+        trace('Initializing tooltips for scene: ', get(scene[get(xml.scene)].name), ', previous_scene: ', get(previous_scene));
+
+        for(set(i,0), i LT hotspot.count, inc(i),
+
+            if(hotspot[get(i)].linkedscene,
+
+                callwith(hotspot[get(i)], add_all_the_time_tooltip2());
+
+            );
+
+        );
+
+    </action>
+
+			<action name="mainload">
+
+		onout();
+
+		looktohotspot(%1,90, smooth(400,30,200));
+
+		zoomto(90);
+
+		mainloadscene(%1);
+
+	</action>
+
+	<!-- TITLE  -->
+
+<layer name="thumbs_tourvr" type="container" enabled="true" alpha="1" width="320" height="70" align="topcenter" keep="true" x="0" y="0" bgcapture="true" zorder="350" bgroundedge="32"
+
+       css="display:flex; justify-content:center; align-items:center; gap:20px;"
+
+       css.mobile="display:flex; justify-content:center; align-items:center; gap:15px;"
+
+			 width.mobile="250"
+
+       y.mobile="0">
+
+    <!-- Icon Previous -->
+
+    <layer name="prev_icon" type="image" url="skin/icon_previous_title.png" align="center" edge="center" zorder="50" enabled="true" bg="true" backgroundcolor="0x000000" bgalpha="0.3"
+
+           width="30" height="30" width.mobile="24" height.mobile="24"
+
+           css="padding:5px; border-radius:50%; border:1px solid #fff;"
+
+           css.mobile="padding:3px; border-radius:50%; border:1px solid #fff;"
+
+           onclick="skin_nextscene_loop(-1);" 
+
+           handcursor="true" x="-140" y="0" x.mobile="-100"/>
+
+
+
+    <!-- Show Name -->
+
+    <layer name="show_name" type="text" align="center" edge="center" zorder="4" enabled="false" bg="false" 
+
+           width="240" width.mobile="160"
+
+					 y.mobile="20"
+
+           css="font-family:UTM Aptima; color:#fff; font-size:16px; text-align:center; background:rgba(0,0,0,0.3); padding:8px 20px 8px 20px; border-radius:15px; border:1px solid #fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+
+           css.mobile="font-family:UTM Aptima; color:#fff; font-size:14px; text-align:center; background:rgba(0,0,0,0.3); padding:6px 10px; border-radius:12px; border:1px solid #fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+
+           textshadow="get:skin_settings.design_text_shadow" onautosized="skin_video_updateseekbarwidth();" x="0" y="0" />
+
+
+
+    <!-- Start Tour Text -->
+
+    <!-- <layer name="start_tour_text" type="text" align="center" edge="center" zorder="3" enabled="true" bg="false" 
+
+           width="200" width.mobile="160"
+
+           css="font-family:UTM Aptima; color:#fff; font-size:16px; text-align:center; padding:6px 10px; border-radius:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+
+           css.mobile="font-family:UTM Aptima; color:#fff; font-size:12px; text-align:center; padding:4px 8px; border-radius:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+
+           html="Click để bắt đầu tour" x="0" y="40" y.mobile="36"
+
+           onloaded="delayedcall(8, set(visible, false));"
+
+           visible="true" /> -->
+
+
+
+    <!-- Icon Next -->
+
+    <layer name="next_icon" type="image" url="skin/next_title.png" align="center" edge="center" zorder="4" enabled="true" bg="true" backgroundcolor="0x000000" bgalpha="0.3"
+
+           width="30" height="30" width.mobile="24" height.mobile="24"
+
+           css="padding:5px; border-radius:10%; border:1px solid #fff;"
+
+           css.mobile="padding:3px; border-radius:50%; border:1px solid #fff;"
+
+           onclick="skin_nextscene_loop(+1);" 
+
+           handcursor="true" x="140" y="0" x.mobile="100"/>
+
+</layer>	
+	<scene name="dot_view_ttmt" title="TỔNG QUAN DỰ ÁN"
+		onstart="set(previous_scene, dot_view_ttmt); trace('Loaded scene: dot_view_ttmt, previous_scene set to: ', get(previous_scene)); updateradar(dot_view_ttmt, 320);"
+		thumburl="panos/pctt_mattruoc_daytime.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="-12.025" vlookat="7.109" fovtype="MFOV" fov="131.759" maxpixelzoom="2.0"
+			fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pctt_mattruoc_daytime.tiles/preview.jpg" />
+
+
+		<image>
+
+			<cube url="panos/pctt_mattruoc_daytime.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+		<include url="mt_time.xml" />
+
+
+		<hotspot name="start_tour_1" style="text_batdautour" html="Bắt đầu tour"
+			onloaded="add_all_the_time_tooltip_tag();" ath="60.0321" atv="32.9583" enabled="true"
+			distorted="false" rotate="0" ry="0" rx="0" linkedscene="scene_pin_1"
+			onclick="skin_hotspotstyle_click()" />
+
+		<hotspot name="scene_pin1" style="start_tour" ath="60.6828" atv="37.8461"
+			linkedscene="scene_pin_1" />
+
+		<!-- <hotspot name="matsau_datxanh" style="skin_datxanh" distorted="false" scale="0.2"
+		ath="-10" atv="3" linkedscene="scene_pctt_matsau_daytime" /> -->
+
+
+		<hotspot name="scene_pin_18" style="hs_circle" ath="-25.0099" atv="40.4351"
+			tag="Sảnh Tháp 5,6,7,8" onover="select_hs(get(name));" onout="select_hs();" />
+
+
+		<!-- <hotspot name="scene_pin_17" style="hs_circle" ath="8.764" atv="33" tag="Sảnh Tháp
+		9,10,11,12" onover="select_hs(get(name));" onout="select_hs();"/> -->
+
+		<hotspot name="scene_2pn" style="hs_circle" ath="-24.3671" atv="17.1892"
+			tag="Căn hộ 2 phòng ngủ" onover="select_hs(get(name));"
+			onclick="js(selectScene('CANHO_2PN'))" onout="select_hs();" />
+
+
+		<hotspot name="scene_3pn" style="hs_circle" ath="7.7497" atv="12.5712"
+			tag="Căn hộ 3 phòng ngủ" onover="select_hs(get(name));"
+			onclick="js(selectScene('CANHO_3PN'))" onout="select_hs();" />
+
+
+		<!--  The Global City -->
+
+		<hotspot name="scene_the_global_city" style="IconBirdview" ath="-48.9321" atv="4.4482"
+			tooltip="scene_the_global_city_tooltip" onclick="" />
+
+		<!--  The Lake View -->
+
+		<hotspot name="scene_the_lake_view" style="IconNotePoint" ath="-32.4779" atv="6.6257"
+			tooltip="scene_the_lake_view_tooltip" onclick="" />
+
+		<!-- VENICA KHANG DIEN -->
+
+		<!-- <hotspot name="scene_venica_khang_dien" style="IconBirdview" ath="-45.173" atv="10.182"
+		tooltip="scene_venica_khang_dien_tooltip" onclick=""/> -->
+
+		<!-- NHÀ THỜ XỨ TÂN LẬP -->
+
+		<!-- <hotspot name="scene_giao_xu_tan_lap" style="IconBirdview" ath="9.285" atv="9.278"
+		tooltip="scene_giao_xu_tan_lap_tooltip" onclick="" use3dtransition="true"/> -->
+
+		<!-- Phà cát lái -->
+
+		<hotspot name="scene_pha_cat_lai" style="IconNotePoint" ath="3.3707" atv="0.8037"
+			tooltip="scene_pha_cat_lai_tooltip" />
+
+		<!-- Thạnh mỹ lợi -->
+
+		<hotspot name="scene_thanh_my_loi" style="IconNotePoint" ath="33.7127" atv="1.6178"
+			tooltip="scene_thanh_my_loi_tooltip" />
+		<!-- Cầu phú mỹ  -->
+
+		<hotspot name="scene_cau_phu_my" style="IconNotePoint" ath="25.0887" atv="1.5579"
+			tooltip="scene_cau_phu_my_tooltip" />
+
+
+		<hotspot name="scene_saigon_sport_city" style="IconBirdview" ath="-87.2753" atv="6.244"
+			tooltip="scene_saigon_sport_city_tooltip" />
+
+		<!-- HOTPOT NEW -->
+
+
+		<!-- estekka_heights  -->
+
+		<!-- <hotspot name="scene_estekka_heights" style="IconBirdview" ath="0.0" atv="0.0"
+		tooltip="scene_estekka_heights_tooltip" onclick="mainload(scene_estekka_heights);"/> -->
+
+		<!--  Thanh Đa -->
+
+		<hotspot name="scene_thanh_da" style="IconNotePoint" ath="172.2954" atv="0.3421"
+			tooltip="scene_thanh_da_tooltip" />
+
+		<!-- Landmark 81 -->
+
+		<hotspot name="scene_landmark81" style="IconBirdview" ath="160.8596" atv="-2.8606"
+			tooltip="scene_landmark81_tooltip" />
+
+		<!-- Giao nhau cao tốt mai chí thọ -->
+
+		<hotspot name="scene_cao_toc_ltdd_maichitho" style="IconBirdview" ath="159.7469"
+			atv="6.8602" tooltip="scene_cao_toc_ltdd_maichitho_tooltip" />
+
+		<!-- Bitexco -->
+
+		<hotspot name="scene_bitexco" style="IconBirdview" ath="127.5277" atv="-2.3887"
+			tooltip="scene_bitexco_tooltip" />
+
+		<!-- THE SUN avenue -->
+
+		<!-- <hotspot name="scene_nova_sun_avenue" style="IconBirdview" ath="0.0" atv="0.0"
+		tooltip="scene_nova_sun_avenue_tooltip" onclick="mainload(scene_nova_sun_avenue);"/> -->
+
+		<!-- Hầm thủ thiêm -->
+
+		<hotspot name="scenehamthuthiem" style="IconNotePoint" ath="120.0" atv="1.031" tag="point"
+			handcursor="false" tooltip="scenehamthuthiem_tooltip" />
+
+
+		<!-- Khu liên hợp Rạch riếc -->
+
+		<hotspot name="scene_khulienhopttdtrachchiec" style="IconNotePoint" ath="-156.4179"
+			atv="6.0419" tag="point" handcursor="false"
+			tooltip="scene_khulienhopttdtrachchiec_tooltip" />
+
+
+		<!-- Polygonal hotspots for scene dot_view_ttmt -->
+		<hotspot name="toathap1" style="funnyhover"
+			title="Tháp 1">
+			<point ath="-53.194" atv="11.618" />
+			<point ath="-53.15" atv="10.321" />
+			<point ath="-52.339" atv="10.179" />
+			<point ath="-52.484" atv="9.531" />
+			<point ath="-50.897" atv="9.037" />
+			<point ath="-49.762" atv="9.33" />
+			<point ath="-49.224" atv="9.298" />
+			<point ath="-48.447" atv="9.353" />
+			<point ath="-48.416" atv="9.5" />
+			<point ath="-47.669" atv="9.495" />
+			<point ath="-47.221" atv="9.549" />
+			<point ath="-47.248" atv="9.755" />
+			<point ath="-46.86" atv="9.78" />
+			<point ath="-46.472" atv="9.776" />
+			<point ath="-46.521" atv="10.394" />
+			<point ath="-46.339" atv="10.538" />
+			<point ath="-46.322" atv="14.638" />
+			<point ath="-46.324" atv="25.433" />
+			<point ath="-46.056" atv="25.569" />
+			<point ath="-45.971" atv="27.009" />
+			<point ath="-48.111" atv="29.662" />
+			<point ath="-51.091" atv="28.502" />
+			<point ath="-51.046" atv="13.528" />
+			<point ath="-51.358" atv="13.186" />
+			<point ath="-51.423" atv="12.253" />
+			<point ath="-51.905" atv="12.033" />
+			<point ath="-52.127" atv="11.748" />
+		</hotspot>
+
+		<hotspot name="toathap2" style="funnyhover"
+			title="Tháp 2">
+			<point ath="-60.106" atv="12.942" />
+			<point ath="-59.198" atv="12.56" />
+			<point ath="-59.169" atv="12.032" />
+			<point ath="-57.279" atv="11.349" />
+			<point ath="-55.838" atv="11.511" />
+			<point ath="-54.792" atv="11.496" />
+			<point ath="-53.806" atv="11.566" />
+			<point ath="-53.03" atv="11.637" />
+			<point ath="-52.196" atv="11.704" />
+			<point ath="-51.947" atv="12.018" />
+			<point ath="-51.374" atv="12.235" />
+			<point ath="-51.392" atv="13.197" />
+			<point ath="-51.074" atv="13.654" />
+			<point ath="-50.865" atv="32.758" />
+			<point ath="-53.833" atv="36.267" />
+			<point ath="-60.518" atv="34.463" />
+			<point ath="-60.255" atv="14.409" />
+			<point ath="-60.111" atv="14.142" />
+		</hotspot>
+
+		<hotspot name="toathap3" style="funnyhover"
+			title="Tháp 3">
+			<point ath="-44.76" atv="14.706" />
+			<point ath="-44.782" atv="12.708" />
+			<point ath="-44.633" atv="12.561" />
+			<point ath="-44.615" atv="11.567" />
+			<point ath="-43.452" atv="11.323" />
+			<point ath="-43.492" atv="10.8" />
+			<point ath="-40.813" atv="10.125" />
+			<point ath="-36.291" atv="11.072" />
+			<point ath="-36.302" atv="12.367" />
+			<point ath="-36.128" atv="12.331" />
+			<point ath="-36.103" atv="13.718" />
+			<point ath="-36.736" atv="13.484" />
+			<point ath="-42.882" atv="12.804" />
+			<point ath="-44.406" atv="13.761" />
+			<point ath="-44.396" atv="14.526" />
+		</hotspot>
+
+		<hotspot name="toathap4" style="funnyhover"
+			title="Tháp 4">
+			<point ath="-45.602" atv="38.607" />
+			<point ath="-45.572" atv="29.741" />
+			<point ath="-45.597" atv="16.458" />
+			<point ath="-45.38" atv="16.31" />
+			<point ath="-45.318" atv="15.009" />
+			<point ath="-44.371" atv="14.534" />
+			<point ath="-44.374" atv="13.855" />
+			<point ath="-42.806" atv="12.843" />
+			<point ath="-36.596" atv="13.5" />
+			<point ath="-36.618" atv="13.676" />
+			<point ath="-35.9" atv="13.767" />
+			<point ath="-35.89" atv="15.168" />
+			<point ath="-35.621" atv="15.157" />
+			<point ath="-35.557" atv="36.048" />
+			<point ath="-37.816" atv="40.077" />
+		</hotspot>
+
+		<hotspot name="toathap5" style="funnyhover"
+			title="Tháp 5">
+			<point ath="-29.572" atv="16.104" />
+			<point ath="-28.845" atv="15.331" />
+			<point ath="-28.763" atv="14.712" />
+			<point ath="-27.601" atv="13.493" />
+			<point ath="-20.819" atv="13.999" />
+			<point ath="-20.596" atv="15.702" />
+			<point ath="-20.308" atv="16.008" />
+			<point ath="-20.259" atv="34.81" />
+			<point ath="-20.903" atv="41.319" />
+			<point ath="-30.036" atv="40.943" />
+			<point ath="-29.95" atv="38.397" />
+			<point ath="-29.785" atv="37.565" />
+		</hotspot>
+
+		<hotspot name="toathap6" style="funnyhover"
+			title="Tháp 6">
+			<point ath="-15.2" atv="13.486" />
+			<point ath="-15.018" atv="13.485" />
+			<point ath="-14.914" atv="11.872" />
+			<point ath="-13.425" atv="12.003" />
+			<point ath="-13.315" atv="11.602" />
+			<point ath="-8.887" atv="11.72" />
+			<point ath="-8.343" atv="12.588" />
+			<point ath="-8.29" atv="13.015" />
+			<point ath="-8.303" atv="13.302" />
+			<point ath="-7.925" atv="13.72" />
+			<point ath="-7.797" atv="14.896" />
+			<point ath="-7.605" atv="15.12" />
+			<point ath="-7.696" atv="30.742" />
+			<point ath="-5.849" atv="30.579" />
+			<point ath="-4.59" atv="33.941" />
+			<point ath="-4.421" atv="35.814" />
+			<point ath="-15.172" atv="36.213" />
+			<point ath="-15.403" atv="31.995" />
+		</hotspot>
+
+		<hotspot name="toathap7" style="funnyhover"
+			title="Tháp 7">
+			<point ath="-3.709" atv="42.107" />
+			<point ath="5.737" atv="42.042" />
+			<point ath="5.604" atv="40.017" />
+			<point ath="5.66" atv="38.45" />
+			<point ath="5.562" atv="18.581" />
+			<point ath="5.305" atv="17.612" />
+			<point ath="5.221" atv="16.896" />
+			<point ath="5.088" atv="16.328" />
+			<point ath="4.783" atv="16.227" />
+			<point ath="4.765" atv="15.569" />
+			<point ath="4.311" atv="14.589" />
+			<point ath="2.393" atv="14.171" />
+			<point ath="1.327" atv="14.258" />
+			<point ath="0.933" atv="14.096" />
+			<point ath="-0.498" atv="14.126" />
+			<point ath="-0.765" atv="14.216" />
+			<point ath="-2.833" atv="14.242" />
+			<point ath="-3.039" atv="14.617" />
+			<point ath="-3.447" atv="15.889" />
+			<point ath="-3.59" atv="16.993" />
+			<point ath="-3.729" atv="39.306" />
+		</hotspot>
+
+		<hotspot name="toathap8" style="funnyhover"
+			title="Tháp 8">
+			<point ath="3.242" atv="14.317" />
+			<point ath="3.434" atv="13.135" />
+			<point ath="3.586" atv="13.077" />
+			<point ath="3.563" atv="12.045" />
+			<point ath="4.289" atv="11.871" />
+			<point ath="4.592" atv="11.518" />
+			<point ath="6.338" atv="11.369" />
+			<point ath="8.756" atv="10.411" />
+			<point ath="10.997" atv="11.725" />
+			<point ath="10.923" atv="12.284" />
+			<point ath="11.83" atv="12.586" />
+			<point ath="11.875" atv="13.965" />
+			<point ath="12.103" atv="15.37" />
+			<point ath="11.963" atv="16.64" />
+			<point ath="11.722" atv="16.736" />
+			<point ath="11.562" atv="19.415" />
+			<point ath="11.26" atv="19.69" />
+			<point ath="11.694" atv="32.726" />
+			<point ath="6.554" atv="33.944" />
+			<point ath="5.653" atv="33.558" />
+			<point ath="5.601" atv="18.605" />
+			<point ath="5.185" atv="16.545" />
+			<point ath="4.837" atv="16.078" />
+			<point ath="4.764" atv="15.43" />
+			<point ath="4.29" atv="14.463" />
+			<point ath="3.283" atv="14.296" />
+		</hotspot>
+
+		<hotspot name="toathap9" style="funnyhover"
+			title="Tháp 9">
+			<point ath="10.461" atv="33.162" />
+			<point ath="10.158" atv="36.897" />
+			<point ath="17.432" atv="41.258" />
+			<point ath="23.385" atv="38.513" />
+			<point ath="23.414" atv="32.933" />
+			<point ath="23.335" atv="20.155" />
+			<point ath="23.297" atv="17.215" />
+			<point ath="23.145" atv="17.168" />
+			<point ath="23.051" atv="15.828" />
+			<point ath="20.455" atv="14.997" />
+			<point ath="19.073" atv="14.52" />
+			<point ath="14.734" atv="13.684" />
+			<point ath="12.136" atv="15.423" />
+			<point ath="12.035" atv="16.601" />
+			<point ath="11.8" atv="16.786" />
+			<point ath="11.63" atv="19.349" />
+			<point ath="11.276" atv="19.774" />
+			<point ath="11.716" atv="32.637" />
+		</hotspot>
+
+		<hotspot name="toathap10" style="funnyhover"
+			title="Tháp 10">
+			<point ath="15.405" atv="13.665" />
+			<point ath="15.55" atv="13.278" />
+			<point ath="16.659" atv="12.904" />
+			<point ath="16.774" atv="12.695" />
+			<point ath="18.046" atv="12.078" />
+			<point ath="18.891" atv="11.849" />
+			<point ath="22.671" atv="12.183" />
+			<point ath="22.749" atv="12.557" />
+			<point ath="24.005" atv="12.673" />
+			<point ath="24.134" atv="29.032" />
+			<point ath="23.472" atv="30.117" />
+			<point ath="23.31" atv="17.144" />
+			<point ath="23.17" atv="17.14" />
+			<point ath="23.12" atv="15.755" />
+			<point ath="19.129" atv="14.412" />
+			<point ath="15.446" atv="13.721" />
+		</hotspot>
+
+		<hotspot name="toathap11" style="funnyhover"
+			title="Tháp 11">
+			<point ath="27.376" atv="14.72" />
+			<point ath="27.826" atv="14.124" />
+			<point ath="28.01" atv="14.24" />
+			<point ath="29.501" atv="12.918" />
+			<point ath="30.254" atv="12.903" />
+			<point ath="31.06" atv="12.708" />
+			<point ath="32.883" atv="12.718" />
+			<point ath="34.344" atv="12.874" />
+			<point ath="34.362" atv="13.279" />
+			<point ath="35.913" atv="13.594" />
+			<point ath="35.978" atv="32.662" />
+			<point ath="34.5" atv="36.263" />
+			<point ath="26.438" atv="35.064" />
+			<point ath="23.469" atv="34.578" />
+			<point ath="23.514" atv="33.024" />
+			<point ath="23.508" atv="31.185" />
+			<point ath="23.433" atv="30.218" />
+			<point ath="24.192" atv="29.124" />
+			<point ath="27.382" atv="29.664" />
+		</hotspot>
+
+		<hotspot name="toathap12" style="funnyhover"
+			title="Tháp 12">
+			<point ath="42.424" atv="38.047" />
+			<point ath="50.218" atv="37.184" />
+			<point ath="50.158" atv="35.249" />
+			<point ath="50.323" atv="35.146" />
+			<point ath="50.27" atv="35.004" />
+			<point ath="50.154" atv="34.631" />
+			<point ath="50.325" atv="34.587" />
+			<point ath="50.219" atv="34.302" />
+			<point ath="50.227" atv="16.471" />
+			<point ath="50.015" atv="16.423" />
+			<point ath="49.943" atv="15.172" />
+			<point ath="49.553" atv="14.606" />
+			<point ath="49.109" atv="14.653" />
+			<point ath="49.102" atv="13.954" />
+			<point ath="48.165" atv="13.027" />
+			<point ath="45.484" atv="13.215" />
+			<point ath="45.27" atv="13.103" />
+			<point ath="43.949" atv="13.214" />
+			<point ath="42.048" atv="13.325" />
+			<point ath="42.052" atv="13.648" />
+			<point ath="41.627" atv="13.651" />
+			<point ath="41.516" atv="14.741" />
+			<point ath="41.303" atv="14.919" />
+			<point ath="41.298" atv="33.329" />
+		</hotspot>
+
+	</scene>
+
+<scene name="scene_pctt_matsau_daytime" title="Mặt sau" onstart="updateradar(dot_view_ttms, 300);" thumburl="panos/pctt_matsau_daytime.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-194.469" vlookat="50.950" fovtype="MFOV" fov="127.868" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/pctt_matsau_daytime.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/pctt_matsau_daytime.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<include url="ms_time.xml" />
+
+
+
+		<hotspot name="scene_saigon_sport_city" style="IconBirdview" ath="-75" atv="12" tooltip="scene_saigon_sport_city_tooltip" />
+
+
+
+		<hotspot name="scene_the_global_city" style="IconBirdview" ath="-110" atv="15.257" tooltip="scene_the_global_city_tooltip" />
+
+
+
+		<hotspot name="scene_landmark81" style="IconBirdview" ath="162.718" atv="-4.593" tooltip="scene_landmark81_tooltip" />
+
+
+
+		<hotspot name="scene_bitexco" style="IconBirdview" ath="140.177" atv="-1.928" tooltip="scene_bitexco_tooltip" />
+
+
+
+		<!-- <hotspot name="scene_nova_sun_avenue" style="IconBirdview" ath="142.677" atv="4.859" tooltip="scene_nova_sun_avenue_tooltip"/> -->
+		<hotspot name="scene_khulienhopttdtrachchiec" style="IconNotePoint" ath="-160" atv="13" tag="point" handcursor="false" tooltip="scene_khulienhopttdtrachchiec_tooltip"/>
+
+
+		<!-- <hotspot name="scene_giao_xu_tan_lap" style="IconBirdview" ath="60.364" atv="15.660" tooltip="scene_giao_xu_tan_lap_tooltip" onclick="mainload(scene_giao_xu_tan_lap);"/> -->
+
+
+
+		<!-- <hotspot name="scene_venica_khang_dien" style="IconBirdview" ath="-30.502" atv="14.281" tooltip="scene_venica_khang_dien_tooltip" onclick="mainload(scene_venica_khang_dien);"/> -->
+
+
+
+		<hotspot name="scene_the_lake_view" style="IconNotePoint" ath="-58.535" atv="16.257" tooltip="scene_the_lake_view_tooltip" />
+
+
+
+		<hotspot name="scenehamthuthiem" style="IconNotePoint" ath="128.177" atv="0.928" tooltip="scenehamthuthiem_tooltip" />
+
+
+
+		<hotspot name="scene_cau_phu_my" style="IconNotePoint" ath="32.364" atv="3.660" tooltip="scene_cau_phu_my_tooltip" />
+
+
+
+		<hotspot name="scene_thanh_my_loi" style="IconNotePoint" ath="26.364" atv="5.660" tooltip="scene_thanh_my_loi_tooltip" />
+
+
+
+		<hotspot name="scene_pha_cat_lai" style="IconNotePoint" ath="-0.364" atv="3.660" tooltip="scene_pha_cat_lai_tooltip" />
+
+
+
+		<hotspot name="scene_thanh_da" style="IconNotePoint" ath="169.701" atv="2.586"  handcursor="false" tooltip="scene_thanh_da_tooltip" />
+
+
+
+		<!-- <hotspot name="scene_estekka_heights" style="IconBirdview" ath="174.701" atv="5.586" tooltip="scene_estekka_heights_tooltip" onclick="mainload(scene_estekka_heights);"/> -->
+
+
+
+		<hotspot name="scene_cao_toc_ltdd_maichitho" style="IconBirdview" ath="150.872" atv="9.432" tooltip="scene_cao_toc_ltdd_maichitho_tooltip" />
+
+		
+<!-- 
+		<hotspot name="spotpoint9800" style="IconBirdview" ath="-177.024" atv="9.329" handcursor="false" tooltip="spotpoint9800_tooltip"/> -->
+
+
+
+		<hotspot name="mattruoc_datxanh" style="skin_datxanh" ath="161.683" atv="26.467" linkedscene="dot_view_ttmt" />
+
+		<hotspot name="text_mattruoc" style="text_tongthe"  
+
+				html="Mặt trước"
+
+				ath="161.683" atv="24.467"
+
+				enabled="true"
+
+				distorted="true" rotate="0" ry="0" rx="0"
+
+				onloaded="add_all_the_time_tooltip_tag();"
+
+				onclick="loadscene(dot_view_ttmt, null, MERGE, OPENBLEND(0.5, 0.0, 0.75, 0.05, linear))"
+
+				/>
+
+		
+
+		<hotspot name="scene_2pn" style="hs_circle" ath="115.890" atv="30.735" tag="2 PN" onover="select_hs(get(name));" onout="select_hs();" />
+
+
+
+		<hotspot name="scene_3pn" style="hs_circle" ath="142.039" atv="49.988" tag="3 PN" onover="select_hs(get(name));" onout="select_hs();" />
+
+
+
+		<hotspot name="scene_pin1" style="start_tour" ath="81.505" atv="61.964" linkedscene="scene_pin_1" />
+
+		<hotspot name="start_tour_1" style="text_batdautour"
+
+				html="Bắt đầu tour"
+
+				onloaded="add_all_the_time_tooltip_tag();"
+
+				ath="81.505" atv="56.964"
+
+				enabled="true"
+
+				distorted="false" rotate="0" ry="0" rx="0"
+
+				onclick="skin_hotspotstyle_click()" linkedscene="scene_pin_1"
+
+				/>
+
+		
+
+		<!-- <hotspot name="scene_pin21" style="hs_circle" ath="-154.932" atv="47.064" tag="Sảnh Tháp 1,2,3,4" onover="select_hs(get(name));" onout="select_hs();" /> -->
+
+
+
+		<hotspot name="scene_pin_18" style="hs_circle" ath="-177.323" atv="61.648" tag="Sảnh Tháp 5,6,7,8" onover="select_hs(get(name));" onout="select_hs();" />
+
+
+
+		<hotspot name="scene_pin_17" style="hs_circle" ath="114.925" atv="48.253" tag="Sảnh Tháp 9,10,11,12" onover="select_hs(get(name));" onout="select_hs();" />
+
+
+
+		<!-- Polygonal hotspots for scene scene_pctt_matsau_daytime -->
+		<hotspot name="toathap12" style="funnyhover"
+				title="Tháp 12" >
+			<point ath="112.667" atv="27.26" />
+			<point ath="112.704" atv="31.948" />
+			<point ath="115.487" atv="32.387" />
+			<point ath="116.219" atv="44.893" />
+			<point ath="119.826" atv="44.404" />
+			<point ath="119.642" atv="29.086" />
+			<point ath="119.045" atv="26.935" />
+			<point ath="117.839" atv="27.016" />
+			<point ath="117.753" atv="26.273" />
+			<point ath="114.121" atv="26.246" />
+			<point ath="114.124" atv="27.235" />
+		</hotspot>
+
+		<hotspot name="toathap11" style="funnyhover"
+				title="Tháp 11" >
+			<point ath="109.211" atv="31.606" />
+			<point ath="107.991" atv="33.359" />
+			<point ath="107.844" atv="34.512" />
+			<point ath="107.23" atv="35.556" />
+			<point ath="106.82" atv="38.786" />
+			<point ath="107.538" atv="39.474" />
+			<point ath="109.8" atv="39.684" />
+			<point ath="112.976" atv="39.869" />
+			<point ath="113.255" atv="48.077" />
+			<point ath="115.308" atv="49.7097" />
+			<point ath="116.131" atv="46.648" />
+			<point ath="115.307" atv="32.537" />
+		</hotspot>
+
+		<hotspot name="toathap10" style="funnyhover"
+				title="Tháp 10" >
+			<point ath="104.197" atv="38.567" />
+			<point ath="106.826" atv="38.992" />
+			<point ath="112.68" atv="40.097" />
+			<point ath="113.174" atv="48.441" />
+			<point ath="110.808" atv="48.502" />
+			<point ath="106.095" atv="51.75" />
+			<point ath="105.875" atv="52.584" />
+			<point ath="104.126" atv="53.459" />
+			<point ath="103.161" atv="59.304" />
+			<point ath="100.37" atv="58.73" />
+			<point ath="100.919" atv="43.83" />
+		</hotspot>
+
+		<hotspot name="toathap9" style="funnyhover"
+				title="Tháp 9" >
+			<point ath="123.9" atv="37.614" />
+			<point ath="120.44" atv="41.521" />
+			<point ath="119.641" atv="50.415" />
+			<point ath="123.613" atv="51.135" />
+			<point ath="123.842" atv="57.582" />
+			<point ath="129.34" atv="58.358" />
+			<point ath="132.179" atv="53.57" />
+			<point ath="131.676" atv="38.724" />
+		</hotspot>
+
+		<hotspot name="toathap8" style="funnyhover"
+				title="Tháp 8" >
+			<point ath="141.892" atv="42.21" />
+			<point ath="136.584" atv="47.141" />
+			<point ath="136.054" atv="60.372" />
+			<point ath="135.836" atv="61.88" />
+			<point ath="147.716" atv="64.117" />
+			<point ath="152.178" atv="58.888" />
+			<point ath="151.049" atv="43.959" />
+		</hotspot>
+
+		<hotspot name="toathap7" style="funnyhover"
+				title="Tháp 7" >
+			<point ath="110.827" atv="48.627" />
+			<point ath="106.401" atv="51.591" />
+			<point ath="106.067" atv="52.655" />
+			<point ath="104.321" atv="53.728" />
+			<point ath="102.599" atv="66.78" />
+			<point ath="116.872" atv="70.466" />
+			<point ath="124.516" atv="65.006" />
+			<point ath="123.37" atv="51.26" />
+			<point ath="114.552" atv="49.331" />
+			<point ath="113.399" atv="48.399" />
+		</hotspot>
+
+		<hotspot name="toathap6" style="funnyhover"
+				title="Tháp 6" >
+			<point ath="155.095" atv="53.742" />
+			<point ath="154.121" atv="57.348" />
+			<point ath="155.057" atv="73.21" />
+			<point ath="176.149" atv="71.628" />
+			<point ath="174.336" atv="60.123" />
+			<point ath="168.721" atv="52.812" />
+		</hotspot>
+
+		<hotspot name="toathap5" style="funnyhover"
+				title="Tháp 5" >
+			<point ath="171.728" atv="56.825" />
+			<point ath="172.391" atv="43.34" />
+			<point ath="-178.71" atv="41.762" />
+			<point ath="-173.242" atv="46.157" />
+			<point ath="-172.451" atv="61.35" />
+			<point ath="175.354" atv="63.743" />
+			<point ath="174.568" atv="60.004" />
+		</hotspot>
+
+		<hotspot name="toathap4" style="funnyhover"
+				title="Tháp 4" >
+			<point ath="-171.486" atv="38.632" />
+			<point ath="-171.83" atv="54.273" />
+			<point ath="-164.458" atv="57.687" />
+			<point ath="-158.457" atv="53.457" />
+			<point ath="-158.917" atv="38.677" />
+			<point ath="-165.692" atv="35.988" />
+		</hotspot>
+
+		<hotspot name="toathap3" style="funnyhover"
+				title="Tháp 3" >
+			<point ath="-153.014" atv="41.245" />
+			<point ath="-147.353" atv="37.934" />
+			<point ath="-139.67" atv="40.917" />
+			<point ath="-138.585" atv="55.829" />
+			<point ath="-145.638" atv="59.788" />
+			<point ath="-153.629" atv="56.119" />
+		</hotspot>
+
+		<hotspot name="toathap2" style="funnyhover"
+				title="Tháp 2" >
+			<point ath="-158.724" atv="32.364" />
+			<point ath="-158.777" atv="38.646" />
+			<point ath="-158.407" atv="48.352" />
+			<point ath="-153.588" atv="49.156" />
+			<point ath="-153.225" atv="40.993" />
+			<point ath="-149.373" atv="39.004" />
+			<point ath="-149.52" atv="30.969" />
+			<point ath="-155.654" atv="29.913" />
+		</hotspot>
+
+		<hotspot name="toathap1" style="funnyhover"
+				title="Tháp 1" >
+			<point ath="-141.549" atv="39.987" />
+			<point ath="-141.359" atv="34.464" />
+			<point ath="-140.712" atv="34.277" />
+			<point ath="-140.694" atv="32.896" />
+			<point ath="-140.504" atv="32.094" />
+			<point ath="-133.165" atv="32.551" />
+			<point ath="-132.799" atv="46.797" />
+			<point ath="-133.242" atv="50.201" />
+			<point ath="-138.947" atv="50.135" />
+			<point ath="-139.575" atv="40.85" />
+		</hotspot>
+
+	</scene>
+
+
+
+    <!-- Scene: scene_pin_1 -->
+
+    <scene name="scene_pin_1" title="Bắt đầu tour" onstart="set(previous_scene, scene_pin_1); trace('Loaded scene: scene_pin_1, previous_scene set to: ', get(previous_scene)); updateradar(dot_pin_1, 120);" thumburl="panos/PIN_1.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+        <control bouncinglimits="calc:image.cube ? true : false" />
+
+        <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+        <preview url="panos/PIN_1.tiles/preview.jpg" />
+
+        <image>
+
+            <cube url="panos/PIN_1.tiles/pano_%s.jpg"  />
+
+        </image>
+
+        <hotspot name="spot1671489283" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip4();"  ath="9.154" atv="10.401" depth="1000.0" linkedscene="scene_pin_2" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+        <hotspot name="spot1671528110" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2()" ath="-45.621" atv="8.626" depth="1000.0" linkedscene="scene_pin_18" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+					<!-- NAVIGATION BOTTOM -->
+
+		<include url="./bottom_nav/bottom_nav.xml" />
+
+    </scene>
+
+
+
+    <!-- Scene: scene_pin_2 -->
+
+    <scene name="scene_pin_2" title="Lối vào khu tiện ích" onstart="trace('Loaded scene: scene_pin_2, previous_scene: ', get(previous_scene)); updateradar(dot_pin_2, 230);" thumburl="panos/PIN_2.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+        <control bouncinglimits="calc:image.cube ? true : false" />
+
+        <view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+        <preview url="panos/PIN_2.tiles/preview.jpg" />
+
+        <image>
+
+            <cube url="panos/PIN_2.tiles/pano_%s.jpg" />
+
+        </image>
+
+        <hotspot name="spot1671489414" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2()"  ath="-169.589" atv="31.962" depth="1000.0" linkedscene="scene_pin_1" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+        <hotspot name="spot1671489554" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2()"  ath="23.725" atv="9.194" depth="1000.0" linkedscene="scene_pin_3" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+    </scene>
+
+
+
+    <!-- Scene: scene_pin_3 -->
+
+    <scene name="scene_pin_3" title="BBQ" onstart="trace('Loaded scene: scene_pin_3, previous_scene: ', get(previous_scene)); updateradar(dot_pin_3, 180);" thumburl="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN03_VER1.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+        <control bouncinglimits="calc:image.cube ? true : false" />
+
+        <view hlookat="34.091" vlookat="0.205" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+        <preview url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN03_VER1.tiles/preview.jpg" />
+
+        <image>
+
+          <cube url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN03_VER1.tiles/pano_%s.jpg" />
+
+        </image>
+
+        <hotspot name="spot1671489724" style="style_arrow" onloaded="do_crop_animation(128,128, 60); add_all_the_time_tooltip2()"  ath="-131.601" atv="8.984" depth="1000.0" linkedscene="scene_pin_2" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+        <hotspot name="spot1671489918" style="style_arrow" onloaded="do_crop_animation(128,128, 60); add_all_the_time_tooltip2()"  ath="63.727" atv="12.814" depth="1000.0" linkedscene="scene_pin_4" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+    </scene>
+
+		<scene name="scene_pin_4" title="Sân chơi trẻ em" onstart="updateradar(dot_pin_4, 300);" thumburl="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN4_VER1.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="85.622" vlookat="-2.160" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN4_VER1.tiles/preview.jpg" />
+
+
+
+		<image>
+
+				<cube url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN4_VER1.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671493776" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="112.83" atv="27.23" depth="1000.0" linkedscene="scene_pin_5" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+		<hotspot name="spot1671522971" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="-53.92" atv="16.19" depth="1000.0" linkedscene="scene_pin_3" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_5" title="Sân tennis và Pickleball" onstart="updateradar(dot_pin_5, 290)" thumburl="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN5.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="175.012" vlookat="-0.577" fovtype="MFOV" fov="103.508" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN5.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN5.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671494775" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="-180.00" atv="14.60" depth="1000.0" linkedscene="scene_pin_6" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671497768" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="3.42" atv="35.96" depth="1000.0" linkedscene="scene_pin_4" linkedscene_hoffset="0.0" use3dtransition="true"/>
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_6" title="Sân bóng rổ" onstart="updateradar(dot_pin_6, 90);" thumburl="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN6.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="92.438" vlookat="-2.034" fovtype="MFOV" fov="114.733" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+	<preview url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN6.tiles/preview.jpg" />
+
+
+
+		<image>
+
+				<cube url="panos/Btgjn_sao_cthna_ASV_PRIVE_PIN6.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671495804" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="119.40" atv="21.90" depth="1000.0" linkedscene="scene_pin_7" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671497375" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-94.82" atv="26.59" depth="1000.0" linkedscene="scene_pin_5" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+	<scene name="scene_pin_7" title="Cây xanh" onstart="updateradar(dot_pin_7, 90);" thumburl="panos/PIN_7.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-89.108" vlookat="3.432" fovtype="MFOV" fov="109.214" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_7.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_7.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<!-- <hotspot name="spot1671496264" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="78.263" atv="22.449" depth="1000.0" linkedscene="scene_pin_8" linkedscene_hoffset="0.0" use3dtransition="true" /> -->
+
+		<hotspot name="spot1671496888" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="96.818" atv="24.81" depth="1000.0" linkedscene="scene_pin_6" linkedscene_hoffset="0.0" use3dtransition="true"/>
+		<hotspot name="spot1712808615" style="style_arrow"  onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" ath="-75.898" atv="20.123" depth="1000.0" linkedscene="scene_pin_8" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_8" title="Vườn hoa nhiệt đới" onstart="updateradar(dot_pin_8, 60);" thumburl="panos/PIN_8.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-4.877" vlookat="-5.674" fovtype="MFOV" fov="114.754" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_8.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_8.tiles/pano_%s.jpg" />
+		</image>
+
+
+
+		<hotspot name="spot1671496522" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="162.239" atv="25.517" depth="1000.0" linkedscene="scene_pin_7" linkedscene_hoffset="0.0" use3dtransition="true"/>
+
+		<hotspot name="spot1671498374" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="6.17" atv="20.845" depth="1000.0" linkedscene="scene_pin_9" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_9" title="Azurea Pool" onstart="updateradar(dot_pin_9, 270);" thumburl="panos/PIN_9.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="358.781" vlookat="-0.039" fovtype="MFOV" fov="109.219" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_9.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_9.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671499144" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="8.056" atv="5.407" depth="1000.0" linkedscene="scene_pin_10" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671515990" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-74.365" atv="11.287" depth="1000.0" linkedscene="scene_pin_8" linkedscene_hoffset="0.0" use3dtransition="true"/>
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_10" title="Khu ngồi thư giãn 1" onstart="updateradar(dot_pin_10, 110);" thumburl="panos/PIN_10.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-164.393" vlookat="1.792" fovtype="MFOV" fov="97.708" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_10.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_10.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671499623" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-7.83" atv="6.607" depth="1000.0" linkedscene="scene_pin_9" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671500847" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-154.701" atv="13.594" depth="1000.0" linkedscene="scene_pin_11" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_11" title="Hồ Cạn" onstart="updateradar(dot_pin_11, 120);" thumburl="panos/PIN_11.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-42.927" vlookat="-1.641" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_11.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_11.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671502320" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="155.869" atv="25.464" depth="1000.0" linkedscene="scene_pin_10" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671502594" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-38.887" atv="32.949" depth="1000.0" linkedscene="scene_pin_12" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_12" title="Lumina Pool" onstart="updateradar(dot_pin_12, 300);" thumburl="panos/PIN_12.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.000" vlookat="0.000" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_12.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_12.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671504024" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="7.45" atv="22.308" depth="1000.0" linkedscene="scene_pin_13" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671517192" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-178.106" atv="17.118" depth="1000.0" linkedscene="scene_pin_11" linkedscene_hoffset="0.0" use3dtransition="true"/>
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_13" title="Khu ngồi thư giãn 2" onstart="updateradar(dot_pin_13, 120);" thumburl="panos/PIN_13.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-231.105" vlookat="0.510" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_13.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_13.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671504374" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="20.838" atv="11.548" depth="1000.0" linkedscene="scene_pin_12" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671505747" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="124.016" atv="27.581" depth="1000.0" linkedscene="scene_pin_14" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_14" title="Khu tập thể dục" onstart="updateradar(dot_pin_14, 300);" thumburl="panos/PIN_14.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="87.330" vlookat="-3.480" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_14.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_14.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671507340" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="96.899" atv="9.846" depth="1000.0" linkedscene="scene_pin_15" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+		<hotspot name="spot1671524344" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="-20.009" atv="25.387" depth="1000.0" linkedscene="scene_pin_13" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_15" title="Palm Breeze" onstart="updateradar(dot_pin_15, 120);" thumburl="panos/PIN_15.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-27.830" vlookat="1.833" fovtype="MFOV" fov="109.213" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_15.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_15.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1671507873" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="-17.551" atv="1.07" depth="1000.0" linkedscene="scene_pin_16" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<hotspot name="spot1671508265" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"   ath="111.375" atv="3.616" depth="1000.0" linkedscene="scene_pin_14" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_pin_16" title="Đài vọng cảnh" onstart="updateradar(dot_pin_16, 160);" thumburl="panos/PIN_16.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="14.176" vlookat="0.411" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_16.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_16.tiles/pano_%s.jpg"  />
+
+		</image>
+
+
+
+		<hotspot name="spot1675866500" style="style_arrow"  onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" ath="-6.627" atv="23.954" depth="1000.0" linkedscene="scene_pin_15" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1712812357" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" ath="39.697" atv="12.299" depth="1000.0" linkedscene="scene_pin_18" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<!-- <scene name="scene_pin_17" title="Sảnh tháp 9,10,11,12" onstart="updateradar(dot_pin_17, 170);" thumburl="panos/PIN_17.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_17.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_17.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1675094302" style="style_arrow" ath="149.703" atv="11.594" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  depth="1000.0" linkedscene="scene_sanhthangdiamond_view01" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+		<include url="./bottom_nav/bottom_nav.xml" />
+
+	</scene> -->
+
+
+
+	<scene name="scene_pin_18" title="Sảnh tháp 5,6,7,8" onstart="updateradar(dot_pin_18, 170);" thumburl="panos/PIN_18.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_18.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_18.tiles/pano_%s.jpg" />
+
+		</image>
+<!-- test -->
+
+		<hotspot name="spot1675866500" style="style_arrow"  onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip3();"  ath="180" atv="23.954" depth="1000.0" linkedscene="scene_pin_1" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1671509975" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-36.385" atv="11.719"   depth="1000.0" linkedscene="scene_pin_19" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	<!-- NAVIGATION BOTTOM -->	
+
+		<include url="./bottom_nav/bottom_nav.xml" />
+
+	</scene>
+
+
+
+	<!-- <scene name="scene_pin_19" title="Hành lang thang máy" onstart="updateradar(dot_pin_19, 170);" thumburl="panos/PIN_19.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-88.939" vlookat="-0.272" fovtype="MFOV" fov="140.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN_19.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_19.tiles/pano_%s.jpg" />
+
+		</image>
+
+	<hotspot name="canho_2pn" style="style_top_arrow" ath="-114.524" atv="0.359" distorted="true" zorder="5" linkedscene="scene_2pn" />
+
+		<hotspot name="name_canho_2pn" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Căn hộ 2 PN
+
+				[/div]"
+
+				ath="-104.524" atv="2.593"
+
+				distorted="true" 
+
+				onclick="loadscene(scene_billard,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="canho_3pn" style="style_top_arrow"  ath="-114.524" atv="15.584" distorted="true"  linkedscene="scene_3pn"/>
+
+		<hotspot name="name_canho_3pn" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Căn hộ 3 PN
+
+				[/div]"
+
+				ath="-104.524" atv="17.855"
+
+				distorted="true" 
+
+				onclick="loadscene(scene_billard,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="spot1671510322" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="175.76" atv="27.896" depth="1000.0" linkedscene="scene_pin_18" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+		<hotspot name="spot1671510495" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="3.568" atv="23.766" depth="1000.0" linkedscene="scene_pin20" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene> -->
+
+
+
+	<scene name="scene_pin20" title="Thang máy" onstart="updateradar(dot_pin_20, 170);" thumburl="panos/PIN20.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN20.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN20.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<!-- <hotspot name="spot1671510772" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-174.246" atv="42.096" depth="1000.0" linkedscene="scene_pin_19" linkedscene_hoffset="0.0" use3dtransition="true" />
+		 -->
+		 <hotspot name="spot1724216874" style="style_arrow" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" ath="179.535" atv="31.443" depth="1000.0" linkedscene="scene_pin_19" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+
+	</scene>
+
+
+
+	<!-- <scene name="scene_pin21" title="Sảnh Ruby" onstart="updateradar(dot_pin_21, 370);" thumburl="panos/PIN21.tiles/thumb.jpg" lat="" lng="" alt="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/PIN21.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN21.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1675096234" style="style_arrow"  onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();"  ath="-28.154" atv="22.484" depth="1000.0" linkedscene="scene_sanhthangruby360_view01" linkedscene_hoffset="0.0" use3dtransition="true" title="Sảnh thang máy" />
+
+		<include url="./bottom_nav/bottom_nav.xml" />
+
+	</scene> -->
+
+	<!-- OUTSIDE SCENE 1 -->
+
+	<scene name="scene_the_global_city" title="The Global City" onstart="" thumburl="panos/the_global_city.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="214.388" vlookat="0.384" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/the_global_city.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/the_global_city.tiles/pano_%s.jpg" />
+
+		</image>
+
+	<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="-152.202" atv="5.739" tooltip="mattruoc_datxanh_tooltip" onclick="mainload(dot_view_ttmt);" />
+
+
+
+
+
+	</scene>
+
+
+
+	<!-- <scene name="scene_venica_khang_dien" title="Venica Khang Điền" onstart="" thumburl="panos/venica_khang_dien.tiles/thumb.jpg" lat="10.79448013" lng="106.78259250" heading="0.0">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="507.450" vlookat="12.516" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/venica_khang_dien.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/venica_khang_dien.tiles/pano_%s.jpg" />
+
+		</image>
+
+<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="136.693" atv="3.677" tooltip="mattruoc_datxanh_tooltip" onclick="mainload(dot_view_ttmt);" />
+
+
+
+	</scene> -->
+
+	<!-- <scene name="scene_giao_xu_tan_lap" title="Giáo xứ Tân Lập" onstart="" thumburl="panos/giao_xu_tan_lap.tiles/thumb.jpg" lat="10.78677717" lng="106.77843011" heading="0.0">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-204.688" vlookat="15.186" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/giao_xu_tan_lap.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/giao_xu_tan_lap.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="158.152" atv="6.853" tooltip="mattruoc_datxanh_tooltip" onclick="mainload(dot_view_ttmt);" />
+
+		
+
+		
+
+
+
+	</scene> -->
+
+	<!-- <scene name="scene_estekka_heights" title="Estella Heights" onstart="" thumburl="panos/estekka_heights.tiles/thumb.jpg" lat="10.80382430" lng="106.75029410" heading="0.0">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="50.0" vlookat="5.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/estekka_heights.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<sphere url="panos/estekka_heights.tiles/l%l/%0v/l%l_%0v_%0h.jpg" multires="512,1664x832,3328x1664,6720x3362,13376x6688,26752x13376" />
+
+		</image>
+
+
+
+		<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="52.467" atv="6.695" tooltip="mattruoc_datxanh_tooltip" onclick="mainload(dot_view_ttmt);" />
+
+
+	</scene>	 -->
+
+	<!-- the sun avanue -->
+	<scene name="scene_nova_sun_avenue" title="The Sun Avenue" onstart="" thumburl="panos/nova_sun_avenue.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="45.765" vlookat="1.247" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/nova_sun_avenue.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/nova_sun_avenue.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="44.261" atv="1.584" tooltip="mattruoc_datxanh_tooltip" onclick="mainload(dot_view_ttmt);" />
+
+
+
+	
+
+
+
+	
+	</scene>
+
+	<scene name="scene_cao_toc_ltdd_maichitho" title="Nút giao Cao tốc LT-DG và Mai Chí Thọ" onstart="" thumburl="panos/cao_toc_ltdd_maichitho.tiles/thumb.jpg" lat="10.79173792" lng="106.75114270" heading="0.0">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="220.949" vlookat="5.429" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/cao_toc_ltdd_maichitho.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/cao_toc_ltdd_maichitho.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="-148.085" atv="-0.794" tooltip="mattruoc_datxanh_tooltip"  />
+
+
+
+
+
+	</scene>
+
+<scene name="scene_saigon_sport_city" title="Saigon Sport City" onstart="" thumburl="panos/saigon_sport_city.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="820.629" vlookat="10.634" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/saigon_sport_city.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/saigon_sport_city.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="95.127" atv="9.857" tooltip="mattruoc_datxanh_tooltip" onclick="mainload(scene_pctt_mattruoc_daytime);" />
+
+
+
+		
+
+
+
+	</scene>
+
+	<scene name="scene_landmark81" title="Landmark 81" onstart="" thumburl="panos/landmark81.tiles/thumb.jpg" lat="10.79748981" lng="106.72695728" heading="0.0">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="115.134" vlookat="3.867" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/landmark81.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/landmark81.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="107.427" atv="2.697" tooltip="mattruoc_datxanh_tooltip" onclick="mainload(scene_pctt_mattruoc_daytime);" />
+
+
+
+		
+
+
+
+	</scene>
+
+		<scene name="scene_bitexco" title="Bitexco" onstart="" thumburl="panos/bitexco.tiles/thumb.jpg" lat="10.77273169" lng="106.70482180" heading="0.0">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-6.433" vlookat="0.314" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/bitexco.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/bitexco.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="mattruoc_datxanh" style="IconBirdview" ath="-15.775" atv="0.068" tooltip="mattruoc_datxanh_tooltip"  />
+
+
+
+
+
+
+	</scene> 
+		<scene name="scene_pin_19" title="Hành lang thang máy 5,6,7,8" onstart="updateradar(dot_pin_19, 170);" thumburl="panos/PIN_19.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<view hlookat="-88.939" vlookat="-0.272" fovtype="MFOV" fov="140.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+		<preview url="panos/PIN_19.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/PIN_19.tiles/pano_%s.jpg" />
+
+		</image>
+		<hotspot name="canho_2pn" style="style_top_arrow" ath="-111.807" atv="11.107"
+			distorted="true" ry="-30" rx="0" rotate="-5" linkedscene="scene_2pn"
+			onclick="js(selectScene('CANHO_2PN'))" />
+
+		<hotspot name="name_canho_2pn" style="infosanh"
+			html="
+				[div style='text-align:left;']
+					Căn hộ 2 PN
+				[/div]"
+			ath="-102.007" atv="13.607"
+			distorted="true" ry="-10" rx="-10"
+			onclick="js(selectScene('CANHO_2PN'))"
+		/>
+
+		<hotspot name="canho_3pn" style="style_top_arrow" ath="-111.807" atv="4.107"
+			distorted="true" ry="-30" rx="0" rotate="-3" linkedscene="scene_3pn"
+			onclick="js(selectScene('CANHO_3PN'))" />
+
+		<hotspot name="name_canho_3pn" style="infosanh"
+			html="
+				[div style='text-align:left;']
+					Căn hộ 3 PN
+				[/div]"
+			ath="-101.807" atv="7.607"
+			distorted="true" ry="-10" rx="-10"
+			onclick="js(selectScene('CANHO_3PN'))"
+		/>
+
+	
+	
+			<hotspot name="funny12321" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" style="style_arrow" ath="-178" atv="25"  linkedscene="scene_pin_18" />	
+
+			<hotspot name="spot1724216491"  onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" style="style_arrow"   ath="-120" atv="28.417" linkedscene="scene_pin20"  />
+
+	</scene>
+
+
+
+		<!-- <scene name="scene_sanhthangruby360_view01" title="Sảnh thang máy" onstart="" thumburl="panos/SanhThangRuby360_View01.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-87.643" vlookat="-1.674" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/SanhThangRuby360_View01.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/SanhThangRuby360_View01.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" style="style_arrow" ath="1.908" atv="26.813" linkedscene="scene_pin21" />
+
+		<hotspot name="spot2" style="style_top_arrow" ath="-55.9" atv="-22.169" linkedscene="scene_billard" distorted="true" ry="-35"  rx="-11" />
+
+		<hotspot name="name_scene_billard" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Tầng 3[br]
+
+					Bi-a và bi lắc
+
+				[/div]"
+
+				ath="-48" atv="-18"
+
+				distorted="true" ry="-50" rx="-15"
+
+				onclick="loadscene(scene_billard,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+
+
+		<hotspot name="spot3" style="style_top_arrow" ath="-56" atv="-14" linkedscene="scene_boxing_room" distorted="true" ry="-30" rx="-2" />
+
+		<hotspot name="name_scene_boxing_room" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Tầng 3[br]
+
+					Khu tập quyền anh
+
+				[/div]"
+
+				ath="-46.5" atv="-11"
+
+				distorted="true" ry="-54" rx="-8"
+
+				onclick="loadscene(scene_boxing_room,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="spot4" style="style_top_arrow" ath="-56.1" atv="-7.5" linkedscene="scene_gym_01" distorted="true" ry="-30"  rx="4"/>
+
+		<hotspot name="name_scene_gym_01" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Tầng 3[br]
+
+					Khu tập Gym
+
+				[/div]"
+
+				ath="-48" atv="-5"
+
+				distorted="true" ry="-50.5" rx="-3.5"
+
+				onclick="loadscene(scene_gym_01,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="spot5" style="style_top_arrow" ath="-56.2" atv="0" linkedscene="scene_library" distorted="true"  ry="-30" rx="15" />
+
+		<hotspot name="name_scene_library" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Tầng 3[br]
+
+					Thư viện
+
+				[/div]"
+
+				ath="-49.5" atv="1.5"
+
+				distorted="true" ry="-49.5" rx="2.2"
+
+				onclick="loadscene(scene_library,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="can2pn" style="style_top_arrow" ath="-56.3" atv="5.75" linkedscene="scene_2pn" distorted="true" ry="-30" rx="18"/>
+
+		<hotspot name="name_scene_2pn" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Căn hộ 2 PN
+
+				[/div]"
+
+				ath="-48.9" atv="7"
+
+				distorted="true" ry="-53" rx="5"
+
+				onclick="loadscene(scene_2pn,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="can3pn" style="style_top_arrow" ath="-56.4" atv="12.5" linkedscene="scene_3pn" distorted="true" ry="-30" rx="20" />
+
+		<hotspot name="name_scene_3pn" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Căn hộ 3 PN
+
+				[/div]"
+
+				ath="-48.9" atv="13"
+
+				distorted="true" ry="-53" rx="9"
+
+				onclick="loadscene(scene_3pn,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+	</scene> -->
+
+
+
+		<scene name="scene_sanhthangdiamond_view01" title="Sảnh thang máy" onstart="" thumburl="panos/SanhThangDiamond_View01.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-55.177" vlookat="3.067" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/SanhThangDiamond_View01.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/SanhThangDiamond_View01.tiles/pano_%s.jpg" />
+
+		</image>
+
+		
+
+		<hotspot name="spot1" onloaded="do_crop_animation(128,128, 60);add_all_the_time_tooltip2();" style="style_arrow" ath="-144.312" atv="34.806" linkedscene="scene_pin_17"  />
+
+
+
+		<!-- Thang máy -->
+
+		<hotspot name="cinema" style="style_top_arrow" ath="-50" atv="-21.5" linkedscene="scene_cinema" distorted="true" ry="20" rx="0" />
+
+		<hotspot name="name_scene_cinema" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Tầng 2 [br]
+
+					Phòng karaoke và chiếu phim
+
+				[/div]"
+
+				ath="-33.5" atv="-18"
+
+				distorted="true" ry="-32" rx="-12"
+
+				onclick="loadscene(scene_cinema,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="golf_room" style="style_top_arrow" ath="-50" atv="-13.5" linkedscene="scene_golf_room" />
+
+		<hotspot name="name_scene_golf_room" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Tầng 2 [br]
+
+					Phòng tập golf 3D
+
+				[/div]"
+
+				ath="-37.5" atv="-11"
+
+				distorted="true" ry="-19" rx="-9"
+
+				onclick="loadscene(scene_golf_room,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="scene_pingpong" style="style_top_arrow" ath="-50" atv="-6.25" linkedscene="scene_pingpong" />
+
+		<hotspot name="name_pingpong" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Tầng 2 [br]
+
+					Bóng bàn
+
+				[/div]"
+
+				ath="-40.5" atv="-4"
+
+				distorted="true" ry="-13" rx="0"
+
+				onclick="loadscene(scene_pingpong,null,MERGE,get(skin_settings.loadscene_blend));" 
+
+				/>
+
+
+
+		<hotspot name="can2pn" style="style_top_arrow" ath="-50" atv="-0.5" linkedscene="scene_2pn" />
+
+		<hotspot name="name_scene_2pn" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Căn hộ 2 PN
+
+				[/div]"
+
+				ath="-39.5" atv="2"
+
+				distorted="true" ry="-10" rx="10"
+
+				onclick="openurl('canho_2pn/', _self);"
+
+
+
+				/>
+
+<!-- 22s -->
+
+		<hotspot name="can3pn" style="style_top_arrow" ath="-50" atv="5.5" linkedscene="scene_3pn" />
+
+		<hotspot name="name_scene_3pn" style="infosanh"
+
+				html="
+
+				[div style='text-align:left;']
+
+					Căn hộ 3 PN
+
+				[/div]"
+
+				ath="-39.5" atv="7"
+
+				distorted="true" ry="-10" rx="13"
+
+			onclick="openurl('canho_3pn/', _self);"
+
+
+
+				/>
+
+
+
+	</scene>
+
+
+
+	<!-- *************************** -->
+
+	<!-- **** Tiện ích nội thất **** -->
+
+	<!-- *************************** -->
+
+	<scene name="scene_billard" title="Bi-a và bi lắc" onstart="" thumburl="panos/billard.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/billard.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/billard.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="-32.163" atv="1.244" linkedscene="scene_pin_19" />
+
+
+
+	</scene>
+
+	<scene name="scene_boxing_room" title="Khu tập quyền anh" onstart="" thumburl="panos/boxing_room.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/boxing_room.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/boxing_room.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="-143.244" atv="0.930" linkedscene="scene_pin_19" />
+
+
+
+	</scene>
+
+		<scene name="scene_gym_01" title="Khu tập GYM" onstart="" thumburl="panos/gym_01.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/gym_01.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/gym_01.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="-174.514" atv="4.648" linkedscene="scene_pin_19" />
+
+
+
+		<hotspot name="spot2" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="89.225" atv="22.786" linkedscene="scene_gym_02" />
+
+
+
+	</scene>
+
+		<scene name="scene_library" title="Thư viện" onstart="" thumburl="panos/library.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/library.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/library.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="88.984" atv="1.474" linkedscene="scene_pin_19" />
+
+
+
+	</scene>
+
+
+
+
+
+	<scene name="scene_cinema" title="Phòng karaoke và chiếu phim" onstart="" thumburl="panos/cinema.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="-178.480" vlookat="-2.511" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/cinema.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/cinema.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="110.881" atv="-0.680" linkedscene="scene_pin_19" />
+
+
+
+		<hotspot  name="hotspot_1" type="image" keep="false" url="%FIRSTXML%/plugins/videoplayer.js" distorted="true" zorder="5"
+
+ 			ath="136.552" atv="-22.8206" width="495.9" height="272.62" rx="-23.03" ry="43.16" rz="0.08" edge="lefttop"
+
+ 			videourl="%SWFPATH%/skin/video/dxhr_lifestyle_050922.mp4"
+
+			pausedonstart="false" loop="true" playbackrate="1" onvideoplay="set(play_vh,true);" autopause="false" autoresume="false"
+
+ 			install_onclick="11" info_Ah="video-1024x512.mp4" scene_EL="scene_cinema" drag_hs="true" fov_EL="120" play_vh="true" enabled2="true" visible2="true" 
+
+ 			Vsound3D="false" volume_max="0.5" range_sound="90" muted="true"
+
+ 			onclick="togglepause(); if(sound[sound_hs_addhs], delete_sound_hs_addhs(); );   if(ispaused, set(play_vh,true);,set(play_vh,false); );"
+
+			ondown="drag_LinkSM()"
+
+ 		/>
+
+
+
+	</scene>
+
+
+
+	<scene name="scene_golf_room" title="Phòng tập Golf 3D" onstart="" thumburl="panos/golf_room.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/golf_room.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/golf_room.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="-107.680" atv="0.669" linkedscene="scene_pin_19" />
+
+
+
+	</scene>
+
+	<scene name="scene_pingpong" title="Bóng bàn" onstart="" thumburl="panos/pingpong.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/pingpong.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/pingpong.tiles/pano_%s.jpg" />
+
+		</image>
+
+		
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="39.646" atv="1.690" linkedscene="scene_pin_19" />
+
+
+
+	</scene>
+
+	<scene name="scene_gym_02" title="Khu tập GYM" onstart="" thumburl="panos/gym_02.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		
+
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+
+
+		<preview url="panos/gym_02.tiles/preview.jpg" />
+
+
+
+		<image>
+
+			<cube url="panos/gym_02.tiles/pano_%s.jpg" />
+
+		</image>
+
+
+
+		<hotspot name="spot1" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="136.364" atv="18.062" linkedscene="scene_gym_01" />
+
+
+
+		<hotspot name="spot2" onloaded="add_all_the_time_tooltip();" style="style_exit" ath="8.355" atv="5.154" linkedscene="scene_pin_19" />
+
+
+
+	</scene>
+
+
+	<scene name="scene_2pn" title="Căn hộ 2 phòng ngủ" onstart="scene_2pn_opa();"  >
+
+	</scene> 
+
+		<scene name="scene_3pn" title="Căn hộ 3 phòng ngủ" onstart="scene_3pn_opa();"  >
+
+	</scene> 
+
+		<action name="scene_3pn_opa" >
+
+	</action>
+
+	<action name="scene_2pn_opa" >
+
+		openurl('canho_2pn/',_self);
+
+	</action>
+
+	<!-- Google Analytics & Scene URL Tracking -->
+	<action name="trackSceneChange" args="sceneId">
+		js(onSceneChangeInTour('%1'));
+	</action>
+	<events name="scene_tracking_events" keep="true" onnewscene="trackSceneChange(get(xml.scene));" />
+
+</krpano>

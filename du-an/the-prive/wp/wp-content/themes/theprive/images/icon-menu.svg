@@ -1,0 +1,26 @@
+<svg width="48.734" height="36.542" version="1.1" viewBox="0 0 48.734 36.542" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient6" x2="1" gradientTransform="matrix(57.731 0 0 -57.731 -18.492 19.401)" gradientUnits="userSpaceOnUse">
+   <stop style="stop-color:#9b504b" offset="0"/>
+   <stop style="stop-color:#9b504b" offset=".027273"/>
+   <stop style="stop-color:#ea936b" offset=".53993"/>
+   <stop style="stop-color:#ea936b" offset=".54546"/>
+   <stop style="stop-color:#ea936b" offset=".69791"/>
+   <stop style="stop-color:#9c504b" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient12" x2="1" gradientTransform="matrix(57.731 0 0 -57.731 -18.492 19.401)" gradientUnits="userSpaceOnUse">
+   <stop style="stop-color:#9b504b" offset="0"/>
+   <stop style="stop-color:#9b504b" offset=".027273"/>
+   <stop style="stop-color:#ea936b" offset=".53993"/>
+   <stop style="stop-color:#ea936b" offset=".54546"/>
+   <stop style="stop-color:#ea936b" offset=".69791"/>
+   <stop style="stop-color:#9c504b" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <path transform="matrix(1.3333 0 0 -1.3333 0 36.542)" d="m0.775 13.953v-0.122l35 4.383-2.289 6.757z" style="fill:url(#linearGradient6)"/>
+  <path transform="matrix(1.3333 0 0 -1.3333 0 36.542)" d="m0.775 13.953v-0.122l35 4.383-2.289 6.757z" style="fill:url(#linearGradient12)"/>
+  <path transform="matrix(1.3333 0 0 -1.3333 1.0332 25.321)" d="m0 0v-1.5h25l-1 1.5z" style="fill:#ffffff"/>
+  <path transform="matrix(1.3333 0 0 -1.3333 1.0332 34.542)" d="m0 0v-1.5h35l-1 1.5z" style="fill:#ffffff"/>
+ </g>
+</svg>

@@ -1,0 +1,532 @@
+<krpano version="1.20.11"  debugmode="false" showerrors="false">
+
+	<include url="skin/vtourskin.xml" />
+	<include url="auto_tour.xml" />
+	<plugin devices="html5" keep="true" name="navigator" url="%VIEWER%/plugins/jy_nav.js" />
+
+<!-- 
+	<plugin name="soundinterface"
+	        url.flash="%VIEWER%/plugins/soundinterface.swf"
+	        url.html5="%VIEWER%/plugins/soundinterface.js"
+	        rootpath=""
+	        volume="0.1"
+	        preload="true"
+	        keep="true"
+	        autopause="true"
+	        /> -->
+
+	<!-- Back -->
+	<layer name="flocontainer" type="container" enabled="true"
+		bgcolor="0xFFFFFF" bgalpha="0.0" alpha="1" x="20" y="20"
+		width="100" height="100" zorder="223"  bgcapture="true"
+		align="topleft" keep="true" scalechildren="true" bgroundedge="5"
+
+		x.mobile="5" y.mobile="5" height.mobile="90">
+
+		<layer name="batdaudi" url="images/undo.png"  keep="true" align="topleft" scale="0.55"  scale.mobile="0.5"  x="60"
+		y.mobile="16"
+		align.mobile="topleft" css="display:none;" alpha="0.9"  onclick="js(selectScene(DEFAULT))" />
+
+		<layer name="text_2pn" url="%SWFPATH%/plugins/textfield.swf"  align="left" x="0" y="30"
+		html="Căn hộ 3 phòng ngủ" 
+		css="
+			font-weight:500; font-family:'Optima'; font-size:28px; color:#fff; padding:0;text-align:left; border-radius:10px; margin: 0;font-family: 'Montserrat', sans-serif;
+			display:none;
+		" 
+		css.mobile="
+			font-weight:500; font-family:'Optima';font-size:20px; color:#fff; padding:0;text-align:left; border-radius:10px; margin: 0;font-family: 'Montserrat', sans-serif;
+			display:none;
+		" 
+		handcursor="true" enabled="false" background="false"
+		y.mobile="0"   /> 
+	</layer>
+
+	<!-- Mobile floor plan -->
+	<layer name="mini_map_mobile" devices="mobile" type="container" keep="true" bgcolor="0x000000" bgalpha="0.0" width="50" height="50" align="topright" x="5" y="5" >
+		<layer name="icon_map" align="center" url="floor_plan/icon3.png" scale="0.5" state="turn_off" onclick="toggle_floor_plan()" />
+	</layer>
+
+	<action name="toggle_floor_plan">
+		if(state == turn_off,
+		set(layer[floorplan_container].visible,true);
+		set(state,turn_on);
+		,
+		set(layer[floorplan_container].visible,false);
+		set(state,turn_off);
+		);
+	</action>
+	<action name="toggle_floor_plan">
+		if(state == turn_off,
+		set(layer[floorplan_container].visible,true);
+		set(state,turn_on);
+		,
+		set(layer[floorplan_container].visible,false);
+		set(state,turn_off);
+		);
+	</action>
+<!-- action -->
+	<events name="tourevents" keep="true" onxmlcomplete="setup_first_scene();" />
+
+		<action name="setup_first_scene" scope="local">
+			set(view, tx=get(image.ox), ty=get(image.oy), tz=get(image.oz));
+			set(events[tourevents].onxmlcomplete, null);
+			set(events[tourevents].onloadcomplete,
+				set(events[tourevents].onloadcomplete, moveto_scene_center() );
+			);
+		</action>
+		
+		<action name="moveto_scene_center" scope="local">
+
+
+
+		if (global.customtransition === null,
+			tween(view.tx|view.ty|view.tz, calc(image.ox + '|' + image.oy + '|' + image.oz), 1.0, easeinoutsine);
+		);
+
+
+		if (global.customtransition == 'SKIP', 
+
+		set(view.tx, calc(image.ox + 15 ));
+			set(view.ty, get(image.oy));
+			set(view.tz, calc(image.oz + 15 )); 
+
+			set(view.tx, calc(image.ox + 0 ));
+			set(view.ty, calc(image.oy + 0 ));
+			set(view.tz, calc(image.oz + 0 ));
+
+			tween(view.tx, get(image.ox));
+			tween(view.ty, get(image.oy));
+			tween(view.tz, get(image.oz));	
+		);
+
+		delete(global.customtransition);
+	</action>
+
+
+	<style name="br_spot" type="text" keep="true"
+		css="font-size:20px;text-align:center;" vcenter="true"
+		width="100" height="100" scale="10"
+		bgroundedge="50" bgcolor="0xFFFFFF" bgborder="2 0x7FFFFFFF 1" 
+		oversampling="2" mipmapping="true" zorder="1"
+		distorted="true" depth="0" depthbuffer="true"
+		torigin="world" rotationorder="xyz" rx="-90"
+		alpha="0"
+		onloaded.addevent="delayedcall(0.1, tween(alpha,0.5); );"
+		onover.addevent="tween(alpha,0.7);"
+		onout.addevent="tween(alpha,0.5);"
+
+		onclick="tour_loadscene(get(linkedscene));"
+		
+		/>
+	
+
+
+
+	<action name="tour_loadscene" scope="local" args="scenename">
+		loadscene(get(scenename), null, MERGE|KEEPVIEW|KEEPMOVING, BLEND(0.5));
+	</action>
+		
+
+	<!-- <hotspot name="hotspot_view1" style="br_spot" tx="41668.18" ty="-2000" tz="-29247.8" linkedscene="scene_pin1" />
+	<hotspot name="hotspot_view2" style="br_spot" tx="32547.0" ty="-2000" tz="-29279.0" linkedscene="scene_pin2" />
+	<hotspot name="hotspot_view3" style="br_spot" tx="32157.97" ty="-2000" tz="-22983.53" linkedscene="scene_pin3" />
+
+	<hotspot name="hotspot_view4" style="br_spot" tx="33096.94" ty="-2000" tz="-17511.32" linkedscene="scene_pin4" />
+	<hotspot name="hotspot_view5" style="br_spot" tx="33327.42" ty="-2000" tz="-9237.0" linkedscene="scene_pin5" />
+	<hotspot name="hotspot_view6" style="br_spot" tx="33407.02" ty="-2000" tz="-5558.14" linkedscene="scene_pin6" />
+
+	<hotspot name="hotspot_view7" style="br_spot" tx="33377.73" ty="-2000" tz="99.0" linkedscene="scene_pin7" />
+	<hotspot name="hotspot_view8" style="br_spot" tx="25508.82" ty="-2000" tz="-17475.28" linkedscene="scene_pin8" />
+	<hotspot name="hotspot_view9" style="br_spot" tx="18898.83" ty="-2000" tz="-17467.23" linkedscene="scene_pin9" />
+
+	<hotspot name="hotspot_view10" style="br_spot" tx="24229.04" ty="-2000" tz="-23169.83" linkedscene="scene_pin10" />
+	<hotspot name="hotspot_view11" style="br_spot" tx="24493.8" ty="-2000" tz="-30961.8" linkedscene="scene_pin11" />
+	<hotspot name="hotspot_view12" style="br_spot" tx="17401.82" ty="-2000" tz="-23402.0" linkedscene="scene_pin12" />
+
+	<hotspot name="hotspot_view13" style="br_spot" tx="9788.68" ty="-2000" tz="-24007.23" linkedscene="scene_pin13" />
+	<hotspot name="hotspot_view14" style="br_spot" tx="19858.53" ty="-2000" tz="-11883.56" linkedscene="scene_pin14" />
+	<hotspot name="hotspot_view15" style="br_spot" tx="13321.12" ty="-2000" tz="-17566.2" linkedscene="scene_pin15" />
+
+	<hotspot name="hotspot_view16" style="br_spot" tx="13253.68" ty="-2000" tz="-9777.78" linkedscene="scene_pin16" />
+	<hotspot name="hotspot_view17" style="br_spot" tx="7750.17" ty="-2000" tz="-17433.52" linkedscene="scene_pin17" /> -->
+
+
+
+
+	<hotspot name="MyImageHotspot" type="image" keep="true" enabled="true" capture="false" alpha="0.7"
+        url="%FIRSTXML%/plugins/videoplayer.js" videourl="%FIRSTXML%/123.mp4" distorted="true" depth="0" depthbuffer="true" rotationorder="xzy" scale="2.46"
+         width="960" height="555" tx="29988.22" ty="-5200" tz="-7900" rx="-0.3" ry="-88.3" rz="0.4"  volume="0"
+         onclick="trace(Thanh Kute)"
+	/>
+	<hotspot name="MyImageHotspot2" type="image" keep="true" enabled="true" capture="false" alpha="0.7"
+        url="%FIRSTXML%/plugins/videoplayer.js" videourl="%FIRSTXML%/123.mp4" distorted="true" depth="0" depthbuffer="true" rotationorder="xzy"  scale="2.333"
+        width="1110" height="603"  tx="16000" ty="-5453.0106" tz="-8500" rx="0.0" ry="-90.0" rz="0.0" volume="0"
+         onclick="trace(Thanh Kute)"
+	/>
+
+
+	<hotspot name="MyImageHotspot3" type="image" keep="true" enabled="true" capture="false" alpha="0.7"
+        url="%FIRSTXML%/plugins/videoplayer.js" videourl="%FIRSTXML%/123.mp4" distorted="true" depth="0" depthbuffer="true" rotationorder="xzy"  scale="1.9277"
+        width="1024" height="823"  tx="17020" ty="-4062.9997" tz="-200034.9899" rx="0.0" ry="-90.0" rz="0.0" volume="0"
+         onclick="trace(Thanh Kute)"
+	/>
+
+
+	<scene name="scene_pin1" title="Lối ra vào"  thumburl="panos/pin1.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin1,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin1.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="41668.18" oy="-4730.0" oz="-29247.8">
+			<cube url="panos/pin1.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin1.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin2" title="Bếp"  thumburl="panos/pin2.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin2,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin2.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="32547.0" oy="-4878.0" oz="-29279.0">
+			<cube url="panos/pin2.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin2.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin3" title="Bàn ăn"  thumburl="panos/pin3.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin3,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin3.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="32157.97" oy="-4730.0" oz="-22983.53">
+			<cube url="panos/pin3.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin3.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin4" title="Hành lang 1"  thumburl="panos/pin4.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin4,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin4.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="33096.94" oy="-4878.0" oz="-17511.32">
+			<cube url="panos/pin4.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin4.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin5" title="Phòng khách 1"  thumburl="panos/pin5.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin5,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin5.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="33327.42" oy="-4764.0" oz="-9237.0">
+			<cube url="panos/pin5.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin5.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin6" title="Phòng khách 2"  thumburl="panos/pin6.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin6,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin6.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="33407.02" oy="-4764.0" oz="-5558.14">
+			<cube url="panos/pin6.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin6.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin7" title="Ban công"  thumburl="panos/pin7.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin7,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin7.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="33377.73" oy="-4826.0" oz="99.0">
+			<cube url="panos/pin7.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin7.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin8" title="Hành lang 2"  thumburl="panos/pin8.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin8,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin8.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="25508.82" oy="-4826.0" oz="-17475.28">
+			<cube url="panos/pin8.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin8.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin9" title="Hành lang 3"  thumburl="panos/pin9.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin9,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin9.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="18898.83" oy="-4826.0" oz="-17467.23">
+			<cube url="panos/pin9.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin9.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin10" title="Nhà vệ sinh 1"  thumburl="panos/pin10.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin10,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin10.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="24229.04" oy="-4748.0" oz="-23169.83">
+			<cube url="panos/pin10.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin10.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin11" title="Nhà kho"  thumburl="panos/pin11.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin11,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin11.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="24493.8" oy="-4881.0" oz="-30961.8">
+			<cube url="panos/pin11.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin11.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin12" title="Phòng ngủ 1 (góc 1)"  thumburl="panos/pin12.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin12,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin12.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="17401.82" oy="-4780.0" oz="-23402.0">
+			<cube url="panos/pin12.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin12.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin13" title="Phòng ngủ 1 (góc 2)"  thumburl="panos/pin13.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin13,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin13.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="9788.68" oy="-4780.0" oz="-24007.23">
+			<cube url="panos/pin13.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin13.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin14" title="Phòng ngủ 2"  thumburl="panos/pin14.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin14,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin14.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="19858.53" oy="-4780.0" oz="-11883.56">
+			<cube url="panos/pin14.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin14.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin15" title="Hành lang 4"  thumburl="panos/pin15.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin15,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin15.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="13321.12" oy="-4780.0" oz="-17566.2">
+			<cube url="panos/pin15.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin15.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin16" title="Phòng ngủ 3"  thumburl="panos/pin16.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin16,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin16.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="13253.68" oy="-4780.0" oz="-9777.78">
+			<cube url="panos/pin16.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin16.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+	<scene name="scene_pin17" title="Nhà vệ sinh 2"  thumburl="panos/pin17.tiles/thumb.jpg" lat="" lng="" alt="" heading="" onstart="updateradar(dot_pin17,270);">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/pin17.tiles/preview.jpg" />
+
+		<image prealign="-0.0|-0.0|-0.0" ox="7750.17" oy="-4780.0" oz="-17433.52">
+			<cube url="panos/pin17.tiles/pano_%s.jpg" />
+			<depthmap url="panos/pin17.tiles/2pn.obj"
+				enabled="true"
+				rendermode="3dmodel"
+				background="none"
+				scale="100"
+				offset="0.0"
+				subdiv=""/>	
+		</image>
+
+	</scene>
+
+</krpano>
