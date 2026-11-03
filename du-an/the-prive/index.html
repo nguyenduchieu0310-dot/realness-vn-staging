@@ -7949,7 +7949,7 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
         </div>
     </div>
         <div class="overview-inserted-banner" style="line-height:0;font-size:0;background:#04243d;">
-            <img src="/assets/the-prive/overview-banner.jpg" alt="The Privé - Định nghĩa lại chuẩn mực của một biểu tượng thượng lưu" class="img-fluid w-100 d-block" style="max-width:900px;margin:0 auto;" loading="lazy" decoding="async">
+            <img src="/assets/the-prive/overview-banner.jpg?v=2" alt="The Privé - Định nghĩa lại chuẩn mực của một biểu tượng thượng lưu" class="img-fluid w-100 d-block" style="max-width:900px;margin:0 auto;" loading="lazy" decoding="async">
         </div>
     </div>
     <div class="scroll-downs  ">
@@ -8085,7 +8085,7 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
     </div>
     </div>
     <div class="overview-inserted-banner" style="line-height:0;font-size:0;background:#04243d;">
-        <img src="/assets/the-prive/location-intro-banner.jpg" alt="The Privé - Nơi Yêu Thương Hóa Thành Những Khoảnh Khắc" class="img-fluid w-100 d-block" style="max-width:900px;margin:0 auto;" loading="lazy" decoding="async">
+        <img src="/assets/the-prive/location-intro-banner.jpg?v=2" alt="The Privé - Nơi Yêu Thương Hóa Thành Những Khoảnh Khắc" class="img-fluid w-100 d-block" style="max-width:900px;margin:0 auto;" loading="lazy" decoding="async">
     </div>
     </div>
 </section>
@@ -8148,6 +8148,9 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
 
 <section class=" animatedParent animateOnce fp-noscroll  fp-auto-height-responsive section-utilities section-with-content section-with-nav dark " data-anchor="mat-bang-tien-ich" data-title="Tiện ích" data-triggerfunction="showUtilitiesItem" data-repeat="true" >
     <div class="bg"></div>
+    <div class="utilities-masterplan-heading div_zindex">
+        <h2 class="section-title md mb-0"><strong>Mặt bằng tổng thể Tiện Ích The Privé</strong></h2>
+    </div>
     <div class="relative h-100">
         <ul class="nav nav-pills mb-3 font-1" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -9503,7 +9506,7 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
     projectName: "THE PRIVÉ",
     themeColor: "#04243d",       // Màu viền & chữ khi Tab đang chọn
     titleColor: "#1d458a",       // Màu chữ tiêu đề đóng khung
-    mainTitle: "MẶT BẰNG THE PRIVÉ",
+    mainTitle: "MẶT BẰNG CĂN HỘ THE PRIVÉ",
     overviewImage: "/assets/the-prive/floorplans/mb-tong-the-the-prive.webp",
 
     // Danh sách các cụm Tab (Tầng, Tháp, Loại căn... Có thể thêm/bớt tuỳ dự án)
@@ -12942,6 +12945,46 @@ font-size: 1.085714285714286em!important;
     height: auto;
   }
 
+  .utilities-masterplan-heading {
+    position: relative;
+    z-index: 4;
+    text-align: center;
+    padding: 28px 16px 20px;
+    background: linear-gradient(180deg, #04243d 0%, #042742 100%);
+  }
+  .utilities-masterplan-heading .section-title {
+    font-size: clamp(1.25rem, 4.3vw, 2.2rem);
+    line-height: 1.35;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: center !important;
+    margin: 0 auto;
+  }
+  .utilities-masterplan-heading .section-title strong {
+    background: linear-gradient(90deg, #ffffff 0%, #f5d2b8 55%, #eb946c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+  @media (min-width: 1200px) {
+    .utilities-masterplan-heading {
+      position: absolute;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 26px;
+      border-radius: 999px;
+      background: rgba(4, 36, 61, 0.78);
+      border: 1px solid rgba(235, 148, 108, 0.35);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .utilities-masterplan-heading .section-title {
+      font-size: clamp(1.1rem, 1.4vw, 1.5rem);
+    }
+  }
   #masterplan.section-masterplan {
     background: #ffffff !important;
     color: #111111;
