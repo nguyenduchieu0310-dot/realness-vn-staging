@@ -8053,7 +8053,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }
                     const player = new Plyr('#player',{
                       controls: ['play-large','mute'],
-                      ratio: '9:16',
+                      ratio: '9:13.4',
                       autoplay: true,
                       muted: true,
                       clickToPlay: true,
@@ -12889,7 +12889,7 @@ font-size: 1.085714285714286em!important;
   }
   .section-home-slide.with-video .video-background .plyr {
     position: relative !important;
-    aspect-ratio: 9 / 16 !important;
+    aspect-ratio: 9 / 13.4 !important;
     width: 100% !important;
     max-width: 500px;
     height: auto !important;
@@ -12899,12 +12899,13 @@ font-size: 1.085714285714286em!important;
   .section-home-slide.with-video .video-background .plyr__video-wrapper {
     width: 100% !important;
     height: 100% !important;
-    aspect-ratio: 9 / 16 !important;
+    aspect-ratio: 9 / 13.4 !important;
   }
   .section-home-slide .video-background .plyr video {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover;
+    object-fit: cover !important;
+    object-position: 50% 30% !important;
   }
   .section-home-slide.with-video .video-background .plyr:before {
     display: none !important;
@@ -12999,7 +13000,7 @@ font-size: 1.085714285714286em!important;
       padding-top: var(--navH, 59px);
     }
     .section-home-slide.with-video .video-background .plyr {
-      aspect-ratio: 9 / 16 !important;
+      aspect-ratio: 9 / 13.4 !important;
       width: 100% !important;
       max-width: 100%;
     }
