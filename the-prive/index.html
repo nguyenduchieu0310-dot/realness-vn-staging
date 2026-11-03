@@ -8040,6 +8040,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     var videoEl = document.getElementById('player');
                     if (videoEl) {
                         if (window.location.protocol === 'file:') {
+        $('.overview-inserted-banner img').each(function() { var s = $(this).attr('src'); if (s && s.indexOf('/assets/') === 0) $(this).attr('src', s.slice(1)); });
                             var srcEl = videoEl.querySelector('source');
                             if (srcEl) {
                                 srcEl.src = 'theprive-hero.mp4';
@@ -8082,6 +8083,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
         </div>
     </div>
+        <div class="overview-inserted-banner" style="line-height:0;font-size:0;background:#04243d;">
+            <img src="/assets/the-prive/overview-banner.jpg" alt="The Privé - Định nghĩa lại chuẩn mực của một biểu tượng thượng lưu" class="img-fluid w-100 d-block" style="max-width:900px;margin:0 auto;" loading="lazy" decoding="async">
+        </div>
     </div>
     <div class="scroll-downs  ">
       <div class="mousey b-static animated fadeIn go">
@@ -8135,9 +8139,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </div>
             </div>
         </div>
-    </div>
-    <div class="overview-inserted-banner">
-        <img src="/assets/the-prive/overview-banner.jpg" alt="The Privé - Định nghĩa lại chuẩn mực của một biểu tượng thượng lưu" class="img-fluid w-100 d-block" loading="lazy" decoding="async">
     </div>
     <div class="d-block d-xl-none">
         <div class="animated fadeInUpShort animated delay-1250">
@@ -13232,12 +13233,6 @@ font-size: 1.085714285714286em!important;
 
       // Support file:// protocol for local assets & Floorplan Engine images
       if (window.location.protocol === 'file:') {
-        $('.overview-inserted-banner img').each(function() {
-          var src = $(this).attr('src');
-          if (src && src.indexOf('/assets/') === 0) {
-            $(this).attr('src', src.slice(1));
-          }
-        });
         if (window.RealnessFloorplanEngine && window.RealnessFloorplanEngine.config) {
           var cfg = window.RealnessFloorplanEngine.config;
           if (cfg.overviewImage && cfg.overviewImage.indexOf('/assets/') === 0) {
