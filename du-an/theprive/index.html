@@ -7958,8 +7958,9 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
 </section>
 
 
-<section class="animatedParent animateOnce fp-auto-height-responsive fp-noscroll section-cover section-usp dark d-bg" data-anchor="usp" data-title="6 Đặc quyền">
+<section class="animatedParent animateOnce fp-auto-height-responsive section-cover section-usp dark d-bg" data-anchor="usp" data-title="6 Đặc quyền">
     <div class="bg"></div>
+    <div class="rf-usp-section-scroll scrollable-content">
     <div class="container-d h-100 relative">
         <div class="section-content-wrapper  div_zindex section-padding pb-0 ">
             <div class="pt-lg-5 animatedParent animateOnce">
@@ -7977,7 +7978,7 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
                 </div>
             </div>
             <div class="section-items usp-items animatedParent animateOnce">
-                <div class="swiper usp-slide overflow-hide  " data-swiper-autoplay="2000">
+                <div class="rf-usp-grid">
                     <div class="swiper-wrapper ">
                                                 <div class="swiper-slide" >
                             <div class="item fadeInUpShort animated delay-750 sm" >
@@ -8026,6 +8027,7 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
             </div>
         </div>
 
+    </div>
     </div>
 </section>
 
@@ -13329,6 +13331,60 @@ font-size: 1.085714285714286em!important;
   #rf-can-ho-mau-drawer .section-title {
     margin-bottom: 1.25rem;
   }
+
+  /* Tiện ích Resort slider images: 9:6 aspect ratio */
+  .section-utilities-slide .item .item-thumb {
+    padding-top: calc(100% * 6 / 9) !important;
+    aspect-ratio: 9 / 6;
+  }
+
+  /* 6 Đặc quyền: 3 rows x 2 columns static grid instead of horizontal swipe slider */
+  .section-usp .rf-usp-grid .swiper-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    box-sizing: border-box;
+  }
+  @media (min-width: 768px) {
+    .section-usp .rf-usp-grid .swiper-wrapper {
+      gap: 20px !important;
+    }
+  }
+  .section-usp .rf-usp-grid .swiper-slide {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+  .section-usp .usp-items .item {
+    opacity: 1 !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+  @media (min-width: 1200px) {
+    .section-usp {
+      transform: translateZ(0);
+      overflow: hidden;
+    }
+    .section-usp .rf-usp-section-scroll {
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .section-usp .rf-usp-section-scroll > .container-d {
+      height: auto !important;
+      min-height: 100%;
+    }
+  }
+  @media (max-width: 1199px) {
+    .section-usp .rf-usp-section-scroll {
+      height: auto;
+      overflow: visible;
+    }
+  }
 </style>
 <script id="theprive-responsive-script">
   (function($) {
@@ -13522,6 +13578,7 @@ font-size: 1.085714285714286em!important;
       }
       bindScrollableSectionHandoff('.section-home-slide .rf-hero-section-scroll');
       bindScrollableSectionHandoff('.section-location-link .rf-location-link-scroll');
+      bindScrollableSectionHandoff('.section-usp .rf-usp-section-scroll');
       bindScrollableSectionHandoff('.section-introduction .rf-intro-section-scroll');
       bindScrollableSectionHandoff('#masterplan .rf-fp-section-scroll');
       bindScrollableSectionHandoff('#utilities-gallery .rf-utilities-gallery-scroll');
