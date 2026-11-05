@@ -7898,39 +7898,16 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
 <section class="animatedParent animateOnce fp-auto-height-responsive section-home-slide with-video  section-top  disable-lazy-load"  data-anchor="theprive" data-title="THE PRIVÉ" >
     <div class="rf-hero-section-scroll scrollable-content">
         <div class="bg item-video video-background">
-            <video id="player" playsinline webkit-playsinline autoplay muted loop preload="metadata" poster="/du-an/the-prive/wp/wp-content/uploads/2025/05/tong-quan.jpg">
-              <source src="/theprive-hero.mp4" type="video/mp4">
-            </video>
+            <img src="/assets/the-prive/song-tinh-hoa-hero.jpg?v=1" alt="The Privé - Sống tinh hoa xứng tầm vị thế" class="rf-hero-top-image w-100 d-block" decoding="async" fetchpriority="high">
             <script type="text/javascript">
                 jQuery(document).ready(function(){
-                    var videoEl = document.getElementById('player');
-                    if (videoEl) {
-                        if (window.location.protocol === 'file:') {
-        $('.overview-inserted-banner img, .section-introduction img').each(function() { var s = $(this).attr('src'); if (s && s.indexOf('/assets/') === 0) $(this).attr('src', s.slice(1)); });
-                            var srcEl = videoEl.querySelector('source');
-                            if (srcEl) {
-                                srcEl.src = 'theprive-hero.mp4';
-                                videoEl.load();
-                            }
-                        }
-                        videoEl.muted = true;
-                        var nativePlay = videoEl.play();
-                        if (nativePlay && typeof nativePlay.catch === 'function') nativePlay.catch(function(){});
+                    if (window.location.protocol === 'file:') {
+                        $('.overview-inserted-banner img, .section-introduction img, .rf-hero-top-image').each(function() {
+                            var s = $(this).attr('src');
+                            if (s && s.indexOf('/assets/') === 0) $(this).attr('src', s.slice(1));
+                        });
                     }
-                    const player = new Plyr('#player',{
-                      controls: ['play-large','mute'],
-                      ratio: '9:12',
-                      autoplay: true,
-                      muted: true,
-                      clickToPlay: true,
-                      loop: { active: true }
-                    });
-                    player.on('ready', function() {
-                      player.muted = true;
-                      var p = player.play();
-                      if (p && typeof p.catch === 'function') p.catch(function(){});
-                    });
-                })
+                });
             </script>
         </div>
         <div class="section-content-wrapper">
@@ -13461,6 +13438,18 @@ font-size: 1.085714285714286em!important;
   body.fp-viewing-mat-bang-tong-quan .fullpage-nav li a,
   body.fp-viewing-mat-bang-tong-quan .fullpage-nav li a .title {
     color: #ffffff !important;
+  }
+  .section-home-slide.with-video .video-background .rf-hero-top-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  @media (max-width: 1199px) {
+    .section-home-slide.with-video .video-background .rf-hero-top-image {
+      max-width: 100%;
+    }
   }
 </style>
 <script id="theprive-responsive-script">
