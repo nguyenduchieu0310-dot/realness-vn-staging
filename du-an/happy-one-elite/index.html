@@ -1559,17 +1559,7 @@ document.addEventListener("keydown", function(e) {
 	<div id="text-4245327790" class="text">
 		
 <p>THÔNG TIN</p>
-<h2 class="title22"><span style="color: #283891;">MẶT BẰNG TỔNG QUAN</span></h2>
-<p style="text-align: justify;"><span style="color: #000000;"><span style="color: #00a859;"><strong>Mặt bằng <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span> </strong></span>được thiết kế một cách thông minh và linh hoạt, phản ánh sự hiện đại và tiện ích đẳng cấp mà dự án mang lại cho cư dân. Với quy mô dự án 8,761m², gồm 01 tháp căn hộ cao 25 tầng nổi + 2 tầng hầm, cung ứng đa dạng các loại hình căn hộ, đa dạng diện tích. Với một quy mô dân số ước tính có thể lên tới 900 người, Căn hộ <strong><span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span></strong> tạo nên một cộng đồng đa dạng về phong cách, tạo điều kiện cho mọi người tận hưởng cuộc sống cùng nhau trong một môi trường tiện nghi và thân thiện.</span></p>
-<figure id="attachment_984" aria-describedby="caption-attachment-984" style="width: 1920px" class="wp-caption aligncenter"><img loading="lazy" decoding="async" class="wp-image-984 size-full" src="https://happy-oneelite.com/wp-content/uploads/2026/09/Mat-bang-du-an-happy-one-elite.jpg" alt="Mặt bằng dự án happy one elite" width="1920" height="1223" srcset="https://happy-oneelite.com/wp-content/uploads/2026/09/Mat-bang-du-an-happy-one-elite.jpg 1920w, https://happy-oneelite.com/wp-content/uploads/2026/09/Mat-bang-du-an-happy-one-elite-300x191.jpg 300w, https://happy-oneelite.com/wp-content/uploads/2026/09/Mat-bang-du-an-happy-one-elite-1024x652.jpg 1024w, https://happy-oneelite.com/wp-content/uploads/2026/09/Mat-bang-du-an-happy-one-elite-768x489.jpg 768w, https://happy-oneelite.com/wp-content/uploads/2026/09/Mat-bang-du-an-happy-one-elite-1536x978.jpg 1536w" sizes="auto, (max-width: 1920px) 100vw, 1920px" /><figcaption id="caption-attachment-984" class="wp-caption-text">Mặt bằng điển hình tiện ích tầng trệt dự án Happy One Sora Thủ Đức</figcaption></figure>
-<h3 data-sourcepos="16:3-16:24"><span style="color: #000000;"><strong>Mặt bằng tổng thể</strong></span></h3>
-<ol>
-<li><span style="font-size: 105%; color: #000000;">01 block căn hộ cao 25 tầng</span></li>
-<li><span style="font-size: 105%; color: #000000;">2 tầng hầm, 1 tầng khối để phát triển trung tâm thương mại và tiện ích.</span></li>
-<li><span style="font-size: 105%; color: #000000;">Tầng 3-4: hệ thống tiện ích, mảng xanh…</span></li>
-<li><span style="font-size: 105%; color: #000000;">Mặt bằng thiết kế độc đảo dật tầng, đem mảng xanh lên các tầng cao</span></li>
-</ol>
-<p><span style="font-size: 105%;">👉<span style="color: #000000;"> Xem chi tiết về <span style="color: #00a859;">Mặt bằng căn hộ <strong><span id="7lnmg_6k39b_4789e" class="" data-text="true">Happy One Elite</span></strong></span></span></span><br />
+<p style="text-align: justify;"><span style="color: #000000;"><span style="color: #00a859;"><strong>Mặt bằng <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span> </strong></span>được thiết kế thông minh theo hình chữ H gồm 02 phân khu <strong>Tháp A</strong> và <strong>Tháp B</strong> cao 25 tầng nổi + 2 tầng hầm trên quỹ đất 8.761m², tối ưu khả năng đón gió và ánh sáng tự nhiên cho 100% căn hộ. Dự án cung ứng đa dạng loại hình sản phẩm từ Căn hộ 1PN (35,88 – 37,03 m²), 1PN+ (60,34 – 61,55 m²), 2PN (69,80 – 71,01 m²), 2PN+ (104,67 – 105,64 m²) đến Căn hộ sân vườn (Garden) và Officetel.</span></p>
 		
 <style>
 #text-4245327790 {
@@ -1580,6 +1570,514 @@ document.addEventListener("keydown", function(e) {
 }
 </style>
 	</div>
+
+<!-- ================= START: REALNESS MASTER FLOORPLAN ENGINE ================= -->
+<div id="realness-floorplan-engine-root"></div>
+
+<style id="realness-floorplan-engine-css">
+  .rf-fp-engine {
+    --fp-primary: #00492b;
+    --fp-title-color: #283891;
+    --fp-text-muted: rgba(102, 102, 102, 0.85);
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  .rf-fp-engine *, .rf-fp-engine *::before, .rf-fp-engine *::after {
+    box-sizing: border-box;
+  }
+  .rf-fp-engine button {
+    margin: 0;
+    min-height: 0;
+    box-shadow: none;
+  }
+  /* Tiêu đề đóng khung chuẩn Green Skyline */
+  .rf-fp-title-wrap {
+    margin: 18px auto 14px;
+    width: 100%;
+  }
+  .rf-fp-title {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    font-size: 1.5em;
+    line-height: 1.3;
+    color: var(--fp-title-color);
+  }
+  .rf-fp-title b {
+    display: block;
+    flex: 1;
+    height: 2px;
+    background-color: currentColor;
+    opacity: 0.1;
+  }
+  .rf-fp-title b:first-of-type {
+    display: none;
+  }
+  .rf-fp-title span {
+    text-transform: uppercase;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    padding: 0.3em 0.8em;
+    font-weight: 700;
+    color: var(--fp-title-color);
+  }
+  /* Ảnh tổng quan mặt bằng */
+  .rf-fp-overview {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  .rf-fp-overview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: zoom-in;
+  }
+  /* Nhóm Tab (Tầng / Tháp / Loại căn) */
+  .rf-fp-group {
+    width: 100%;
+    margin-bottom: 22px;
+  }
+  .rf-fp-nav {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .rf-fp-nav li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .rf-fp-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    border-radius: 32px;
+    background: transparent;
+    color: var(--fp-text-muted);
+    font-size: 0.85em;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 2.4em;
+    padding: 0 0.85em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .rf-fp-tab-btn:hover {
+    color: #111;
+  }
+  .rf-fp-tab-btn.is-active {
+    border-color: var(--fp-primary);
+    color: var(--fp-primary);
+  }
+  /* Nội dung từng Panel */
+  .rf-fp-panels {
+    padding-top: 1em;
+    width: 100%;
+  }
+  .rf-fp-panel {
+    display: none;
+    width: 100%;
+  }
+  .rf-fp-panel.is-active {
+    display: block;
+  }
+  .rf-fp-single-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: zoom-in;
+  }
+  /* Slider nhiều ảnh (cho tab căn hộ có nhiều layout 1PN / 2PN / 3PN) */
+  .rf-fp-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    user-select: none;
+    touch-action: pan-y;
+  }
+  .rf-fp-track {
+    display: flex;
+    width: 100%;
+    transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: transform;
+  }
+  .rf-fp-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+    position: relative;
+  }
+  .rf-fp-slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: zoom-in;
+  }
+  .rf-fp-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.2s, transform 0.2s;
+    padding: 0;
+  }
+  .rf-fp-arrow:hover {
+    background: var(--fp-primary);
+    border-color: var(--fp-primary);
+  }
+  .rf-fp-arrow.prev { left: 12px; }
+  .rf-fp-arrow.next { right: 12px; }
+  .rf-fp-arrow svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+  .rf-fp-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .rf-fp-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    pointer-events: auto;
+    padding: 0;
+    transition: all 0.2s;
+  }
+  .rf-fp-dot.is-active {
+    background: #fff;
+    transform: scale(1.15);
+  }
+  /* Lightbox phóng to ảnh mặt bằng */
+  .rf-fp-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 11, 11, 0.88);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .rf-fp-lightbox.is-open {
+    display: flex;
+  }
+  .rf-fp-lightbox img {
+    max-width: 96vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+  .rf-fp-lightbox-close {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 36px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  @media (max-width: 549px) {
+    .rf-fp-title span {
+      font-size: clamp(16px, 4.5vw, 22px);
+      text-align: center;
+    }
+    .rf-fp-tab-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .rf-fp-arrow {
+      width: 28px;
+      height: 28px;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  // ============================================================================
+  // 1. CẤU HÌNH DỮ LIỆU MẶT BẰNG (CHỈ CẦN THAY ĐỔI PHẦN NÀY CHO DỰ ÁN MỚI)
+  // ============================================================================
+  var FLOORPLAN_ENGINE_CONFIG = {
+    projectName: "HAPPY ONE ELITE",
+    themeColor: "#00492b",       // Màu viền & chữ khi Tab đang chọn
+    titleColor: "#283891",       // Màu chữ tiêu đề đóng khung
+    mainTitle: "MẶT BẰNG HAPPY ONE ELITE",
+    overviewImage: "/assets/happy-one-elite/mat-bang-ben-duoi.png",
+
+    // Danh sách các cụm Tab (Tầng, Tháp, Loại căn... Có thể thêm/bớt tuỳ dự án)
+    groups: [
+      {
+        id: "tang",
+        sectionTitle: "", // Để trống nếu nằm ngay dưới tiêu đề chính
+        tabs: [
+          { label: "MẶT BẰNG TẦNG ĐIỂN HÌNH", images: ["/assets/happy-one-elite/mat-bang-tang-dien-hinh-happy-one-elite.jpg"] },
+          { label: "TẦNG 1 (MASTERPLAN)", images: ["/assets/happy-one-elite/mat-bang-ben-duoi.png"] },
+          { label: "SƠ ĐỒ PHÂN BỔ CĂN HỘ", images: ["/assets/happy-one-elite/mat-bang-du-an-happy-one-elite.png"] },
+          { label: "CƠ CẤU SẢN PHẨM", images: ["/assets/happy-one-elite/thong-ke-san-pham.jpg"] }
+        ]
+      },
+      {
+        id: "thap",
+        sectionTitle: "",
+        tabs: [
+          { label: "THÁP A", images: ["/assets/happy-one-elite/mat-bang-thap-a-happy-one-elite.jpg"] },
+          { label: "THÁP B", images: ["/assets/happy-one-elite/mat-bang-thap-b-happy-one-elite.jpg"] },
+          { label: "TỔNG THỂ THÁP A & B", images: ["/assets/happy-one-elite/mat-bang-tang-dien-hinh-happy-one-elite.jpg"] }
+        ]
+      },
+      {
+        id: "can-ho",
+        sectionTitle: "MẶT BẰNG LAYOUT CĂN HỘ HAPPY ONE ELITE",
+        tabs: [
+          {
+            label: "CĂN 1 PHÒNG NGỦ (36M²)",
+            images: [
+              "/assets/happy-one-elite/Layout-can-1PN-du-an-happy-one-elite.jpg"
+            ]
+          },
+          {
+            label: "CĂN 1 PHÒNG NGỦ + (61M²)",
+            // Nếu mảng images có >= 2 ảnh, Engine tự động biến thành Slider vuốt ngang có mũi tên + chấm tròn
+            images: [
+              "/assets/happy-one-elite/Layout-can-1PN-du-an-happy-one-elite-1.jpg",
+              "/assets/happy-one-elite/Layout-can-1PN-plus-61-24m2-happy-one-elite.jpg",
+              "/assets/happy-one-elite/Layout-can-1PN-plus-61m2-happy-one-elite.jpg"
+            ]
+          },
+          {
+            label: "CĂN 2 PHÒNG NGỦ (70M²)",
+            images: [
+              "/assets/happy-one-elite/Layout-can-2PN-du-an-happy-one-elite.jpg",
+              "/assets/happy-one-elite/Layout-can-2PN-basic-happy-one-elite.jpg",
+              "/assets/happy-one-elite/Layout-can-2PN-corner-happy-one-elite.jpg"
+            ]
+          },
+          {
+            label: "CĂN 2PN+ / 3PN (105M²)",
+            images: [
+              "/assets/happy-one-elite/Layout-can-3PN-du-an-happy-one-elite.jpg"
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  // ============================================================================
+  // 2. CORE ENGINE (TỰ ĐỘNG RENDER + LAZY-LOAD + SLIDER VUỐT + LIGHTBOX)
+  // ============================================================================
+  var PLACEHOLDER_SVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3C/svg%3E";
+
+  function hydrateLazyImages(scopeEl) {
+    if (!scopeEl) return;
+    var imgs = scopeEl.querySelectorAll("img[data-lazy-src]");
+    for (var i = 0; i < imgs.length; i++) {
+      var src = imgs[i].getAttribute("data-lazy-src");
+      if (src) {
+        imgs[i].setAttribute("src", src);
+        imgs[i].removeAttribute("data-lazy-src");
+      }
+    }
+  }
+
+  function mountFloorplanEngine(rootEl, cfg) {
+    if (!rootEl || !cfg) return;
+    var html = '<div class="rf-fp-engine" style="--fp-primary:' + (cfg.themeColor || "#00492b") + ';--fp-title-color:' + (cfg.titleColor || "#00726d") + ';">';
+
+    if (cfg.mainTitle) {
+      html += '<div class="rf-fp-title-wrap"><h2 class="rf-fp-title"><b></b><span>' + cfg.mainTitle + '</span><b></b></h2></div>';
+    }
+    if (cfg.overviewImage) {
+      html += '<div class="rf-fp-overview"><img loading="lazy" decoding="async" src="' + cfg.overviewImage + '" alt="' + (cfg.mainTitle || "") + '" data-fp-zoom="' + cfg.overviewImage + '" /></div>';
+    }
+
+    var groups = cfg.groups || [];
+    for (var g = 0; g < groups.length; g++) {
+      var group = groups[g];
+      var tabs = group.tabs || [];
+      if (!tabs.length) continue;
+
+      if (group.sectionTitle) {
+        html += '<div class="rf-fp-title-wrap"><h3 class="rf-fp-title"><b></b><span>' + group.sectionTitle + '</span><b></b></h3></div>';
+      }
+
+      html += '<div class="rf-fp-group" data-fp-group="' + g + '">';
+      html += '<ul class="rf-fp-nav" role="tablist">';
+      for (var t = 0; t < tabs.length; t++) {
+        var isActive = t === 0;
+        html += '<li><button type="button" role="tab" class="rf-fp-tab-btn' + (isActive ? " is-active" : "") + '" aria-selected="' + isActive + '" data-fp-tab="' + t + '">' + tabs[t].label + '</button></li>';
+      }
+      html += '</ul><div class="rf-fp-panels">';
+
+      for (var p = 0; p < tabs.length; p++) {
+        var isFirstTab = p === 0;
+        var imgs = tabs[p].images || [];
+        html += '<div class="rf-fp-panel' + (isFirstTab ? " is-active" : "") + '" role="tabpanel" data-fp-panel="' + p + '">';
+
+        if (imgs.length === 1) {
+          var imgAttr = isFirstTab ? 'src="' + imgs[0] + '"' : 'src="' + PLACEHOLDER_SVG + '" data-lazy-src="' + imgs[0] + '"';
+          html += '<img loading="lazy" decoding="async" class="rf-fp-single-img" ' + imgAttr + ' alt="' + tabs[p].label + '" data-fp-zoom="' + imgs[0] + '" />';
+        } else if (imgs.length > 1) {
+          html += '<div class="rf-fp-slider" data-fp-slider><div class="rf-fp-track">';
+          for (var s = 0; s < imgs.length; s++) {
+            var sAttr = (isFirstTab && s === 0) ? 'src="' + imgs[s] + '"' : 'src="' + PLACEHOLDER_SVG + '" data-lazy-src="' + imgs[s] + '"';
+            html += '<div class="rf-fp-slide"><img loading="lazy" decoding="async" ' + sAttr + ' alt="' + tabs[p].label + ' - ' + (s + 1) + '" data-fp-zoom="' + imgs[s] + '" /></div>';
+          }
+          html += '</div>';
+          html += '<button type="button" class="rf-fp-arrow prev" aria-label="Trước"><svg viewBox="0 0 100 100"><path d="M 10,50 L 60,100 L 70,90 L 30,50 L 70,10 L 60,0 Z"></path></svg></button>';
+          html += '<button type="button" class="rf-fp-arrow next" aria-label="Tiếp"><svg viewBox="0 0 100 100"><path d="M 10,50 L 60,100 L 70,90 L 30,50 L 70,10 L 60,0 Z" transform="translate(100, 100) rotate(180)"></path></svg></button>';
+          html += '<div class="rf-fp-dots">';
+          for (var d = 0; d < imgs.length; d++) {
+            html += '<button type="button" class="rf-fp-dot' + (d === 0 ? " is-active" : "") + '" data-fp-dot="' + d + '" aria-label="Slide ' + (d + 1) + '"></button>';
+          }
+          html += '</div></div>';
+        }
+        html += '</div>';
+      }
+      html += '</div></div>';
+    }
+
+    html += '<div class="rf-fp-lightbox" data-fp-lightbox><button type="button" class="rf-fp-lightbox-close" aria-label="Đóng">&times;</button><img src="" alt="Phóng to mặt bằng" /></div>';
+    html += '</div>';
+    rootEl.innerHTML = html;
+
+    // Gắn sự kiện chuyển Tab + Lazy-load
+    var groupEls = rootEl.querySelectorAll("[data-fp-group]");
+    for (var i = 0; i < groupEls.length; i++) {
+      (function (groupEl) {
+        var btns = groupEl.querySelectorAll("[data-fp-tab]");
+        var panels = groupEl.querySelectorAll("[data-fp-panel]");
+        for (var j = 0; j < btns.length; j++) {
+          (function (btn, idx) {
+            function activate() {
+              for (var k = 0; k < btns.length; k++) {
+                btns[k].classList.toggle("is-active", k === idx);
+                btns[k].setAttribute("aria-selected", k === idx ? "true" : "false");
+              }
+              for (var m = 0; m < panels.length; m++) {
+                panels[m].classList.toggle("is-active", m === idx);
+              }
+              if (panels[idx]) hydrateLazyImages(panels[idx]);
+            }
+            btn.addEventListener("click", activate);
+            btn.addEventListener("pointerdown", function () {
+              if (panels[idx]) hydrateLazyImages(panels[idx]);
+            }, { passive: true });
+          })(btns[j], j);
+        }
+      })(groupEls[i]);
+    }
+
+    // Gắn sự kiện Slider vuốt ngang + Nút mũi tên + Dots
+    var sliders = rootEl.querySelectorAll("[data-fp-slider]");
+    for (var sIdx = 0; sIdx < sliders.length; sIdx++) {
+      (function (sliderEl) {
+        var track = sliderEl.querySelector(".rf-fp-track");
+        var slides = sliderEl.querySelectorAll(".rf-fp-slide");
+        var dots = sliderEl.querySelectorAll("[data-fp-dot]");
+        var prevBtn = sliderEl.querySelector(".rf-fp-arrow.prev");
+        var nextBtn = sliderEl.querySelector(".rf-fp-arrow.next");
+        var current = 0;
+        var total = slides.length;
+
+        function goTo(index) {
+          hydrateLazyImages(sliderEl);
+          current = (index + total) % total;
+          track.style.transform = "translateX(-" + (current * 100) + "%)";
+          for (var d = 0; d < dots.length; d++) {
+            dots[d].classList.toggle("is-active", d === current);
+          }
+        }
+
+        if (prevBtn) prevBtn.addEventListener("click", function () { goTo(current - 1); });
+        if (nextBtn) nextBtn.addEventListener("click", function () { goTo(current + 1); });
+        for (var d = 0; d < dots.length; d++) {
+          (function (dotIdx) {
+            dots[dotIdx].addEventListener("click", function () { goTo(dotIdx); });
+          })(d);
+        }
+
+        // Hỗ trợ vuốt cảm ứng trên điện thoại
+        var startX = 0;
+        var deltaX = 0;
+        sliderEl.addEventListener("touchstart", function (e) {
+          hydrateLazyImages(sliderEl);
+          startX = e.touches[0].clientX;
+          deltaX = 0;
+        }, { passive: true });
+        sliderEl.addEventListener("touchmove", function (e) {
+          deltaX = e.touches[0].clientX - startX;
+        }, { passive: true });
+        sliderEl.addEventListener("touchend", function () {
+          if (Math.abs(deltaX) > 40) {
+            goTo(deltaX < 0 ? current + 1 : current - 1);
+          }
+        });
+      })(sliders[sIdx]);
+    }
+
+    // Gắn sự kiện Lightbox phóng to khi bấm vào bất kỳ ảnh mặt bằng nào
+    var lightbox = rootEl.querySelector("[data-fp-lightbox]");
+    var lightboxImg = lightbox ? lightbox.querySelector("img") : null;
+    rootEl.addEventListener("click", function (e) {
+      var zoomTarget = e.target.closest ? e.target.closest("[data-fp-zoom]") : null;
+      if (zoomTarget && lightbox && lightboxImg) {
+        lightboxImg.src = zoomTarget.getAttribute("data-fp-zoom");
+        lightbox.classList.add("is-open");
+      } else if (lightbox && (e.target === lightbox || e.target.classList.contains("rf-fp-lightbox-close"))) {
+        lightbox.classList.remove("is-open");
+      }
+    });
+  }
+
+  var root = document.getElementById("realness-floorplan-engine-root");
+  if (root) mountFloorplanEngine(root, FLOORPLAN_ENGINE_CONFIG);
+  window.RealnessFloorplanEngine = { mount: mountFloorplanEngine, config: FLOORPLAN_ENGINE_CONFIG };
+})();
+</script>
+<!-- ================= END: REALNESS MASTER FLOORPLAN ENGINE ================= -->
 	
 		</div>
 					</div>
