@@ -1480,6 +1480,724 @@ document.addEventListener("keydown", function(e) {
 <li style="text-align: justify;"><span style="color: #000000; font-size: 105%;">Khu vui chơi dành cho các bé</span></li>
 <li style="text-align: justify;"><span style="color: #000000; font-size: 105%;">Nhà trẻ rộng rãi với cơ sở vật chất khang trang, đội ngũ giáo viên có tâm, lành nghề và yêu trẻ.</span></li>
 </ul>
+
+<!-- ================= START: HAPPY ONE ELITE - MẶT BẰNG TIỆN ÍCH (3 TẦNG: 1, 12A, 26) ================= -->
+<div id="mat-bang-tien-ich" class="hoe-am-root"></div>
+
+<style id="hoe-am-styles">
+  .hoe-am-root {
+    --hoe-bg-deep: #241d17;
+    --hoe-bg-panel: #2d241c;
+    --hoe-bg-map: #f4efe6;
+    --hoe-border-gold: rgba(197, 163, 104, 0.32);
+    --hoe-gold: #d4af72;
+    --hoe-gold-bright: #e5c384;
+    --hoe-taupe: #6d5f51;
+    --hoe-emerald: #00a859;
+    --hoe-highlight: #e08b52;
+    --hoe-text-light: #f9f5ee;
+    --hoe-text-muted: rgba(244, 239, 230, 0.72);
+    width: 100%;
+    max-width: 1140px;
+    margin: 28px auto 36px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #2b221a 0%, #1f1812 100%);
+    box-shadow: 0 20px 50px rgba(28, 21, 15, 0.24);
+    border: 1px solid rgba(197, 163, 104, 0.4);
+    font-family: inherit;
+    color: var(--hoe-text-light);
+  }
+  .hoe-am-root *, .hoe-am-root *::before, .hoe-am-root *::after {
+    box-sizing: border-box;
+  }
+  .hoe-am-root button {
+    margin: 0 !important;
+    min-height: 0 !important;
+    box-shadow: none;
+    font-family: inherit;
+  }
+  /* Map Stage + Floating Floor Pill Bar (The Privé Technical Architecture in Happy One Elite Warm Luxury Concept) */
+  .hoe-am-map-stage {
+    position: relative;
+    width: 100%;
+    background: var(--hoe-bg-map);
+    border-bottom: 1px solid var(--hoe-border-gold);
+    overflow: hidden;
+  }
+  .hoe-am-pill-bar-wrap {
+    position: relative;
+    z-index: 15;
+    display: flex;
+    justify-content: center;
+    padding: 18px 12px 10px;
+    background: linear-gradient(180deg, rgba(36, 29, 23, 0.86) 0%, rgba(36, 29, 23, 0.35) 68%, rgba(244, 239, 230, 0) 100%);
+  }
+  .hoe-am-pill-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px;
+    border-radius: 999px;
+    background: rgba(45, 36, 28, 0.82);
+    border: 1px solid rgba(212, 175, 114, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .hoe-am-pill-btn {
+    border: none !important;
+    background: transparent !important;
+    color: rgba(249, 245, 238, 0.82) !important;
+    padding: 9px 22px !important;
+    border-radius: 999px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    line-height: 1.2 !important;
+  }
+  .hoe-am-pill-btn:hover {
+    color: #ffffff !important;
+  }
+  .hoe-am-pill-btn.is-active {
+    background: linear-gradient(135deg, #b88d4c 0%, #8f6831 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(184, 141, 76, 0.45) !important;
+  }
+  /* Interactive Map Viewport */
+  .hoe-am-map-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2539 / 1765;
+    background: #f4efe6;
+    user-select: none;
+  }
+  .hoe-am-map-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+  .hoe-am-pins-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+  }
+  /* Interactive Pin Marker */
+  .hoe-am-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    min-width: 30px;
+    height: 27px;
+    padding: 0 6px !important;
+    border-radius: 7px !important;
+    background: #6d5f51 !important;
+    border: 1.5px solid #ffffff !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), background 0.22s ease, box-shadow 0.22s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28) !important;
+    z-index: 2;
+  }
+  .hoe-am-pin:hover,
+  .hoe-am-pin.is-active {
+    background: #00a859 !important;
+    border-color: #ffffff !important;
+    transform: translate(-50%, -50%) scale(1.22);
+    box-shadow: 0 0 0 5px rgba(0, 168, 89, 0.28), 0 6px 16px rgba(0, 0, 0, 0.38) !important;
+    z-index: 20;
+  }
+  .hoe-am-pin.is-sub {
+    min-width: 28px;
+    height: 24px;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+  }
+  /* Active Floating Tooltip on Map */
+  .hoe-am-tooltip {
+    position: absolute;
+    z-index: 30;
+    transform: translate(-50%, calc(-100% - 18px));
+    background: rgba(36, 29, 23, 0.96);
+    border: 1px solid var(--hoe-gold);
+    color: #ffffff;
+    padding: 8px 13px;
+    border-radius: 10px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.38);
+    pointer-events: none;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: hoeAmFadeUp 0.2s ease-out;
+  }
+  .hoe-am-tooltip.is-bottom {
+    transform: translate(-50%, 18px);
+  }
+  .hoe-am-tooltip.is-left {
+    transform: translate(-15%, calc(-100% - 18px));
+  }
+  .hoe-am-tooltip.is-right {
+    transform: translate(-85%, calc(-100% - 18px));
+  }
+  .hoe-am-tooltip-code {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    border-radius: 50%;
+    background: var(--hoe-emerald);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .hoe-am-tooltip-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #fff;
+  }
+  @keyframes hoeAmFadeUp {
+    from { opacity: 0; transform: translate(-50%, calc(-100% - 10px)); }
+    to { opacity: 1; transform: translate(-50%, calc(-100% - 18px)); }
+  }
+  /* Zoom Full Leaflet Button */
+  .hoe-am-zoom-btn {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    z-index: 25;
+    background: rgba(36, 29, 23, 0.88) !important;
+    color: var(--hoe-gold-bright) !important;
+    border: 1px solid rgba(212, 175, 114, 0.55) !important;
+    border-radius: 999px !important;
+    padding: 7px 14px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: all 0.2s ease;
+  }
+  .hoe-am-zoom-btn:hover {
+    background: #00a859 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+  /* Directory Section (The Privé Style Header + Collapsible 2-Column Badge Grid) */
+  .hoe-am-directory {
+    padding: 32px 28px 34px;
+    background: radial-gradient(circle at 50% 0%, rgba(197, 163, 104, 0.14) 0%, rgba(36, 29, 23, 0) 70%), linear-gradient(180deg, #2b221a 0%, #1e1712 100%);
+  }
+  .hoe-am-header {
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .hoe-am-subtitle {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--hoe-text-muted);
+    margin: 0 0 6px;
+  }
+  .hoe-am-floor-title {
+    font-family: inherit;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--hoe-gold-bright);
+    margin: 0;
+    line-height: 1.18;
+  }
+  .hoe-am-floor-desc {
+    font-size: 13.5px;
+    color: rgba(244, 239, 230, 0.78);
+    max-width: 720px;
+    margin: 8px auto 0;
+    line-height: 1.55;
+  }
+  /* Category Accordion Group */
+  .hoe-am-cat-group {
+    border-top: 1px solid rgba(212, 175, 114, 0.18);
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+  .hoe-am-cat-group:first-of-type {
+    border-top: none;
+    padding-top: 4px;
+    margin-top: 0;
+  }
+  .hoe-am-cat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    padding: 4px 0 14px !important;
+    cursor: pointer;
+    text-align: left;
+  }
+  .hoe-am-cat-title {
+    font-family: inherit;
+    font-size: clamp(16px, 2.2vw, 21px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0;
+  }
+  .hoe-am-cat-toggle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(197, 163, 104, 0.22);
+    border: 1px solid rgba(212, 175, 114, 0.5);
+    color: var(--hoe-gold-bright);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .hoe-am-cat-header:hover .hoe-am-cat-toggle {
+    background: var(--hoe-gold);
+    color: #1f1812;
+  }
+  .hoe-am-cat-body {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px 20px;
+  }
+  .hoe-am-cat-group.is-collapsed .hoe-am-cat-body {
+    display: none;
+  }
+  /* Numbered Item Row (Matches The Privé Screenshot 1:1) */
+  .hoe-am-item {
+    display: flex !important;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .hoe-am-item:hover,
+  .hoe-am-item.is-active {
+    background: rgba(212, 175, 114, 0.12) !important;
+    border-color: rgba(212, 175, 114, 0.35) !important;
+  }
+  .hoe-am-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(109, 95, 81, 0.65);
+    border: 1.5px solid rgba(212, 175, 114, 0.55);
+    color: #ffffff;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .hoe-am-item:hover .hoe-am-badge,
+  .hoe-am-item.is-active .hoe-am-badge {
+    background: var(--hoe-emerald);
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0, 168, 89, 0.45);
+  }
+  .hoe-am-item-text {
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: rgba(249, 245, 238, 0.92);
+    transition: color 0.2s ease;
+  }
+  .hoe-am-item:hover .hoe-am-item-text,
+  .hoe-am-item.is-active .hoe-am-item-text {
+    color: var(--hoe-gold-bright);
+  }
+  /* Responsive Mobile & Tablet (Matches The Privé 2-Column Mobile Layout) */
+  @media (max-width: 849px) {
+    .hoe-am-cat-body {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px 12px;
+    }
+    .hoe-am-directory {
+      padding: 24px 14px 26px;
+    }
+    .hoe-am-pill-btn {
+      padding: 8px 15px !important;
+      font-size: 12px !important;
+    }
+    .hoe-am-pin {
+      min-width: 23px;
+      height: 20px;
+      font-size: 9.5px !important;
+      padding: 0 4px !important;
+      border-radius: 5px !important;
+      border-width: 1.2px !important;
+    }
+    .hoe-am-pin.is-sub {
+      min-width: 21px;
+      height: 18px;
+      font-size: 8.5px !important;
+    }
+    .hoe-am-item {
+      gap: 8px;
+      padding: 4px 4px !important;
+    }
+    .hoe-am-badge {
+      width: 30px;
+      height: 30px;
+      font-size: 11.5px;
+    }
+    .hoe-am-item-text {
+      font-size: 11px;
+    }
+    .hoe-am-zoom-btn {
+      padding: 5px 10px !important;
+      font-size: 10.5px !important;
+      right: 8px;
+      bottom: 8px;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  var HOE_AMENITIES_DATA = [
+    {
+      id: "tang-1",
+      tabLabel: "TẦNG 1",
+      floorTitle: "TẦNG 1",
+      description: "Tổ hợp cảnh quan nhiệt đới, Quảng trường & Công viên ánh sáng trung tâm, Sảnh đón âm thanh và hệ tiện ích thương mại – thể thao nội khu.",
+      mapImage: "/assets/happy-one-elite/tien-ich-tang-1.jpg",
+      fullImage: "/assets/happy-one-elite/tien-ich-tang-1-full.jpg",
+      categories: [
+        {
+          title: "TIỆN ÍCH ĐÓN TIẾP & NỘI KHU",
+          items: [
+            { num: "01", name: "Cổng chào", x: 23.13, y: 20.51 },
+            { num: "02", name: "Vườn nhiệt đới", x: 35.39, y: 16.99 },
+            { num: "03", name: "Sảnh đón âm thanh", x: 47.01, y: 49.55 },
+            { num: "04", name: "Khu giao hàng", x: 35.07, y: 43.07 },
+            { num: "05", name: "Nghênh linh đài", x: 47.01, y: 35.20 },
+            { num: "06", name: "Hộp giao hàng thông minh", x: 38.09, y: 50.58 },
+            { num: "07", name: "Quảng trường ánh sáng", x: 46.75, y: 73.79 },
+            { num: "09", name: "Trường mầm non Elite", x: 75.80, y: 76.67 },
+            { num: "10", name: "Khu vui chơi trẻ em", x: 63.39, y: 81.03 },
+            { num: "11", name: "Vườn BBQ", x: 92.85, y: 77.09 },
+            { num: "12", name: "Sân cầu lông và Pickleball", x: 90.25, y: 62.05 },
+            { num: "13", name: "Khu thể thao đa năng ngoài trời", x: 86.93, y: 48.84 }
+          ]
+        },
+        {
+          title: "CÔNG VIÊN ÁNH SÁNG & BÃI ĐẬU XE",
+          items: [
+            { num: "08", name: "Công viên ánh sáng", x: 46.81, y: 61.40 },
+            { num: "8a", name: "Hồ nước nắng mai", x: 46.20, y: 65.63, sub: true },
+            { num: "8b", name: "Tường ánh nắng", x: 45.65, y: 80.10, sub: true },
+            { num: "8c", name: "Vườn xanh công việc", x: 56.38, y: 67.00, sub: true },
+            { num: "8d", name: "Vườn trẻ thơ", x: 62.03, y: 70.91, sub: true },
+            { num: "8e", name: "Đường chạy bộ Elite", x: 51.46, y: 79.07, sub: true },
+            { num: "8f", name: "Vườn ký ức", x: 38.09, y: 68.62, sub: true },
+            { num: "8g", name: "Vườn thư giãn", x: 39.45, y: 74.03, sub: true },
+            { num: "14", name: "Bãi đậu xe (3 khu A, B và C)", x: 11.99, y: 36.24 },
+            { num: "14a", name: "Khu A: Khu đậu xe cổng vào", x: 11.99, y: 36.24, sub: true },
+            { num: "14b", name: "Khu B: Khu đậu xe trước trường mầm non", x: 88.93, y: 81.95, sub: true },
+            { num: "14c", name: "Khu C: Khu đậu xe gần sân thể thao", x: 83.12, y: 38.84, sub: true }
+          ]
+        }
+      ]
+    },
+    {
+      id: "tang-12a",
+      tabLabel: "TẦNG 12A",
+      floorTitle: "TẦNG 12A",
+      description: "Cầu nối sinh thái lưng chừng trời kết nối 2 tòa tháp với Công viên âm thanh và Công viên ánh sáng trên cao – nơi tĩnh dưỡng Thân – Tâm – Trí.",
+      mapImage: "/assets/happy-one-elite/tien-ich-tang-12a.jpg",
+      fullImage: "/assets/happy-one-elite/tien-ich-tang-12a-full.jpg",
+      categories: [
+        {
+          title: "CÔNG VIÊN ÂM THANH TRÊN CAO",
+          items: [
+            { num: "21", name: "Công viên âm thanh trên cao", x: 48.64, y: 47.35 },
+            { num: "21a", name: "Vườn chuông gió", x: 35.20, y: 48.20, sub: true },
+            { num: "21b", name: "Vườn nước và thiên nhiên", x: 42.80, y: 46.50, sub: true },
+            { num: "21c", name: "Vườn tiếng sỏi", x: 58.60, y: 46.50, sub: true }
+          ]
+        },
+        {
+          title: "CÔNG VIÊN ÁNH SÁNG TRÊN CAO",
+          items: [
+            { num: "22", name: "Công viên ánh sáng trên cao", x: 48.09, y: 56.41 },
+            { num: "22a", name: "Vườn bình minh", x: 38.20, y: 55.80, sub: true },
+            { num: "22b", name: "Vườn Yoga hoàng hôn", x: 58.90, y: 56.20, sub: true },
+            { num: "22c", name: "Vườn mai và ánh sáng", x: 48.09, y: 60.60, sub: true }
+          ]
+        }
+      ]
+    },
+    {
+      id: "tang-26",
+      tabLabel: "TẦNG 26",
+      floorTitle: "TẦNG 26",
+      description: "Đặc quyền nghỉ dưỡng tầng thượng với Hồ bơi đáy kính pha lê trên cao, Sauna thượng tầng, Võng lưới trên không và chuỗi vườn chân mây.",
+      mapImage: "/assets/happy-one-elite/tien-ich-tang-26.jpg",
+      fullImage: "/assets/happy-one-elite/tien-ich-tang-26-full.jpg",
+      categories: [
+        {
+          title: "TỔ HỢP HỒ BƠI ĐÁY KÍNH & THƯ GIÃN THƯỢNG TẦNG",
+          items: [
+            { num: "28", name: "Hồ bơi đáy kính pha lê trên cao", x: 48.09, y: 56.41 },
+            { num: "29", name: "Sân tắm nắng trên cao", x: 48.64, y: 47.35 },
+            { num: "30", name: "Tiểu đình giọt nước", x: 57.30, y: 56.80 },
+            { num: "31", name: "Hồ thủy lực", x: 65.27, y: 54.29 },
+            { num: "32", name: "Hồ bơi trẻ em trên cao và sân chơi nước", x: 62.58, y: 46.09 },
+            { num: "33", name: "Khu Sauna thượng tầng", x: 46.03, y: 39.33 },
+            { num: "34", name: "Phòng thư giãn thượng tầng", x: 34.66, y: 39.72 }
+          ]
+        },
+        {
+          title: "VƯỜN CHÂN MÂY & THỂ THAO TRÊN KHÔNG",
+          items: [
+            { num: "24", name: "Sân thể thao trên cao ngoài trời", x: 6.02, y: 25.96 },
+            { num: "25", name: "Vườn xích đu", x: 7.54, y: 52.35 },
+            { num: "26", name: "Vườn thảo mộc", x: 6.35, y: 64.30 },
+            { num: "27", name: "Vườn đón nắng", x: 18.06, y: 65.77 },
+            { num: "35", name: "Vườn bậc thang hoàng hôn", x: 80.26, y: 56.91 },
+            { num: "36", name: "Sân đón nắng trên cao", x: 82.58, y: 68.05 },
+            { num: "37", name: "Võng lưới trên không", x: 82.22, y: 86.19 },
+            { num: "38", name: "Vườn trà trên không", x: 93.48, y: 75.03 },
+            { num: "39", name: "Vườn BBQ trên cao", x: 89.29, y: 56.06 }
+          ]
+        }
+      ]
+    }
+  ];
+
+  function mountHoeAmenities() {
+    var root = document.getElementById("mat-bang-tien-ich");
+    if (!root) return;
+
+    var state = {
+      floorIdx: 0,
+      activeNum: "01",
+      collapsed: {}
+    };
+
+    function getFlatItems(floor) {
+      var list = [];
+      for (var c = 0; c < floor.categories.length; c++) {
+        var items = floor.categories[c].items;
+        for (var i = 0; i < items.length; i++) {
+          list.push(items[i]);
+        }
+      }
+      return list;
+    }
+
+    function render() {
+      var floor = HOE_AMENITIES_DATA[state.floorIdx];
+      var allItems = getFlatItems(floor);
+      var activeItem = null;
+      for (var a = 0; a < allItems.length; a++) {
+        if (allItems[a].num === state.activeNum) {
+          activeItem = allItems[a];
+          break;
+        }
+      }
+      if (!activeItem && allItems.length) {
+        activeItem = allItems[0];
+        state.activeNum = activeItem.num;
+      }
+
+      var html = "";
+      // 1. Map Stage + Top Pill Tabs
+      html += '<div class="hoe-am-map-stage">';
+      html += '  <div class="hoe-am-pill-bar-wrap">';
+      html += '    <div class="hoe-am-pill-bar" role="tablist" aria-label="Chọn tầng tiện ích">';
+      for (var f = 0; f < HOE_AMENITIES_DATA.length; f++) {
+        var isFActive = f === state.floorIdx;
+        html += '<button type="button" role="tab" class="hoe-am-pill-btn' + (isFActive ? " is-active" : "") + '" data-hoe-floor="' + f + '">' + HOE_AMENITIES_DATA[f].tabLabel + '</button>';
+      }
+      html += '    </div>';
+      html += '  </div>';
+
+      // Map Viewport + Pins
+      html += '  <div class="hoe-am-map-viewport">';
+      html += '    <img class="hoe-am-map-img" src="' + floor.mapImage + '" alt="Mặt bằng tiện ích ' + floor.floorTitle + ' Happy One Elite" />';
+      html += '    <div class="hoe-am-pins-layer">';
+      var renderedCoords = {};
+      for (var p = 0; p < allItems.length; p++) {
+        var pin = allItems[p];
+        var coordKey = pin.x.toFixed(1) + "_" + pin.y.toFixed(1);
+        if (renderedCoords[coordKey] && pin.num === "14a") continue;
+        renderedCoords[coordKey] = true;
+        var isPinActive = state.activeNum === pin.num || (pin.num === "14" && state.activeNum === "14a");
+        html += '<button type="button" class="hoe-am-pin' + (pin.sub ? " is-sub" : "") + (isPinActive ? " is-active" : "") + '" style="left:' + pin.x + '%;top:' + pin.y + '%;" data-hoe-pin="' + pin.num + '" title="' + pin.num + ". " + pin.name + '">' + pin.num + '</button>';
+      }
+      if (activeItem) {
+        var posClass = "";
+        if (activeItem.y < 14) posClass += " is-bottom";
+        if (activeItem.x < 18) posClass += " is-left";
+        else if (activeItem.x > 82) posClass += " is-right";
+        html += '<div class="hoe-am-tooltip' + posClass + '" style="left:' + activeItem.x + '%;top:' + activeItem.y + '%;">';
+        html += '  <span class="hoe-am-tooltip-code">' + activeItem.num + '</span>';
+        html += '  <span class="hoe-am-tooltip-name">' + activeItem.name + '</span>';
+        html += '</div>';
+      }
+      html += '    </div>';
+      html += '    <button type="button" class="hoe-am-zoom-btn" data-hoe-zoom="' + floor.fullImage + '">🔍 Xem bản vẽ E-Leaflet gốc</button>';
+      html += '  </div>';
+      html += '</div>';
+
+      // 2. Directory Panel (The Privé Technical Layout in Happy One Elite Warm Luxury Palette)
+      html += '<div class="hoe-am-directory">';
+      html += '  <div class="hoe-am-header">';
+      html += '    <p class="hoe-am-subtitle">MẶT BẰNG TIỆN ÍCH</p>';
+      html += '    <h3 class="hoe-am-floor-title">' + floor.floorTitle + '</h3>';
+      html += '    <p class="hoe-am-floor-desc">' + floor.description + '</p>';
+      html += '  </div>';
+
+      for (var c = 0; c < floor.categories.length; c++) {
+        var cat = floor.categories[c];
+        var catKey = floor.id + "_" + c;
+        var isCollapsed = !!state.collapsed[catKey];
+        html += '<div class="hoe-am-cat-group' + (isCollapsed ? " is-collapsed" : "") + '">';
+        html += '  <button type="button" class="hoe-am-cat-header" data-hoe-cat="' + catKey + '">';
+        html += '    <h4 class="hoe-am-cat-title">' + cat.title + '</h4>';
+        html += '    <span class="hoe-am-cat-toggle">' + (isCollapsed ? "+" : "&minus;") + '</span>';
+        html += '  </button>';
+        html += '  <div class="hoe-am-cat-body">';
+        for (var i = 0; i < cat.items.length; i++) {
+          var item = cat.items[i];
+          var isItemActive = state.activeNum === item.num;
+          html += '<button type="button" class="hoe-am-item' + (isItemActive ? " is-active" : "") + '" data-hoe-item="' + item.num + '">';
+          html += '  <span class="hoe-am-badge">' + item.num + '</span>';
+          html += '  <span class="hoe-am-item-text">' + item.name + '</span>';
+          html += '</button>';
+        }
+        html += '  </div>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      root.innerHTML = html;
+    }
+
+    root.addEventListener("click", function (e) {
+      var floorBtn = e.target.closest ? e.target.closest("[data-hoe-floor]") : null;
+      if (floorBtn) {
+        var nextIdx = parseInt(floorBtn.getAttribute("data-hoe-floor"), 10);
+        if (!isNaN(nextIdx) && nextIdx !== state.floorIdx) {
+          state.floorIdx = nextIdx;
+          var firstItems = getFlatItems(HOE_AMENITIES_DATA[nextIdx]);
+          state.activeNum = firstItems.length ? firstItems[0].num : "";
+          render();
+        }
+        return;
+      }
+
+      var pinBtn = e.target.closest ? e.target.closest("[data-hoe-pin]") : null;
+      if (pinBtn) {
+        state.activeNum = pinBtn.getAttribute("data-hoe-pin");
+        render();
+        return;
+      }
+
+      var itemBtn = e.target.closest ? e.target.closest("[data-hoe-item]") : null;
+      if (itemBtn) {
+        state.activeNum = itemBtn.getAttribute("data-hoe-item");
+        render();
+        var mapEl = root.querySelector(".hoe-am-map-stage");
+        if (mapEl && window.innerWidth < 850) {
+          mapEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+        return;
+      }
+
+      var catBtn = e.target.closest ? e.target.closest("[data-hoe-cat]") : null;
+      if (catBtn) {
+        var key = catBtn.getAttribute("data-hoe-cat");
+        state.collapsed[key] = !state.collapsed[key];
+        render();
+        return;
+      }
+
+      var zoomBtn = e.target.closest ? e.target.closest("[data-hoe-zoom]") : null;
+      if (zoomBtn) {
+        var src = zoomBtn.getAttribute("data-hoe-zoom");
+        var lb = document.querySelector("[data-fp-lightbox]");
+        var lbImg = lb ? lb.querySelector("img") : null;
+        if (lb && lbImg && src) {
+          lbImg.src = src;
+          lb.classList.add("is-open");
+        } else if (src) {
+          window.open(src, "_blank");
+        }
+      }
+    });
+
+    root.addEventListener("mouseover", function (e) {
+      if (window.innerWidth < 850) return;
+      var target = e.target.closest ? e.target.closest("[data-hoe-item], [data-hoe-pin]") : null;
+      if (!target) return;
+      var num = target.getAttribute("data-hoe-item") || target.getAttribute("data-hoe-pin");
+      if (num && num !== state.activeNum) {
+        state.activeNum = num;
+        render();
+      }
+    });
+
+    render();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mountHoeAmenities);
+  } else {
+    mountHoeAmenities();
+  }
+})();
+</script>
+<!-- ================= END: HAPPY ONE ELITE - MẶT BẰNG TIỆN ÍCH ================= -->
 <p style="text-align: center;"><span style="color: #000000;"><strong><span id="7lnmg_6k39b_4789e" class="" data-text="true">CHÍNH SÁCH BÁN NHÀ VÀ GIÁ DỰ KIẾN ĐỢT 1.</span></strong></span></p>
 <div id="7lnmg_4fnl5"><span id="7lnmg_4fnl5_28ogp" class="" style="color: #000000;" data-text="true">1/ </span><span id="7lnmg_4fnl5_dresn" class="emoji-sizer emoji-outer" contenteditable="false">👉</span><span id="7lnmg_4fnl5_fu4k9" class="" style="color: #000000;" data-text="true"><strong> Chính sách BOOKING <span style="color: #ff0000;">50 Triệu</span> :</strong> Dành cho 158 xuất đầu tiên áp dụng từ 20/10/ 2026 ( <span style="color: #ff0000;"><strong>tức là khách hàng được chiết khấu thẳng 50 triệu</strong> </span>)</span></div>
 <div></div>
@@ -1559,7 +2277,7 @@ document.addEventListener("keydown", function(e) {
 	<div id="text-4245327790" class="text">
 		
 <p>THÔNG TIN</p>
-<p style="text-align: justify;"><span style="color: #000000;"><span style="color: #00a859;"><strong>Mặt bằng <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span> </strong></span>được thiết kế thông minh theo hình chữ H gồm 02 phân khu <strong>Tháp A</strong> và <strong>Tháp B</strong> cao 25 tầng nổi + 2 tầng hầm trên quỹ đất 8.761m², tối ưu khả năng đón gió và ánh sáng tự nhiên cho 100% căn hộ. Dự án cung ứng đa dạng loại hình sản phẩm từ Căn hộ 1PN (35,88 – 37,03 m²), 1PN+ (60,34 – 61,55 m²), 2PN (69,80 – 71,01 m²), 2PN+ (104,67 – 105,64 m²) đến Căn hộ sân vườn (Garden) và Officetel.</span></p>
+<p style="text-align: justify;"><span style="color: #000000;"><span style="color: #00a859;"><strong>Mặt bằng <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span> </strong></span>được thiết kế thông minh theo hình chữ H gồm 02 phân khu <strong>Tháp A</strong> và <strong>Tháp B</strong> cao 25 tầng nổi + tum (Tầng 26) &amp; 2 tầng hầm trên quỹ đất 8.761m², tối ưu khả năng đón gió và ánh sáng tự nhiên cho 100% căn hộ. Dự án cung ứng đa dạng loại hình sản phẩm từ TMDV (36,85 – 162,98 m²), Officetel (36,85 – 69,86 m²), Căn hộ 1BR (35,88 – 37,03 m²), 1BR+ (60,34 – 61,55 m²), 2BR (69,80 – 71,01 m²), 2BR+ (104,67 – 105,64 m²) đến Căn hộ 2BR Garden và Space Villa tích hợp sân vườn &amp; hồ Jacuzzi riêng.</span></p>
 		
 <style>
 #text-4245327790 {
@@ -1698,8 +2416,12 @@ document.addEventListener("keydown", function(e) {
   }
   .rf-fp-single-img {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
+    max-height: 820px;
     height: auto;
+    margin: 0 auto;
+    border-radius: 12px;
     cursor: zoom-in;
   }
   /* Slider nhiều ảnh (cho tab căn hộ có nhiều layout 1PN / 2PN / 3PN) */
@@ -1709,9 +2431,12 @@ document.addEventListener("keydown", function(e) {
     overflow: hidden;
     user-select: none;
     touch-action: pan-y;
+    background: #f4efe6;
+    border-radius: 12px;
   }
   .rf-fp-track {
     display: flex;
+    align-items: center;
     width: 100%;
     transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
     will-change: transform;
@@ -1723,8 +2448,11 @@ document.addEventListener("keydown", function(e) {
   }
   .rf-fp-slide img {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
+    max-height: 820px;
     height: auto;
+    margin: 0 auto;
     cursor: zoom-in;
   }
   .rf-fp-arrow {
@@ -1843,8 +2571,8 @@ document.addEventListener("keydown", function(e) {
     projectName: "HAPPY ONE ELITE",
     themeColor: "#00492b",       // Màu viền & chữ khi Tab đang chọn
     titleColor: "#283891",       // Màu chữ tiêu đề đóng khung
-    mainTitle: "MẶT BẰNG HAPPY ONE ELITE",
-    overviewImage: "/assets/happy-one-elite/mat-bang-ben-duoi.png",
+    mainTitle: "MẶT BẰNG TẦNG HAPPY ONE ELITE",
+    overviewImage: "",
 
     // Danh sách các cụm Tab (Tầng, Tháp, Loại căn... Có thể thêm/bớt tuỳ dự án)
     groups: [
@@ -1852,10 +2580,45 @@ document.addEventListener("keydown", function(e) {
         id: "tang",
         sectionTitle: "", // Để trống nếu nằm ngay dưới tiêu đề chính
         tabs: [
-          { label: "MẶT BẰNG TẦNG ĐIỂN HÌNH", images: ["/assets/happy-one-elite/mat-bang-tang-dien-hinh-happy-one-elite.jpg"] },
-          { label: "TẦNG 1 (MASTERPLAN)", images: ["/assets/happy-one-elite/mat-bang-ben-duoi.png"] },
-          { label: "SƠ ĐỒ PHÂN BỔ CĂN HỘ", images: ["/assets/happy-one-elite/mat-bang-du-an-happy-one-elite.png"] },
-          { label: "CƠ CẤU SẢN PHẨM", images: ["/assets/happy-one-elite/thong-ke-san-pham.jpg"] }
+          {
+            label: "TẦNG 8 - 21 (ĐIỂN HÌNH)",
+            images: [
+              "/assets/happy-one-elite/mb-tang-8-20-chan.jpg",
+              "/assets/happy-one-elite/mb-tang-9-21-le.jpg"
+            ]
+          },
+          {
+            label: "TẦNG 1 - 2 - 3 (TMDV)",
+            images: [
+              "/assets/happy-one-elite/mb-tang-1.jpg",
+              "/assets/happy-one-elite/mb-tang-2.jpg",
+              "/assets/happy-one-elite/mb-tang-3.jpg"
+            ]
+          },
+          {
+            label: "TẦNG 4 - 5 - 6 (OFFICETEL)",
+            images: [
+              "/assets/happy-one-elite/mb-tang-4-5.jpg",
+              "/assets/happy-one-elite/mb-tang-6.jpg"
+            ]
+          },
+          {
+            label: "TẦNG 7",
+            images: ["/assets/happy-one-elite/mb-tang-7.jpg"]
+          },
+          {
+            label: "TẦNG 12A",
+            images: ["/assets/happy-one-elite/mb-tang-12a.jpg"]
+          },
+          {
+            label: "TẦNG 22 - 23 - 24 - 25",
+            images: [
+              "/assets/happy-one-elite/mb-tang-22.jpg",
+              "/assets/happy-one-elite/mb-tang-23.jpg",
+              "/assets/happy-one-elite/mb-tang-24.jpg",
+              "/assets/happy-one-elite/mb-tang-25.jpg"
+            ]
+          }
         ]
       },
       {
@@ -1864,7 +2627,7 @@ document.addEventListener("keydown", function(e) {
         tabs: [
           { label: "THÁP A", images: ["/assets/happy-one-elite/mat-bang-thap-a-happy-one-elite.jpg"] },
           { label: "THÁP B", images: ["/assets/happy-one-elite/mat-bang-thap-b-happy-one-elite.jpg"] },
-          { label: "TỔNG THỂ THÁP A & B", images: ["/assets/happy-one-elite/mat-bang-tang-dien-hinh-happy-one-elite.jpg"] }
+          { label: "CƠ CẤU SẢN PHẨM", images: ["/assets/happy-one-elite/thong-ke-san-pham.jpg"] }
         ]
       },
       {
@@ -1872,32 +2635,44 @@ document.addEventListener("keydown", function(e) {
         sectionTitle: "MẶT BẰNG LAYOUT CĂN HỘ HAPPY ONE ELITE",
         tabs: [
           {
-            label: "CĂN 1 PHÒNG NGỦ (36M²)",
+            label: "CĂN 1BR (37.03M²)",
             images: [
-              "/assets/happy-one-elite/Layout-can-1PN-du-an-happy-one-elite.jpg"
+              "/assets/happy-one-elite/layout-1br-37m2.jpg"
             ]
           },
           {
-            label: "CĂN 1 PHÒNG NGỦ + (61M²)",
-            // Nếu mảng images có >= 2 ảnh, Engine tự động biến thành Slider vuốt ngang có mũi tên + chấm tròn
+            label: "CĂN 1BR+ (61.24 - 61.55M²)",
             images: [
-              "/assets/happy-one-elite/Layout-can-1PN-du-an-happy-one-elite-1.jpg",
-              "/assets/happy-one-elite/Layout-can-1PN-plus-61-24m2-happy-one-elite.jpg",
-              "/assets/happy-one-elite/Layout-can-1PN-plus-61m2-happy-one-elite.jpg"
+              "/assets/happy-one-elite/layout-1br-plus-61-24m2.jpg",
+              "/assets/happy-one-elite/layout-1br-plus-61-55m2.jpg"
             ]
           },
           {
-            label: "CĂN 2 PHÒNG NGỦ (70M²)",
+            label: "CĂN 2BR (70.61 - 70.82M²)",
             images: [
-              "/assets/happy-one-elite/Layout-can-2PN-du-an-happy-one-elite.jpg",
-              "/assets/happy-one-elite/Layout-can-2PN-basic-happy-one-elite.jpg",
-              "/assets/happy-one-elite/Layout-can-2PN-corner-happy-one-elite.jpg"
+              "/assets/happy-one-elite/layout-2br-70-82m2.jpg",
+              "/assets/happy-one-elite/layout-2br-70-61m2.jpg"
             ]
           },
           {
-            label: "CĂN 2PN+ / 3PN (105M²)",
+            label: "CĂN 2BR+ (104.75M²)",
             images: [
-              "/assets/happy-one-elite/Layout-can-3PN-du-an-happy-one-elite.jpg"
+              "/assets/happy-one-elite/layout-2br-plus-104-75m2.jpg"
+            ]
+          },
+          {
+            label: "SPACE VILLA & 2BR GARDEN",
+            images: [
+              "/assets/happy-one-elite/layout-2br-garden.jpg",
+              "/assets/happy-one-elite/layout-space-villa.jpg"
+            ]
+          },
+          {
+            label: "OFFICETEL & TMDV",
+            images: [
+              "/assets/happy-one-elite/layout-officetel-ot01.jpg",
+              "/assets/happy-one-elite/layout-officetel-ot07.jpg",
+              "/assets/happy-one-elite/layout-tmdv.jpg"
             ]
           }
         ]
