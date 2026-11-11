@@ -7,6 +7,9 @@
 
 	<script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
 <!-- Tối ưu hóa công cụ tìm kiếm bởi Rank Math - https://rankmath.com/ -->
 <title>Happy One Elite Vạn Xuân -【Website chính thức ®】</title>
 <meta name="description" content="Happy One Elite là khu căn hộ cao cấp tọa lạc tại trung tâm thành phố, góc view thu hút tài lộc. Bàn giao full nội thất. Liên hệ PKD 0938819400 (Hồng Phúc)"/>
@@ -684,10 +687,56 @@ img, figure, .wp-caption {
 			
 <span class="scroll-to" data-label="Scroll to: #gioithieu" data-bullet="false" data-link="#gioithieu" data-title="gioithieu" ><a name="gioithieu"></a></span>
 	<div id="text-2038467032" class="text">
-		<style>
+		<style id="hoe-editorial-type">
+		/* Hệ chữ E-Leaflet Vạn Xuân: mềm mại, sang trọng, không thô cứng */
+		#main {
+			font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
+			color: #362922;
+		}
+		#main p:not([class*="hoe-am"]),
+		#main ul:not(.rf-fp-nav):not(.hoe-8reasons-list):not([class*="hoe-am"]) > li {
+			font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
+			color: #362922 !important;
+			font-size: 15.5px !important;
+			line-height: 1.74 !important;
+			letter-spacing: -0.004em;
+		}
+		#main p:not([class*="hoe-am"]) span,
+		#main ul:not(.rf-fp-nav):not(.hoe-8reasons-list):not([class*="hoe-am"]) > li span {
+			color: inherit !important;
+			font-size: inherit !important;
+		}
+		#main p strong,
+		#main li strong,
+		#main p a strong,
+		#main p a {
+			color: #5c2d16 !important;
+			font-weight: 700;
+		}
+		#main mark {
+			background: rgba(189, 148, 90, 0.2) !important;
+			color: #4a220f !important;
+			padding: 1px 5px;
+			border-radius: 4px;
+		}
+		#main figcaption.wp-caption-text {
+			font-family: 'Playfair Display', Georgia, serif !important;
+			font-style: italic !important;
+			color: #6b4c35 !important;
+			font-size: 14px !important;
+			margin-top: 6px;
+		}
+		@media (max-width: 640px) {
+			#main p[style*="justify"],
+			#main ul[style*="justify"],
+			#main li[style*="justify"] {
+				text-align: left !important;
+			}
+		}
+
 		.hoe-intro-banner-wrap {
 			width: 100%;
-			margin: 0 auto 20px;
+			margin: 0 auto 18px;
 		}
 		.hoe-intro-banner-wrap img {
 			width: 100%;
@@ -698,24 +747,246 @@ img, figure, .wp-caption {
 			.hoe-intro-banner-wrap {
 				width: calc(100% + 30px);
 				max-width: calc(100% + 30px);
-				margin: -14px -15px 18px;
+				margin: -14px -15px 16px;
 			}
+		}
+
+		/* Slogan Lockup mở đầu */
+		.hoe-slogan-lockup {
+			margin: 6px auto 20px;
+			text-align: center;
+		}
+		.hoe-slogan-lockup img {
+			display: block;
+			width: 94%;
+			max-width: 540px;
+			height: auto;
+			margin: 0 auto;
+		}
+
+		/* Tiêu đề 2 tầng phong cách E-Leaflet (Calligraphy + Bold Espresso + gạch chân _) */
+		.hoe-ed-heading {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			text-align: left;
+			margin: 22px 0 14px !important;
+			line-height: 1.2 !important;
+		}
+		.hoe-ed-heading.is-center {
+			align-items: center;
+			text-align: center;
+		}
+		.hoe-ed-kicker {
+			font-family: 'Great Vibes', cursive !important;
+			font-weight: 400 !important;
+			font-size: clamp(30px, 7.2vw, 40px) !important;
+			line-height: 1.08 !important;
+			color: #5c2d16 !important;
+			margin-bottom: -2px;
+			text-transform: none !important;
+			letter-spacing: 0.01em;
+		}
+		.hoe-ed-main {
+			font-family: 'Be Vietnam Pro', system-ui, sans-serif !important;
+			font-weight: 800 !important;
+			font-size: clamp(18px, 4.6vw, 24px) !important;
+			line-height: 1.32 !important;
+			color: #4a220f !important;
+			letter-spacing: 0.01em;
+			text-transform: none !important;
+		}
+		.hoe-ed-sub {
+			font-family: 'Playfair Display', Georgia, serif !important;
+			font-style: italic;
+			font-weight: 600 !important;
+			font-size: clamp(15px, 3.8vw, 18px) !important;
+			color: #7b4b2a !important;
+			margin-top: 3px;
+		}
+		.hoe-ed-bar {
+			display: inline-block;
+			width: 22px;
+			height: 3px;
+			background: #4a220f;
+			border-radius: 2px;
+			margin-left: 5px;
+			vertical-align: baseline;
+			transform: translateY(-1px);
+		}
+
+		/* Khối 8 Lý do Nên chọn Happy One Elite */
+		.hoe-8reasons {
+			margin: 24px auto 26px;
+			padding: 20px 16px 22px;
+			background: linear-gradient(180deg, rgba(255, 252, 246, 0.78) 0%, rgba(238, 230, 215, 0.55) 100%);
+			border: 1px solid rgba(138, 98, 60, 0.22);
+			border-radius: 18px;
+			box-shadow: 0 10px 28px rgba(74, 34, 15, 0.06);
+			text-align: left;
+		}
+		.hoe-8reasons-head {
+			margin: 0 auto 16px;
+			text-align: center;
+		}
+		.hoe-8reasons-head img {
+			display: block;
+			width: 78%;
+			max-width: 310px;
+			height: auto;
+			margin: 0 auto;
+		}
+		.hoe-8reasons-list {
+			list-style: none !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 10px 14px;
+		}
+		.hoe-8reasons-item {
+			display: flex;
+			align-items: center;
+			gap: 11px;
+			margin: 0 !important;
+			padding: 11px 13px;
+			background: rgba(255, 253, 249, 0.88);
+			border: 1px solid rgba(140, 102, 62, 0.2);
+			border-radius: 12px;
+			box-shadow: 0 3px 10px rgba(74, 34, 15, 0.04);
+		}
+		.hoe-8reasons-num {
+			flex-shrink: 0;
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			background: linear-gradient(145deg, #6b361a, #4a220f);
+			color: #f8efe0 !important;
+			font-family: 'Playfair Display', Georgia, serif !important;
+			font-style: italic;
+			font-weight: 700;
+			font-size: 14px !important;
+			line-height: 1 !important;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 2px 6px rgba(74, 34, 15, 0.22);
+		}
+		.hoe-8reasons-txt {
+			font-family: 'Be Vietnam Pro', system-ui, sans-serif !important;
+			font-size: 13.5px !important;
+			font-weight: 600 !important;
+			line-height: 1.44 !important;
+			color: #4a220f !important;
+			letter-spacing: 0.01em;
+		}
+		.hoe-8reasons-txt em {
+			font-family: 'Playfair Display', Georgia, serif !important;
+			font-style: italic;
+			font-weight: 600;
+			color: #8a562d !important;
+			text-transform: none;
+			font-size: 13.5px !important;
+		}
+		@media (max-width: 749px) {
+			.hoe-8reasons {
+				padding: 18px 13px 18px;
+			}
+			.hoe-8reasons-list {
+				grid-template-columns: 1fr;
+				gap: 9px;
+			}
+		}
+
+		/* Danh sách lợi thế & bullet mềm mại */
+		.hoe-adv-cards {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 10px 14px;
+			margin: 12px 0 16px;
+			text-align: left;
+		}
+		.hoe-adv-card {
+			padding: 12px 14px;
+			background: rgba(255, 252, 246, 0.68);
+			border-left: 3px solid #8c5a32;
+			border-radius: 0 12px 12px 0;
+			font-size: 15px !important;
+			line-height: 1.62 !important;
+			color: #362922;
+		}
+		.hoe-adv-card strong {
+			color: #5c2d16 !important;
+			display: block;
+			margin-bottom: 2px;
+			font-size: 15.5px;
+		}
+		@media (max-width: 649px) {
+			.hoe-adv-cards {
+				grid-template-columns: 1fr;
+			}
+		}
+		#main .col-inner > ul:not(.rf-fp-nav),
+		#main .text > ul:not(.hoe-8reasons-list) {
+			list-style: none !important;
+			padding-left: 0 !important;
+			margin: 12px 0 18px !important;
+		}
+		#main .col-inner > ul:not(.rf-fp-nav) > li,
+		#main .text > ul:not(.hoe-8reasons-list) > li {
+			position: relative;
+			padding-left: 22px !important;
+			margin-bottom: 9px !important;
+		}
+		#main .col-inner > ul:not(.rf-fp-nav) > li::before,
+		#main .text > ul:not(.hoe-8reasons-list) > li::before {
+			content: "◆";
+			position: absolute;
+			left: 2px;
+			top: 1px;
+			font-size: 11px;
+			color: #8c5a32;
 		}
 		</style>
 		<div class="hoe-intro-banner-wrap">
 			<img src="/happy-one-elite-2ty150.jpg" alt="Căn hộ cao cấp Happy One Elite sở hữu dễ dàng chỉ 2 tỷ 150 / căn" decoding="async" />
 		</div>
-<h1 class="title22" style="text-align: center;"><span style="color: #000080; font-size: 90%;">HAPPY ONE ELITE – SỐNG THƯỢNG LƯU, TÂM ĐIỂM KẾT NỐI, KIẾN TẠO GIÁ TRỊ.</span></h1>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">✨ <strong>Happy One Elite</strong> kiến tạo chuẩn sống hiện đại với không gian sống đẳng cấp, tiện ích đa dạng với vị trí kết nối thuận tiện đến các trục giao thông trọng điểm như Đại lộ Phạm Văn Đồng, Quốc lộ 1A và Quốc lộ 13.</span></p>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">💎 Không chỉ là nơi an cư lý tưởng, mà còn là lựa chọn dành cho những ai mong muốn nâng tầm chất lượng sống và hướng đến tương lai thịnh vượng. Đồng thời mở ra cơ hội đón đầu tiềm năng phát triển trong tương lai.</span></p>
-<p><img loading="lazy" decoding="async" class="aligncenter size-full" src="/happy-one-elite-kien-truc-vinh-danh.jpg" alt="Kiến trúc được vinh danh - Chất sống đáng mong chờ Happy One Elite" style="width: 100%; height: auto; display: block; margin: 0 auto;" /></p>
-<h2 class="title22" style="text-align: center;"><span style="color: #000080; font-size: 90%;">🏙️ HAPPY ONE ELITE – ĐÓN ĐẦU HẠ TẦNG, CHỌN NƠI AN CƯ, TÍCH LŨY GIÁ TRỊ BỀN VỮNG</span></h2>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">✨ <strong>Lợi thế nổi bật của Happy One Elite:</strong></span></p>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">🔹 <strong>Vị trí tiềm năng:</strong> Nằm giữa khu dân cư hiện hữu, nguồn cung căn hộ cao cấp xung quanh chưa quá dày đặc, tạo lợi thế cạnh tranh.</span></p>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">🔹 <strong>Kết nối thuận tiện:</strong> Dễ dàng tiếp cận các khu dân cư, khu công nghiệp và trung tâm thương mại; hưởng lợi từ sự phát triển hạ tầng giao thông, đặc biệt là Vành đai 2.</span></p>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">🔹 <strong>Nhu cầu an cư &amp; cho thuê:</strong> Vị trí kết nối các khu vực kinh tế cùng hệ tiện ích hiện đại tạo sức hút với khách hàng mua ở và thuê nhà.</span></p>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">🔹 <strong>Tiện ích khác biệt:</strong> Hồ bơi đáy kính, Gym – Yoga, shophouse, khu thương mại và hệ tiện ích đa dạng nâng tầm trải nghiệm sống, gia tăng sức cạnh tranh.</span></p>
-<p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">💎 <strong>Happy One Elite</strong> không chỉ kiến tạo không gian sống hiện đại, mà còn mở ra cơ hội tích lũy tài sản trung và dài hạn, đón đầu tiềm năng phát triển hạ tầng khu vực.</span></p>
+<h1 class="hoe-slogan-lockup">
+	<span class="screen-reader-text">Happy One Elite – Sống thượng lưu, Tâm điểm kết nối, Kiến tạo giá trị</span>
+	<img src="/happy-one-elite-slogan-lockup.png" alt="Sống thượng lưu, Tâm điểm kết nối, Kiến tạo giá trị - Happy One Elite" decoding="async" />
+</h1>
+<p style="text-align: justify;"><strong>Happy One Elite</strong> kiến tạo chuẩn sống hiện đại với không gian sống đẳng cấp, tiện ích đa dạng cùng vị trí kết nối thuận tiện đến các trục giao thông trọng điểm như Đại lộ Phạm Văn Đồng, Quốc lộ 1A và Quốc lộ 13.</p>
+<p style="text-align: justify;">Không chỉ là nơi an cư lý tưởng, dự án còn là lựa chọn dành cho những chủ nhân mong muốn nâng tầm chất lượng sống, hướng đến tương lai thịnh vượng và đón đầu dư địa phát triển bền vững của khu Đông.</p>
+<p><img loading="lazy" decoding="async" class="aligncenter size-full" src="/happy-one-elite-kien-truc-vinh-danh.jpg" alt="Kiến trúc được vinh danh - Chất sống đáng mong chờ Happy One Elite" style="width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 10px;" /></p>
+
+<div class="hoe-8reasons" aria-label="8 Lý do nên chọn Happy One Elite">
+	<h2 class="hoe-8reasons-head">
+		<span class="screen-reader-text">8 Lý do nên chọn Happy One Elite</span>
+		<img loading="lazy" decoding="async" src="/happy-one-elite-8-ly-do.png" alt="8 Lý do nên chọn Happy One Elite" />
+	</h2>
+	<ol class="hoe-8reasons-list">
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">01</span><span class="hoe-8reasons-txt">GIAO ĐIỂM THỊNH VƯỢNG, KẾT NỐI TƯƠNG LAI</span></li>
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">02</span><span class="hoe-8reasons-txt">HỒ BƠI ĐÁY KÍNH TRÊN CAO LẦN ĐẦU XUẤT HIỆN TRONG KHU VỰC</span></li>
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">03</span><span class="hoe-8reasons-txt">TIẾT DIỆN BAN CÔNG KÍNH CONG LỚN</span></li>
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">04</span><span class="hoe-8reasons-txt">CÔNG NGHỆ NHÀ THÔNG MINH</span></li>
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">05</span><span class="hoe-8reasons-txt">NỘI THẤT BÀN GIAO CAO CẤP ĐẾN TỪ CHÂU ÂU</span></li>
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">06</span><span class="hoe-8reasons-txt">SIÊU TIỆN ÍCH KHÁC BIỆT</span></li>
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">07</span><span class="hoe-8reasons-txt">SỬ DỤNG CÔNG NGHỆ ÂM THANH, ÁNH SÁNG, MẢNG XANH ĐA TẦNG</span></li>
+		<li class="hoe-8reasons-item"><span class="hoe-8reasons-num">08</span><span class="hoe-8reasons-txt">THIẾT KẾ KIẾN TRÚC CĂN HỘ XUẤT SẮC NHẤT TP.HCM <em>(Vinh danh bởi PropertyGuru)</em></span></li>
+	</ol>
+</div>
+
+<h2 class="hoe-ed-heading is-center">
+	<span class="hoe-ed-kicker">Đón đầu hạ tầng,</span>
+	<span class="hoe-ed-main">Chọn nơi an cư, Tích lũy giá trị bền vững<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+</h2>
+<div class="hoe-adv-cards">
+	<div class="hoe-adv-card"><strong>Vị trí tiềm năng</strong>Nằm giữa khu dân cư hiện hữu sầm uất, nguồn cung căn hộ cao cấp xung quanh còn khan hiếm, tạo lợi thế cạnh tranh rõ nét.</div>
+	<div class="hoe-adv-card"><strong>Kết nối thuận tiện</strong>Dễ dàng tiếp cận khu dân cư, khu công nghiệp và trung tâm thương mại; hưởng lợi trực tiếp từ hạ tầng giao thông, đặc biệt là Vành đai 2.</div>
+	<div class="hoe-adv-card"><strong>Nhu cầu an cư &amp; cho thuê</strong>Tâm điểm kết nối các khu vực kinh tế năng động cùng hệ tiện ích hiện đại tạo sức hút bền vững với cả khách mua ở thực lẫn thuê ở.</div>
+	<div class="hoe-adv-card"><strong>Tiện ích khác biệt</strong>Hồ bơi đáy kính trên cao, Gym – Yoga, shophouse thương mại và mảng xanh đa tầng nâng tầm trải nghiệm sống mỗi ngày.</div>
+</div>
+<p style="text-align: justify;"><strong>Happy One Elite</strong> không chỉ kiến tạo không gian sống chuẩn mực, mà còn mở ra cơ hội tích lũy tài sản trung và dài hạn, đón đầu nhịp phát triển hạ tầng toàn khu vực.</p>
 		
 <style>
 #text-2038467032 {
@@ -759,7 +1030,10 @@ img, figure, .wp-caption {
 <div class="row align-center" style="max-width:1100px" id="row-1436295763">
 	<div class="col small-12 large-12" style="padding-bottom: 14px;">
 		<div class="col-inner">
-			<h2 class="title22" style="text-align: center; margin-bottom: 14px;"><span style="color: #000080; font-size: 95%;">TỔNG QUAN HAPPY ONE ELITE</span></h2>
+			<h2 class="hoe-ed-heading is-center" style="margin-top: 6px !important;">
+				<span class="hoe-ed-kicker">Thông tin cốt lõi,</span>
+				<span class="hoe-ed-main">TỔNG QUAN HAPPY ONE ELITE<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+			</h2>
 			<p style="margin: 0;"><img loading="lazy" decoding="async" class="aligncenter size-full" src="/happy-one-elite-tong-quan-v2.jpg" alt="Tổng quan dự án Happy One Elite" style="width: 100%; max-width: 720px; height: auto; display: block; margin: 0 auto; border-radius: 6px;" /></p>
 		</div>
 	</div>
@@ -775,7 +1049,10 @@ img, figure, .wp-caption {
 		
 <p><img loading="lazy" decoding="async" class="aligncenter size-full" src="/happy-one-elite-giai-ma-vi-tri.jpg" alt="Giải mã vị trí Happy One Elite - Một vị trí Nhiều hướng kết nối" style="width: 100%; height: auto; display: block; margin: 0 auto 16px; border-radius: 10px;" /></p>
 <p><img loading="lazy" decoding="async" class="aligncenter size-full" src="/happy-one-elite-vi-tri-ha-tang.jpg" alt="Hạ tầng mở lối - Giá trị nối dài Happy One Elite" style="width: 100%; height: auto; display: block; margin: 0 auto 16px; border-radius: 10px;" /></p>
-<h2 class="title22"><span style="color: #283891;">VỊ TRÍ DỰ ÁN</span></h2>
+<h2 class="hoe-ed-heading">
+	<span class="hoe-ed-kicker">Tâm điểm giao thương,</span>
+	<span class="hoe-ed-main">VỊ TRÍ DỰ ÁN<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+</h2>
 <p style="text-align: justify;"><span style="color: #000000; font-size: 105%;"><span style="color: #00a859;"><a style="color: #00a859;" href="https://happy-oneelite.com/"><strong>Vị trí dự án <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span></strong></a></span> ở số 191/2 Tam Bình, P Tam Bình,  Thành Phố HCM nằm giữa khu dân cư đông đúc – sầm uất – giàu có, được thừa hưởng trọn vẹn “mọi tiện ích ngay bên hiên nhà”. Chỉ với  3-5 phút hoặc trong bán kính 5km có đầy đủ mọi tiện ích phục vụ mọi nhu cầu thiết thực của cư dân chung cư <span style="color: #000000;"><strong><span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="color: #00a859;"><span style="font-size: 105%;">Happy One Elite</span></span></span></strong></span>. Đây không chỉ là một nơi ở, mà còn là nền tảng cho một cuộc sống hiện đại và tiện nghi, với sự thuận tiện đặc biệt kết nối môi trường xung quanh.</span></p>
 <style>
 #text-1096361482 {
@@ -812,7 +1089,10 @@ img, figure, .wp-caption {
 			
 			
 <span class="scroll-to" data-label="Scroll to: #tienich" data-bullet="false" data-link="#tienich" data-title="tienich" ><a name="tienich"></a></span>
-<h2 class="title22" style="text-align: left;"><span style="color: #5c2d16;">TIỆN ÍCH DỰ ÁN</span></h2>
+<h2 class="hoe-ed-heading">
+	<span class="hoe-ed-kicker">Chuẩn sống tinh hoa,</span>
+	<span class="hoe-ed-main">TIỆN ÍCH DỰ ÁN<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+</h2>
 <p style="text-align: justify;"><span style="color: #000000; font-size: 105%;">Một căn hộ sẽ trở nên đáng sống hơn khi ngay bên ngoài cánh cửa nhà là những không gian phục vụ cho cuộc sống hằng ngày. Tại <strong><span style="color: #5c2d16;">Happy One Elite</span></strong>, hệ thống tiện ích nội khu được định hướng phục vụ nhiều nhu cầu của cư dân, từ vui chơi, vận động đến thư giãn và gặp gỡ gia đình, bạn bè. Nhờ đó, cư dân có thể tận hưởng nhiều hoạt động ngay tại nơi mình sinh sống mà không cần phải di chuyển quá xa.</span></p>
 <div id="mat-bang-tien-ich" class="hoe-am-root"></div>
 <p><img loading="lazy" decoding="async" class="aligncenter size-full" src="/happy-one-elite-tien-ich-1.jpg" alt="Tiện ích dự án Happy One Elite - Voronoi Light Art" style="width: 100%; height: auto; display: block; margin: 0 auto 15px auto;" /></p>
@@ -1784,8 +2064,9 @@ img, figure, .wp-caption {
   // ============================================================================
   var FLOORPLAN_ENGINE_CONFIG = {
     projectName: "HAPPY ONE ELITE",
-    themeColor: "#00492b",       // Màu viền & chữ khi Tab đang chọn
-    titleColor: "#283891",       // Màu chữ tiêu đề đóng khung
+    themeColor: "#5c2d16",       // Màu viền & chữ khi Tab đang chọn
+    titleColor: "#4a220f",       // Màu chữ tiêu đề
+    mainKicker: "Không gian tinh tuyển,",
     mainTitle: "MẶT BẰNG TẦNG HAPPY ONE ELITE",
     overviewImage: "",
 
@@ -1821,6 +2102,7 @@ img, figure, .wp-caption {
       },
       {
         id: "can-ho",
+        sectionKicker: "Thiết kế tối ưu,",
         sectionTitle: "MẶT BẰNG LAYOUT CĂN HỘ HAPPY ONE ELITE",
         tabs: [
           {
@@ -1891,7 +2173,7 @@ img, figure, .wp-caption {
     var html = '<div class="rf-fp-engine" style="--fp-primary:' + (cfg.themeColor || "#00492b") + ';--fp-title-color:' + (cfg.titleColor || "#00726d") + ';">';
 
     if (cfg.mainTitle) {
-      html += '<div class="rf-fp-title-wrap"><h2 class="rf-fp-title"><b></b><span>' + cfg.mainTitle + '</span><b></b></h2></div>';
+      html += '<div class="rf-fp-title-wrap"><h2 class="hoe-ed-heading is-center">' + (cfg.mainKicker ? '<span class="hoe-ed-kicker">' + cfg.mainKicker + '</span>' : '') + '<span class="hoe-ed-main">' + cfg.mainTitle + '<span class="hoe-ed-bar" aria-hidden="true"></span></span></h2></div>';
     }
     if (cfg.overviewImage) {
       html += '<div class="rf-fp-overview"><img loading="lazy" decoding="async" src="' + cfg.overviewImage + '" alt="' + (cfg.mainTitle || "") + '" data-fp-zoom="' + cfg.overviewImage + '" /></div>';
@@ -1904,7 +2186,7 @@ img, figure, .wp-caption {
       if (!tabs.length) continue;
 
       if (group.sectionTitle) {
-        html += '<div class="rf-fp-title-wrap"><h3 class="rf-fp-title"><b></b><span>' + group.sectionTitle + '</span><b></b></h3></div>';
+        html += '<div class="rf-fp-title-wrap"><h3 class="hoe-ed-heading is-center">' + (group.sectionKicker ? '<span class="hoe-ed-kicker">' + group.sectionKicker + '</span>' : '') + '<span class="hoe-ed-main">' + group.sectionTitle + '<span class="hoe-ed-bar" aria-hidden="true"></span></span></h3></div>';
       }
 
       html += '<div class="rf-fp-group" data-fp-group="' + g + '">';
@@ -2101,9 +2383,12 @@ img, figure, .wp-caption {
 <span class="scroll-to" data-label="Scroll to: #tiendo" data-bullet="false" data-link="#tiendo" data-title="tiendo" ><a name="tiendo"></a></span>
 	<div id="text-1056914630" class="text">
 		
-<h2 class="title22"><span style="color: #000000;">TIẾN ĐỘ XÂY DỰNG</span></h2>
-<figure id="attachment_763" aria-describedby="caption-attachment-763" style="width: 2560px" class="wp-caption aligncenter"><img loading="lazy" decoding="async" class="wp-image-763 size-full" src="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava.jpg" alt="Thực tế độ dự án Happy One Elite mới nhất" width="2560" height="1920" srcset="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava.jpg 2560w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-300x225.jpg 300w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-1024x768.jpg 1024w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-768x576.jpg 768w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-1536x1152.jpg 1536w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-2048x1536.jpg 2048w" sizes="auto, (max-width: 2560px) 100vw, 2560px" /><figcaption id="caption-attachment-763" class="wp-caption-text">Thực tế độ dự án Happy One Elite mới nhất</figcaption></figure>
-<figure id="attachment_764" aria-describedby="caption-attachment-764" style="width: 1280px" class="wp-caption aligncenter"><img loading="lazy" decoding="async" class="wp-image-764 size-full" src="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava.jpg" alt="Thực tế độ dự án Happy One Elite tháng 10" width="1280" height="960" srcset="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava.jpg 1280w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava-300x225.jpg 300w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava-1024x768.jpg 1024w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava-768x576.jpg 768w" sizes="auto, (max-width: 1280px) 100vw, 1280px" /><figcaption id="caption-attachment-764" class="wp-caption-text">Thực tế độ dự án Happy One Elite tháng 10</figcaption></figure>
+<h2 class="hoe-ed-heading">
+	<span class="hoe-ed-kicker">Dấu ấn thực tế,</span>
+	<span class="hoe-ed-main">TIẾN ĐỘ XÂY DỰNG<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+</h2>
+<figure id="attachment_763" aria-describedby="caption-attachment-763" style="width: 2560px" class="wp-caption aligncenter"><img loading="lazy" decoding="async" class="wp-image-763 size-full" src="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava.jpg" alt="Thực tế độ dự án Happy One Elite mới nhất" width="2560" height="1920" srcset="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava.jpg 2560w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-300x225.jpg 300w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-1024x768.jpg 1024w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-768x576.jpg 768w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-1536x1152.jpg 1536w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-du-an-ava-2048x1536.jpg 2048w" sizes="auto, (max-width: 2560px) 100vw, 2560px" /><figcaption id="caption-attachment-763" class="wp-caption-text">Thực tế tiến độ dự án Happy One Elite mới nhất</figcaption></figure>
+<figure id="attachment_764" aria-describedby="caption-attachment-764" style="width: 1280px" class="wp-caption aligncenter"><img loading="lazy" decoding="async" class="wp-image-764 size-full" src="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava.jpg" alt="Thực tế độ dự án Happy One Elite tháng 10" width="1280" height="960" srcset="https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava.jpg 1280w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava-300x225.jpg 300w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava-1024x768.jpg 1024w, https://happy-oneelite.com/wp-content/uploads/2025/10/Tien-do-xay-dung-du-an-ava-768x576.jpg 768w" sizes="auto, (max-width: 1280px) 100vw, 1280px" /><figcaption id="caption-attachment-764" class="wp-caption-text">Thực tế tiến độ dự án Happy One Elite</figcaption></figure>
 		
 <style>
 #text-1056914630 {
@@ -2115,8 +2400,11 @@ img, figure, .wp-caption {
 </style>
 	</div>
 	
-<h2 class="title22" style="text-align: left;"><span style="color: #333399;"><strong><span style="font-size: 105%;">PHÁP LÝ HAPPY ONE ELITE</span></strong></span></h2>
-<p style="text-align: justify;" data-sourcepos="3:1-3:213"><span style="font-size: 105%; color: #000000;"><span data-huuid="3243969093537475217"><span style="color: #003300;"><a style="color: #003300;" href="https://happy-oneelite.com/">Pháp lý dự án <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span> </a></span>được xem là đã hoàn thiện đầy đủ, bao gồm <mark class="QVRyCf">Giấy phép xây dựng, Giấy chứng nhận sử dụng đất và các quyết định chấp thuận chủ trương đầu tư, quy hoạch 1/500 đã được phê duyệt</mark>. </span><span data-huuid="3243969093537475646">Các giấy tờ này khẳng định dự án đủ điều kiện để triển khai thi công và bán ra thị trường, đảm bảo quyền lợi của khách hàng được pháp luật bảo vệ và có sổ hồng sở hữu lâu dà</span>Tại <strong>dự án <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span></strong> chúng tôi cam kết đảm bảo tính minh bạch và an toàn pháp lý tuyệt đối, mang đến sự yên tâm cho quý khách hàng.</span></p>
+<h2 class="hoe-ed-heading">
+	<span class="hoe-ed-kicker">An tâm sở hữu,</span>
+	<span class="hoe-ed-main">PHÁP LÝ HAPPY ONE ELITE<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+</h2>
+<p style="text-align: justify;" data-sourcepos="3:1-3:213"><span style="font-size: 105%; color: #000000;"><span data-huuid="3243969093537475217"><span style="color: #003300;"><a style="color: #003300;" href="https://happy-oneelite.com/">Pháp lý dự án <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span> </a></span>được xem là đã hoàn thiện đầy đủ, bao gồm <mark class="QVRyCf">Giấy phép xây dựng, Giấy chứng nhận sử dụng đất và các quyết định chấp thuận chủ trương đầu tư, quy hoạch 1/500 đã được phê duyệt</mark>. </span><span data-huuid="3243969093537475646">Các giấy tờ này khẳng định dự án đủ điều kiện để triển khai thi công và bán ra thị trường, đảm bảo quyền lợi của khách hàng được pháp luật bảo vệ và có sổ hồng sở hữu lâu dài. </span>Tại <strong>dự án <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span></strong> chúng tôi cam kết đảm bảo tính minh bạch và an toàn pháp lý tuyệt đối, mang đến sự yên tâm cho quý khách hàng.</span></p>
 <ul style="text-align: justify;" data-sourcepos="5:1-5:66">
 <li data-sourcepos="5:1-5:66"><span style="font-size: 105%; color: #000000;">Sổ hồng sở hữu lâu dài</span></li>
 <li data-sourcepos="6:1-6:20"><span style="font-size: 105%; color: #000000;">Giấy phép xây dựng đầy đủ</span></li>
@@ -2138,7 +2426,10 @@ img, figure, .wp-caption {
 			
 	<div id="text-1245376234" class="text">
 		
-<h2 style="text-align: left;"><strong><span style="color: #000080;">NHÀ MẪU HAPPY ONE ELITE</span></strong></h2>
+<h2 class="hoe-ed-heading">
+	<span class="hoe-ed-kicker">Trải nghiệm thực tế,</span>
+	<span class="hoe-ed-main">NHÀ MẪU HAPPY ONE ELITE<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+</h2>
 <p style="text-align: justify;"><span style="color: #000000; font-size: 105%;"><span style="color: #00a859;"><strong>Nhà mẫu Happy One Elite</strong></span> là điểm đến lý tưởng dành cho những khách hàng đang tìm kiếm một không gian sống hiện đại, tiện nghi và mang đậm dấu ấn riêng. Không chỉ đơn thuần là nơi tham quan căn hộ, nhà mẫu còn giúp khách hàng hình dung rõ nét hơn về phong cách sống, cách bố trí không gian và những giá trị mà một tổ ấm chất lượng mang lại.</span></p>
 <p style="text-align: justify;" data-sourcepos="7:3-7:327"><span style="font-size: 105%; color: #000000;">Địa chỉ: Sales Gallery <span style="color: #000000;"><strong><span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="color: #00a859;"><span style="font-size: 105%;">Happy One Elite</span></span></span></strong></span>, số 191/2 Tam Bình, P Tam Bình,  Thành Phố HCM</span></p>
 <p style="text-align: justify;" data-sourcepos="7:3-7:327"><span style="font-size: 105%; color: #000000;">👉 <span style="color: #00a859;"><strong>Khám phá nhà mẫu <span id="7lnmg_6k39b_4789e" class="" data-text="true"><span style="font-size: 105%;">Happy One Elite</span></span></strong></span></span></p>
@@ -2232,8 +2523,11 @@ img, figure, .wp-caption {
 				<div class="col-inner"  >
 			
 	<div id="text-chu-dau-tu" class="text" style="text-align: center; color: rgb(0,0,0); margin-bottom: 24px;">
-<h2 style="text-align: center;"><strong><span style="color: #000000; font-size: 110%;">CHỦ ĐẦU TƯ</span></strong></h2>
-<h3 style="text-align: center;"><span style="font-size: 100%; color: #000080;">Công ty Cổ phần Vạn Xuân</span></h3>
+<h2 class="hoe-ed-heading is-center">
+	<span class="hoe-ed-kicker">Bảo chứng uy tín,</span>
+	<span class="hoe-ed-main">CHỦ ĐẦU TƯ<span class="hoe-ed-bar" aria-hidden="true"></span></span>
+	<span class="hoe-ed-sub">Công ty Cổ phần Vạn Xuân</span>
+</h2>
 <p style="text-align: justify;" data-sourcepos="3:1-3:31"><span style="color: #000000; font-size: 105%;"><strong>Chủ đầu tư của dự án Happy One Elite </strong>Thành lập từ năm 2005, Vạn Xuân Group đã trải qua gần hai thập kỷ phát triển trong lĩnh vực đầu tư, xây dựng và kinh doanh bất động sản tại TP.HCM và Bình Dương. Với triết lý đặt đạo đức kinh doanh làm nền tảng, tập đoàn cam kết mang đến những sản phẩm chất lượng, giá trị thực và ưu tiên lợi ích cho khách hàng, đối tác cũng như cộng đồng.</span></p>
 <figure id="attachment_1001" aria-describedby="caption-attachment-1001" style="width: 1400px" class="wp-caption aligncenter"><img loading="lazy" decoding="async" class="wp-image-1001 size-full" src="https://happy-oneelite.com/wp-content/uploads/2026/10/CHu-dau-tu-van-xuan.jpg" alt="chủ đầu tư Vạn Xuân Group" width="1400" height="946" srcset="https://happy-oneelite.com/wp-content/uploads/2026/10/CHu-dau-tu-van-xuan.jpg 1400w, https://happy-oneelite.com/wp-content/uploads/2026/10/CHu-dau-tu-van-xuan-300x203.jpg 300w, https://happy-oneelite.com/wp-content/uploads/2026/10/CHu-dau-tu-van-xuan-1024x692.jpg 1024w, https://happy-oneelite.com/wp-content/uploads/2026/10/CHu-dau-tu-van-xuan-768x519.jpg 768w" sizes="auto, (max-width: 1400px) 100vw, 1400px" /><figcaption id="caption-attachment-1001" class="wp-caption-text">chủ đầu tư Vạn Xuân Group</figcaption></figure>
 <p data-sourcepos="3:1-3:31"><strong>👉 <span style="color: #000000;">Tìm hiểu thêm về <a href="https://happy-oneelite.com/chu-dau-tu-du-an-happy-one-elite/"><span style="color: #00a859;">chủ đầu tư <span style="font-size: 105%;">Happy One Elite Vạn Xuân </span></span></a></span></strong></p>
