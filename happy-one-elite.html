@@ -1485,28 +1485,43 @@ document.addEventListener("keydown", function(e) {
 <div id="mat-bang-tien-ich" class="hoe-am-root"></div>
 
 <style id="hoe-am-styles">
+  /* Chuyển toàn bộ nền Web Happy One Elite sang màu Be E-Leaflet (#f4f1ea) */
+  html,
+  body,
+  #wrapper,
+  #main,
+  .page-wrapper,
+  .section:not(.fix-footer),
+  .section:not(.fix-footer) > .section-bg,
+  .header-wrapper,
+  .header-main,
+  .header-bg-color,
+  .stuck .header-main {
+    background-color: #f4f1ea !important;
+  }
+  .rf-fp-slider {
+    background-color: #f4f1ea !important;
+  }
+
   .hoe-am-root {
-    --hoe-bg-deep: #241d17;
-    --hoe-bg-panel: #2d241c;
-    --hoe-bg-map: #f4efe6;
-    --hoe-border-gold: rgba(197, 163, 104, 0.32);
-    --hoe-gold: #d4af72;
-    --hoe-gold-bright: #e5c384;
+    --hoe-bg-beige: #f4f1ea;
+    --hoe-bg-card: #ebe5d8;
+    --hoe-border-gold: rgba(109, 95, 81, 0.22);
+    --hoe-gold: #8c7048;
     --hoe-taupe: #6d5f51;
     --hoe-emerald: #00a859;
-    --hoe-highlight: #e08b52;
-    --hoe-text-light: #f9f5ee;
-    --hoe-text-muted: rgba(244, 239, 230, 0.72);
+    --hoe-text-dark: #3b3129;
+    --hoe-text-muted: #6d5f51;
     width: 100%;
     max-width: 1140px;
     margin: 28px auto 36px;
     border-radius: 20px;
     overflow: hidden;
-    background: linear-gradient(180deg, #2b221a 0%, #1f1812 100%);
-    box-shadow: 0 20px 50px rgba(28, 21, 15, 0.24);
-    border: 1px solid rgba(197, 163, 104, 0.4);
+    background: var(--hoe-bg-beige);
+    box-shadow: 0 14px 38px rgba(60, 48, 36, 0.10);
+    border: 1px solid rgba(109, 95, 81, 0.24);
     font-family: inherit;
-    color: var(--hoe-text-light);
+    color: var(--hoe-text-dark);
   }
   .hoe-am-root *, .hoe-am-root *::before, .hoe-am-root *::after {
     box-sizing: border-box;
@@ -1517,11 +1532,11 @@ document.addEventListener("keydown", function(e) {
     box-shadow: none;
     font-family: inherit;
   }
-  /* Map Stage + Floating Floor Pill Bar (The Privé Technical Architecture in Happy One Elite Warm Luxury Concept) */
+  /* Map Stage + Floating Floor Pill Bar (The Privé Technical Architecture in Happy One Elite Beige Concept) */
   .hoe-am-map-stage {
     position: relative;
     width: 100%;
-    background: var(--hoe-bg-map);
+    background: var(--hoe-bg-beige);
     border-bottom: 1px solid var(--hoe-border-gold);
     overflow: hidden;
   }
@@ -1530,8 +1545,8 @@ document.addEventListener("keydown", function(e) {
     z-index: 15;
     display: flex;
     justify-content: center;
-    padding: 18px 12px 10px;
-    background: linear-gradient(180deg, rgba(36, 29, 23, 0.86) 0%, rgba(36, 29, 23, 0.35) 68%, rgba(244, 239, 230, 0) 100%);
+    padding: 18px 12px 8px;
+    background: var(--hoe-bg-beige);
   }
   .hoe-am-pill-bar {
     display: inline-flex;
@@ -1539,18 +1554,16 @@ document.addEventListener("keydown", function(e) {
     gap: 6px;
     padding: 5px;
     border-radius: 999px;
-    background: rgba(45, 36, 28, 0.82);
-    border: 1px solid rgba(212, 175, 114, 0.45);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    background: #e6dfd1;
+    border: 1px solid rgba(109, 95, 81, 0.28);
+    box-shadow: 0 4px 16px rgba(60, 48, 36, 0.08);
     max-width: 100%;
     overflow-x: auto;
   }
   .hoe-am-pill-btn {
     border: none !important;
     background: transparent !important;
-    color: rgba(249, 245, 238, 0.82) !important;
+    color: #5c4e41 !important;
     padding: 9px 22px !important;
     border-radius: 999px !important;
     font-size: 13.5px !important;
@@ -1563,19 +1576,19 @@ document.addEventListener("keydown", function(e) {
     line-height: 1.2 !important;
   }
   .hoe-am-pill-btn:hover {
-    color: #ffffff !important;
+    color: #2b221a !important;
   }
   .hoe-am-pill-btn.is-active {
-    background: linear-gradient(135deg, #b88d4c 0%, #8f6831 100%) !important;
+    background: #6d5f51 !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(184, 141, 76, 0.45) !important;
+    box-shadow: 0 4px 12px rgba(109, 95, 81, 0.32) !important;
   }
   /* Interactive Map Viewport */
   .hoe-am-map-viewport {
     position: relative;
     width: 100%;
     aspect-ratio: 2539 / 1765;
-    background: #f4efe6;
+    background: var(--hoe-bg-beige);
     user-select: none;
   }
   .hoe-am-map-img {
@@ -1633,12 +1646,12 @@ document.addEventListener("keydown", function(e) {
     position: absolute;
     z-index: 30;
     transform: translate(-50%, calc(-100% - 18px));
-    background: rgba(36, 29, 23, 0.96);
-    border: 1px solid var(--hoe-gold);
+    background: rgba(59, 49, 41, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     color: #ffffff;
     padding: 8px 13px;
     border-radius: 10px;
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.38);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
     pointer-events: none;
     white-space: nowrap;
     display: flex;
@@ -1684,9 +1697,9 @@ document.addEventListener("keydown", function(e) {
     right: 14px;
     bottom: 14px;
     z-index: 25;
-    background: rgba(36, 29, 23, 0.88) !important;
-    color: var(--hoe-gold-bright) !important;
-    border: 1px solid rgba(212, 175, 114, 0.55) !important;
+    background: rgba(109, 95, 81, 0.92) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
     border-radius: 999px !important;
     padding: 7px 14px !important;
     font-size: 12px !important;
@@ -1703,43 +1716,43 @@ document.addEventListener("keydown", function(e) {
     color: #ffffff !important;
     border-color: #ffffff !important;
   }
-  /* Directory Section (The Privé Style Header + Collapsible 2-Column Badge Grid) */
+  /* Directory Section (The Privé Style Header + Collapsible Badge Grid on E-Leaflet Beige Canvas) */
   .hoe-am-directory {
-    padding: 32px 28px 34px;
-    background: radial-gradient(circle at 50% 0%, rgba(197, 163, 104, 0.14) 0%, rgba(36, 29, 23, 0) 70%), linear-gradient(180deg, #2b221a 0%, #1e1712 100%);
+    padding: 30px 28px 34px;
+    background: var(--hoe-bg-beige);
   }
   .hoe-am-header {
     text-align: center;
-    margin-bottom: 26px;
+    margin-bottom: 24px;
   }
   .hoe-am-subtitle {
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--hoe-text-muted);
-    margin: 0 0 6px;
+    color: var(--hoe-taupe);
+    margin: 0 0 4px;
   }
   .hoe-am-floor-title {
     font-family: inherit;
-    font-size: clamp(28px, 4vw, 40px);
-    font-weight: 700;
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--hoe-gold-bright);
+    color: var(--hoe-taupe);
     margin: 0;
     line-height: 1.18;
   }
   .hoe-am-floor-desc {
     font-size: 13.5px;
-    color: rgba(244, 239, 230, 0.78);
+    color: #5a4d41;
     max-width: 720px;
     margin: 8px auto 0;
     line-height: 1.55;
   }
   /* Category Accordion Group */
   .hoe-am-cat-group {
-    border-top: 1px solid rgba(212, 175, 114, 0.18);
+    border-top: 1px solid rgba(109, 95, 81, 0.2);
     padding-top: 20px;
     margin-top: 20px;
   }
@@ -1762,42 +1775,42 @@ document.addEventListener("keydown", function(e) {
   }
   .hoe-am-cat-title {
     font-family: inherit;
-    font-size: clamp(16px, 2.2vw, 21px);
-    font-weight: 700;
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #ffffff;
+    color: var(--hoe-text-dark);
     margin: 0;
   }
   .hoe-am-cat-toggle {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: rgba(197, 163, 104, 0.22);
-    border: 1px solid rgba(212, 175, 114, 0.5);
-    color: var(--hoe-gold-bright);
+    background: #e6dfd1;
+    border: 1px solid rgba(109, 95, 81, 0.4);
+    color: var(--hoe-taupe);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 1;
     flex-shrink: 0;
     transition: all 0.2s ease;
   }
   .hoe-am-cat-header:hover .hoe-am-cat-toggle {
-    background: var(--hoe-gold);
-    color: #1f1812;
+    background: var(--hoe-taupe);
+    color: #ffffff;
   }
   .hoe-am-cat-body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px 20px;
+    gap: 12px 20px;
   }
   .hoe-am-cat-group.is-collapsed .hoe-am-cat-body {
     display: none;
   }
-  /* Numbered Item Row (Matches The Privé Screenshot 1:1) */
+  /* Numbered Item Row (Matches The Privé Technical Layout in E-Leaflet Beige Tone) */
   .hoe-am-item {
     display: flex !important;
     align-items: center;
@@ -1813,15 +1826,16 @@ document.addEventListener("keydown", function(e) {
   }
   .hoe-am-item:hover,
   .hoe-am-item.is-active {
-    background: rgba(212, 175, 114, 0.12) !important;
-    border-color: rgba(212, 175, 114, 0.35) !important;
+    background: rgba(0, 168, 89, 0.08) !important;
+    border-color: rgba(0, 168, 89, 0.32) !important;
   }
   .hoe-am-badge {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: rgba(109, 95, 81, 0.65);
-    border: 1.5px solid rgba(212, 175, 114, 0.55);
+    background: #6d5f51;
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 2px 5px rgba(60, 48, 36, 0.16);
     color: #ffffff;
     font-size: 12.5px;
     font-weight: 700;
@@ -1838,7 +1852,7 @@ document.addEventListener("keydown", function(e) {
     background: var(--hoe-emerald);
     border-color: #ffffff;
     color: #ffffff;
-    box-shadow: 0 0 12px rgba(0, 168, 89, 0.45);
+    box-shadow: 0 0 10px rgba(0, 168, 89, 0.38);
   }
   .hoe-am-item-text {
     font-size: 12.5px;
@@ -1846,12 +1860,12 @@ document.addEventListener("keydown", function(e) {
     line-height: 1.35;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    color: rgba(249, 245, 238, 0.92);
+    color: var(--hoe-text-dark);
     transition: color 0.2s ease;
   }
   .hoe-am-item:hover .hoe-am-item-text,
   .hoe-am-item.is-active .hoe-am-item-text {
-    color: var(--hoe-gold-bright);
+    color: #007a40;
   }
   /* Responsive Mobile & Tablet (Matches The Privé 2-Column Mobile Layout) */
   @media (max-width: 849px) {
