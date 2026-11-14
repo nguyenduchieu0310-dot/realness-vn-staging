@@ -108,12 +108,6 @@
       <a href="https://zalo.me/0934599237" target="_blank" rel="noopener noreferrer" class="bg-[#0C5B3E]/90 hover:bg-[#0C5B3E] border border-[#FFE4BD] rounded-full px-4 py-2 text-white text-xs font-bold shadow-lg transition-transform hover:scale-105">
         Zalo
       </a>
-      <button type="button" class="btn-open-modal btn-gradient flex items-center gap-2 px-5 py-2.5 rounded-full text-[#0C5B3E] font-bold text-xs shadow-xl hover:scale-105 transition-all">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-        </svg>
-        <span>NHẬN BẢNG GIÁ</span>
-      </button>
     </div>
   </header>
 
@@ -156,7 +150,7 @@
   <!-- 3. DESKTOP RIGHT VERTICAL PROGRESS INDICATOR             -->
   <!-- ========================================================= -->
   <aside data-nav="desktop" class="side-nav fixed z-30 right-[2%] h-screen justify-start top-[12%] hidden md:flex flex-col pointer-events-none">
-    <div class="w-[1px] h-[75vh] bg-white/30 relative flex flex-col justify-between py-2 pointer-events-auto">
+    <div class="side-nav-track w-[1px] h-[75vh] bg-white/30 relative flex flex-col justify-between py-2 pointer-events-auto" style="height: 75vh;">
       <div id="nav_indicator" class="nav-indicator w-[6px] h-[22px] bg-[#ffeeb1] rounded-full shadow-[0_0_10px_#ffeeb1] absolute -left-[2.5px] top-0 transition-all duration-500"></div>
       
       <a href="#section1" data-index="0" class="nav-dot-link group relative flex items-center justify-end h-[36px] cursor-pointer">
@@ -211,10 +205,18 @@
   </aside>
 
   <!-- ========================================================= -->
-  <!-- 4. DESKTOP FLOATING ACTION BAR                           -->
+  <!-- 4. FLOATING ACTION CONTROLS (DESKTOP & MOBILE RESPONSIVE) -->
   <!-- ========================================================= -->
-  <div class="fixed px-[1.5vw] left-0 bottom-[4%] z-30 w-full hidden md:flex items-end justify-between pointer-events-none">
-    <!-- Left Pill: Hotline -->
+  <!-- Floating CTA "NHẬN BẢNG GIÁ" (#azvidi_form) - Visible & Clickable on ALL Viewports -->
+  <button id="azvidi_form" type="button" class="btn-open-modal pointer-events-auto btn-gradient text-[#0C5B3E] font-bold text-xs md:text-[0.95vw] px-4 py-2.5 md:px-6 md:py-3 rounded-full shadow-2xl flex items-center gap-1.5 md:gap-2.5 hover:scale-105 transition-all fixed bottom-3 left-4 md:left-auto md:right-[3vw] md:bottom-[4%] z-40">
+    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+    </svg>
+    <span class="tracking-wide">NHẬN BẢNG GIÁ</span>
+  </button>
+
+  <!-- Desktop Left Pill: Hotline -->
+  <div class="fixed px-[1.5vw] left-0 bottom-[4%] z-30 hidden md:flex items-center pointer-events-none">
     <div class="pointer-events-auto">
       <a href="tel:0934599237" class="flex items-center gap-3 bg-[#0C5B3E] border border-[#FFE4BD] rounded-full px-5 py-2.5 text-white shadow-2xl animate-[callPulse_2s_ease-in-out_infinite] hover:scale-105 transition-transform">
         <span class="w-8 h-8 rounded-full bg-[#FFE4BD] text-[#0C5B3E] flex items-center justify-center animate-[phoneShake_1.4s_ease-in-out_infinite]">
@@ -223,32 +225,20 @@
         <span class="font-bold text-[1vw] tracking-wider font-gotham">0934599237</span>
       </a>
     </div>
-
-    <!-- Right Stack: Messenger, Zalo, Nhận Bảng Giá -->
-    <div class="pointer-events-auto flex flex-col items-end gap-3 mr-[3vw]">
-      <a href="https://zalo.me/0934599237" target="_blank" rel="noopener noreferrer" title="Messenger" class="w-11 h-11 rounded-full bg-[#0084FF] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.04 2 11.02c0 2.84 1.46 5.38 3.73 7.03V22l3.82-2.1c.79.22 1.63.34 2.45.34 5.52 0 10-4.04 10-9.02S17.52 2 12 2zm1.06 12.16l-2.68-2.86-5.23 2.86 5.75-6.11 2.76 2.86 5.15-2.86-5.75 6.11z"/></svg>
-      </a>
-      <a href="https://zalo.me/0934599237" target="_blank" rel="noopener noreferrer" title="Zalo" class="w-11 h-11 rounded-full bg-[#0068FF] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform font-bold text-xs">
-        Zalo
-      </a>
-      <button id="azvidi_form" type="button" class="btn-open-modal btn-gradient flex items-center gap-2.5 px-6 py-3 rounded-full text-[#0C5B3E] font-bold text-[0.95vw] shadow-2xl hover:scale-105 transition-all">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-        </svg>
-        <span class="tracking-wide">NHẬN BẢNG GIÁ</span>
-      </button>
-    </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- 5. MOBILE BOTTOM FLOATING ACTION PILLS                   -->
-  <!-- ========================================================= -->
-  <div id="mobile_pills" class="md:hidden fixed bottom-3 left-0 w-full px-4 z-40 flex items-center justify-between pointer-events-none">
-    <button type="button" class="btn-open-modal pointer-events-auto btn-gradient text-[#0C5B3E] font-bold text-xs px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-1.5 animate-bounce-slow">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-      <span>NHẬN BẢNG GIÁ</span>
-    </button>
+  <!-- Desktop Floating Messenger & Zalo (Stacked above #azvidi_form) -->
+  <div class="fixed right-[3vw] bottom-[calc(4%+62px)] z-30 hidden md:flex flex-col items-end gap-3 pointer-events-auto">
+    <a href="https://zalo.me/0934599237" target="_blank" rel="noopener noreferrer" title="Messenger" class="w-11 h-11 rounded-full bg-[#0084FF] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.04 2 11.02c0 2.84 1.46 5.38 3.73 7.03V22l3.82-2.1c.79.22 1.63.34 2.45.34 5.52 0 10-4.04 10-9.02S17.52 2 12 2zm1.06 12.16l-2.68-2.86-5.23 2.86 5.75-6.11 2.76 2.86 5.15-2.86-5.75 6.11z"/></svg>
+    </a>
+    <a href="https://zalo.me/0934599237" target="_blank" rel="noopener noreferrer" title="Zalo" class="w-11 h-11 rounded-full bg-[#0068FF] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform font-bold text-xs">
+      Zalo
+    </a>
+  </div>
+
+  <!-- Mobile Bottom Action Pills (Hotline & Zalo) -->
+  <div id="mobile_pills" class="md:hidden fixed bottom-3 right-4 z-40 flex items-center gap-2 pointer-events-none">
     <div class="pointer-events-auto flex items-center gap-2">
       <a href="tel:0934599237" class="w-10 h-10 rounded-full bg-[#0C5B3E] border border-[#FFE4BD] flex items-center justify-center text-white shadow-xl animate-[callPulse_2s_ease-in-out_infinite]">
         <svg class="w-4 h-4 text-[#FFE4BD]" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.72 11.72 0 003.68.59 1 1 0 011 1v3.5a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.72 11.72 0 00.59 3.68 1 1 0 01-.24 1.02l-2.23 2.09z"/></svg>
@@ -800,7 +790,12 @@
         </h4>
 
         <!-- 3 News Cards Carousel -->
-        <div class="relative w-full max-w-6xl">
+        <div class="relative w-full max-w-6xl flex items-center justify-center">
+          <!-- News Prev Button -->
+          <button type="button" id="news_prev" class="absolute -left-4 md:-left-12 z-20 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:scale-110 transition-transform">
+            <img src="assets/images/sec-11-left-btn.png" alt="Prev" class="w-full h-full object-contain">
+          </button>
+
           <div class="swiper news-swiper w-full overflow-hidden">
             <div class="swiper-wrapper flex">
               <!-- Article 1 -->
@@ -879,6 +874,11 @@
               </div>
             </div>
           </div>
+
+          <!-- News Next Button -->
+          <button type="button" id="news_next" class="absolute -right-4 md:-right-12 z-20 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:scale-110 transition-transform">
+            <img src="assets/images/sec-11-right-btn.png" alt="Next" class="w-full h-full object-contain">
+          </button>
         </div>
       </div>
     </section>
@@ -977,7 +977,7 @@
   <!-- ========================================================= -->
   <!-- 6. POPUP LEAD MODAL DIALOG (#FormDangKyModal)            -->
   <!-- ========================================================= -->
-  <div id="FormDangKyModal" role="dialog" aria-modal="true" aria-labelledby="dialog_title" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 modal-backdrop opacity-0 pointer-events-none transition-all duration-300">
+  <div id="FormDangKyModal" role="dialog" aria-modal="true" aria-labelledby="dialog_title" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 modal-backdrop opacity-0 pointer-events-none transition-all duration-300">
     <div class="relative w-full max-w-lg bg-gradient-to-b from-[#1D705D] to-[#129463] border border-[#FFE9A9] rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300">
       
       <!-- Close Button -->
@@ -1042,223 +1042,14 @@
   </div>
 
   <!-- ========================================================= -->
-  <!-- 7. INITIAL JAVASCRIPT CONTROLLERS (M2 FOUNDATION)        -->
+  <!-- 7. CORE JAVASCRIPT CONTROLLERS & ENGINE MODULES          -->
   <!-- ========================================================= -->
   <!-- External vendor scripts -->
   <script src="assets/js/gsap.min.js"></script>
   <script src="assets/js/Observer.min.js"></script>
   <script src="assets/js/swiper-bundle.min.js"></script>
   <script src="assets/js/fancybox.umd.js"></script>
-
-  <script>
-    // Document Ready & Initial Interaction Handlers
-    document.addEventListener("DOMContentLoaded", function () {
-      var isMobile = window.innerWidth <= 768;
-
-      // 1. Mobile Drawer Toggle
-      var menuBtn = document.getElementById("mobile_menu_btn");
-      var menuClose = document.getElementById("mobile_menu_close");
-      var drawer = document.getElementById("mobile_drawer");
-      var mobileLinks = document.querySelectorAll(".mobile-nav-link");
-
-      function openDrawer() {
-        if (!drawer) return;
-        drawer.classList.remove("opacity-0", "pointer-events-none");
-        drawer.classList.add("opacity-100", "pointer-events-auto");
-      }
-      function closeDrawer() {
-        if (!drawer) return;
-        drawer.classList.add("opacity-0", "pointer-events-none");
-        drawer.classList.remove("opacity-100", "pointer-events-auto");
-      }
-
-      if (menuBtn) menuBtn.addEventListener("click", openDrawer);
-      if (menuClose) menuClose.addEventListener("click", closeDrawer);
-      mobileLinks.forEach(function (link) {
-        link.addEventListener("click", closeDrawer);
-      });
-
-      // 2. Modal Popup Dialog Open & Close
-      var modal = document.getElementById("FormDangKyModal");
-      var modalClose = document.getElementById("close_modal_btn");
-      var openButtons = document.querySelectorAll(".btn-open-modal, #azvidi_form, #xin_bang_gia, #btn_nhan_tu_van_tien_ich, #btn_chinh_sach_dang_ky");
-
-      function openModal() {
-        if (!modal) return;
-        modal.classList.remove("opacity-0", "pointer-events-none");
-        modal.classList.add("opacity-100", "pointer-events-auto");
-        var card = modal.querySelector(".transform");
-        if (card) card.classList.replace("scale-95", "scale-100");
-      }
-      function closeModal() {
-        if (!modal) return;
-        modal.classList.add("opacity-0", "pointer-events-none");
-        modal.classList.remove("opacity-100", "pointer-events-auto");
-        var card = modal.querySelector(".transform");
-        if (card) card.classList.replace("scale-100", "scale-95");
-      }
-
-      openButtons.forEach(function (btn) {
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          openModal();
-        });
-      });
-      if (modalClose) modalClose.addEventListener("click", closeModal);
-      if (modal) {
-        modal.addEventListener("click", function (e) {
-          if (e.target === modal) closeModal();
-        });
-      }
-
-      // 3. Section 8: Floorplan vs Unit Tab Toggle
-      var tabFloor = document.getElementById("tab_floor");
-      var tabUnit = document.getElementById("tab_unit");
-      var floorSlides = document.querySelectorAll(".floor-slide");
-      var unitSlides = document.querySelectorAll(".unit-slide");
-
-      if (tabFloor && tabUnit) {
-        tabFloor.addEventListener("click", function () {
-          tabFloor.classList.replace("bg-[#0C5B3E]", "bg-[#B38F54]");
-          tabUnit.classList.replace("bg-[#B38F54]", "bg-[#0C5B3E]");
-          floorSlides.forEach(function (s) { s.classList.remove("hidden"); });
-          unitSlides.forEach(function (s) { s.classList.add("hidden"); });
-        });
-
-        tabUnit.addEventListener("click", function () {
-          tabUnit.classList.replace("bg-[#0C5B3E]", "bg-[#B38F54]");
-          tabFloor.classList.replace("bg-[#B38F54]", "bg-[#0C5B3E]");
-          unitSlides.forEach(function (s) { s.classList.remove("hidden"); });
-          floorSlides.forEach(function (s) { s.classList.add("hidden"); });
-        });
-      }
-
-      // 4. Desktop Slide Transition Baseline
-      var sections = document.querySelectorAll(".slide-section");
-      var navDots = document.querySelectorAll(".nav-dot-link");
-      var navIndicator = document.getElementById("nav_indicator");
-      var currentIndex = 0;
-      var isAnimating = false;
-
-      function goToSlide(targetIndex) {
-        if (window.innerWidth <= 768) {
-          // On mobile, just smooth scroll to target section
-          if (sections[targetIndex]) {
-            sections[targetIndex].scrollIntoView({ behavior: "smooth" });
-          }
-          return;
-        }
-
-        if (targetIndex < 0 || targetIndex >= sections.length || isAnimating) return;
-        isAnimating = true;
-
-        sections.forEach(function (sec, idx) {
-          if (idx === targetIndex) {
-            sec.classList.add("active-slide");
-            sec.classList.remove("prev-slide");
-          } else if (idx < targetIndex) {
-            sec.classList.remove("active-slide");
-            sec.classList.add("prev-slide");
-          } else {
-            sec.classList.remove("active-slide", "prev-slide");
-          }
-        });
-
-        // Update nav indicator
-        if (navIndicator && navDots[targetIndex]) {
-          var dotTop = navDots[targetIndex].offsetTop;
-          navIndicator.style.top = dotTop + "px";
-        }
-
-        currentIndex = targetIndex;
-        setTimeout(function () {
-          isAnimating = false;
-        }, 800);
-      }
-
-      // Nav dot click listeners
-      navDots.forEach(function (dot) {
-        dot.addEventListener("click", function (e) {
-          e.preventDefault();
-          var idx = parseInt(dot.getAttribute("data-index"), 10);
-          if (!isNaN(idx)) {
-            goToSlide(idx);
-            var targetHash = dot.getAttribute("href");
-            if (targetHash && history.pushState) {
-              history.pushState(null, null, targetHash);
-            }
-          }
-        });
-      });
-
-      // Hash Navigation Support
-      function handleHashNav() {
-        var hash = window.location.hash;
-        if (!hash) return;
-        var targetSec = document.querySelector(hash);
-        if (!targetSec) return;
-        var allSecs = Array.from(document.querySelectorAll(".slide-section"));
-        var idx = allSecs.indexOf(targetSec);
-        if (idx !== -1) {
-          isAnimating = false;
-          goToSlide(idx);
-        }
-      }
-      window.addEventListener("hashchange", handleHashNav);
-      if (window.location.hash) {
-        setTimeout(handleHashNav, 100);
-      }
-
-      // Mousewheel navigation on desktop
-      window.addEventListener("wheel", function (e) {
-        if (window.innerWidth <= 768) return;
-        if (e.deltaY > 20) {
-          goToSlide(currentIndex + 1);
-        } else if (e.deltaY < -20) {
-          goToSlide(currentIndex - 1);
-        }
-      }, { passive: true });
-
-      // Keyboard arrow navigation
-      window.addEventListener("keydown", function (e) {
-        if (window.innerWidth <= 768) return;
-        if (e.key === "ArrowDown" || e.key === "PageDown") {
-          goToSlide(currentIndex + 1);
-        } else if (e.key === "ArrowUp" || e.key === "PageUp") {
-          goToSlide(currentIndex - 1);
-        }
-      });
-
-      // 5. Initialize Fancybox if present
-      if (typeof Fancybox !== "undefined") {
-        Fancybox.bind("[data-fancybox]", {
-          loop: true,
-          buttons: ["zoom", "slideShow", "fullScreen", "close"]
-        });
-      }
-
-      // 6. Form Submit Handlers (Graceful fallback)
-      var leadForm = document.getElementById("FormDangKy");
-      if (leadForm) {
-        leadForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-          var formFields = leadForm.querySelectorAll("input, button");
-          formFields.forEach(function (f) { f.disabled = true; });
-          var msg = document.getElementById("modal_success_msg");
-          if (msg) msg.classList.remove("hidden");
-          leadForm.classList.add("hidden");
-        });
-      }
-
-      var footerForm = document.getElementById("FooterForm");
-      if (footerForm) {
-        footerForm.addEventListener("submit", function (e) {
-          e.preventDefault();
-          alert("Cảm ơn quý khách đã đăng ký! Chuyên viên tư vấn sẽ liên hệ lại sớm nhất.");
-          footerForm.reset();
-        });
-      }
-    });
-  </script>
+  <!-- Central Application Controller -->
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

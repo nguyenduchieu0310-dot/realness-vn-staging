@@ -2339,6 +2339,33 @@ var App = {
       step('form');
     });
 
+    // Global backdrop cleanup guard: when all modals are closed, ensure zero orphaned backdrops
+    // and restore body scrolling without stuck modal-open classes.
+    document.addEventListener('hidden.bs.modal', function () {
+      setTimeout(function () {
+        if (!document.querySelector('.modal.show')) {
+          document.querySelectorAll('.modal-backdrop').forEach(function (el) {
+            el.remove();
+          });
+          document.body.classList.remove('modal-open');
+          document.body.style.removeProperty('overflow');
+          document.body.style.removeProperty('padding-right');
+        }
+      }, 50);
+    });
+
+    // Escape thrashing guard: ensure top modal always receives dismiss event
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var openModals = Array.from(document.querySelectorAll('.modal.show'));
+        if (openModals.length > 0 && typeof bootstrap !== 'undefined') {
+          var topModal = openModals[openModals.length - 1];
+          var inst = bootstrap.Modal.getInstance(topModal);
+          if (inst) inst.hide();
+        }
+      }
+    });
+
     // Real-time input clearing on user typing
     jQuery(document).on('input change', '.wpcf7-form input, .wpcf7-form textarea, .wpcf7-form select', function () {
       var field = jQuery(this);
@@ -2501,7 +2528,8 @@ var App = {
           }
         }
 
-        formEl.reset();
+        form.find('input:not([type="hidden"]), textarea').val('');
+        form.find('input[type="checkbox"]').prop('checked', false);
       }).catch(function (err) {
         form.removeClass('submitting is-submitting');
         submitBtn.prop('disabled', false).removeClass('is-submitting');
