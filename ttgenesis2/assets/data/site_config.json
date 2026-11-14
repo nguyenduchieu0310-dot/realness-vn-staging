@@ -1,0 +1,434 @@
+{
+  "C_HEADER": {
+    "logo": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-2.png",
+    "fav": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-3.png",
+    "title": "Genesis TT Capital",
+    "description": "Căn hộ tinh tuyển Nhật Bản tại Nam Sài Gòn"
+  },
+  "C_FOOTER": {
+    "copyright": "@ 2026 TT Genesis ",
+    "links": [
+      {
+        "title": "Chính sách bảo mật",
+        "href": "/chinh-sach-bao-mat"
+      },
+      {
+        "title": "Điều khoản sử dụng",
+        "href": "/dieu-khoan-su-dung"
+      },
+      {
+        "title": "Giới thiệu Về Chúng Tôi",
+        "href": "/ve-chung-toi"
+      }
+    ],
+    "hotline": "0934599237",
+    "zalo": "https://zalo.me/0934599237",
+    "facebook": "https://zalo.me/0934599237",
+    "gtm_code": ""
+  },
+  "C_MENU": [
+    {
+      "hash": "section1",
+      "slug": "trang-chu",
+      "title": "TRANG CHỦ"
+    },
+    {
+      "hash": "section2",
+      "slug": "gioi-thieu",
+      "title": "GIỚI THIỆU"
+    },
+    {
+      "hash": "section3",
+      "slug": "thong-tin",
+      "title": "THÔNG TIN"
+    },
+    {
+      "hash": "section4",
+      "slug": "vi-tri",
+      "title": "VỊ TRÍ"
+    },
+    {
+      "hash": "section5",
+      "slug": "tien-ich",
+      "title": "TIỆN ÍCH"
+    },
+    {
+      "hash": "section6",
+      "slug": "loi-the",
+      "title": "LỢI THẾ"
+    },
+    {
+      "hash": "section7",
+      "slug": "chinh-sach",
+      "title": "CHÍNH SÁCH"
+    },
+    {
+      "hash": "section8",
+      "slug": "mat-bang",
+      "title": "MẶT BẰNG"
+    },
+    {
+      "hash": "section9",
+      "slug": "duplex",
+      "title": "DUPLEX"
+    },
+    {
+      "hash": "section10",
+      "slug": "gioi-thieu-ve-chu-dau-tu",
+      "title": "GIỚI THIỆU VỀ CHỦ ĐẦU TƯ"
+    },
+    {
+      "hash": "section11",
+      "slug": "tin-tuc",
+      "title": "TIN TỨC"
+    },
+    {
+      "hash": "section12",
+      "slug": "lien-he",
+      "title": "LIÊN HỆ"
+    }
+  ],
+  "C_FORM": {
+    "title": "GIỎ HÀNG 30 CĂN HỘ GIÁ ƯU ĐÃI DỰ ÁN TT GENESIS",
+    "bg_file": "TT Genesis_bang_gia_T07.2026.pdf",
+    "notes": [
+      "Cung cấp Bảng Giá từng căn",
+      "Chính sách Ưu Đãi Chiết Khấu",
+      "Thông tin của quý khách sẽ được bảo mật và chỉ sử dụng cho mục đích tư vấn. Xem chi tiết tại Chính sách bảo mật."
+    ],
+    "ggf_id": "1FAIpQLSfWnTa8thyaDXmwsz48jttkg8BFlXJMuiWTdIIteNY9pAdO9w",
+    "popup_img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-23.png",
+    "ggf_entry": {
+      "name": {
+        "label": "Họ tên",
+        "id": "entry.238096459"
+      },
+      "phone": {
+        "label": "Số điện thoại",
+        "id": "entry.563817230"
+      }
+    }
+  },
+  "POST_API_TOKEN": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dlbmVzaXMtdHRjYXBpdGFsLnZuIiwiaWF0IjoxNzg0Mzg3OTE0LCJuYmYiOjE3ODQzODc5MTQsImV4cCI6MjA5OTc0NzkxNCwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMyJ9fX0.NCjpl3GMqsedgMVcX7ZXnj94_K09LnjDM45TE2LSbJw",
+  "C_SECTIONS": {
+    "section1": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2026/09/CAN-HO-TRI-THUC-NHAT-BAN-TAI-NAM-SAI-GON.jpg",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/08/TT-Genesis-can-ho-tinh-tuyen-nhat-ban-nam-sai-gon.jpg",
+      "title": null,
+      "sub": null,
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": null
+      }
+    },
+    "section2": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-6.png",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/09/CAN-HO-TINH-TUYEN-NHAT-BAN-2.jpg",
+      "title": "Căn hộ tinh tuyển Nhật Bản",
+      "sub": "tại Nam Sài Gòn",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": null,
+        "descriptions": [
+          "Tên dự án: TT Genesis",
+          "Vị trí: Đường Đào Sư Tích, xã Nhà Bè, Thành phố Hồ Chí Minh.",
+          "Loại hình: Căn hộ chung cư",
+          "Chủ đầu tư: TT Capital",
+          "Tình trạng pháp lý: Đã có giấy phép xây dựng",
+          "Thời gian bàn giao dự kiến: Quý 4/2029"
+        ]
+      }
+    },
+    "section3": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-16.png",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/09/Thiet-ke-chua-co-ten-2.jpg",
+      "title": "THÔNG TIN DỰ ÁN",
+      "sub": "",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/ghi-chu.png",
+        "button": null,
+        "list": [
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-3-img-0.png",
+            "title": "30+2",
+            "description": "30 TẦNG + 2 HẦM"
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-3-img-1.png",
+            "title": "1363",
+            "description": "CĂN HỘ"
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-3-img-3.png",
+            "title": "9",
+            "description": "PENHOUSE"
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-3-img-2.png",
+            "title": "42",
+            "description": "DUPLEX"
+          }
+        ]
+      }
+    },
+    "section4": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/section4_bg.jpg",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/bg-section4.jpg",
+      "title": "3 mặt hướng sông",
+      "sub": "4 mặt tiền đường",
+      "data": {
+        "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/phut.png",
+        "imgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/PHUT-1.png",
+        "left_img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-11.png",
+        "right_img": null,
+        "button": null,
+        "descriptions": [
+          "TT Genesis sở hữu vị trí kết nối thuận lợi, chỉ 03 phút tới trung tâm Phú Mỹ Hưng, 05 phút đến các trường đại học danh tiếng và Metro Bến Thành - Cần Giờ."
+        ]
+      }
+    },
+    "section5": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Tien-ichs.png",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-13.png",
+      "title": "88 TIỆN ÍCH TT GENESIS",
+      "sub": "VỀ NHÀ LÀ CÓ TẤT CẢ",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": "NHẬN TƯ VẤN SẢN PHẨM",
+        "list": [
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/2.jpg",
+            "title": "TỔ HỢP HỒ BƠI NỘI KHU",
+            "description": "Tổ hợp hồ bơi tràn bờ (Galaxy Pool) thiết kế chuẩn resort, sở hữu làn nước sạch mát và khu ghế nghỉ dưỡng sang trọng; là nơi lý tưởng để cư dân thư giãn, tái tạo năng lượng và tận hưởng trọn vẹn lối sống wellness ngay dưới chân tòa nhà."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/3.jpg",
+            "title": "PHÒNG GYM TRONG NHÀ",
+            "description": "Phòng GYM trong nhà (Energy Studio) trang bị hệ thống máy tập hiện đại, đạt chuẩn quốc tế. Không gian rộng thoáng với kính đón sáng tự nhiên, giúp cư dân dễ dàng rèn luyện sức khỏe và duy trì vóc dáng lý tưởng mỗi ngày."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/4.jpg",
+            "title": "SẢNH ĐÓN CAO CẤP",
+            "description": "Sảnh đón thông tầng cao cấp với lối kiến trúc lộng lẫy và nội thất tinh chọn sang trọng. Tích hợp khu vực tiếp khách VIP hiện đại, sảnh đón không chỉ mang lại sự tự hào khi tiếp khách mà còn khẳng định vị thế của cộng đồng cư dân tinh hoa."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/1.jpg",
+            "title": "KHU VUI CHƠI NƯỚC DÀNH CHO TRẺ",
+            "description": "Thiên đường vận động nước an toàn và lý thú dành riêng cho các cư dân nhí. Với các trò chơi tương tác vui nhộn và hệ thống lọc nước dịu nhẹ, nơi đây giúp trẻ thỏa sức khám phá và phát triển thể chất toàn diện trong môi trường lành mạnh."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/5.jpg",
+            "title": "CLUBHOUSE",
+            "description": "Không gian sinh hoạt cộng đồng (Clubhouse) sở hữu thiết kế kiến trúc lượn sóng hiện đại và ấn tượng. Nơi đây tích hợp nhiều phân khu chức năng, mang lại không gian thư giãn, kết nối giao thương và là điểm hẹn giao lưu lý tưởng đầy kiêu hãnh dành riêng cho cộng đồng cư dân tinh hoa TT Genesis."
+          }
+        ]
+      }
+    },
+    "section6": {
+      "bg": null,
+      "bgm": null,
+      "title": "GIÁ TRỊ VƯỢT TRỘI",
+      "sub": "NÂNG TẦM TT GENESIS",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": "NHẬN TƯ VẤN SẢN PHẨM",
+        "list": [
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec6-icon-1.png",
+            "title": "VỊ TRÍ CHIẾN LƯỢC TÂM ĐIỂM MỌI NHU CẦU",
+            "description": "Vị trí đắc địa ngay trung tâm, dễ dàng kết nối đến các tiện ích và khu vực trọng điểm. Tiềm năng tăng trưởng giá trị bất động sản vượt trội trong tương lai."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec6-icon-2.png",
+            "title": "PHÁP LÝ HOÀN THIỆN TIẾN ĐỘ VỮNG VÀNG",
+            "description": "Đảm bảo an toàn tuyệt đối với hệ thống pháp lý rõ ràng, minh bạch và hoàn chỉnh. Giúp khách hàng an tâm đầu tư và sở hữu lâu dài."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec6-icon-3.png",
+            "title": "HỆ TIỆN ÍCH ĐA TẦNG",
+            "description": "Tận hưởng chuỗi tiện ích nội khu đẳng cấp, được quy hoạch đồng bộ trên nhiều tầng. Đáp ứng mọi nhu cầu sống, giải trí và nghỉ dưỡng."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec6-icon-4.png",
+            "title": "THIẾT KẾ TỐI ƯU",
+            "description": "Căn hộ được thiết kế thông minh, tối ưu hóa không gian và ánh sáng tự nhiên. Đảm bảo mọi căn đều có tầm nhìn thoáng đãng và dễ dàng đón gió."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec6-icon-5.png",
+            "title": "BÀN GIAO CAO CẤP SẴN SÀNG VÀO Ở HOẶC CHO THUÊ",
+            "description": "Nội thất và vật liệu bàn giao chất lượng cao, từ các thương hiệu uy tín. Khách hàng nhận nhà có thể dọn vào ở ngay mà không cần tốn thêm chi phí hoàn thiện."
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec6-icon-6.png",
+            "title": "PHƯƠNG THỨC THANH TOÁN ƯU VIỆT DỄ DÀNG SỞ HỮU VÀ ĐẦU TƯ",
+            "description": "Các chính sách thanh toán linh hoạt, nhiều ưu đãi hấp dẫn. Giúp giảm áp lực tài chính và tạo điều kiện thuận lợi nhất để sở hữu căn hộ."
+          }
+        ]
+      }
+    },
+    "section7": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-14.png",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/09/PHAP-LY-HOAN-CHINH-844-x-1365-px-1266-x-2048-px-844-x-1365-px.jpg",
+      "title": null,
+      "sub": null,
+      "data": {
+        "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/09/13.5-2.png",
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": "ĐĂNG KÝ NGAY"
+      }
+    },
+    "section8": {
+      "bg": null,
+      "bgm": null,
+      "title": "MẶT BẰNG ĐIỂN HÌNH",
+      "sub": "",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": null,
+        "tabs": [
+          {
+            "title": "MẶT BẰNG TẦNG",
+            "list": [
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/1-1.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/2-1.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/3-1.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/4-1.jpg"
+            ]
+          },
+          {
+            "title": "MẶT BẰNG CĂN HỘ",
+            "list": [
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/5-1.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/6.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/7.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/8.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/9.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/10.jpg",
+              "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/11.jpg"
+            ]
+          }
+        ]
+      }
+    },
+    "section9": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-17.png",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-18.png",
+      "title": "2 TẦNG - 1 ĐẲNG CẤP",
+      "sub": "",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": null,
+        "descriptions": [
+          "Căn hộ Duplex TT Genesis sở hữu thiết kế thông tầng độc bản mang lại không gian sống rộng thoáng, ngập tràn ánh sáng tự nhiên và tầm nhìn panorama đắt giá toàn cảnh Nam Sài Gòn.",
+          "Đây là biểu tượng sống thượng lưu khác biệt dành riêng cho các chủ nhân tinh hoa, khẳng định đẳng cấp độc bản cùng đặc quyền tiện ích cao cấp từ chủ đầu tư TT Capital."
+        ]
+      }
+    },
+    "section10": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-20.png",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-21.png",
+      "title": "GIỚI THIỆU",
+      "sub": "TT CAPITAL",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": null,
+        "descriptions": [
+          "TT Capital là nhà phát triển bất động sản uy tín, tiên phong kiến tạo các sản phẩm căn hộ chuẩn Nhật, sở hữu pháp lý minh bạch và tiến độ xây dựng vượt trội tại thị trường phía Nam.",
+          "Với sự đồng hành chiến lược từ các đối tác quốc tế lớn như Cosmos Initia và Koterasu Group, TT Capital cam kết mang đến không gian sống chất lượng cao và giá trị gia tăng bền vững cho khách hàng."
+        ]
+      }
+    },
+    "section11": {
+      "bg": null,
+      "bgm": null,
+      "title": "TIN TỨC & SỰ KIỆN",
+      "sub": "TT GENESIS",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": null
+      }
+    },
+    "section12": {
+      "bg": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/section12_bg.jpg",
+      "bgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/Thiet-ke-chua-co-ten-22.png",
+      "title": "PHÁT TRIỂN DỰ ÁN",
+      "sub": null,
+      "data": {
+        "img": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/QUAN-LY-VAN-HANH-2560-x-258-px.png",
+        "imgm": "https://genesis-ttcapital.vn/wp-content/uploads/2026/07/QUAN-LY-VAN-HANH-2560-x-258-px.png",
+        "left_img": null,
+        "right_img": null,
+        "button": null
+      }
+    },
+    "section13": {
+      "bg": null,
+      "bgm": null,
+      "title": "LIÊN HỆ",
+      "sub": "Thông tin Công ty",
+      "data": {
+        "img": null,
+        "imgm": null,
+        "left_img": null,
+        "right_img": null,
+        "button": null,
+        "list": [
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-12-icon-1.png",
+            "title": "Thông tin liên hệ",
+            "description": "CÔNG TY TT GENESIS"
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-12-icon-2.png",
+            "title": "Địa chỉ",
+            "description": "2-4-6 Đoàn Như Hài, Xóm Chiếu, Hồ Chí Minh"
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-12-icon-3.png",
+            "title": "Số điện thoại:",
+            "description": "0934599237"
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/sec-12-icon-4.png",
+            "title": "Email:",
+            "description": "ttgenesis.capital@gmail.com"
+          },
+          {
+            "img": "https://genesis-ttcapital.vn/wp-content/uploads/2025/05/icoon.png",
+            "title": "*Lưu ý: ",
+            "description": "Website tư vấn & phân phối bất động sản được vận hành bởi CVTV"
+          }
+        ]
+      }
+    }
+  }
+}

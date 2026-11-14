@@ -7905,7 +7905,13 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
         <div class="bg item-video video-background">
             <div class="rf-hero-top-frame">
                 <div class="rf-hero-top-fade" aria-hidden="true"></div>
-                <img src="/assets/the-prive/song-tinh-hoa-hero.jpg?v=4" alt="The Privé - Sống tinh hoa xứng tầm vị thế" class="rf-hero-top-image w-100 d-block" decoding="async" fetchpriority="high">
+                <video id="rf-hero-top-video" class="rf-hero-top-video w-100 d-block" playsinline webkit-playsinline autoplay muted loop preload="auto" poster="/assets/the-prive/song-tinh-hoa-hero.jpg?v=4">
+                    <source src="/assets/the-prive/vid-the-prive-14-11.mp4?v=1" type="video/mp4">
+                </video>
+                <button type="button" id="rf-hero-sound-btn" class="rf-hero-sound-btn is-muted" aria-label="Bật/tắt âm thanh video">
+                    <svg class="icon-muted" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    <svg class="icon-unmuted" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+                </button>
                 <svg class="rf-hero-bottom-curve" viewBox="0 0 1000 130" preserveAspectRatio="none" aria-hidden="true">
                     <defs>
                         <linearGradient id="rfHeroArcInner" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -7953,11 +7959,39 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
             </div>
             <script type="text/javascript">
                 jQuery(document).ready(function(){
+                    var heroVid = document.getElementById('rf-hero-top-video');
+                    var soundBtn = document.getElementById('rf-hero-sound-btn');
                     if (window.location.protocol === 'file:') {
-                        $('.overview-inserted-banner img, .section-introduction img, .rf-hero-top-image').each(function() {
+                        $('.overview-inserted-banner img, .section-introduction img').each(function() {
                             var s = $(this).attr('src');
                             if (s && s.indexOf('/assets/') === 0) $(this).attr('src', s.slice(1));
                         });
+                        if (heroVid) {
+                            var pAttr = heroVid.getAttribute('poster');
+                            if (pAttr && pAttr.indexOf('/assets/') === 0) heroVid.setAttribute('poster', pAttr.slice(1));
+                            var srcEl = heroVid.querySelector('source');
+                            if (srcEl && srcEl.getAttribute('src') && srcEl.getAttribute('src').indexOf('/assets/') === 0) {
+                                srcEl.setAttribute('src', srcEl.getAttribute('src').slice(1));
+                                heroVid.load();
+                            }
+                        }
+                    }
+                    if (heroVid) {
+                        heroVid.muted = true;
+                        var p = heroVid.play();
+                        if (p && typeof p.catch === 'function') p.catch(function(){});
+                        if (soundBtn) {
+                            soundBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                heroVid.muted = !heroVid.muted;
+                                if (heroVid.paused) {
+                                    var rp = heroVid.play();
+                                    if (rp && typeof rp.catch === 'function') rp.catch(function(){});
+                                }
+                                soundBtn.classList.toggle('is-muted', heroVid.muted);
+                            });
+                        }
                     }
                 });
             </script>
@@ -13916,7 +13950,7 @@ font-size: 1.085714285714286em!important;
   .section-home-slide.with-video .video-background .rf-hero-top-frame {
     position: relative;
     width: 100%;
-    max-width: 900px;
+    max-width: 500px;
     margin: 0 auto;
     overflow: hidden;
     background: #031b35;
@@ -13931,11 +13965,45 @@ font-size: 1.085714285714286em!important;
     pointer-events: none;
     z-index: 2;
   }
-  .section-home-slide.with-video .video-background .rf-hero-top-image {
+  .section-home-slide.with-video .video-background .rf-hero-top-image,
+  .section-home-slide.with-video .video-background .rf-hero-top-video {
     width: 100%;
     height: auto;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
     display: block;
     margin: 0 auto;
+    background: #031b35;
+  }
+  .section-home-slide.with-video .video-background .rf-hero-sound-btn {
+    position: absolute;
+    right: 14px;
+    bottom: clamp(54px, 13vw, 94px);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(245, 201, 139, 0.55);
+    background: rgba(3, 27, 53, 0.62);
+    backdrop-filter: blur(6px);
+    color: #ffe7c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 4;
+    padding: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .section-home-slide.with-video .video-background .rf-hero-sound-btn:hover {
+    background: rgba(235, 148, 108, 0.85);
+    border-color: #ffe7c2;
+    color: #ffffff;
+  }
+  .section-home-slide.with-video .video-background .rf-hero-sound-btn.is-muted .icon-unmuted {
+    display: none;
+  }
+  .section-home-slide.with-video .video-background .rf-hero-sound-btn:not(.is-muted) .icon-muted {
+    display: none;
   }
   .section-home-slide.with-video .video-background .rf-hero-bottom-curve {
     position: absolute;

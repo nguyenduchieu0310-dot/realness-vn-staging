@@ -1,0 +1,962 @@
+/* Comma PDF Flipbook — giao diện trình đọc */
+
+.cpfb-reader {
+	position: relative;
+	width: 100%;
+	min-height: 360px;
+	margin: 24px 0;
+	background: #1b1b1f;
+	border-radius: 14px;
+	/* Chỗ chừa cho thanh nút = chiều cao ĐO ĐƯỢC của chính nó. JS ghi
+	   --cpfb-bar-h sau khi dựng thanh và mỗi lần khổ màn hình đổi; con số dưới
+	   đây chỉ là giá trị đỡ lúc JS chưa kịp chạy. Cắm cứng một con số thì hoặc
+	   thanh nút đè lên trang sách khi nó gấp xuống hai hàng trên điện thoại,
+	   hoặc chừa thừa một mảng trống khi quản trị tắt bớt nút. */
+	--cpfb-bar-h: 46px;
+	padding: 18px 18px calc(var(--cpfb-bar-h) + 22px);
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.cpfb-reader:fullscreen {
+	border-radius: 0;
+	padding: 24px 24px calc(var(--cpfb-bar-h) + 26px);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+/* --- khung cuộn ---
+   overflow PHẢI là hidden khi chưa phóng to.
+   Trang đang lật là phần tử position:absolute chạy RA NGOÀI khổ trang: lật tới
+   nó văng sang trái, lật lui nó văng sang phải. Với overflow:auto, phần văng
+   sang phải sinh ra vùng cuộn ngang (phần văng sang trái thì không, vì tràn về
+   phía âm không cuộn được) — nên chạm để lật LÙI là khung trượt ngang một đoạn
+   rồi nằm lì ở đó, còn lật TỚI thì không sao. Đúng cái lệch mà người dùng gặp.
+   Che đi cũng là cách bộ vẽ canvas của chính StPageFlip làm ở chế độ 1 trang.
+   Chỉ khi phóng to quá khổ màn hình mới thật sự cần cuộn. */
+.cpfb-viewport {
+	position: relative;
+	display: flex;
+	width: 100%;
+	overflow: hidden;
+	overscroll-behavior: contain;
+}
+
+.cpfb-reader.cpfb-zoomed .cpfb-viewport {
+	overflow: auto;
+}
+
+/* margin:auto CHỨ KHÔNG justify-content:center — canh giữa bằng
+   justify-content thì lúc nội dung rộng hơn khung, phần tràn bên trái bị cắt
+   và không cuộn tới được. margin:auto trong flex thì không bị lỗi đó. */
+.cpfb-viewport > * {
+	margin: auto;
+	flex: 0 0 auto;
+}
+
+.cpfb-reader.cpfb-zoomed .cpfb-viewport {
+	cursor: grab;
+}
+
+/* Không hiện thanh cuộn: khung đã cuộn bằng kéo chuột, con lăn và ngón tay,
+   còn hai thanh xám chạy dọc ngang trên nền tối chỉ làm sách trông như một
+   trang web lỗi. Chrome/Safari dùng ::-webkit-scrollbar, Firefox dùng
+   scrollbar-width. */
+.cpfb-reader.cpfb-zoomed .cpfb-viewport {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.cpfb-reader.cpfb-zoomed .cpfb-viewport::-webkit-scrollbar {
+	display: none;
+	width: 0;
+	height: 0;
+}
+
+/* Đang kéo để cuộn (Reader.bindPan): đổi bàn tay, và không cho bôi chọn chữ
+   trong lúc rê chuột qua các lớp bên dưới. */
+.cpfb-reader.cpfb-panning .cpfb-viewport {
+	cursor: grabbing;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+/* Phóng to trên điện thoại: hai engine đều đặt touch-action:pan-y để vuốt
+   ngang là lật trang — nhưng lúc này vuốt ngang phải là CUỘN khung sang phần
+   trang đang bị che. Trả lại cho trình duyệt cả hai chiều. */
+.cpfb-reader.cpfb-zoomed .cpfb-stage,
+.cpfb-reader.cpfb-zoomed .cpfb-stage .stf__parent,
+.cpfb-reader.cpfb-zoomed .cpfb-slide {
+	touch-action: auto;
+}
+
+/* --- sách --- */
+.cpfb-stage {
+	/* PHẢI là margin:auto cả bốn phía, KHÔNG phải "0 auto".
+	   Rule .cpfb-viewport > * ở trên đã đặt margin:auto để canh giữa, nhưng
+	   .cpfb-stage cùng độ ưu tiên (0,1,0) mà viết sau nên thắng — "0 auto" ép
+	   margin trên/dưới về 0, mất auto margin trục dọc. Trong flex container,
+	   không còn auto margin trục dọc thì phần tử quay lại stretch: khung sách
+	   giãn cao bằng cả viewport, quyển sách dính lên đỉnh và chừa một mảng trống
+	   khổng lồ bên dưới. Rõ nhất khi trang PDF nằm ngang mà máy dựng đứng: đo
+	   trên điện thoại thật, viewport 726px mà sách chỉ 247px — 479px bỏ không.
+	   .cpfb-slide không có rule margin riêng nên vốn vẫn canh giữa đúng. */
+	margin: auto;
+	/* StPageFlip ghi min-width/min-height thẳng vào style của khung, tính từ
+	   tuỳ chọn minWidth. Plugin cố tình đặt minWidth cực lớn để ép chế độ
+	   1 trang/màn, nên phải chặn lại ở đây, nếu không khung phình ra cả triệu
+	   pixel. Quy tắc !important của stylesheet đè được style nội tuyến. */
+	min-width: 0 !important;
+	min-height: 0 !important;
+	/* Trượt khi bìa về giữa màn (xem FlipEngine.syncCenter). Bằng nhịp lật trang
+	   cho hai chuyển động đi cùng nhau — lệch nhịp thì thành hai cú giật rời. */
+	transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.cpfb-page {
+	background: #fff;
+	overflow: hidden;
+}
+
+/* ------------------------------------------------------------------
+   RÃNH GÁY SÁCH
+
+   Một vệt tối RẤT NHẠT, loang đều, không có vạch nếp gấp.
+
+   Bản trước dựng thêm một lớp nếp gấp hẹp và đậm cho "giống thật", nhưng đặt
+   cạnh trang giấy sáng thì cái vạch đó thành thứ đầu tiên mắt nhìn vào, và tài
+   liệu nào cũng bị kẻ một đường dọc giữa màn. Với brochure khổ đôi — nơi hình
+   ảnh vốn chạy liền mạch qua gáy — nó còn cắt đôi bức hình.
+
+   Việc của rãnh này chỉ là gợi ý rằng hai trang nằm trên hai mặt giấy khác
+   nhau. Gợi ý thôi thì nhạt là đủ; đậm quá là tự nhận vai chính.
+
+   z-index 4: trên trang đứng yên (1) và trang lộ ra bên dưới (3) — bóng gáy
+   thuộc về CHỖ, không thuộc về trang, nên trang nào tới đó cũng bị tối. Nhưng
+   dưới trang đang lật (5): tờ giấy quay qua thì đi phía trước gáy, như sách
+   thật. Xem thêm chú thích trong FlipEngine.buildGutter về chỗ đặt phần tử.
+   ------------------------------------------------------------------ */
+.cpfb-gutter {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	width: clamp(30px, 10%, 130px);
+	transform: translateX(-50%);
+	pointer-events: none;
+	z-index: 4;
+	opacity: 1;
+	transition: opacity 0.3s ease;
+	background: linear-gradient(
+		to right,
+		rgba(0, 0, 0, 0) 0%,
+		rgba(0, 0, 0, 0.012) 22%,
+		rgba(0, 0, 0, 0.04) 38%,
+		rgba(0, 0, 0, 0.085) 47%,
+		rgba(0, 0, 0, 0.115) 50%,
+		rgba(0, 0, 0, 0.085) 53%,
+		rgba(0, 0, 0, 0.04) 62%,
+		rgba(0, 0, 0, 0.012) 78%,
+		rgba(0, 0, 0, 0) 100%
+	);
+}
+
+.cpfb-nogutter .cpfb-gutter {
+	opacity: 0;
+}
+
+
+.cpfb-page__ph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: #c9c9cf;
+	font-size: 13px;
+	background: #f4f4f6;
+}
+
+.cpfb-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+/* --- thanh điều khiển --- */
+.cpfb-bar {
+	position: absolute;
+	left: 50%;
+	bottom: 14px;
+	transform: translateX(-50%);
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 999px;
+	backdrop-filter: blur(8px);
+	z-index: 5;
+}
+
+/* Nút tải là thẻ <a> -> ăn màu link của theme và đè lên màu trắng.
+   Phải ghi rõ màu cho cả 4 trạng thái, kèm !important vì theme thường
+   đặt "a { color: ... }" với độ ưu tiên cao hơn. */
+.cpfb-reader .cpfb-btn,
+.cpfb-reader a.cpfb-btn,
+.cpfb-reader a.cpfb-btn:link,
+.cpfb-reader a.cpfb-btn:visited,
+.cpfb-reader a.cpfb-btn:hover,
+.cpfb-reader a.cpfb-btn:focus {
+	width: 34px;
+	height: 34px;
+	display: grid;
+	place-items: center;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: #fff !important;
+	cursor: pointer;
+	text-decoration: none;
+	box-shadow: none;
+	transition: background 0.15s;
+}
+
+.cpfb-reader .cpfb-btn:hover,
+.cpfb-reader a.cpfb-btn:hover {
+	background: rgba(255, 255, 255, 0.16);
+}
+
+/* SVG vẽ theo currentColor -> ép luôn cho chắc */
+.cpfb-reader .cpfb-btn svg {
+	stroke: currentColor;
+}
+
+.cpfb-btn svg { display: block; }
+
+.cpfb-sep {
+	width: 1px;
+	height: 18px;
+	background: rgba(255, 255, 255, 0.18);
+	margin: 0 2px;
+}
+
+/* ------------------------------------------------------------------
+   Ô ĐẾM TRANG — gõ số vào để nhảy thẳng tới trang
+   ------------------------------------------------------------------ */
+.cpfb-counter {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	color: #fff;
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+.cpfb-reader .cpfb-counter__in {
+	/* Ghi rõ từng thứ vì theme hay đặt kiểu chung cho mọi input trên trang */
+	width: 38px;
+	height: 26px;
+	margin: 0;
+	padding: 0 4px;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 6px;
+	box-shadow: none;
+	color: #fff;
+	font: inherit;
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+	line-height: 1;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.cpfb-reader .cpfb-counter__in:hover {
+	background: rgba(255, 255, 255, 0.18);
+}
+
+.cpfb-reader .cpfb-counter__in:focus {
+	background: rgba(255, 255, 255, 0.22);
+	border-color: rgba(255, 255, 255, 0.55);
+	outline: none;
+}
+
+.cpfb-counter__t {
+	opacity: 0.75;
+	white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------
+   MŨI TÊN Ở HAI MÉP
+
+   Thanh nút dưới đáy đã có nút lùi–tới, nhưng nó nằm xa chỗ mắt đang đọc.
+   Mũi tên ở mép là chỗ tay tự tìm tới, và là quy ước chung của trình đọc
+   dạng sách lật.
+
+   Canh giữa theo phần CÒN LẠI sau khi trừ thanh nút, chứ không phải giữa
+   khung: canh giữa khung thì trên màn hẹp, thanh nút hai hàng đẩy mũi tên
+   xuống nằm đè lên chính nó.
+   ------------------------------------------------------------------ */
+.cpfb-edge {
+	position: absolute;
+	top: calc(50% - var(--cpfb-bar-h) / 2);
+	transform: translateY(-50%);
+	width: 46px;
+	height: 64px;
+	display: grid;
+	place-items: center;
+	padding: 0;
+	background: rgba(0, 0, 0, 0.28);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 10px;
+	color: #fff;
+	cursor: pointer;
+	z-index: 5;
+	opacity: 0.55;
+	transition: opacity 0.15s, background 0.15s;
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+}
+
+.cpfb-edge:hover,
+.cpfb-edge:focus-visible {
+	opacity: 1;
+	background: rgba(0, 0, 0, 0.45);
+}
+
+.cpfb-edge:focus-visible {
+	outline: 2px solid rgba(255, 255, 255, 0.8);
+	outline-offset: 2px;
+}
+
+.cpfb-edge svg { display: block; }
+
+/* Hết trang thì mờ hẳn và không bấm được nữa — vẫn giữ chỗ để bố cục
+   không nhảy, và để người xem thấy mình đang ở đầu hay cuối sách. */
+.cpfb-edge:disabled {
+	opacity: 0.15;
+	cursor: default;
+	pointer-events: none;
+}
+
+.cpfb-edge--prev { left: 10px; }
+.cpfb-edge--next { right: 10px; }
+
+/* --- đang tải --- */
+.cpfb-loading {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	z-index: 4;
+}
+
+.cpfb-loading__label {
+	color: #d8d8e0;
+	font-size: 13.5px;
+}
+
+.cpfb-loading__track {
+	width: min(260px, 60%);
+	height: 4px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.14);
+	overflow: hidden;
+}
+
+.cpfb-loading__bar {
+	width: 0;
+	height: 100%;
+	background: #fff;
+	border-radius: 999px;
+	transition: width 0.25s ease;
+}
+
+/* --- lỗi --- */
+.cpfb-error {
+	padding: 22px;
+	text-align: center;
+	color: #ffd7d7;
+	background: rgba(179, 45, 46, 0.18);
+	border: 1px solid rgba(179, 45, 46, 0.4);
+	border-radius: 10px;
+	font-size: 14px;
+}
+
+/* --- điện thoại: khung gọn lại; cỡ nút đặt ở khối cuối file --- */
+@media (max-width: 640px) {
+	.cpfb-reader {
+		padding: 12px 12px calc(var(--cpfb-bar-h) + 20px);
+		border-radius: 10px;
+	}
+}
+
+/* ------------------------------------------------------------------
+   Mẫu trang chi tiết PDF (templates/single-pdf_file.php)
+   Cố ý viết tối giản và trung tính để không chọi với giao diện theme.
+   ------------------------------------------------------------------ */
+.cpfb-single__wrap {
+	max-width: 1180px;
+	margin: 0 auto;
+	padding: 28px 20px 48px;
+}
+
+.cpfb-single__cats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+
+.cpfb-single__cat {
+	display: inline-block;
+	padding: 3px 11px;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.06);
+	font-size: 12.5px;
+	text-decoration: none;
+	color: inherit;
+}
+
+.cpfb-single__title {
+	margin: 0 0 8px;
+	line-height: 1.25;
+}
+
+.cpfb-single__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	font-size: 13.5px;
+	opacity: 0.7;
+}
+
+.cpfb-single__desc {
+	margin-top: 16px;
+	line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+	.cpfb-single__wrap {
+		padding: 18px 12px 32px;
+	}
+}
+
+/* ------------------------------------------------------------------
+   Bảng bên: Mục lục & Thumbnail
+   ------------------------------------------------------------------ */
+.cpfb-panel {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	/* Dừng ngay trên thanh nút, dù thanh đó cao bao nhiêu (xem --cpfb-bar-h) */
+	bottom: calc(var(--cpfb-bar-h) + 16px);
+	width: min(320px, calc(100% - 24px));
+	display: flex;
+	flex-direction: column;
+	background: rgba(28, 28, 32, 0.96);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 12px;
+	backdrop-filter: blur(10px);
+	z-index: 6;
+	overflow: hidden;
+	animation: cpfbPanelIn 0.18s ease;
+}
+
+.cpfb-panel[hidden] { display: none; }
+
+@keyframes cpfbPanelIn {
+	from { opacity: 0; transform: translateX(-8px); }
+	to   { opacity: 1; transform: none; }
+}
+
+.cpfb-panel__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 11px 12px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	color: #fff;
+	font-size: 13.5px;
+	flex: none;
+}
+
+.cpfb-panel__x {
+	width: 26px;
+	height: 26px;
+	display: grid;
+	place-items: center;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: #fff;
+	cursor: pointer;
+}
+
+.cpfb-panel__x:hover { background: rgba(255, 255, 255, 0.14); }
+
+.cpfb-panel__body {
+	flex: 1;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: 8px;
+}
+
+/* --- mục lục --- */
+.cpfb-toc-list { list-style: none; margin: 0; padding: 0; }
+
+.cpfb-toc-item {
+	display: block;
+	width: 100%;
+	text-align: left;
+	padding: 8px 10px;
+	border: 0;
+	border-radius: 7px;
+	background: transparent;
+	color: #d8d8e0;
+	font-size: 13px;
+	line-height: 1.45;
+	cursor: pointer;
+}
+
+.cpfb-toc-item:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+/* --- thumbnail --- */
+.cpfb-thumb-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+	gap: 8px;
+}
+
+.cpfb-thumb {
+	position: relative;
+	padding: 0;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 6px;
+	background: #2a2a30;
+	aspect-ratio: 3 / 4;
+	overflow: hidden;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cpfb-thumb:hover { border-color: rgba(255, 255, 255, 0.5); }
+
+.cpfb-thumb canvas {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	display: block;
+}
+
+.cpfb-thumb__n {
+	position: absolute;
+	right: 3px;
+	bottom: 2px;
+	padding: 0 5px;
+	border-radius: 4px;
+	background: rgba(0, 0, 0, 0.62);
+	color: #fff;
+	font-size: 10.5px;
+	font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+	.cpfb-panel { top: 8px; left: 8px; right: 8px; width: auto; }
+	.cpfb-thumb-grid { grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); }
+}
+
+.cpfb-toc-item {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	align-items: baseline;
+}
+
+.cpfb-toc-page {
+	flex: none;
+	opacity: 0.55;
+	font-size: 11.5px;
+	font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------
+   Trạng thái khi mở (đặt riêng từng tài liệu trong meta box)
+   ------------------------------------------------------------------ */
+
+/* wide: kéo khung ra hết chiều ngang màn hình dù đang nằm trong cột hẹp.
+   Mẹo 50vw hai bên — không cần JS, không phụ thuộc bố cục của theme. */
+.cpfb-reader.cpfb-wide,
+.cpfb-reader.cpfb-open--wide {
+	width: 100vw;
+	max-width: 100vw;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	border-radius: 0;
+}
+
+/* ------------------------------------------------------------------
+   TOÀN MÀN HÌNH
+   Lớp phủ CSS, không phụ thuộc requestFullscreen() của trình duyệt.
+   Vì sao cần: Safari trên iPhone không cho phần tử thường bung toàn màn
+   hình, và mọi trình duyệt đều chặn tự bung khi người dùng chưa thao tác.
+   Lớp phủ thì ở đâu cũng chạy — và nó che kín header/footer của theme,
+   đúng thứ người xem cần khi đang đọc tài liệu.
+
+   z-index để rất cao vì header dán trên cùng của các theme hay đặt
+   z-index 9999–99999; thanh admin của WordPress là 99999.
+   ------------------------------------------------------------------ */
+/* Lớp cpfb-open--fullscreen do PHP in sẵn vào thẻ, có mặt ngay từ lượt vẽ
+   ĐẦU TIÊN của trình duyệt — trước cả khi JavaScript chạy. Nhờ vậy header và
+   footer của theme bị che ngay lập tức, thay vì loé lên vài trăm mili-giây rồi
+   mới biến mất khi trình đọc tải xong PDF. JS vào toàn màn hình thì gỡ lớp này
+   và thay bằng .cpfb-fs — từ đó trạng thái do JS nắm, bấm thoát mới ra được. */
+.cpfb-reader.cpfb-fs,
+.cpfb-reader.cpfb-open--fullscreen {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	max-width: none;
+	/* !important vì mã ngắn in chiều cao cố định thẳng vào style="" của thẻ khi
+	   quản trị đặt "Chiều cao khung". Style nội tuyến thắng mọi selector, nên
+	   thiếu !important là toàn màn hình vẫn cao đúng 720px giữa màn hình. */
+	height: 100% !important;
+	margin: 0;
+	border-radius: 0;
+	padding: 14px 14px calc(var(--cpfb-bar-h) + 26px);
+	z-index: 2147483000;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.cpfb-reader.cpfb-fs .cpfb-viewport,
+.cpfb-reader.cpfb-open--fullscreen .cpfb-viewport {
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+/* Khoá cuộn nền: không thì cuộn trên trình đọc lại lôi cả trang phía sau đi */
+html.cpfb-fs-lock,
+html.cpfb-fs-lock body {
+	overflow: hidden !important;
+}
+
+/* Cửa sổ nổi mở từ link PDF trong bài viết.
+   Nền phải là màu ĐẶC, không được dùng rgba() dù alpha cao tới 0.97: lớp phủ
+   này là position:fixed phủ toàn màn hình nên trình duyệt tách nó ra một lớp
+   compositor riêng, và ở đó nền có alpha bị trộn sai — nội dung trang phía sau
+   lộ qua rõ mồn một chứ không mờ 3% như con số ngụ ý. Đã đo trên Chrome. */
+.cpfb-reader.cpfb-modal {
+	background: #0a0a0c;
+}
+
+/* display:grid ở dưới thắng cả thuộc tính hidden của HTML, nên phải ghi rõ */
+.cpfb-close[hidden] {
+	display: none;
+}
+
+.cpfb-close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 38px;
+	height: 38px;
+	display: grid;
+	place-items: center;
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+	cursor: pointer;
+	backdrop-filter: blur(8px);
+	z-index: 8;
+	transition: background 0.15s;
+}
+
+.cpfb-close:hover {
+	background: rgba(255, 255, 255, 0.22);
+}
+
+/* Nút bị quản trị tắt: ẩn đi nhưng vẫn tồn tại trong DOM, để lúc vào
+   toàn màn hình còn hiện lại làm lối thoát. */
+.cpfb-btn--off {
+	display: none !important;
+}
+
+.cpfb-reader .cpfb-btn:disabled {
+	opacity: 0.32;
+	cursor: default;
+}
+
+.cpfb-reader .cpfb-btn:disabled:hover {
+	background: transparent;
+}
+
+/* Nút đang bật (tự lật đang chạy) */
+.cpfb-reader .cpfb-btn--on {
+	background: rgba(255, 255, 255, 0.24);
+}
+
+/* ------------------------------------------------------------------
+   KIỂU XEM 2: TRƯỢT NGANG
+   ------------------------------------------------------------------ */
+.cpfb-slide {
+	position: relative;
+	overflow: hidden;
+	/* pan-y: vuốt dọc vẫn cuộn trang như thường, chỉ vuốt ngang mới lật.
+	   Thiếu dòng này thì trên điện thoại trang bị khoá cuộn. */
+	touch-action: pan-y;
+}
+
+.cpfb-slide__track {
+	display: flex;
+	height: 100%;
+	will-change: transform;
+}
+
+.cpfb-slide__view {
+	flex: 0 0 100%;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cpfb-slide .cpfb-page {
+	flex: 0 0 auto;
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ------------------------------------------------------------------
+   BẢNG NHỎ: chia sẻ
+   ------------------------------------------------------------------ */
+.cpfb-panel--sm {
+	top: auto;
+	/* Bám theo chiều cao thật của thanh nút, y như bảng lớn. Trên điện thoại
+	   thanh xuống hai hàng nên con số 62px cố định trước đây lọt xuống dưới nó. */
+	bottom: calc(var(--cpfb-bar-h) + 16px);
+	left: 50%;
+	transform: translateX(-50%);
+	width: min(312px, calc(100% - 24px));
+	max-height: min(440px, calc(100% - 90px));
+	animation: cpfbPanelUp 0.16s ease;
+}
+
+@keyframes cpfbPanelUp {
+	from { opacity: 0; transform: translate(-50%, 8px); }
+	to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* --- chia sẻ --- */
+.cpfb-share {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	/* Trên điện thoại bảng này kéo hết bề ngang màn hình (xem media query cuối
+	   file), nhưng sáu cái icon dàn ra hết bề ngang thì rời rạc, mắt phải chạy
+	   xa mới gom được thành một nhóm. Chặn ở đây và canh giữa. */
+	width: 100%;
+	max-width: 330px;
+	margin: 0 auto;
+}
+
+/* Ba cột: sáu mạng vừa đúng hai hàng, không thừa ô trống nào.
+   Bỏ Pinterest (tài liệu chưa có ảnh bìa) thì còn năm, hàng dưới lệch trái —
+   chấp nhận được, hơn là để một ô chết nằm đó. */
+.cpfb-share__grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 4px;
+}
+
+.cpfb-reader .cpfb-share__net {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 10px 2px 8px;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	color: #d8d8e0;
+	font: inherit;
+	cursor: pointer;
+	transition: background 0.14s ease;
+}
+
+.cpfb-reader .cpfb-share__net:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+.cpfb-share__ic {
+	width: 38px;
+	height: 38px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	color: #fff;
+	/* X có nền đen tuyền — trên bảng cũng tối thì cái vòng này là thứ duy nhất
+	   cho thấy nó là một ô bấm được. Đặt cho mọi ô để sáu cái cùng một cỡ. */
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+	flex: none;
+}
+
+.cpfb-share__lb {
+	font-size: 11px;
+	line-height: 1.2;
+	letter-spacing: 0.1px;
+}
+
+/* --- dòng link --- */
+.cpfb-share__row {
+	display: flex;
+	gap: 6px;
+	margin-top: 2px;
+	padding-top: 10px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cpfb-reader input.cpfb-share__url {
+	flex: 1;
+	min-width: 0;
+	padding: 8px 10px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 8px;
+	background: rgba(0, 0, 0, 0.28);
+	color: #b9b9c4;
+	font-size: 12px;
+	font-family: inherit;
+	line-height: 1.3;
+	text-overflow: ellipsis;
+}
+
+.cpfb-reader input.cpfb-share__url:focus {
+	outline: none;
+	border-color: rgba(255, 255, 255, 0.3);
+	color: #fff;
+}
+
+.cpfb-reader .cpfb-share__copy {
+	width: 36px;
+	height: 36px;
+	flex: none;
+	display: grid;
+	place-items: center;
+	border: 0;
+	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	cursor: pointer;
+	transition: background 0.14s ease;
+}
+
+.cpfb-reader .cpfb-share__copy:hover { background: rgba(255, 255, 255, 0.26); }
+
+.cpfb-reader .cpfb-share__copy--ok,
+.cpfb-reader .cpfb-share__copy--ok:hover {
+	background: #2e9e5b;
+}
+
+/* Bảng chia sẻ của hệ điều hành — chỉ có trên máy hỗ trợ, nên để cuối và nhạt */
+.cpfb-reader .cpfb-share__more {
+	padding: 8px 12px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 8px;
+	background: transparent;
+	color: #b9b9c4;
+	font-size: 12.5px;
+	font-family: inherit;
+	cursor: pointer;
+}
+
+.cpfb-reader .cpfb-share__more:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+/* ------------------------------------------------------------------
+   ĐIỆN THOẠI: thanh nút xuống HAI HÀNG, không cuộn ngang
+
+   Đủ nút thì thanh này dài chừng 490px — màn 360px không tài nào chứa nổi một
+   hàng. Bản trước cho cuộn ngang, nhưng thanh nổi trên nền tối không có mép
+   cuộn nào để nhận ra: người dùng chỉ thấy "mất vài nút". Tệ hơn, cuộn ngang
+   thanh nút nằm ĐÈ lên quyển sách vốn cũng nhận vuốt ngang để lật trang — hai
+   cử chỉ giống hệt nhau chồng lên nhau.
+
+   Nay cho xuống hàng và canh giữa: mọi nút đều thấy, không phải học thao tác
+   nào mới. Thanh cao thêm một hàng thì chỗ chừa cho nó cũng tự nới theo, vì
+   padding đáy tính từ --cpfb-bar-h mà JS đo được.
+   ------------------------------------------------------------------ */
+@media (max-width: 640px) {
+	.cpfb-reader.cpfb-fs,
+	.cpfb-reader.cpfb-open--fullscreen {
+		padding: 10px 10px calc(var(--cpfb-bar-h) + 20px);
+	}
+
+	.cpfb-bar {
+		left: 8px;
+		right: 8px;
+		transform: none;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 5px;
+		padding: 6px 8px;
+		border-radius: 20px;
+	}
+
+	/* Vạch ngăn mất hết ý nghĩa khi các nút tự xuống hàng — nó rơi vào giữa
+	   hàng hoặc lủng lẳng cuối hàng. Bỏ đi, lấy luôn chỗ cho nút. */
+	.cpfb-sep { display: none; }
+
+	.cpfb-reader .cpfb-btn,
+	.cpfb-reader a.cpfb-btn,
+	.cpfb-reader a.cpfb-btn:link,
+	.cpfb-reader a.cpfb-btn:visited,
+	.cpfb-reader a.cpfb-btn:hover,
+	.cpfb-reader a.cpfb-btn:focus {
+		/* 34px vẫn trên ngưỡng 32px của hướng dẫn cảm ứng, mà nhét được 7 nút một
+		   hàng trên màn 360px (đủ nút thì vừa hai hàng) — 40px chỉ được 6, thành
+		   ba hàng, ăn thêm một khúc màn hình nữa. */
+		width: 34px;
+		height: 34px;
+		flex: none;
+	}
+
+	.cpfb-counter { font-size: 12.5px; }
+
+	.cpfb-reader .cpfb-counter__in {
+		width: 34px;
+		height: 24px;
+	}
+
+	/* Màn hẹp thì mũi tên phải nhường chỗ cho trang giấy */
+	.cpfb-edge {
+		width: 34px;
+		height: 52px;
+		border-radius: 8px;
+	}
+
+	.cpfb-edge--prev { left: 4px; }
+	.cpfb-edge--next { right: 4px; }
+
+	.cpfb-panel--sm {
+		left: 8px;
+		right: 8px;
+		width: auto;
+		transform: none;
+		animation: none;
+	}
+}

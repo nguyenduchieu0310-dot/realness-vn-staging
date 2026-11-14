@@ -1,0 +1,292 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   TT GENESIS — SIGNATURE VISUAL EFFECTS & COMPONENT STYLES
+   ========================================================================== */
+
+/* 1. Fluid Proportional Typography Clamp (Baseline) */
+html {
+  font-size: 16px;
+}
+
+@media (min-width: 992px) {
+  html {
+    font-size: clamp(9.4476190476px, 0.9523809524vw, 18.2857142857px);
+  }
+}
+
+/* 2. Color Variables & Theme Tokens */
+:root {
+  --TTcapital_black: #000000;
+  --TTcapital_white: #FFFFFF;
+  --TTcapital_yellow: #FFBD93;
+  --TTcapital_blue: #376CFF;
+  --TTcapital_navy: #12172E;
+  --TTcapital_slate: #18283B;
+  --TTcapital_cream: #E9DDCA;
+  --TTcapital_olive: #52632F;
+  --primary-gradient: linear-gradient(90deg, #FFBD93 0%, #FFFFFF 46.15%, #376CFF 100%);
+  --Linear-New: linear-gradient(90deg, #FFBD93 0%, #FFFFFF 46.15%, #8A99C3 100%);
+  --btn-cta-gradient: linear-gradient(260deg, #E1CBA9 5.89%, #476993 39.55%, #214C82 94.97%);
+}
+
+/* 3. Dynamic Neon Border Tracer via CSS @property */
+@property --neon-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes neonRun {
+  to {
+    --neon-angle: 360deg;
+  }
+}
+
+.btn-line,
+.btn-form,
+.brochure-btn,
+.brochure-btn a,
+.btn_sight,
+.btn-gradient {
+  position: relative;
+  overflow: visible;
+}
+
+.btn-line::before,
+.btn-form::before,
+.brochure-btn::before,
+.brochure-btn a::before,
+.btn_sight::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--neon-angle),
+    transparent 0deg,
+    rgba(170, 205, 255, 0.1) 30deg,
+    rgba(170, 205, 255, 0.55) 62deg,
+    #ffffff 75deg,
+    rgba(170, 205, 255, 0.55) 88deg,
+    rgba(170, 205, 255, 0.1) 120deg,
+    transparent 165deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation: neonRun 3s linear infinite;
+  animation-play-state: paused;
+  z-index: 2;
+}
+
+.btn-line:hover::before,
+.btn-form:hover::before,
+.brochure-btn:hover::before,
+.brochure-btn a:hover::before,
+.btn_sight:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+/* Neon glow aura underneath buttons */
+.btn-line::after,
+.btn-form::after,
+.brochure-btn::after,
+.brochure-btn a::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  bottom: 0;
+  width: 120%;
+  height: 1.75rem;
+  pointer-events: none;
+  transform: translate(-50%, 50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(120, 175, 255, 0.45) 0%, rgba(120, 175, 255, 0.2) 45%, transparent 72%);
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.btn-line:hover::after,
+.btn-form:hover::after,
+.brochure-btn:hover::after,
+.brochure-btn a:hover::after {
+  opacity: 1;
+}
+
+/* Standout mode adaptation */
+#header_site.standout .btn-line::before {
+  background: conic-gradient(
+    from var(--neon-angle),
+    transparent 0deg,
+    rgba(43, 92, 217, 0.15) 30deg,
+    rgba(43, 92, 217, 0.65) 62deg,
+    #2b5cd9 75deg,
+    rgba(43, 92, 217, 0.65) 88deg,
+    rgba(43, 92, 217, 0.15) 120deg,
+    transparent 165deg,
+    transparent 360deg
+  );
+}
+
+/* 4. Glassmorphism Utilities */
+.glass-panel,
+.tt-nav-capsule,
+.utility_card,
+.tt-utility-card,
+.unit_tooltip,
+.tt-unit-card {
+  background: rgba(18, 23, 46, 0.85);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+/* 5. Preloader Styling & Smooth Transition */
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #E5C39F 0%, #BFA98E 0%, #6D6570 0%, #12172E 52%, #12172E 100%);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#preloader.is-leaving {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#preloader .logo_preloader {
+  width: min(390px, 85vw);
+  height: auto;
+  overflow: visible;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.2, 1);
+}
+
+#preloader .logo_preloader .draw_line {
+  fill: rgba(255, 255, 255, 0);
+  stroke: #FFFFFF;
+  stroke-width: 0.9;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: preloaderDraw 1.8s ease-in-out forwards;
+  transition: fill 0.6s ease;
+}
+
+@keyframes preloaderDraw {
+  to {
+    stroke-dashoffset: 0;
+    fill: #FFFFFF;
+  }
+}
+
+/* 6. Masterplan & Utility Interactive Map Additions */
+.utility_map_box {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.utility_pin {
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.utility_pin:hover,
+.utility_pin.is-active,
+.utility_pin.active {
+  transform: translate(-50%, -50%) scale(1.22);
+  z-index: 25;
+}
+
+.utility_pin.utility_pin--navy {
+  background-color: #12172E;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.utility_pin.utility_pin--green {
+  background-color: #019547;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.utility_pin.utility_pin--orange {
+  background-color: #D86414;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.utility_pin.utility_pin--blue {
+  background-color: #376CFF;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.utility_card,
+.tt-utility-card {
+  position: absolute;
+  z-index: 50;
+  min-width: 240px;
+  max-width: 320px;
+  padding: 12px 16px;
+  color: #FFFFFF;
+  pointer-events: auto;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.utility_card.hide,
+.tt-utility-card.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+}
+
+/* 7. Tower Floorplan Unit Tooltip & Modal */
+.tower_unit_card,
+.tt-unit-card,
+.unit_tooltip {
+  color: #FFFFFF;
+  padding: 14px 18px;
+  border-radius: 12px;
+  z-index: 40;
+}
+
+.unit_modal,
+#unitModal,
+.tower_sheet {
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.tower_sheet.is-open,
+.unit_modal.show,
+#unitModal.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 575px) {
+  .utility_card,
+  .tt-utility-card {
+    min-width: 200px;
+    max-width: 280px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,69 @@
+.stf__parent {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  transform: translateZ(0);
+
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+}
+
+/* Tên lớp đúng là .stf__wrapper. CSS gốc của StPageFlip gõ nhầm thành
+   .sft__wrapper nên rule này không khớp phần tử nào, và hậu quả không nhỏ:
+   thiếu position:relative thì .stf__block (absolute) neo vào .stf__parent —
+   tức cả khung sách, thường cao hơn quyển sách kha khá — thay vì neo vào
+   .stf__wrapper đúng bằng quyển sách. Block cao sai kéo theo perspective-origin
+   sai, mà đó chính là điểm tụ của phép chiếu 3D. Bìa trước và bìa sau là hai
+   trang duy nhất lật bằng rotateY 3D thật (--hard), nên chỉ hai trang đó bị
+   méo và giật khi lật; các trang trong vẽ nếp gấp bằng canvas 2D nên không dính. */
+.stf__wrapper {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.stf__parent canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.stf__block {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  perspective: 2000px;
+}
+
+.stf__item {
+  display: none;
+  position: absolute;
+  transform-style: preserve-3d;
+}
+
+.stf__outerShadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.stf__innerShadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.stf__hardShadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.stf__hardInnerShadow {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
