@@ -84,6 +84,19 @@
                 let isMobile = !!(props && props.isMobile),
                     cfg = window.C_CDT.hero,
                     Tag = isMobile ? "section" : "div",
+                    vidRef = (0, s.useRef)(null),
+                    [isMuted, setIsMuted] = (0, s.useState)(!0),
+                    onToggleSound = () => {
+                        let next = !isMuted;
+                        setIsMuted(next);
+                        if (vidRef.current) {
+                            vidRef.current.muted = next;
+                            if (!next) {
+                                let p = vidRef.current.play();
+                                p && typeof p.catch == "function" && p.catch(() => {});
+                            }
+                        }
+                    },
                     onScrollClick = () => {
                         if (isMobile) {
                             let el = document.getElementById("section_intro");
@@ -92,6 +105,17 @@
                             window.dispatchEvent(new CustomEvent("gotoSection", { detail: { index: 1, direction: 1 } }));
                         }
                     };
+                (0, s.useEffect)(() => {
+                    let v = vidRef.current;
+                    if (!v) return;
+                    v.defaultMuted = !0;
+                    v.muted = !0;
+                    v.playsInline = !0;
+                    v.setAttribute("playsinline", "");
+                    v.setAttribute("webkit-playsinline", "");
+                    let p = v.play();
+                    p && typeof p.catch == "function" && p.catch(() => {});
+                }, []);
                 return (0, r.jsxs)(Tag, {
                     id: isMobile ? "section1" : void 0,
                     className: "cdt-sec cdt-hero font-gotham",
@@ -110,8 +134,7 @@
                                         playsInline: !0,
                                         children: (0, r.jsx)("source", { src: cfg.video, type: "video/mp4" })
                                     })
-                                }),
-                                (0, r.jsx)("img", { src: cfg.fg, alt: "TT Genesis Towers", className: "cdt-hero__towers" })
+                                })
                             ]
                         }),
                         isMobile
@@ -124,10 +147,10 @@
                                   })
                               })
                             : (0, r.jsx)("div", {
-                                  className: "fixed top-0 left-0 w-full z-30 h-28 flex items-center justify-between px-[5%]",
+                                  className: "fixed top-0 left-0 w-full z-30 h-28 flex items-center justify-between px-[5%] pointer-events-none",
                                   children: (0, r.jsx)("a", {
                                       href: "#",
-                                      className: "logo-container px-14 py-5 rounded-b-2xl border-[1px] border-[#FFE4BD] bg-[#0C5B3E] -mt-[2px]",
+                                      className: "logo-container pointer-events-auto px-14 py-5 rounded-b-2xl border-[1px] border-[#FFE4BD] bg-[#0C5B3E] -mt-[2px]",
                                       children: (0, r.jsx)("img", {
                                           alt: "logo inf",
                                           src: C_HEADER.logo,
@@ -135,18 +158,64 @@
                                       })
                                   })
                               }),
-                        (0, r.jsxs)("div", {
-                            className: "cdt-hero__content",
-                            children: [
-                                (0, r.jsxs)("p", {
-                                    className: "cdt-hero__subtitle",
-                                    children: [cfg.subTitleLines[0], (0, r.jsx)("br", {}), cfg.subTitleLines[1]]
-                                }),
-                                (0, r.jsx)("p", {
-                                    className: "cdt-hero__desc",
-                                    children: cfg.description
-                                })
-                            ]
+                        (0, r.jsx)("div", {
+                            className: "cdt-sr-only",
+                            children: [cfg.subTitleLines[0], " ", cfg.subTitleLines[1], " - ", cfg.description]
+                        }),
+                        (0, r.jsx)("div", {
+                            className: "cdt-hero__stage",
+                            children: (0, r.jsxs)("div", {
+                                className: "cdt-hero__showcase",
+                                children: [
+                                    (0, r.jsx)("video", {
+                                        ref: vidRef,
+                                        className: "cdt-hero__kv-video",
+                                        src: cfg.heroVideo,
+                                        poster: cfg.heroPoster,
+                                        preload: "auto",
+                                        autoPlay: !0,
+                                        muted: isMuted,
+                                        loop: !0,
+                                        playsInline: !0
+                                    }),
+                                    (0, r.jsxs)("button", {
+                                        type: "button",
+                                        onClick: onToggleSound,
+                                        className: "cdt-hero__sound-btn",
+                                        "aria-label": isMuted ? "Bật âm thanh" : "Tắt âm thanh",
+                                        children: [
+                                            isMuted
+                                                ? (0, r.jsxs)("svg", {
+                                                      viewBox: "0 0 24 24",
+                                                      fill: "none",
+                                                      stroke: "currentColor",
+                                                      strokeWidth: "2",
+                                                      strokeLinecap: "round",
+                                                      strokeLinejoin: "round",
+                                                      children: [
+                                                          (0, r.jsx)("polygon", { points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5" }),
+                                                          (0, r.jsx)("line", { x1: "23", y1: "9", x2: "17", y2: "15" }),
+                                                          (0, r.jsx)("line", { x1: "17", y1: "9", x2: "23", y2: "15" })
+                                                      ]
+                                                  })
+                                                : (0, r.jsxs)("svg", {
+                                                      viewBox: "0 0 24 24",
+                                                      fill: "none",
+                                                      stroke: "currentColor",
+                                                      strokeWidth: "2",
+                                                      strokeLinecap: "round",
+                                                      strokeLinejoin: "round",
+                                                      children: [
+                                                          (0, r.jsx)("polygon", { points: "11 5 6 9 2 9 2 15 6 15 11 19 11 5" }),
+                                                          (0, r.jsx)("path", { d: "M15.54 8.46a5 5 0 0 1 0 7.07" }),
+                                                          (0, r.jsx)("path", { d: "M19.07 4.93a10 10 0 0 1 0 14.14" })
+                                                      ]
+                                                  }),
+                                            (0, r.jsx)("span", { children: isMuted ? "Bật tiếng" : "Đang phát" })
+                                        ]
+                                    })
+                                ]
+                            })
                         }),
                         (0, r.jsxs)("button", {
                             type: "button",
