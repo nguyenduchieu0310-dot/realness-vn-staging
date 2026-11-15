@@ -62,98 +62,592 @@
                             className: "h-full flex flex-col pt-24 pb-8 px-8",
                             children: [(0, r.jsx)("nav", {
                                 className: "flex-1",
-                                children: (0, r.jsxs)("ul", {
-                                    className: "space-y-3 text-center",
-                                    children: [(0, r.jsx)("li", {
+                                children: (0, r.jsx)("ul", {
+                                    className: "space-y-2.5 text-center overflow-y-auto max-h-[78vh]",
+                                    children: C_MENU.map((item) => (0, r.jsx)("li", {
                                         children: (0, r.jsx)(a(), {
-                                            href: "#section1",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section1"),
-                                            children: C_MENU[0].title
+                                            href: "#" + item.hash,
+                                            className: "text-lg font-medium text-white hover:text-[#c9aa6f] transition-colors",
+                                            onClick: () => o(item.hash),
+                                            children: item.title
                                         })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section2",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section2"),
-                                            children: C_MENU[1].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section3",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section3"),
-                                            children: C_MENU[2].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section4",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section4"),
-                                            children: C_MENU[3].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section5",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section5"),
-                                            children: C_MENU[4].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section6",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section6"),
-                                            children: C_MENU[5].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section7",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section7"),
-                                            children: C_MENU[6].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section8",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section8"),
-                                            children: C_MENU[7].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section9",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section9"),
-                                            children: C_MENU[8].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section10",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section10"),
-                                            children: C_MENU[9].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section11",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section11"),
-                                            children: C_MENU[10].title
-                                        })
-                                    }), (0, r.jsx)("li", {
-                                        children: (0, r.jsx)(a(), {
-                                            href: "#section12",
-                                            className: "text-xl font-medium text-white hover:text-[#c9aa6f] transition-colors",
-                                            onClick: () => o("section12"),
-                                            children: C_MENU[11].title
-                                        })
-                                    })]
+                                    }, item.hash))
                                 })
                             }), (0, r.jsx)]
                         })
                     })]
                 })
+            }
+
+
+            function CdtHero(props) {
+                let isMobile = !!(props && props.isMobile),
+                    cfg = window.C_CDT.hero,
+                    Tag = isMobile ? "section" : "div",
+                    onScrollClick = () => {
+                        if (isMobile) {
+                            let el = document.getElementById("section_intro");
+                            el && el.scrollIntoView({ behavior: "smooth" });
+                        } else {
+                            window.dispatchEvent(new CustomEvent("gotoSection", { detail: { index: 1, direction: 1 } }));
+                        }
+                    };
+                return (0, r.jsxs)(Tag, {
+                    id: isMobile ? "section1" : void 0,
+                    className: "cdt-sec cdt-hero font-gotham",
+                    children: [
+                        (0, r.jsxs)("div", {
+                            className: "cdt-hero__bg",
+                            children: [
+                                (0, r.jsx)("img", { src: cfg.bg, alt: "TT Genesis", className: "cdt-hero__sky" }),
+                                (0, r.jsx)("div", { className: "cdt-hero__sky-tint" }),
+                                (0, r.jsx)("div", {
+                                    className: "cdt-hero__video-wrap",
+                                    children: (0, r.jsx)("video", {
+                                        autoPlay: !0,
+                                        muted: !0,
+                                        loop: !0,
+                                        playsInline: !0,
+                                        children: (0, r.jsx)("source", { src: cfg.video, type: "video/mp4" })
+                                    })
+                                }),
+                                (0, r.jsx)("img", { src: cfg.fg, alt: "TT Genesis Towers", className: "cdt-hero__towers" })
+                            ]
+                        }),
+                        isMobile
+                            ? (0, r.jsx)("a", {
+                                  href: "#",
+                                  className: "cdt-mobile-logo-badge",
+                                  children: (0, r.jsx)("img", {
+                                      alt: "logo inf",
+                                      src: C_HEADER.logo
+                                  })
+                              })
+                            : (0, r.jsx)("div", {
+                                  className: "fixed top-0 left-0 w-full z-30 h-28 flex items-center justify-between px-[5%]",
+                                  children: (0, r.jsx)("a", {
+                                      href: "#",
+                                      className: "logo-container px-14 py-5 rounded-b-2xl border-[1px] border-[#FFE4BD] bg-[#0C5B3E] -mt-[2px]",
+                                      children: (0, r.jsx)("img", {
+                                          alt: "logo inf",
+                                          src: C_HEADER.logo,
+                                          className: "w-[4vw] h-auto object-contain"
+                                      })
+                                  })
+                              }),
+                        (0, r.jsxs)("div", {
+                            className: "cdt-hero__content",
+                            children: [
+                                (0, r.jsxs)("p", {
+                                    className: "cdt-hero__subtitle",
+                                    children: [cfg.subTitleLines[0], (0, r.jsx)("br", {}), cfg.subTitleLines[1]]
+                                }),
+                                (0, r.jsx)("p", {
+                                    className: "cdt-hero__desc",
+                                    children: cfg.description
+                                })
+                            ]
+                        }),
+                        (0, r.jsxs)("button", {
+                            type: "button",
+                            onClick: onScrollClick,
+                            className: "cdt-hero__scroll",
+                            "aria-label": cfg.scrollLabel,
+                            children: [
+                                (0, r.jsx)("span", { className: "cdt-hero__mouse", children: (0, r.jsx)("span", {}) }),
+                                (0, r.jsx)("span", { className: "cdt-hero__scroll-text", children: cfg.scrollLabel })
+                            ]
+                        })
+                    ]
+                });
+            }
+
+            function CdtIntro(props) {
+                let isMobile = !!(props && props.isMobile),
+                    cfg = window.C_CDT.intro,
+                    Tag = isMobile ? "section" : "div";
+                return (0, r.jsxs)(Tag, {
+                    id: isMobile ? "section_intro" : void 0,
+                    className: "cdt-sec cdt-intro font-gotham",
+                    children: [
+                        (0, r.jsx)("div", {
+                            className: "cdt-intro__bg",
+                            children: (0, r.jsx)("img", { src: cfg.bg, alt: "Khởi nguyên thịnh vượng TT Genesis" })
+                        }),
+                        (0, r.jsxs)("div", {
+                            className: "cdt-intro__content",
+                            children: [
+                                (0, r.jsx)("p", { className: "cdt-intro__eyebrow", children: cfg.eyebrow }),
+                                (0, r.jsx)("h2", { className: "cdt-intro__title cdt-gold-gradient-text", children: cfg.title }),
+                                (0, r.jsx)("div", {
+                                    className: "cdt-intro__paragraphs",
+                                    children: cfg.paragraphs.map((p, idx) => (0, r.jsx)("p", { children: p }, idx))
+                                })
+                            ]
+                        })
+                    ]
+                });
+            }
+
+            function CdtLocation(props) {
+                let isMobile = !!(props && props.isMobile),
+                    cfg = window.C_CDT.location,
+                    Tag = isMobile ? "section" : "div",
+                    [openCat, setOpenCat] = (0, s.useState)(-1),
+                    [activePoint, setActivePoint] = (0, s.useState)(""),
+                    mapRef = (0, s.useRef)(null),
+                    onToggleCat = (idx) => {
+                        setOpenCat((prev) => (prev === idx ? -1 : idx));
+                        setActivePoint("");
+                    },
+                    onClickListPoint = (id) => {
+                        let next = activePoint === id ? "" : id;
+                        setActivePoint(next);
+                        if (isMobile && next && mapRef.current) {
+                            mapRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }
+                    },
+                    onClickMapMark = (id) => {
+                        let next = activePoint === id ? "" : id;
+                        setActivePoint(next);
+                        if (next) {
+                            let cIdx = parseInt(id.split("-")[0], 10);
+                            !Number.isNaN(cIdx) && setOpenCat(cIdx);
+                        }
+                    };
+                return (0, r.jsxs)(Tag, {
+                    id: isMobile ? "section_locate" : void 0,
+                    className: "cdt-sec cdt-locate font-gotham",
+                    children: [
+                        (0, r.jsxs)("div", {
+                            className: "cdt-locate__inner",
+                            children: [
+                                (0, r.jsxs)("h2", {
+                                    className: "cdt-locate__title cdt-gold-gradient-text",
+                                    children: [cfg.titleLines[0], (0, r.jsx)("br", {}), cfg.titleLines[1]]
+                                }),
+                                (0, r.jsxs)("div", {
+                                    className: "cdt-locate__card",
+                                    children: [
+                                        (0, r.jsx)("div", {
+                                            className: "cdt-locate__card-head",
+                                            children: (0, r.jsx)("h3", { children: cfg.tableTitle })
+                                        }),
+                                        (0, r.jsx)("div", {
+                                            className: "cdt-locate__card-body",
+                                            onWheel: (ev) => {
+                                                let el = ev.currentTarget;
+                                                if (el.scrollHeight > el.clientHeight) ev.stopPropagation();
+                                            },
+                                            children: cfg.categories.map((cat, idx) => (0, r.jsxs)("div", {
+                                                className: "cdt-locate__item item-location".concat(openCat === idx ? " active" : ""),
+                                                children: [
+                                                    (0, r.jsxs)("button", {
+                                                        type: "button",
+                                                        className: "cdt-locate__topic topic-location",
+                                                        "aria-expanded": openCat === idx,
+                                                        onClick: () => onToggleCat(idx),
+                                                        children: [
+                                                            (0, r.jsxs)("span", {
+                                                                className: "cdt-locate__topic-left",
+                                                                children: [
+                                                                    (0, r.jsx)("img", { src: cat.icon, alt: "", width: 16, height: 16 }),
+                                                                    (0, r.jsx)("span", { children: cat.title })
+                                                                ]
+                                                            }),
+                                                            (0, r.jsx)("svg", {
+                                                                className: "cdt-locate__chevron",
+                                                                viewBox: "0 0 20 20",
+                                                                fill: "none",
+                                                                xmlns: "http://www.w3.org/2000/svg",
+                                                                children: (0, r.jsx)("path", {
+                                                                    d: "M5 7.5L10 12.5L15 7.5",
+                                                                    stroke: "currentColor",
+                                                                    strokeWidth: "1.8",
+                                                                    strokeLinecap: "round",
+                                                                    strokeLinejoin: "round"
+                                                                })
+                                                            })
+                                                        ]
+                                                    }),
+                                                    (0, r.jsx)("div", {
+                                                        className: "cdt-locate__list list_locate",
+                                                        children: (0, r.jsx)("ul", {
+                                                            className: "cdt-locate__grid",
+                                                            children: cat.points.map((pt) => (0, r.jsx)("li", {
+                                                                children: (0, r.jsxs)("button", {
+                                                                    type: "button",
+                                                                    className: "cdt-locate__point js-map-point".concat(activePoint === pt.id ? " is-active" : ""),
+                                                                    "data-map-point": pt.id,
+                                                                    onClick: () => onClickListPoint(pt.id),
+                                                                    children: [
+                                                                        (0, r.jsx)("span", { className: "cdt-locate__point-name", children: pt.name }),
+                                                                        pt.time ? (0, r.jsx)("span", { className: "cdt-locate__point-time", children: pt.time }) : null
+                                                                    ]
+                                                                })
+                                                            }, pt.id))
+                                                        })
+                                                    })
+                                                ]
+                                            }, idx))
+                                        })
+                                    ]
+                                }),
+                                (0, r.jsx)("p", { className: "cdt-locate__note", children: cfg.note })
+                            ]
+                        }),
+                        (0, r.jsxs)("div", {
+                            ref: mapRef,
+                            className: "map-gif",
+                            children: [
+                                (0, r.jsxs)("div", {
+                                    className: "map-gif__stack",
+                                    children: [
+                                        (0, r.jsx)("img", {
+                                            className: "map-gif__img",
+                                            src: cfg.mapBase,
+                                            srcSet: cfg.mapBase + " 1x, " + cfg.mapBase2x + " 2x",
+                                            width: 1078,
+                                            height: 906,
+                                            alt: "Bản đồ vị trí TT Genesis và các điểm đến lân cận",
+                                            decoding: "async"
+                                        }),
+                                        (0, r.jsxs)("svg", {
+                                            className: "map-gif__svg",
+                                            viewBox: "0 0 1078 906",
+                                            fill: "none",
+                                            "aria-hidden": "true",
+                                            children: [
+                                                (0, r.jsx)("g", {
+                                                    className: "map-gif__routes",
+                                                    strokeMiterlimit: "10",
+                                                    strokeLinejoin: "round",
+                                                    children: (0, r.jsx)("path", {
+                                                        className: "map-gif__dash map-gif__dash--road",
+                                                        d: "M392.9 268L406 295.3L397.8 358.4L492.7 610.9",
+                                                        stroke: "#D4AF6A"
+                                                    })
+                                                }),
+                                                (0, r.jsx)("image", { className: "map-gif__layer", href: cfg.mapMid2x, width: "1078", height: "906" }),
+                                                (0, r.jsxs)("g", {
+                                                    className: "map-gif__routes",
+                                                    strokeMiterlimit: "10",
+                                                    strokeLinejoin: "round",
+                                                    children: [
+                                                        (0, r.jsx)("path", {
+                                                            className: "map-gif__dash map-gif__dash--road",
+                                                            d: "M384.3 644.4L670.1 567.6L778 541.3L862.7 523.7L1070.7 518.1",
+                                                            stroke: "#D4AF6A"
+                                                        }),
+                                                        (0, r.jsx)("path", {
+                                                            className: "map-gif__dash map-gif__dash--planned",
+                                                            d: "M650 128.5L672.7 274.8",
+                                                            stroke: "#7BC8B2"
+                                                        }),
+                                                        (0, r.jsx)("path", {
+                                                            className: "map-gif__dash map-gif__dash--metro",
+                                                            d: "M497.9 188.7L645.4 286.8C649 289.8 650.9 294.4 650.4 299.1L644.7 354C644 359.9 640.1 361.2 634.5 363.3L580.4 384.3L660.7 562.3L736.9 834.9L827.1 903.2",
+                                                            stroke: "#8CE0C8"
+                                                        }),
+                                                        (0, r.jsx)("path", {
+                                                            className: "map-gif__dash map-gif__dash--metro",
+                                                            d: "M476.5 190.6L481 428.4L479.9 442C478.5 445.5 482.1 455 484 461.8C485.8 468.2 488.4 473.5 490.4 478.8C547.2 618.5 604.5 761.9 661.3 901.6",
+                                                            stroke: "#FFE4BD"
+                                                        }),
+                                                        (0, r.jsx)("path", {
+                                                            className: "map-gif__dash map-gif__dash--metro",
+                                                            d: "M91.8 597.9L305 515.9C306.6 515.3 308.4 515.2 310 515.8L377.7 518.8L391.4 525.8L503.1 506.5L589.5 526.6L644.3 486.1L607 405.4C605.3 401.7 607.1 397.3 610.9 395.9L698.8 363.1C698.8 363.1 706.2 363.5 704.4 355.3C698.9 329.9 672.6 221.4 672.6 221.4C668.5 222 666.3 222.6 666.2 222.6C662.3 223.4 577.4 238.6 561.9 176.3C546 112.5 593.5 90 621.1 83.3C673.5 70.6 684.1 0.5 684.1 0.5",
+                                                            stroke: "#3EC7A7"
+                                                        })
+                                                    ]
+                                                }),
+                                                (0, r.jsx)("image", { className: "map-gif__layer", href: cfg.mapTop2x, width: "1078", height: "906" })
+                                            ]
+                                        })
+                                    ]
+                                }),
+                                (0, r.jsxs)("svg", {
+                                    className: "map-gif__svg map-gif__svg--marks",
+                                    viewBox: "0 0 1078 906",
+                                    fill: "none",
+                                    children: [
+                                        (0, r.jsx)("g", {
+                                            className: "map-gif__marks",
+                                            children: cfg.marks.map((mk) => {
+                                                let isMarkActive = activePoint
+                                                    ? activePoint === mk.id
+                                                    : openCat >= 0 && mk.id.startsWith(openCat + "-");
+                                                return (0, r.jsxs)("g", {
+                                                    className: "map-gif__mark js-map-mark".concat(isMarkActive ? " is-active" : ""),
+                                                    "data-map-point": mk.id,
+                                                    onClick: () => onClickMapMark(mk.id),
+                                                    children: [
+                                                        (0, r.jsx)("line", {
+                                                            className: "map-gif__mark-line",
+                                                            x1: mk.line.x1,
+                                                            y1: mk.line.y1,
+                                                            x2: mk.line.x2,
+                                                            y2: mk.line.y2,
+                                                            pathLength: "1"
+                                                        }),
+                                                        mk.ring ? (0, r.jsx)("circle", {
+                                                            className: "map-gif__mark-ring",
+                                                            cx: mk.ring.cx,
+                                                            cy: mk.ring.cy,
+                                                            r: mk.ring.r
+                                                        }) : null,
+                                                        (0, r.jsx)("image", {
+                                                            className: "map-gif__poi",
+                                                            href: mk.poi.href,
+                                                            x: mk.poi.x,
+                                                            y: mk.poi.y,
+                                                            width: mk.poi.width,
+                                                            height: mk.poi.height
+                                                        })
+                                                    ]
+                                                }, mk.id);
+                                            })
+                                        }),
+                                        (0, r.jsxs)("g", {
+                                            className: "map-gif__pin-wrap",
+                                            children: [
+                                                (0, r.jsx)("ellipse", { className: "map-gif__pulse", cx: "444.5", cy: "533.8", rx: "9", ry: "4.5", strokeWidth: "1.5" }),
+                                                (0, r.jsx)("ellipse", { className: "map-gif__pulse map-gif__pulse--late", cx: "444.5", cy: "533.8", rx: "9", ry: "4.5", strokeWidth: "1.5" }),
+                                                (0, r.jsx)("path", {
+                                                    className: "map-gif__pin",
+                                                    d: "M454.3 498.4C451.6 495.7 448.1 494.4 444.5 494.4C440.9 494.4 437.4 495.7 434.7 498.4C429.3 503.8 428.6 511.4 433.8 519.1C436.5 523 444.4 532.8 444.4 532.8C444.4 532.8 452.4 523 455 519.1C460.4 511.4 459.7 503.8 454.3 498.4ZM444.6 516.8C440 516.8 436.3 513.1 436.3 508.5C436.3 503.9 440 500.2 444.6 500.2C449.2 500.2 452.9 503.9 452.9 508.5C452.9 513.1 449.2 516.8 444.6 516.8Z",
+                                                    fill: "#E8C37E",
+                                                    stroke: "#073826",
+                                                    strokeWidth: "1.2",
+                                                    strokeMiterlimit: "10"
+                                                })
+                                            ]
+                                        })
+                                    ]
+                                })
+                            ]
+                        })
+                    ]
+                });
+            }
+
+            function CdtPartners(props) {
+                let isMobile = !!(props && props.isMobile),
+                    cfg = window.C_CDT.partners,
+                    Tag = isMobile ? "section" : "div",
+                    invLoop = [...cfg.investors, ...cfg.investors],
+                    durations = ["22s", "30s", "44s"];
+                return (0, r.jsx)(Tag, {
+                    id: isMobile ? "section10" : void 0,
+                    className: "cdt-sec cdt-partner font-gotham",
+                    children: (0, r.jsxs)("div", {
+                        className: "cdt-partner__grid",
+                        children: [
+                            (0, r.jsxs)("div", {
+                                className: "cdt-partner__left",
+                                children: [
+                                    (0, r.jsxs)("div", {
+                                        className: "cdt-partner__card cdt-partner__card--top",
+                                        children: [
+                                            (0, r.jsxs)("div", {
+                                                className: "cdt-partner__head",
+                                                children: [
+                                                    (0, r.jsx)("div", {
+                                                        className: "cdt-badge-emerald",
+                                                        children: (0, r.jsx)("img", { src: cfg.investBadge, alt: "" })
+                                                    }),
+                                                    (0, r.jsxs)("div", {
+                                                        children: [
+                                                            (0, r.jsx)("h2", { className: "cdt-partner__title", children: cfg.investTitle }),
+                                                            (0, r.jsx)("p", { className: "cdt-partner__desc", children: cfg.investDesc })
+                                                        ]
+                                                    })
+                                                ]
+                                            }),
+                                            (0, r.jsx)("div", {
+                                                className: "cdt-marquee-box",
+                                                style: { "--marquee-dur": "24s" },
+                                                children: (0, r.jsx)("div", {
+                                                    className: "cdt-marquee-track",
+                                                    children: invLoop.map((inv, idx) => (0, r.jsx)("div", {
+                                                        className: "cdt-partner-item",
+                                                        children: (0, r.jsxs)("button", {
+                                                            type: "button",
+                                                            className: "cdt-invest-btn js-invest-trigger",
+                                                            "data-investor": inv.name,
+                                                            onClick: () => window.dispatchEvent(new CustomEvent("openInvestModal", { detail: inv })),
+                                                            children: [
+                                                                (0, r.jsx)("img", { src: inv.logo, alt: inv.name }),
+                                                                (0, r.jsx)("span", { className: "cdt-sr-only", children: inv.name })
+                                                            ]
+                                                        })
+                                                    }, idx))
+                                                })
+                                            })
+                                        ]
+                                    }),
+                                    (0, r.jsxs)("div", {
+                                        className: "cdt-partner__card cdt-partner__card--bottom",
+                                        children: [
+                                            (0, r.jsxs)("div", {
+                                                className: "cdt-partner__head",
+                                                children: [
+                                                    (0, r.jsx)("div", {
+                                                        className: "cdt-badge-emerald",
+                                                        children: (0, r.jsx)("img", { src: cfg.partnerBadge, alt: "" })
+                                                    }),
+                                                    (0, r.jsxs)("div", {
+                                                        children: [
+                                                            (0, r.jsx)("h2", { className: "cdt-partner__title", children: cfg.partnerTitle }),
+                                                            (0, r.jsx)("p", { className: "cdt-partner__desc", children: cfg.partnerDesc })
+                                                        ]
+                                                    })
+                                                ]
+                                            }),
+                                            (0, r.jsx)("div", {
+                                                className: "cdt-partner__groups",
+                                                children: cfg.groups.map((grp, gIdx) => {
+                                                    let loopLogos = [...grp.logos, ...grp.logos];
+                                                    return (0, r.jsxs)("div", {
+                                                        className: "cdt-partner__group-row",
+                                                        children: [
+                                                            (0, r.jsx)("p", { className: "cdt-partner__group-label", children: grp.label }),
+                                                            (0, r.jsx)("div", {
+                                                                className: "cdt-marquee-box",
+                                                                style: { "--marquee-dur": durations[gIdx] || "28s" },
+                                                                children: (0, r.jsx)("div", {
+                                                                    className: "cdt-marquee-track",
+                                                                    children: loopLogos.map((lg, lIdx) => (0, r.jsx)("div", {
+                                                                        className: "cdt-partner-item",
+                                                                        children: (0, r.jsx)("img", { src: lg.src, alt: lg.alt || "Partner logo" })
+                                                                    }, lIdx))
+                                                                })
+                                                            })
+                                                        ]
+                                                    }, gIdx);
+                                                })
+                                            })
+                                        ]
+                                    })
+                                ]
+                            }),
+                            (0, r.jsxs)("div", {
+                                className: "cdt-award award_site",
+                                children: [
+                                    (0, r.jsx)("video", {
+                                        autoPlay: !0,
+                                        muted: !0,
+                                        loop: !0,
+                                        playsInline: !0,
+                                        children: (0, r.jsx)("source", { src: cfg.awards.video, type: "video/mp4" })
+                                    }),
+                                    (0, r.jsxs)("div", {
+                                        className: "cdt-award__content",
+                                        children: [
+                                            (0, r.jsxs)("div", {
+                                                children: [
+                                                    (0, r.jsx)("h3", { className: "cdt-award__title cdt-gold-gradient-text", children: cfg.awards.title }),
+                                                    (0, r.jsx)("p", { className: "cdt-award__desc", children: cfg.awards.description })
+                                                ]
+                                            }),
+                                            (0, r.jsx)("div", {
+                                                className: "cdt-award__items",
+                                                children: cfg.awards.items.map((aw, aIdx) => (0, r.jsxs)("div", {
+                                                    className: "cdt-award__item",
+                                                    children: [
+                                                        (0, r.jsx)("figure", {
+                                                            children: (0, r.jsx)("img", { src: aw.img, alt: aw.name })
+                                                        }),
+                                                        (0, r.jsx)("p", { className: "cdt-award__name", children: aw.name }),
+                                                        (0, r.jsx)("p", { className: "cdt-award__year", children: aw.year })
+                                                    ]
+                                                }, aIdx))
+                                            }),
+                                            (0, r.jsx)("p", { className: "cdt-award__quote", children: cfg.awards.footerQuote })
+                                        ]
+                                    })
+                                ]
+                            })
+                        ]
+                    })
+                });
+            }
+
+            function CdtInvestModal() {
+                let [inv, setInv] = (0, s.useState)(null),
+                    icons = window.C_CDT.partners.modalIcons;
+                (0, s.useEffect)(() => {
+                    let onOpen = (ev) => setInv(ev.detail || null),
+                        onKey = (ev) => {
+                            if ("Escape" === ev.key) setInv(null);
+                        };
+                    window.addEventListener("openInvestModal", onOpen);
+                    window.addEventListener("keydown", onKey);
+                    return () => {
+                        window.removeEventListener("openInvestModal", onOpen);
+                        window.removeEventListener("keydown", onKey);
+                    };
+                }, []);
+                if (!inv) return null;
+                let rows = [
+                    { label: "Address", val: inv.address },
+                    { label: "Phone", val: inv.phone },
+                    { label: "Email", val: inv.email }
+                ].filter((rItem) => !!rItem.val);
+                return (0, r.jsx)("div", {
+                    id: "investModal",
+                    role: "dialog",
+                    "aria-modal": "true",
+                    "data-state": "open",
+                    className: "cdt-invest-modal-backdrop font-gotham",
+                    onClick: (ev) => {
+                        if (ev.target === ev.currentTarget) setInv(null);
+                    },
+                    onWheel: (ev) => ev.stopPropagation(),
+                    children: (0, r.jsxs)("div", {
+                        className: "cdt-invest-modal",
+                        children: [
+                            (0, r.jsxs)("button", {
+                                type: "button",
+                                className: "cdt-invest-modal__close",
+                                "aria-label": "Close",
+                                onClick: () => setInv(null),
+                                children: [
+                                    "Close ",
+                                    (0, r.jsx)("img", { src: icons.close, alt: "", width: 12, height: 12 })
+                                ]
+                            }),
+                            inv.logo ? (0, r.jsx)("div", {
+                                className: "cdt-invest-modal__logo",
+                                children: (0, r.jsx)("img", { src: inv.logo, alt: inv.name })
+                            }) : null,
+                            (0, r.jsx)("h4", { className: "cdt-invest-modal__name js-invest-name", children: inv.name }),
+                            inv.website ? (0, r.jsxs)("a", {
+                                href: inv.website,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                className: "cdt-invest-modal__web",
+                                children: [
+                                    "Website: ",
+                                    (0, r.jsx)("span", { children: inv.websiteLabel || inv.website }),
+                                    (0, r.jsx)("img", { src: icons.link, alt: "", width: 12, height: 12 })
+                                ]
+                            }) : null,
+                            (0, r.jsx)("p", { className: "cdt-invest-modal__desc js-invest-descript", children: inv.description }),
+                            rows.length > 0 ? (0, r.jsx)("table", {
+                                className: "cdt-invest-modal__table",
+                                children: (0, r.jsx)("tbody", {
+                                    children: rows.map((rw) => (0, r.jsxs)("tr", {
+                                        children: [
+                                            (0, r.jsx)("td", { children: rw.label }),
+                                            (0, r.jsx)("td", { children: rw.val })
+                                        ]
+                                    }, rw.label))
+                                })
+                            }) : null
+                        ]
+                    })
+                });
             }
 
             function c() {
@@ -2334,7 +2828,7 @@
                             })]
                         })]
                     }), (0, r.jsxs)("main", {
-                        children: [(0, r.jsx)(c, {}), (0, r.jsx)(d, {}), (0, r.jsx)(m, {}), (0, r.jsx)(p, {}), (0, r.jsx)(b, {}), (0, r.jsx)(A, {}), (0, r.jsx)(_, {}), (0, r.jsx)(D, {}), (0, r.jsx)(P, {}), (0, r.jsx)(z, {}), (0, r.jsx)(Z, {}), (0, r.jsx)(U, {})]
+                        children: [(0, r.jsx)(CdtHero, { isMobile: !0 }), (0, r.jsx)(CdtIntro, { isMobile: !0 }), (0, r.jsx)(d, {}), (0, r.jsx)(m, {}), (0, r.jsx)(p, {}), (0, r.jsx)(CdtLocation, { isMobile: !0 }), (0, r.jsx)(b, {}), (0, r.jsx)(A, {}), (0, r.jsx)(_, {}), (0, r.jsx)(D, {}), (0, r.jsx)(P, {}), (0, r.jsx)(CdtPartners, { isMobile: !0 }), (0, r.jsx)(Z, {}), (0, r.jsx)(U, {})]
                     })]
                 })
             }
@@ -2364,35 +2858,8 @@
             }));
 
             u.Ay.registerPlugin(O.nu);
-            let W = ["section1", "section2", "section3", "section4", "section5", "section6", "section7", "section8", "section9", "section10", "section11", "section12"],
-                X = [function() {
-                    let e = (0, s.useRef)(null);
-                    return (0, r.jsxs)("div", {
-                        ref: e,
-                        className: "relative h-full w-full",
-                        children: [(0, r.jsx)("div", {
-                            className: "absolute inset-0 bg-gradient-to-b from-black/60 to-black/30",
-                            children: (0, r.jsx)("div", {
-                                className: "absolute inset-0 bg-cover bg-center",
-                                style: {
-                                    backgroundImage: "url('"+ C_SECTIONS.section1.bg +"')",
-                                    backgroundPosition: "0 30%"
-                                }
-                            })
-                        }), (0, r.jsx)("div", {
-                            className: "fixed top-0 left-0 w-full z-30 h-28 flex items-center justify-between px-[5%]",
-                            children: (0, r.jsx)("a", {
-                                href: "#",
-                                className: "logo-container px-14 py-5 rounded-b-2xl border-[1px] border-[#FFE4BD] bg-[#0C5B3E] -mt-[2px]",
-                                children: (0, r.jsx)("img", {
-                                    alt: "logo inf",
-                                    src: C_HEADER.logo,
-                                    className: "w-[4vw] h-auto object-contain"
-                                })
-                            })
-                        })]
-                    })
-                }, function() {
+            let W = C_MENU.map(item => item.hash),
+                X = [function() { return (0, r.jsx)(CdtHero, { isMobile: !1 }); }, function() { return (0, r.jsx)(CdtIntro, { isMobile: !1 }); }, function() {
                     let e = (0, s.useRef)(null),
                         t = (0, s.useRef)(null),
                         [n, i] = (0, s.useState)(!1),
@@ -2863,7 +3330,7 @@
                             className: "relative h-full flex flex-col items-center justify-center px-4"
                         })]
                     })
-                }, function() {
+                }, function() { return (0, r.jsx)(CdtLocation, { isMobile: !1 }); }, function() {
                     let [e, t] = (0, s.useState)(0), n = (0, s.useRef)(null), i = (0, s.useRef)(null), [o, a] = (0, s.useState)(!1), [l, c] = (0, s.useState)(!1), d = (0, s.useRef)(null), h = (0, s.useRef)(null), m = (0, s.useRef)(null), p = (0, s.useRef)(null), f = (0, s.useRef)(null), b = (0, s.useRef)(null), y = (0, s.useRef)(null), j = (0, s.useRef)(null), C = C_SECTIONS.section5.data.list;
                     return (0, s.useEffect)(() => {
                         if (!i.current) return;
@@ -3531,132 +3998,7 @@
                             })]
                         })]
                     })
-                }, function() {
-                    let e = (0, s.useRef)(null),
-                        t = (0, s.useRef)(null),
-                        n = (0, s.useRef)(null),
-                        i = (0, s.useRef)(null),
-                        o = (0, s.useRef)(null),
-                        a = (0, s.useRef)(null),
-                        [l, c] = (0, s.useState)(!1),
-                        [d, h] = (0, s.useState)({
-                            x: 0,
-                            y: 0
-                        }),
-                        m = (0, s.useCallback)(e => {
-                            if (!l) return;
-                            let t = (e.clientX / window.innerWidth - .5) * 2,
-                                n = (e.clientY / window.innerHeight - .5) * 2;
-                            h({
-                                x: t,
-                                y: n
-                            }), a.current && u.os.to(a.current, {
-                                x: 15 * t,
-                                y: 10 * n,
-                                duration: .8,
-                                ease: "power2.out"
-                            })
-                        }, [l]);
-                    return (0, s.useEffect)(() => {
-                        if (!t.current || !i.current) return;
-                        let r = () => {
-                            u.os.set(t.current, {
-                                y: -50,
-                                opacity: 0
-                            }), u.os.set(n.current, {
-                                y: -30,
-                                opacity: 0
-                            }), u.os.set(i.current, {
-                                y: 30,
-                                opacity: 0
-                            }), u.os.set(o.current, {
-                                scale: .8,
-                                opacity: 0
-                            }), a.current && u.os.set(a.current, {
-                                x: 0,
-                                y: 0
-                            })
-                        };
-                        r();
-                        let s = () => {
-                                let e = u.os.timeline();
-                                e.to(o.current, {
-                                    scale: 1,
-                                    opacity: 1,
-                                    duration: 1.2,
-                                    ease: "back.out(1.7)"
-                                }), e.to(t.current, {
-                                    y: 0,
-                                    opacity: 1,
-                                    duration: 1.2,
-                                    ease: "power2.out"
-                                }, "-=0.5"), e.to(n.current, {
-                                    y: 0,
-                                    opacity: 1,
-                                    duration: .8,
-                                    ease: "power2.out"
-                                }, "-=0.5"), e.to(i.current, {
-                                    y: 0,
-                                    opacity: 1,
-                                    duration: 1,
-                                    ease: "power2.out"
-                                }, "-=0.3")
-                            },
-                            d = new IntersectionObserver(e => {
-                                e[0].isIntersecting && !l ? (console.log("Section10 v\xe0o viewport, bắt đầu animation"), c(!0), s()) : !e[0].isIntersecting && l && (console.log("Section10 rời khỏi viewport, reset trạng th\xe1i"), c(!1), r())
-                            }, {
-                                threshold: .2
-                            });
-                        return e.current && d.observe(e.current), window.addEventListener("mousemove", m), () => {
-                            e.current && d.unobserve(e.current), window.removeEventListener("mousemove", m)
-                        }
-                    }, [l, m]), (0, r.jsxs)("div", {
-                        ref: e,
-                        className: "relative h-full w-full font-gotham overflow-hidden",
-                        children: [(0, r.jsx)("div", {
-                            className: "absolute inset-0 bg-cover bg-bottom",
-                            style: {
-                                backgroundImage: "url('"+ C_SECTIONS.section10.bg +"')",
-                                backgroundPosition: "0 5%"
-                            }
-                        }), (0, r.jsx)("img", {
-                            ref: o,
-                            src: "/du-an/ttgenesis2/images/sec-10-sub-bg-2.png",
-                            alt: "section10_bg",
-                            className: "absolute inset-0 w-[58%]"
-                        }), (0, r.jsx)("div", {
-                            className: "absolute top-0 left-0 z-10 w-[58vw] pr-[6%]",
-                            style: {
-                                position: "relative"
-                            },
-                            children: (0, r.jsxs)("div", {
-                                ref: a,
-                                className: "flex flex-col items-center w-full z-30",
-                                children: [(0, r.jsx)("h1", {
-                                    children: C_SECTIONS.section10.title,
-                                    className: "mt-[3%] font-\[\'Cormorant_Garamond\'\] text-[#FFF5D8] font-bold h-auto object-contain text-[2.6vw] uppercase text-center"
-                                }), (0, r.jsx)("h4", {
-                                    ref: n,
-                                    className: "z-20 text-[1.6vw] font-medium mt-[1.5%]",
-                                    children: C_SECTIONS.section10.sub
-                                }), (0, r.jsx)("p", {
-                                    ref: i,
-                                    className: "z-20 font-normal mt-[2%] px-[14%] text-white",
-                                    children: (0, r.jsx)("div", {
-                                        ref: h,
-                                        className: "flex flex-col gap-[0.4vw] text-[1.125vw] font-light",
-                                        children: C_SECTIONS.section10.data.descriptions.map(item =>
-                                          (0, r.jsx)("p", {
-                                            class: "",
-                                            children: item
-                                          })
-                                        )
-                                    })
-                                })]
-                            })
-                        })]
-                    })
-                }, function() {
+                }, function() { return (0, r.jsx)(CdtPartners, { isMobile: !1 }); }, function() {
                     let {
                         posts: e,
                         isError: t,
@@ -4381,8 +4723,8 @@
                     }), O.nu.create({
                         type: "wheel",
                         wheelSpeed: -1,
-                        onDown: () => !l.current && b(a.current - 1, -1),
-                        onUp: () => !l.current && b(a.current + 1, 1),
+                        onDown: () => !l.current && !document.getElementById("investModal") && b(a.current - 1, -1),
+                        onUp: () => !l.current && !document.getElementById("investModal") && b(a.current + 1, 1),
                         tolerance: 10,
                         preventDefault: !0
                     }), -1 === a.current && (a.current = 0, m(0), v(0)), () => {
@@ -4418,7 +4760,7 @@
                                             transform: "translateY(-50%)"
                                         },
                                         children: [(0, r.jsx)("div", {
-                                            className: "absolute h-[50px] right-0 left-[-20px] hover:bg-transparent z-10"
+                                            className: "absolute h-[28px] right-0 left-[-20px] hover:bg-transparent z-10"
                                         }), (0, r.jsx)("div", {
                                             className: "absolute w-[6px] bg-[#ffeeb1] rounded-full left-[-3px] top-1/2 transform -translate-y-1/2 nav-indicator transition-all duration-300 ease-out ".concat(h === t ? "h-[40px] opacity-100 shadow-[0_0_10px_#ffeeb1]" : "h-[2px] opacity-0")
                                         }), (0, r.jsx)("div", {
@@ -4584,7 +4926,7 @@
                             i(!1)
                         },
                         title: "Đăng k\xfd tư vấn miễn ph\xed"
-                    })]
+                    }), (0, r.jsx)(CdtInvestModal, {})]
                 })
             }
         },
