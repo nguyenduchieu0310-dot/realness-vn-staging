@@ -49,23 +49,28 @@
     will-change: transform, opacity;
   }
   .slide-section:not(.active-slide) {
-    transform: translateY(100%);
+    transform: none;
     opacity: 0;
     z-index: 1;
     pointer-events: none !important;
   }
   .slide-section.active-slide {
-    transform: translateY(0);
+    transform: none;
     opacity: 1;
     z-index: 10;
     pointer-events: auto !important;
   }
   .slide-section.prev-slide {
-    transform: translateY(-100%);
+    transform: none;
     opacity: 0;
     z-index: 1;
     pointer-events: none !important;
   }
+}
+
+.fancybox__container {
+  --f-interface-enter-duration: 0.15s;
+  --f-interface-exit-duration: 0.15s;
 }
 
 @media (max-width: 768px) {
@@ -142,6 +147,9 @@
 .slide-section.active-slide {
   pointer-events: auto !important;
 }
+.slide-section:not(.active-slide) button {
+  pointer-events: auto !important;
+}
 
 @media (max-width: 768px) {
   .slide-section,
@@ -169,3 +177,53 @@
     bottom: 4% !important;
   }
 }
+
+/* Swiper carousel navigation buttons & news cards sizing */
+#floorplan_prev, #news_prev {
+  left: -1rem !important;
+  right: auto !important;
+}
+#floorplan_next, #news_next {
+  right: -1rem !important;
+  left: auto !important;
+}
+@media (min-width: 768px) {
+  #floorplan_prev, #news_prev {
+    left: -3rem !important;
+    right: auto !important;
+  }
+  #floorplan_next, #news_next {
+    right: -3rem !important;
+    left: auto !important;
+  }
+}
+
+.btn-read-news svg,
+.w-3\.5 {
+  width: 14px !important;
+  height: 14px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
+}
+
+/* Custom scrollbar for News Detail Modal */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 233, 169, 0.4);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 233, 169, 0.8);
+}
+
+#SuccessModal {
+  z-index: 60 !important;
+}
+
+
