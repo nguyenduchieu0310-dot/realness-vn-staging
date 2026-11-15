@@ -9765,29 +9765,22 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
         tabs: [
           {
             label: "CĂN 1 PHÒNG NGỦ",
-            // Nếu mảng images có >= 2 ảnh, Engine tự động biến thành Slider vuốt ngang có mũi tên + chấm tròn
             images: [
-              "/assets/the-prive/floorplans/layout-1pn-1.jpg",
-              "/assets/the-prive/floorplans/layout-1pn-2.jpg"
+              "/assets/the-prive/floorplans/layout-1pn-new.jpg?v=1"
             ]
           },
           {
             label: "CĂN 2 PHÒNG NGỦ",
+            stack: true,
             images: [
-              "/assets/the-prive/floorplans/layout-2pn-1.jpg",
-              "/assets/the-prive/floorplans/layout-2pn-2.jpg",
-              "/assets/the-prive/floorplans/layout-2pn-3.jpg",
-              "/assets/the-prive/floorplans/layout-2pn-4.jpg",
-              "/assets/the-prive/floorplans/layout-2pn-5.jpg",
-              "/assets/the-prive/floorplans/layout-2pn-6.jpg"
+              "/assets/the-prive/floorplans/layout-2pn-new-1.jpg?v=1",
+              "/assets/the-prive/floorplans/layout-2pn-new-2.jpg?v=1"
             ]
           },
           {
             label: "CĂN 3 PHÒNG NGỦ",
             images: [
-              "/assets/the-prive/floorplans/layout-3pn-1.jpg",
-              "/assets/the-prive/floorplans/layout-3pn-2.jpg",
-              "/assets/the-prive/floorplans/layout-3pn-3.jpg"
+              "/assets/the-prive/floorplans/layout-3pn-new.jpg?v=1"
             ]
           },
           {
@@ -9854,9 +9847,11 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
         var imgs = tabs[p].images || [];
         html += '<div class="rf-fp-panel' + (isFirstTab ? " is-active" : "") + '" role="tabpanel" data-fp-panel="' + p + '">';
 
-        if (imgs.length === 1) {
-          var imgAttr = isFirstTab ? 'src="' + imgs[0] + '"' : 'src="' + PLACEHOLDER_SVG + '" data-lazy-src="' + imgs[0] + '"';
-          html += '<img loading="lazy" decoding="async" class="rf-fp-single-img" ' + imgAttr + ' alt="' + tabs[p].label + '" data-fp-zoom="' + imgs[0] + '" />';
+        if (imgs.length === 1 || tabs[p].stack) {
+          for (var st = 0; st < imgs.length; st++) {
+            var imgAttr = isFirstTab ? 'src="' + imgs[st] + '"' : 'src="' + PLACEHOLDER_SVG + '" data-lazy-src="' + imgs[st] + '"';
+            html += '<img loading="lazy" decoding="async" class="rf-fp-single-img"' + (st > 0 ? ' style="margin-top:12px;"' : '') + ' ' + imgAttr + ' alt="' + tabs[p].label + (imgs.length > 1 ? ' - ' + (st + 1) : '') + '" data-fp-zoom="' + imgs[st] + '" />';
+          }
         } else if (imgs.length > 1) {
           html += '<div class="rf-fp-slider" data-fp-slider><div class="rf-fp-track">';
           for (var s = 0; s < imgs.length; s++) {
@@ -9979,7 +9974,7 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
   </div>
 </section>
 
-<section id="gallery" class=" animatedParent animateOnce fp-auto-height-responsive section-cover section-gallery section-album section-with-nav d-bg dark" data-anchor="thu-vien" data-title="Thư viện"><div class="bg"></div><div class="rf-gallery-section-scroll scrollable-content"><div class="section-padding div_zindex"><div class="container-fluid"><h2 class="section-title font-2 line-0 text-center animated fadeInUp goShort animated go"><strong>Hình ảnh kiến trúc 3D</strong></h2></div><div class="rf-arch-3d-stack"><img src="/assets/the-prive/kien-truc-3d-1.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 1" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-2.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 2" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-3.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 3" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-4.png?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 4" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-5.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 5" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-6.png?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 6" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-7.png?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 7" class="img-fluid w-100 d-block" loading="lazy" decoding="async"></div><div id="rf-can-ho-mau-drawer" class="rf-can-ho-mau-drawer" aria-hidden="true"><div class="rf-can-ho-mau-topbar"><button type="button" class="rf-can-ho-mau-close" data-close-can-ho-mau="true" aria-label="Đóng Căn hộ mẫu">&times; Đóng</button></div><div class="container-fluid"><h2 class="section-title font-2 line-0 text-center animated fadeInUp goShort animated go"><br><strong>Căn hộ mẫu</strong></h2></div><div class="p-left"><div class="tab-content" id="gallery-pills-tabContent"><div class="tab-pane fade show active" id="pills-1748600448583" role="tabpanel" aria-labelledby="pills-1748600448583-tab"><div class="section-slide items animated fadeInUp goShort animated go"><div class="swiper gallery-slide overflow-hide  " data-swiper-autoplay="2000"><div class="swiper-wrapper ">
+<section id="gallery" class=" animatedParent animateOnce fp-auto-height-responsive section-cover section-gallery section-album section-with-nav d-bg dark" data-anchor="thu-vien" data-title="Thư viện"><div class="bg"></div><div class="rf-gallery-section-scroll scrollable-content"><div class="section-padding div_zindex"><div class="container-fluid"><h2 class="section-title font-2 line-0 text-center animated fadeInUp goShort animated go"><strong>Hình ảnh kiến trúc 3D</strong></h2></div><div class="rf-arch-3d-stack"><img src="/assets/the-prive/kien-truc-3d-1.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 1" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-2.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 2" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-3.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 3" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-4.png?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 4" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-5.jpg?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 5" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-6.png?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 6" class="img-fluid w-100 d-block" loading="lazy" decoding="async"><img src="/assets/the-prive/kien-truc-3d-7.png?v=1" alt="Hình ảnh kiến trúc 3D - The Privé 7" class="img-fluid w-100 d-block" loading="lazy" decoding="async"></div><div class="container-fluid rf-pricing-policy-wrap" style="margin-top: 28px;"><h2 class="section-title font-2 line-0 text-center animated fadeInUp goShort animated go" style="margin-bottom: 0;"><strong>Giá Bán và Chính Sách Bán Hàng</strong></h2></div><div id="rf-can-ho-mau-drawer" class="rf-can-ho-mau-drawer" aria-hidden="true"><div class="rf-can-ho-mau-topbar"><button type="button" class="rf-can-ho-mau-close" data-close-can-ho-mau="true" aria-label="Đóng Căn hộ mẫu">&times; Đóng</button></div><div class="container-fluid"><h2 class="section-title font-2 line-0 text-center animated fadeInUp goShort animated go"><br><strong>Căn hộ mẫu</strong></h2></div><div class="p-left"><div class="tab-content" id="gallery-pills-tabContent"><div class="tab-pane fade show active" id="pills-1748600448583" role="tabpanel" aria-labelledby="pills-1748600448583-tab"><div class="section-slide items animated fadeInUp goShort animated go"><div class="swiper gallery-slide overflow-hide  " data-swiper-autoplay="2000"><div class="swiper-wrapper ">
 <a href="/du-an/the-prive/wp/wp-content/uploads/2025/05/4.jpeg" data-fancybox="gallery-slide-" class="d-inline-block swiper-slide cover " data-caption="Tổng quan dự án"><div class="item item-album"><div class="item-thumb fit-ratio animation">
 <img src="/du-an/the-prive/wp/wp-content/uploads/2025/05/4.jpeg" alt="Tổng quan dự án" title="Tổng quan dự án" width="1430" height="804" data-ll-status="loaded" class="entered litespeed-loaded"></div></div>
 </a>
