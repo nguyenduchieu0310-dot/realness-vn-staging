@@ -8032,17 +8032,6 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
 <section class="animatedParent animateOnce fp-auto-height-responsive section-cover section-usp dark d-bg" data-anchor="usp" data-title="6 Đặc quyền">
     <div class="bg"></div>
     <div class="rf-usp-section-scroll scrollable-content">
-    <div class="rf-intro-inline-video-wrap">
-        <div class="rf-intro-inline-video-frame">
-            <video id="rf-intro-inline-video" playsinline webkit-playsinline autoplay muted loop preload="metadata">
-                <source src="/assets/the-prive/video-the-prive-26-11.mp4?v=1" type="video/mp4">
-            </video>
-            <button type="button" id="rf-intro-video-sound-btn" class="rf-inline-sound-btn is-muted" aria-label="Bật/tắt âm thanh video">
-                <svg class="icon-muted" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                <svg class="icon-unmuted" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
-            </button>
-        </div>
-    </div>
     <div class="container-d h-100 relative">
         <div class="section-content-wrapper  div_zindex section-padding pb-0 ">
             <div class="pt-lg-5 animatedParent animateOnce">
@@ -8109,6 +8098,17 @@ body > div.fixed-btn.fixed-action-btn.bottom.left.b-static.d-flex.d-lg-none.show
             </div>
         </div>
 
+    </div>
+    <div class="rf-intro-inline-video-wrap">
+        <div class="rf-intro-inline-video-frame">
+            <video id="rf-intro-inline-video" playsinline webkit-playsinline autoplay muted loop preload="metadata">
+                <source src="/assets/the-prive/video-the-prive-26-11.mp4?v=1" type="video/mp4">
+            </video>
+            <button type="button" id="rf-intro-video-sound-btn" class="rf-inline-sound-btn is-muted" aria-label="Bật/tắt âm thanh video">
+                <svg class="icon-muted" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                <svg class="icon-unmuted" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+            </button>
+        </div>
     </div>
     </div>
 </section>
@@ -11711,8 +11711,11 @@ window.addEventListener('resize', () => {
           $(".utilities-slide").each(function(index, el) {
             var swiper = new Swiper(this, {
               loop:true,
-               autoplay: {
-                 delay: 3000,
+              speed: 650,
+              autoplay: {
+                 delay: 1000,
+                 disableOnInteraction: false,
+                 pauseOnMouseEnter: false,
               },
               pagination: {
                 type: 'fraction',
@@ -13607,9 +13610,9 @@ font-size: 1.085714285714286em!important;
   }
   .rf-intro-inline-video-wrap {
     width: 100%;
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 84px 12px 0;
+    max-width: 100%;
+    margin: 24px 0 0;
+    padding: 0;
     position: relative;
     z-index: 3;
     background: #031b35;
@@ -13617,7 +13620,7 @@ font-size: 1.085714285714286em!important;
   .rf-intro-inline-video-frame {
     position: relative;
     width: 100%;
-    border-radius: 8px;
+    border-radius: 0;
     overflow: hidden;
     background: #031b35;
   }
@@ -13685,11 +13688,13 @@ font-size: 1.085714285714286em!important;
       padding-bottom: 1.15rem !important;
     }
     .rf-intro-inline-video-wrap {
-      padding: 0 12px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+      margin: 14px 0 0;
     }
     .section-usp .section-content-wrapper {
-      padding-top: 1.35rem !important;
+      padding-top: 1.15rem !important;
       padding-bottom: 0 !important;
     }
     .section-usp .usp-items .item .title {
@@ -13714,7 +13719,16 @@ font-size: 1.085714285714286em!important;
     }
     .section-document .section-padding {
       padding-top: 1.15rem !important;
-      padding-bottom: 2rem !important;
+      padding-bottom: 0.75rem !important;
+    }
+    .section-partner {
+      padding: 12px 0 !important;
+    }
+    .section-partner .section-content.section-padding {
+      padding: 0 0.75rem !important;
+    }
+    #contact .section-padding-top {
+      padding-top: 1.15rem !important;
     }
   }
 </style>
