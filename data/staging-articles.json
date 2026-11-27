@@ -3,40 +3,49 @@
     "id": "staging-article-day1-01-the-prive-vs-palm-river",
     "slug": "so-sanh-can-ho-ven-song-the-prive-vs-palm-river-nam-rach-chiec-t11-2026",
     "legacySlugs": [],
-    "title": "Đặt lên bàn cân 2 siêu dự án căn hộ ven sông Nam Rạch Chiếc (T11/2026): The Privé (12 tháp) và Palm River (Palm City)",
-    "summary": "Phân tích đối chiếu thực tế từ Hội đồng Thẩm định Realness.vn: So sánh quy mô, mật độ xây dựng, thiết kế mặt bằng, pháp lý 1/500 và bài toán biên độ tăng giá giữa The Privé và Palm River tại tâm điểm An Phú, TP. Thủ Đức.",
+    "title": "So sánh hai tổ hợp căn hộ ven sông Nam Rạch Chiếc: The Privé (12 tháp) và Palm River (Palm City)",
+    "summary": "Đối chiếu thực tế quy hoạch 1/500, mật độ căn hộ trên mặt sàn, lợi thế tiếp giáp sông Giồng Ông Tố – Mương Kinh và biên độ định giá sơ cấp giữa hai dự án cao tầng đáng chú ý nhất phường An Phú, TP. Thủ Đức.",
     "topic": "project",
     "contentType": "comparison",
     "status": "staging",
     "workflow_status": "staging",
     "originalUrl": "https://staging.realness.vn/phan-tich/so-sanh-can-ho-ven-song-the-prive-vs-palm-river-nam-rach-chiec-t11-2026/",
-    "sourceName": "Bot Biên tập 1: Chuyên gia Phân tích Dự án & So sánh BĐS",
+    "sourceName": "Thư Kỳ",
     "readingTime": "6 phút đọc",
     "seoScore": 98,
     "cleanImagesCount": 2,
-    "metadataStripped": ["EXIF", "GPS", "CameraOwner"],
+    "metadataStripped": [
+      "EXIF",
+      "GPS",
+      "CameraOwner"
+    ],
     "authorId": "realness-ai-agent",
     "reviewerId": "reviewer-realness-admin",
-    "sourceRefs": ["Sở Xây dựng TP.HCM", "Quy hoạch 1/500 Nam Rạch Chiếc", "Realness Intelligence T11/2026"],
+    "sourceRefs": [
+      "Sở Xây dựng TP.HCM",
+      "Quy hoạch 1/500 Nam Rạch Chiếc",
+      "Realness Intelligence T11/2026"
+    ],
     "publishedAt": "26/11/2026",
     "modifiedAt": "26/11/2026",
-    "relatedEntityIds": ["the-prive", "palm-river"],
+    "relatedEntityIds": [
+      "the-prive",
+      "palm-river"
+    ],
     "parentProjectSlug": "the-prive",
     "parentProjectName": "The Privé & Palm River",
-    "disclosure": "Báo cáo phân tích độc lập phục vụ duyệt bài Staging (Ngày 1/3) theo chuẩn 3 Không của Realness.vn.",
+    "disclosure": "",
     "canonical": true,
     "images": [
       {
-        "cleanUrl": "/du-an/the-prive/wp/wp-content/uploads/2025/05/tong-quan.jpg",
-        "aspectRatio": "16:9",
-        "alt": "Đặt lên bàn cân 2 siêu dự án căn hộ ven sông Nam Rạch Chiếc (T11/2026): The Privé (12 tháp) và Palm River (Palm City)",
-        "caption": "Hình ảnh 1 (Hero 16:9 chuẩn hóa qua Realness Studio): Phối cảnh tổng thể bán đảo ven sông Nam Rạch Chiếc."
+        "url": "https://staging.realness.vn/du-an/the-prive/wp/wp-content/uploads/2025/05/TPV-HO-BOI-LUMINA-scaled.jpg",
+        "alt": "So sánh hai tổ hợp căn hộ ven sông Nam Rạch Chiếc: The Privé (12 tháp) và Palm River (Palm City)",
+        "caption": "Không gian mặt nước nội khu và tổ hợp hồ bơi điện phân muối rộng 3.000m² tại bán đảo căn hộ The Privé, Nam Rạch Chiếc."
       },
       {
-        "cleanUrl": "/assets/palm-river/document/palm-river-overview.jpg",
-        "aspectRatio": "16:9",
-        "alt": "Phối cảnh phân khu cao tầng Palm River thuộc KĐT Palm City 30,2ha",
-        "caption": "Hình ảnh 2 (Bóc tách dữ liệu & Thực địa 16:9): Tư liệu đối chiếu độc lập phục vụ SEO & GEO/AEO."
+        "url": "https://staging.realness.vn/assets/palm-river/themes/palm-river/assets/images/in-out-door.jpg",
+        "alt": "Phối cảnh kiến trúc và hành lang công viên ven sông dài 2,7km bao quanh phân khu cao tầng Palm River thuộc đại đô thị Palm City.",
+        "caption": "Phối cảnh kiến trúc và hành lang công viên ven sông dài 2,7km bao quanh phân khu cao tầng Palm River thuộc đại đô thị Palm City."
       }
     ],
     "blocks": [
@@ -60,13 +69,41 @@
         "type": "table",
         "title": "Bảng đối chiếu thông số quy hoạch, tiện ích & giá bán The Privé vs Palm River (T11/2026)",
         "rows": [
-          ["Tiêu chí đối chiếu", "The Privé (Nam Rạch Chiếc)", "Palm River (KĐT Palm City 30,2ha)"],
-          ["Quy mô quỹ đất & Tháp", "6,7 ha - 12 tòa tháp cao 32-34 tầng", "Thuộc đại đô thị 30,2 ha - 4 tòa tháp cao tầng"],
-          ["Số lượng sản phẩm", "3.175 căn hộ Luxury, Garden Villa, Sky Villa", "Giới hạn 620 căn hộ + 13 Shophouse + 71 Officetel"],
-          ["Địa thế mặt nước", "Bán đảo 3 mặt giáp sông Giồng Ông Tố", "2,7 km công viên & đường dạo bộ ven sông"],
-          ["Định vị tiện ích", "4 tầng tiện ích Luxury Resort, hồ bơi muối 3.000m²", "68+ tiện ích resort, Sky Wellness tầng 20, trường quốc tế TAS"],
-          ["Mức giá tham khảo (T11/2026)", "Từ 8,5 - 25 tỷ/căn (Phân khúc Luxury Resort)", "Rumor đợt 1 từ 88 - 110 triệu/m² (Từ 5,5 tỷ/căn)"],
-          ["Tệp khách hàng tối ưu", "Khách thượng lưu tìm dinh thự trên không & bến du thuyền", "Nhà đầu tư đón sóng đợt 1 (F0) & gia đình chuyên gia quốc tế"]
+          [
+            "Tiêu chí đối chiếu",
+            "The Privé (Nam Rạch Chiếc)",
+            "Palm River (KĐT Palm City 30,2ha)"
+          ],
+          [
+            "Quy mô quỹ đất & Tháp",
+            "6,7 ha - 12 tòa tháp cao 32-34 tầng",
+            "Thuộc đại đô thị 30,2 ha - 4 tòa tháp cao tầng"
+          ],
+          [
+            "Số lượng sản phẩm",
+            "3.175 căn hộ Luxury, Garden Villa, Sky Villa",
+            "Giới hạn 620 căn hộ + 13 Shophouse + 71 Officetel"
+          ],
+          [
+            "Địa thế mặt nước",
+            "Bán đảo 3 mặt giáp sông Giồng Ông Tố",
+            "2,7 km công viên & đường dạo bộ ven sông"
+          ],
+          [
+            "Định vị tiện ích",
+            "4 tầng tiện ích Luxury Resort, hồ bơi muối 3.000m²",
+            "68+ tiện ích resort, Sky Wellness tầng 20, trường quốc tế TAS"
+          ],
+          [
+            "Mức giá tham khảo (T11/2026)",
+            "Từ 8,5 - 25 tỷ/căn (Phân khúc Luxury Resort)",
+            "Rumor đợt 1 từ 88 - 110 triệu/m² (Từ 5,5 tỷ/căn)"
+          ],
+          [
+            "Tệp khách hàng tối ưu",
+            "Khách thượng lưu tìm dinh thự trên không & bến du thuyền",
+            "Nhà đầu tư đón sóng đợt 1 (F0) & gia đình chuyên gia quốc tế"
+          ]
         ]
       },
       {
@@ -86,46 +123,58 @@
         "type": "paragraph",
         "body": "Nếu nhà đầu tư ưu tiên tính khan hiếm (chỉ 620 căn) nằm trong một khu đô thị phức hợp đã vận hành sầm uất có sẵn trường Quốc tế Mỹ TAS và bệnh viện, Palm River là lựa chọn tối ưu ở mức ngân sách từ 5,5 tỷ/căn. Ngược lại, nếu tìm kiếm một biểu tượng compound biệt lập 3 mặt giáp sông với hệ tiện ích 4 tầng chuẩn khách sạn 5 sao, The Privé là tài sản giữ giá vượt trội trong dài hạn."
       }
-    ]
+    ],
+    "heroImageUrl": "https://staging.realness.vn/du-an/the-prive/wp/wp-content/uploads/2025/05/TPV-HO-BOI-LUMINA-scaled.jpg",
+    "secondaryImageUrl": "https://staging.realness.vn/assets/palm-river/themes/palm-river/assets/images/in-out-door.jpg",
+    "authorName": "Thư Kỳ"
   },
   {
     "id": "staging-article-day1-02-dong-tien-big4-happy-one-elite-green-skyline",
     "slug": "bai-toan-dong-tien-vay-mua-nha-big4-cuoi-2026-ung-dung-happy-one-elite-green-skyline",
     "legacySlugs": [],
-    "title": "Giải bài toán dòng tiền vay mua căn hộ cuối năm 2026: So sánh gói ân hạn 24 tháng (Happy One Elite) và chiết khấu 17% nhận nhà ngay (Green Skyline)",
-    "summary": "Phân tích tài chính chuyên sâu: Đặt lên bàn cân biểu lãi suất nhóm ngân hàng Big4 (5,2% - 6,0%/năm) và khối TMCP, bóc tách bảng tính dòng tiền thực tế cho người mua có vốn tự có từ 450 - 800 triệu đồng.",
+    "title": "Bài toán dòng tiền mua căn hộ cuối năm 2026: Đối chiếu gói ân hạn 24 tháng (Happy One Elite) và chiết khấu thanh toán sớm 17% (Green Skyline)",
+    "summary": "Phân tích chi phí vốn thực tế khi kết hợp biểu lãi suất cố định của nhóm ngân hàng Big4 (5,2% – 5,8%/năm) với hai chính sách bán hàng đối lập tại cửa ngõ TP. Thủ Đức: sử dụng đòn bẩy 15% vốn tự có hoặc nhận chiết khấu trực tiếp vào giá bán.",
     "topic": "finance",
     "contentType": "analysis",
     "status": "staging",
     "workflow_status": "staging",
     "originalUrl": "https://staging.realness.vn/phan-tich/bai-toan-dong-tien-vay-mua-nha-big4-cuoi-2026-ung-dung-happy-one-elite-green-skyline/",
-    "sourceName": "Bot Biên tập 2: Chuyên gia Tài chính, Ngân hàng & Pháp lý BĐS",
+    "sourceName": "Ngân Khánh",
     "readingTime": "7 phút đọc",
     "seoScore": 97,
     "cleanImagesCount": 2,
-    "metadataStripped": ["EXIF", "GPS", "CameraOwner"],
+    "metadataStripped": [
+      "EXIF",
+      "GPS",
+      "CameraOwner"
+    ],
     "authorId": "realness-ai-agent",
     "reviewerId": "reviewer-realness-admin",
-    "sourceRefs": ["Ngân hàng Nhà nước", "Biểu lãi suất Big4 T11/2026", "Realness FinTech Calculator"],
+    "sourceRefs": [
+      "Ngân hàng Nhà nước",
+      "Biểu lãi suất Big4 T11/2026",
+      "Realness FinTech Calculator"
+    ],
     "publishedAt": "26/11/2026",
     "modifiedAt": "26/11/2026",
-    "relatedEntityIds": ["happy-one-elite", "green-skyline"],
+    "relatedEntityIds": [
+      "happy-one-elite",
+      "green-skyline"
+    ],
     "parentProjectSlug": "happy-one-elite",
     "parentProjectName": "Happy One Elite & Green Skyline",
-    "disclosure": "Báo cáo phân tích tài chính độc lập phục vụ duyệt bài Staging (Ngày 1/3) theo chuẩn 3 Không của Realness.vn.",
+    "disclosure": "",
     "canonical": true,
     "images": [
       {
-        "cleanUrl": "/assets/happy-one-elite/du-an-happy-one-elite-1024x681.jpg",
-        "aspectRatio": "16:9",
-        "alt": "Giải bài toán dòng tiền vay mua căn hộ cuối năm 2026: So sánh gói ân hạn 24 tháng (Happy One Elite) và chiết khấu 17% nhận nhà ngay (Green Skyline)",
-        "caption": "Hình ảnh 1 (Hero 16:9 chuẩn hóa qua Realness Studio): Phối cảnh thực tế dự án Happy One Elite Thủ Đức."
+        "url": "https://staging.realness.vn/assets/happy-one-elite/Phoi-canh-du-an-happy-one-elite-tam-binh.jpg",
+        "alt": "Bài toán dòng tiền mua căn hộ cuối năm 2026: Đối chiếu gói ân hạn 24 tháng (Happy One Elite) và chiết khấu thanh toán sớm 17% (Green Skyline)",
+        "caption": "Phối cảnh kiến trúc tổ hợp căn hộ Happy One Elite tại tâm điểm kết nối giao thương TP. Thủ Đức."
       },
       {
-        "cleanUrl": "/assets/green-skyline/bang-gia-va-chinh-sach-ban-hang-green-skyline.png",
-        "aspectRatio": "16:9",
-        "alt": "Bảng giá và chính sách chiết khấu 17% nhận nhà ở ngay tại dự án Green Skyline TBS Land",
-        "caption": "Hình ảnh 2 (Bóc tách dữ liệu & Thực địa 16:9): Tư liệu đối chiếu chính sách bán hàng phục vụ SEO & GEO/AEO."
+        "url": "https://staging.realness.vn/assets/green-skyline/phoi-canh-quy-hoach-green-square-39ha.jpg",
+        "alt": "Quy hoạch tổng thể khu đô thị Green Square và tổ hợp tháp căn hộ Green Skyline đã hoàn thiện mặt ngoài trên trục Quốc lộ 1K.",
+        "caption": "Quy hoạch tổng thể khu đô thị Green Square và tổ hợp tháp căn hộ Green Skyline đã hoàn thiện mặt ngoài trên trục Quốc lộ 1K."
       }
     ],
     "blocks": [
@@ -149,11 +198,31 @@
         "type": "table",
         "title": "Bảng đối chiếu dòng tiền Happy One Elite (Thủ Đức) vs Green Skyline (Mặt tiền QL1K)",
         "rows": [
-          ["Hạng mục dòng tiền", "Kịch bản A: Happy One Elite (TP. Thủ Đức)", "Kịch bản B: Green Skyline (Mặt tiền QL1K - Sát Thủ Đức)"],
-          ["Giá trị căn hộ tiêu chuẩn", "Từ 2,15 tỷ/căn (Pháp lý GPXD & 1/500 hoàn chỉnh)", "Từ 2,75 tỷ/căn (Đã cất nóc, hoàn thiện 90%)"],
-          ["Vốn tự có ban đầu cần chuẩn bị", "Chỉ 15% ký HĐMB (~322 triệu đồng)", "Thanh toán theo tiến độ nhận nhà cuối 2026 (~30% = 825 triệu)"],
-          ["Chính sách ưu đãi tài chính", "Hỗ trợ vay 70%, lãi suất 0% & ân hạn gốc 24 tháng", "Chiết khấu thanh toán nhanh lên tới 17% (~460 triệu/căn)"],
-          ["Thời điểm khai thác dòng tiền thuê", "Nhận bàn giao Quý IV/2027 (Không áp lực trả góp 2 năm đầu)", "Nhận nhà ở ngay hoặc cho thuê ngay cuối năm 2026 (9-12 triệu/tháng)"]
+          [
+            "Hạng mục dòng tiền",
+            "Kịch bản A: Happy One Elite (TP. Thủ Đức)",
+            "Kịch bản B: Green Skyline (Mặt tiền QL1K - Sát Thủ Đức)"
+          ],
+          [
+            "Giá trị căn hộ tiêu chuẩn",
+            "Từ 2,15 tỷ/căn (Pháp lý GPXD & 1/500 hoàn chỉnh)",
+            "Từ 2,75 tỷ/căn (Đã cất nóc, hoàn thiện 90%)"
+          ],
+          [
+            "Vốn tự có ban đầu cần chuẩn bị",
+            "Chỉ 15% ký HĐMB (~322 triệu đồng)",
+            "Thanh toán theo tiến độ nhận nhà cuối 2026 (~30% = 825 triệu)"
+          ],
+          [
+            "Chính sách ưu đãi tài chính",
+            "Hỗ trợ vay 70%, lãi suất 0% & ân hạn gốc 24 tháng",
+            "Chiết khấu thanh toán nhanh lên tới 17% (~460 triệu/căn)"
+          ],
+          [
+            "Thời điểm khai thác dòng tiền thuê",
+            "Nhận bàn giao Quý IV/2027 (Không áp lực trả góp 2 năm đầu)",
+            "Nhận nhà ở ngay hoặc cho thuê ngay cuối năm 2026 (9-12 triệu/tháng)"
+          ]
         ]
       },
       {
@@ -173,46 +242,58 @@
         "type": "paragraph",
         "body": "Hội đồng Thẩm định Tài chính Realness.vn khuyến nghị: Dù được hưởng ân hạn gốc và lãi suất 0% trong 24 tháng đầu tại Happy One Elite hay ưu đãi chiết khấu trực tiếp 17% tại Green Skyline, người mua cần sử dụng công cụ tính khả năng chi trả trên Realness.vn để mô phỏng khoản trả gốc + lãi từ năm thứ 3 (khi lãi suất thả nổi dao động quanh mức 9,0% - 9,5%/năm), đảm bảo không vượt quá 40% thu nhập ròng hàng tháng."
       }
-    ]
+    ],
+    "heroImageUrl": "https://staging.realness.vn/assets/happy-one-elite/Phoi-canh-du-an-happy-one-elite-tam-binh.jpg",
+    "secondaryImageUrl": "https://staging.realness.vn/assets/green-skyline/phoi-canh-quy-hoach-green-square-39ha.jpg",
+    "authorName": "Ngân Khánh"
   },
   {
     "id": "staging-article-day1-03-von-fdi-nhat-ban-khu-nam-tt-genesis-vlasta-premier",
     "slug": "dong-von-ngoai-fdi-nhat-ban-va-quy-hoach-ha-tang-khu-nam-tphcm-2026-tt-genesis-vlasta-premier",
     "legacySlugs": [],
-    "title": "Dòng vốn ngoại FDI Nhật Bản đổ bộ Khu Nam Sài Gòn cuối 2026: Giải mã cú bắt tay tại TT Genesis và trục tỷ đô Đào Trí (Vlasta Premier)",
-    "summary": "Phân tích vĩ mô & dòng vốn đầu tư: Vì sao các định chế tài chính Nhật Bản (Cosmos Initia - Daiwa House Group, Koterasu Partners) và các tập đoàn niêm yết (Văn Phú Invest - VPI) dồn lực vào trục Phú Mỹ Hưng - Đào Trí - Nhà Bè giai đoạn 2026-2030?",
+    "title": "Dòng vốn FDI Nhật Bản và sự trỗi dậy của trục hạ tầng Khu Nam TP.HCM: Phân tích từ thương vụ TT Genesis đến cung đường Đào Trí (Vlasta Premier)",
+    "summary": "Giải mã tiêu chí thẩm định pháp lý của các định chế tài chính Nhật Bản (Cosmos Initia – Daiwa House Group, Koterasu Partners) và chiến lược phát triển quỹ đất ven sông Quận 7 của các doanh nghiệp niêm yết trong chu kỳ 2026–2030.",
     "topic": "market",
     "contentType": "analysis",
     "status": "staging",
     "workflow_status": "staging",
     "originalUrl": "https://staging.realness.vn/phan-tich/dong-von-ngoai-fdi-nhat-ban-va-quy-hoach-ha-tang-khu-nam-tphcm-2026-tt-genesis-vlasta-premier/",
-    "sourceName": "Bot Biên tập 3: Chuyên gia Kinh tế Vĩ mô, Dòng tiền & Vốn FDI",
+    "sourceName": "Quốc Công",
     "readingTime": "6 phút đọc",
     "seoScore": 98,
     "cleanImagesCount": 2,
-    "metadataStripped": ["EXIF", "GPS", "CameraOwner"],
+    "metadataStripped": [
+      "EXIF",
+      "GPS",
+      "CameraOwner"
+    ],
     "authorId": "realness-ai-agent",
     "reviewerId": "reviewer-realness-admin",
-    "sourceRefs": ["Bộ Kế hoạch & Đầu tư (Báo cáo FDI Q4/2026)", "Quy hoạch hạ tầng Khu Nam TP.HCM", "HOSE: VPI & Daiwa House Group"],
+    "sourceRefs": [
+      "Bộ Kế hoạch & Đầu tư (Báo cáo FDI Q4/2026)",
+      "Quy hoạch hạ tầng Khu Nam TP.HCM",
+      "HOSE: VPI & Daiwa House Group"
+    ],
     "publishedAt": "26/11/2026",
     "modifiedAt": "26/11/2026",
-    "relatedEntityIds": ["tt-genesis", "vlasta-premier"],
+    "relatedEntityIds": [
+      "tt-genesis",
+      "vlasta-premier"
+    ],
     "parentProjectSlug": "vlasta-premier",
     "parentProjectName": "TT Genesis & Vlasta Premier",
-    "disclosure": "Báo cáo phân tích vĩ mô & FDI độc lập phục vụ duyệt bài Staging (Ngày 1/3) theo chuẩn 3 Không của Realness.vn.",
+    "disclosure": "",
     "canonical": true,
     "images": [
       {
-        "cleanUrl": "/assets/vlasta-premier/media/vlasta-desktop-poster.jpg",
-        "aspectRatio": "16:9",
-        "alt": "Dòng vốn ngoại FDI Nhật Bản đổ bộ Khu Nam Sài Gòn cuối 2026: Giải mã cú bắt tay tại TT Genesis và trục tỷ đô Đào Trí (Vlasta Premier)",
-        "caption": "Hình ảnh 1 (Hero 16:9 chuẩn hóa qua Realness Studio): Phối cảnh tổ hợp căn hộ hạng sang ven sông trục Đào Trí Quận 7."
+        "url": "https://staging.realness.vn/du-an/ttgenesis/assets/images/260612_NB1.8_LOUNGE-V2.jpg.webp",
+        "alt": "Dòng vốn FDI Nhật Bản và sự trỗi dậy của trục hạ tầng Khu Nam TP.HCM: Phân tích từ thương vụ TT Genesis đến cung đường Đào Trí (Vlasta Premier)",
+        "caption": "Không gian Business Lounge theo tiêu chuẩn thiết kế Nhật Bản tại tổ hợp căn hộ TT Genesis Nam Sài Gòn."
       },
       {
-        "cleanUrl": "/assets/vlasta-premier/media/vlasta-5-chinh-sach-ban-hang.jpg",
-        "aspectRatio": "16:9",
-        "alt": "Phân tích chính sách & dòng vốn đầu tư tại Khu Nam Sài Gòn (TT Genesis & Vlasta Premier)",
-        "caption": "Hình ảnh 2 (Bóc tách dữ liệu & Thực địa 16:9): Tư liệu đối chiếu độc lập phục vụ SEO & GEO/AEO."
+        "url": "https://staging.realness.vn/assets/vlasta-premier/media/vlasta-4-tang-tien-ich-1.jpg",
+        "alt": "Phối cảnh kiến trúc tổ hợp tiện ích 4 tầng và không gian cảnh quan ven sông tại dự án Vlasta Premier, mặt tiền đường Đào Trí, Quận 7.",
+        "caption": "Phối cảnh kiến trúc tổ hợp tiện ích 4 tầng và không gian cảnh quan ven sông tại dự án Vlasta Premier, mặt tiền đường Đào Trí, Quận 7."
       }
     ],
     "blocks": [
@@ -236,11 +317,31 @@
         "type": "table",
         "title": "Bảng đối chiếu chỉ số Vĩ mô & Dự án: TT Genesis vs Vlasta Premier (T11/2026)",
         "rows": [
-          ["Chỉ số Vĩ mô & Dự án", "TT Genesis Nam Sài Gòn", "Vlasta Premier (Đào Trí - Quận 7)"],
-          ["Liên danh Chủ đầu tư", "TT Capital - Cosmos Initia (Nhật Bản) - Koterasu", "Tập đoàn Văn Phú - Invest (Mã CK: VPI)"],
-          ["Động lực hạ tầng cốt lõi", "Hầm chui Nguyễn Văn Linh, Metro số 4, Cao tốc Bến Lức - Long Thành", "Mở rộng đường Đào Trí lên 40m, liền kề Phú Mỹ Hưng & Mũi Đèn Đỏ"],
-          ["Định vị sản phẩm & Giá (T11/2026)", "Căn hộ tri thức chuẩn Nhật (Tháp The Lucis) - Từ 2,65 tỷ/căn", "Tổ hợp căn hộ hạng sang trực diện sông Sài Gòn - Từ 4,2 tỷ/căn"],
-          ["Tiềm năng dòng tiền & Thanh khoản", "Đón nhu cầu ở thực và chuyên gia khu đô thị Nam Sài Gòn", "Đón sóng tăng giá hạ tầng ven sông Quận 7 & cầu Thủ Thiêm 4"]
+          [
+            "Chỉ số Vĩ mô & Dự án",
+            "TT Genesis Nam Sài Gòn",
+            "Vlasta Premier (Đào Trí - Quận 7)"
+          ],
+          [
+            "Liên danh Chủ đầu tư",
+            "TT Capital - Cosmos Initia (Nhật Bản) - Koterasu",
+            "Tập đoàn Văn Phú - Invest (Mã CK: VPI)"
+          ],
+          [
+            "Động lực hạ tầng cốt lõi",
+            "Hầm chui Nguyễn Văn Linh, Metro số 4, Cao tốc Bến Lức - Long Thành",
+            "Mở rộng đường Đào Trí lên 40m, liền kề Phú Mỹ Hưng & Mũi Đèn Đỏ"
+          ],
+          [
+            "Định vị sản phẩm & Giá (T11/2026)",
+            "Căn hộ tri thức chuẩn Nhật (Tháp The Lucis) - Từ 2,65 tỷ/căn",
+            "Tổ hợp căn hộ hạng sang trực diện sông Sài Gòn - Từ 4,2 tỷ/căn"
+          ],
+          [
+            "Tiềm năng dòng tiền & Thanh khoản",
+            "Đón nhu cầu ở thực và chuyên gia khu đô thị Nam Sài Gòn",
+            "Đón sóng tăng giá hạ tầng ven sông Quận 7 & cầu Thủ Thiêm 4"
+          ]
         ]
       },
       {
@@ -260,6 +361,9 @@
         "type": "paragraph",
         "body": "Khi khung pháp lý mới siết chặt điều kiện mở bán căn hộ hình thành trong tương lai, nguồn cung dự án có pháp lý sạch và có sự tham gia của dòng vốn ngoại FDI hoặc doanh nghiệp niêm yết minh bạch như TT Genesis và Vlasta Premier sẽ nắm giữ lợi thế tuyệt đối về thanh khoản cũng như biên độ tăng giá trên thị trường thứ cấp."
       }
-    ]
+    ],
+    "heroImageUrl": "https://staging.realness.vn/du-an/ttgenesis/assets/images/260612_NB1.8_LOUNGE-V2.jpg.webp",
+    "secondaryImageUrl": "https://staging.realness.vn/assets/vlasta-premier/media/vlasta-4-tang-tien-ich-1.jpg",
+    "authorName": "Quốc Công"
   }
 ]

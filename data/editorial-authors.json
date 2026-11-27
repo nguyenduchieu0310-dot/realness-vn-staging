@@ -1,0 +1,102 @@
+[
+  {
+    "id": "thu-ky",
+    "name": "Thư Kỳ",
+    "specialty": "Phân tích Dự án & Quy hoạch"
+  },
+  {
+    "id": "ngan-khanh",
+    "name": "Ngân Khánh",
+    "specialty": "Tài chính & Tín dụng BĐS"
+  },
+  {
+    "id": "quoc-cong",
+    "name": "Quốc Công",
+    "specialty": "Kinh tế Vĩ mô & Dòng vốn FDI"
+  },
+  {
+    "id": "minh-triet",
+    "name": "Minh Triết",
+    "specialty": "Phân tích Dự án & Quy hoạch"
+  },
+  {
+    "id": "hoang-bach",
+    "name": "Hoàng Bách",
+    "specialty": "Pháp lý & Thẩm định Dự án"
+  },
+  {
+    "id": "thanh-truc",
+    "name": "Thanh Trúc",
+    "specialty": "Tài chính & Dòng tiền Đầu tư"
+  },
+  {
+    "id": "gia-khiem",
+    "name": "Gia Khiêm",
+    "specialty": "Hạ tầng & Quy hoạch Đô thị"
+  },
+  {
+    "id": "bao-ngoc",
+    "name": "Bảo Ngọc",
+    "specialty": "Phân tích Thị trường Khu Đông"
+  },
+  {
+    "id": "tuan-kiet",
+    "name": "Tuấn Kiệt",
+    "specialty": "Định giá & Thanh khoản Thứ cấp"
+  },
+  {
+    "id": "khanh-doan",
+    "name": "Khánh Đoan",
+    "specialty": "Tín dụng Ngân hàng & Lãi suất"
+  },
+  {
+    "id": "hai-dang",
+    "name": "Hải Đăng",
+    "specialty": "Vĩ mô & Bất động sản Công nghiệp"
+  },
+  {
+    "id": "phuong-nghi",
+    "name": "Phương Nghi",
+    "specialty": "Phân tích Thị trường Khu Nam"
+  },
+  {
+    "id": "viet-hoang",
+    "name": "Việt Hoàng",
+    "specialty": "Kiến trúc & Tiêu chuẩn Bàn giao"
+  },
+  {
+    "id": "mai-phuong",
+    "name": "Mai Phương",
+    "specialty": "Pháp lý & Hợp đồng Mua bán"
+  },
+  {
+    "id": "dang-khoa",
+    "name": "Đăng Khoa",
+    "specialty": "Dòng vốn Ngoại & Quỹ Đầu tư"
+  },
+  {
+    "id": "thuy-lam",
+    "name": "Thùy Lâm",
+    "specialty": "Bất động sản Hạng sang Ven sông"
+  },
+  {
+    "id": "quang-vinh",
+    "name": "Quang Vinh",
+    "specialty": "Quy hoạch Giao thông & TOD"
+  },
+  {
+    "id": "nha-phuong",
+    "name": "Nhã Phương",
+    "specialty": "Tài chính Cá nhân & Trả góp"
+  },
+  {
+    "id": "trung-dung",
+    "name": "Trung Dũng",
+    "specialty": "Thẩm định Chủ đầu tư & Tổng thầu"
+  },
+  {
+    "id": "lan-khue",
+    "name": "Lan Khuê",
+    "specialty": "Xu hướng Đô thị Sinh thái & ESG"
+  }
+]
