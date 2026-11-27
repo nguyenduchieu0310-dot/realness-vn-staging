@@ -1,5 +1,143 @@
 [
   {
+    "id": "staging-article-day2-02-don-bay-tai-chinh-big4-tmcp-the-prive-palm-river",
+    "slug": "don-bay-tai-chinh-an-han-goc-lai-suat-tha-noi-big4-tmcp-can-ho-ven-song-the-prive-palm-river-cuoi-2026",
+    "legacySlugs": [],
+    "title": "Đòn bẩy tài chính căn hộ ven sông Khu Đông cuối năm 2026: Đối chiếu gói ân hạn gốc và biên độ lãi suất thả nổi Big4 – TMCP tại The Privé và Palm River",
+    "summary": "Phân tích cấu trúc vốn vay mua căn hộ hạng sang Nam Rạch Chiếc (TP. Thủ Đức) cuối năm 2026: đối chiếu biểu lãi suất cố định nhóm Big4 (5,2% – 5,8%/năm) và TMCP (6,5% – 7,5%/năm), bài toán ân hạn gốc 24–36 tháng và kịch bản chịu tải lãi suất thả nổi tại The Privé và Palm River.",
+    "topic": "finance",
+    "contentType": "analysis",
+    "status": "staging",
+    "workflow_status": "staging",
+    "originalUrl": "https://staging.realness.vn/phan-tich/don-bay-tai-chinh-an-han-goc-lai-suat-tha-noi-big4-tmcp-can-ho-ven-song-the-prive-palm-river-cuoi-2026/",
+    "sourceName": "Thanh Trúc",
+    "authorName": "Thanh Trúc",
+    "authorId": "thanh-truc",
+    "readingTime": "7 phút đọc",
+    "seoScore": 98,
+    "cleanImagesCount": 2,
+    "metadataStripped": [
+      "EXIF",
+      "GPS",
+      "CameraOwner"
+    ],
+    "reviewerId": "khanh-doan",
+    "sourceRefs": [
+      "Ngân hàng Nhà nước",
+      "Biểu lãi suất Big4 & TMCP T11/2026",
+      "Chính sách bán hàng The Privé & Palm River"
+    ],
+    "publishedAt": "27/11/2026",
+    "modifiedAt": "27/11/2026",
+    "relatedEntityIds": [
+      "the-prive",
+      "palm-river"
+    ],
+    "parentProjectSlug": "the-prive",
+    "parentProjectName": "The Privé & Palm River",
+    "disclosure": "",
+    "canonical": true,
+    "heroImageUrl": "https://staging.realness.vn/du-an/the-prive/wp/wp-content/uploads/2025/05/tong-quan.jpg",
+    "secondaryImageUrl": "https://staging.realness.vn/assets/palm-river/sales/palm-river-master-aerial-super-hd.jpg",
+    "images": [
+      {
+        "url": "https://staging.realness.vn/du-an/the-prive/wp/wp-content/uploads/2025/05/tong-quan.jpg",
+        "cleanUrl": "/du-an/the-prive/wp/wp-content/uploads/2025/05/tong-quan.jpg",
+        "aspectRatio": "16:9",
+        "alt": "Phối cảnh quy hoạch tổng thể 12 tòa tháp căn hộ compound ven sông The Privé tại Nam Rạch Chiếc, phường An Phú, TP. Thủ Đức",
+        "caption": "Phối cảnh tổng thể 12 tòa tháp căn hộ The Privé trên quỹ đất bán đảo 6,7 ha ba mặt giáp sông Giồng Ông Tố tại Khu đô thị Nam Rạch Chiếc, phường An Phú, TP. Thủ Đức."
+      },
+      {
+        "url": "https://staging.realness.vn/assets/palm-river/sales/palm-river-master-aerial-super-hd.jpg",
+        "cleanUrl": "/assets/palm-river/sales/palm-river-master-aerial-super-hd.jpg",
+        "aspectRatio": "16:9",
+        "alt": "Phối cảnh tổng thể trên cao tổ hợp tháp căn hộ Palm River và hành lang công viên ven sông dài 2,7km trong khu đô thị Palm City Nam Rạch Chiếc",
+        "caption": "Phối cảnh tổng thể trên cao phân khu cao tầng Palm River nằm trong đại đô thị Palm City rộng 30,2 ha với hành lang công viên ven sông dài 2,7 km tại Nam Rạch Chiếc."
+      }
+    ],
+    "blocks": [
+      {
+        "id": "stg-d2-02-h1",
+        "type": "heading",
+        "title": "1. Cấu trúc lãi suất tín dụng bất động sản cuối năm 2026: Sự phân hóa giữa nhóm Big4 và khối TMCP tư nhân"
+      },
+      {
+        "id": "stg-d2-02-p1",
+        "type": "paragraph",
+        "body": "Bước vào giai đoạn kết thúc Quý 4/2026, thị trường tín dụng mua nhà tại TP.HCM ghi nhận sự phân cực rõ nét giữa hai nhóm định chế tài chính. Khối 4 ngân hàng thương mại có vốn Nhà nước (Vietcombank, BIDV, VietinBank, Agribank) duy trì biểu lãi suất cố định 18–24 tháng đầu ở ngưỡng 5,2% – 5,8%/năm, hoặc gói cố định 36 tháng ở mức 6,2% – 6,5%/năm với biên độ cộng thêm sau ưu đãi dao động từ 2,8% đến 3,2%/năm trên lãi suất tiết kiệm 12 tháng. Trong khi đó, khối ngân hàng thương mại cổ phần tư nhân (MB, VPBank, Techcombank, ACB, TPBank) đóng vai trò ngân hàng tài trợ liên kết trực tiếp tại các dự án sơ cấp Khu Đông với gói hỗ trợ lãi suất 0% và ân hạn nợ gốc 24 đến 36 tháng."
+      },
+      {
+        "id": "stg-d2-02-h2",
+        "type": "heading",
+        "title": "2. Bảng đối chiếu bài toán đòn bẩy tài chính tại hai tổ hợp ven sông Nam Rạch Chiếc: The Privé và Palm River"
+      },
+      {
+        "id": "stg-d2-02-t1",
+        "type": "table",
+        "title": "Bảng đối chiếu đòn bẩy tài chính, gói ân hạn gốc và lãi suất thả nổi tại The Privé và Palm River",
+        "rows": [
+          [
+            "Chỉ tiêu tài chính & Dòng tiền",
+            "Kịch bản A: The Privé (Căn 2PN ~8,5 tỷ đồng)",
+            "Kịch bản B: Palm River – Palm City (Căn 2PN ~6,8 tỷ đồng)"
+          ],
+          [
+            "Định vị tài sản & Quỹ đất",
+            "Tổ hợp compound 6,7 ha (12 tháp), 3 mặt giáp sông Giồng Ông Tố",
+            "Phân khu cao tầng 620 căn thuộc đại đô thị Palm City 30,2 ha"
+          ],
+          [
+            "Vốn tự có ban đầu tới khi nhận nhà",
+            "20% – 25% giá trị căn hộ (Tương đương 1,70 – 2,12 tỷ đồng)",
+            "20% – 30% theo lộ trình xây dựng (Tương đương 1,36 – 2,04 tỷ đồng)"
+          ],
+          [
+            "Tỷ lệ đòn bẩy & Cơ chế ân hạn",
+            "Vay 70% (~5,95 tỷ đồng); hỗ trợ lãi suất 0% và ân hạn gốc 24–30 tháng",
+            "Vay 65% – 70% (~4,42 – 4,76 tỷ đồng); ân hạn gốc 24 tháng hoặc chiết khấu thanh toán chuẩn"
+          ],
+          [
+            "Áp lực dòng tiền giai đoạn ân hạn (Năm 1–2)",
+            "0 đồng/tháng (Chủ đầu tư tài trợ 100% lãi vay và ngân hàng ân hạn nợ gốc)",
+            "0 đồng/tháng theo gói HTLS, hoặc thanh toán giãn 2% – 3%/đợt từ dòng tiền tích lũy"
+          ],
+          [
+            "Lãi suất thả nổi dự kiến từ năm thứ 3",
+            "Khối TMCP liên kết: 9,8% – 10,8%/năm (Lãi cơ sở + biên độ 3,5% – 3,8%)",
+            "Nhóm Big4 / Ngân hàng ngoại: 8,6% – 9,4%/năm (Lãi tiết kiệm 12T + biên độ 2,8% – 3,2%)"
+          ],
+          [
+            "Nghĩa vụ trả nợ gốc + lãi sau ân hạn (Vay 20 năm)",
+            "Khoảng 56,5 – 60,5 triệu đồng/tháng (Tính trên dư nợ gốc 5,95 tỷ đồng)",
+            "Khoảng 38,5 – 41,2 triệu đồng/tháng (Tính trên dư nợ gốc 4,42 tỷ đồng)"
+          ],
+          [
+            "Dòng tiền cho thuê ròng bù đắp lãi vay",
+            "Dự kiến 28 – 36 triệu đồng/tháng (Đáp ứng 48% – 60% nghĩa vụ trả góp tháng)",
+            "Dự kiến 24 – 30 triệu đồng/tháng nhờ cộng đồng cư dân TAS & Palm City sẵn có (Đáp ứng ~65% trả góp)"
+          ]
+        ]
+      },
+      {
+        "id": "stg-d2-02-img2",
+        "type": "image",
+        "url": "/assets/palm-river/sales/palm-river-master-aerial-super-hd.jpg",
+        "alt": "Phối cảnh tổng thể trên cao tổ hợp tháp căn hộ Palm River và hành lang công viên ven sông dài 2,7km trong khu đô thị Palm City Nam Rạch Chiếc",
+        "caption": "Phối cảnh tổng thể trên cao phân khu cao tầng Palm River nằm trong đại đô thị Palm City rộng 30,2 ha với hành lang công viên ven sông dài 2,7 km tại Nam Rạch Chiếc."
+      },
+      {
+        "id": "stg-d2-02-h3",
+        "type": "heading",
+        "title": "3. Chiến lược tái cấu trúc khoản vay (Refinancing) và quản trị rủi ro biên độ thả nổi"
+      },
+      {
+        "id": "stg-d2-02-p3",
+        "type": "paragraph",
+        "body": "Để kiểm soát chỉ số nghĩa vụ nợ trên thu nhập ròng (Debt-to-Income Ratio — DTI) không vượt ngưỡng an toàn 40% khi bước sang năm thứ 3, nhà đầu tư tại The Privé và Palm River cần chuẩn bị hai phương án quản trị dòng tiền trước thời điểm hết hạn ưu đãi 6 tháng: tất toán từng phần từ 20% đến 30% dư nợ gốc ngay trong ngày cuối cùng của kỳ hỗ trợ lãi suất hoặc thực hiện nghiệp vụ chuyển đổi khoản vay (Refinancing) sang nhóm ngân hàng Big4 và khối ngân hàng ngoại để tái cố định mức lãi suất ở vùng 6,0% – 6,8%/năm."
+      }
+    ]
+  },
+  {
     "id": "staging-article-day2-01-happy-one-elite-vs-green-skyline",
     "slug": "so-sanh-happy-one-elite-vs-green-skyline-cua-ngo-dong-bac-tphcm-t11-2026",
     "legacySlugs": [],
